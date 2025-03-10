@@ -23,13 +23,15 @@
             android:id="@+id/chip_sort_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name" />
+            android:text="Name"
+            android:checkable="true" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_sort_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date" />
+            android:text="Date"
+            android:checkable="true" />
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
@@ -49,42 +51,49 @@
             android:id="@+id/chip_filter_interested"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Interested" />
+            android:text="Interested"
+            android:checkable="true" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_filter_not_interested"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Not Interested" />
+            android:text="Not Interested"
+            android:checkable="true" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_filter_call_made"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Call Made" />
+            android:text="Call Made"
+            android:checkable="true" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_filter_call_not_made"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Call Not Made" />
+            android:text="Call Not Made"
+            android:checkable="true" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_filter_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today" />
+            android:text="Today"
+            android:checkable="true" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_filter_yesterday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Yesterday" />
+            android:text="Yesterday"
+            android:checkable="true" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_filter_earlier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Earlier" />
+            android:text="Earlier"
+            android:checkable="true" />
     </com.google.android.material.chip.ChipGroup>
 </LinearLayout>

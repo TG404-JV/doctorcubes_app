@@ -3,25 +3,24 @@ package com.android.doctorcube.adminpannel;
 public class Student {
     private String id;
     private String name;
-    private String state;
-    private String city;
     private String mobile;
     private String email;
+    private String state;
+    private String city;
     private String interestedCountry;
     private String hasNeetScore;
-    private String hasPassport;
     private String neetScore;
-    private String submissionDate;
-    private String callStatus; // "pending", "called", "not_interested"
-    private String lastCallDate; // Timestamp of the last call
-    private Boolean isInterested; // Use Boolean to handle null values
-    private String notes; // Admin notes about the student
+    private String hasPassport;
+    private String submissionDate; // Date in format "ddMMyy"
+    private String lastCallDate;
+    private Boolean isInterested;
+    private String callStatus;
+
 
     // Default constructor (required for Firebase)
     public Student() {
         this.callStatus = "pending"; // Default value if not set in Firebase
         this.isInterested = false; // Default value if null in Firebase
-        this.notes = ""; // Avoid null pointer issues
     }
 
     // Constructor with all fields
@@ -42,7 +41,11 @@ public class Student {
         this.callStatus = (callStatus != null) ? callStatus : "pending"; // Default to "pending"
         this.lastCallDate = lastCallDate;
         this.isInterested = (isInterested != null) ? isInterested : false; // Default to false
-        this.notes = (notes != null) ? notes : ""; // Default to empty string
+    }
+
+    // Additional utility methods
+    public boolean hasValidContactNumber() {
+        return mobile != null && !mobile.equals("N/A");
     }
 
     // Getters and Setters
@@ -158,11 +161,5 @@ public class Student {
         this.isInterested = isInterested;
     }
 
-    public String getNotes() {
-        return (notes != null) ? notes : "";
-    }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
 }

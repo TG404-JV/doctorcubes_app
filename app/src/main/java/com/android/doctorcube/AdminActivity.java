@@ -1,10 +1,15 @@
 package com.android.doctorcube;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -25,6 +30,7 @@ import com.google.firebase.database.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -44,6 +50,11 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
     private DatabaseReference databaseReference;
     private MaterialButton sortButton, filterButton;
     private ChipGroup activeFiltersChipGroup;
+    // Add these instance variables to AdminActivity
+    private boolean useCustomDateRange = false;
+    private Date fromDate = null;
+    private Date toDate = null;
+
     private SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy", Locale.getDefault()); // For 080325 format
     private String currentSortBy = null; // Track current sort state
     private boolean filterInterested, filterNotInterested, filterCallMade, filterCallNotMade, filterToday, filterYesterday, filterEarlier; // Track filter states
@@ -122,29 +133,64 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
 
                     for (DataSnapshot studentSnapshot : dateSnapshot.getChildren()) {
                         try {
-                            Student student = studentSnapshot.getValue(Student.class);
-                            if (student != null) {
-                                student.setId(studentSnapshot.getKey());
-                                student.setSubmissionDate(dateKey); // Use the parent node date (e.g., "080325")
-                                if (student.getCallStatus() == null) {
-                                    student.setCallStatus("pending");
-                                }
-                                if (student.getIsInterested() == null) {
-                                    student.setIsInterested(false);
-                                }
-                                studentList.add(student);
-                                Log.d(TAG, "👤 Added student: " + student.getName());
-                            } else {
-                                Log.w(TAG, "⚠️ Student data conversion failed for ID: " + studentSnapshot.getKey());
+                            Student student = new Student();
+                            student.setId(studentSnapshot.getKey());
+                            student.setSubmissionDate(dateKey);
+
+                            // Get all other properties from Firebase
+                            if (studentSnapshot.hasChild("name")) {
+                                student.setName(studentSnapshot.child("name").getValue(String.class));
                             }
+                            if (studentSnapshot.hasChild("mobile")) {
+                                student.setMobile(studentSnapshot.child("mobile").getValue(String.class));
+                            }
+                            if (studentSnapshot.hasChild("email")) {
+                                student.setEmail(studentSnapshot.child("email").getValue(String.class));
+                            }
+                            if (studentSnapshot.hasChild("state")) {
+                                student.setState(studentSnapshot.child("state").getValue(String.class));
+                            }
+                            if (studentSnapshot.hasChild("city")) {
+                                student.setCity(studentSnapshot.child("city").getValue(String.class));
+                            }
+                            if (studentSnapshot.hasChild("interestedCountry")) {
+                                student.setInterestedCountry(studentSnapshot.child("interestedCountry").getValue(String.class));
+                            }
+                            if (studentSnapshot.hasChild("hasNeetScore")) {
+                                student.setHasNeetScore(studentSnapshot.child("hasNeetScore").getValue(String.class));
+                            }
+                            if (studentSnapshot.hasChild("neetScore")) {
+                                student.setNeetScore(studentSnapshot.child("neetScore").getValue(String.class));
+                            }
+                            if (studentSnapshot.hasChild("hasPassport")) {
+                                student.setHasPassport(studentSnapshot.child("hasPassport").getValue(String.class));
+                            }
+                            if (studentSnapshot.hasChild("lastCallDate")) {
+                                student.setLastCallDate(studentSnapshot.child("lastCallDate").getValue(String.class));
+                            }
+
+                            // Set default values for callStatus and isInterested if not present
+                            if (studentSnapshot.hasChild("callStatus")) {
+                                student.setCallStatus(studentSnapshot.child("callStatus").getValue(String.class));
+                            } else {
+                                student.setCallStatus("pending");
+                            }
+
+                            if (studentSnapshot.hasChild("isInterested")) {
+                                student.setIsInterested(studentSnapshot.child("isInterested").getValue(Boolean.class));
+                            } else {
+                                student.setIsInterested(false);
+                            }
+
+                            studentList.add(student);
+                            Log.d(TAG, "👤 Added student: " + student.getName());
                         } catch (Exception e) {
                             Log.e(TAG, "🚨 Error parsing student data: " + e.getMessage());
                         }
                     }
                 }
 
-                applyFiltersAndSorting(currentSortBy, filterInterested, filterNotInterested, filterCallMade,
-                        filterCallNotMade, filterToday, filterYesterday, filterEarlier); // Apply current filters
+                applyFiltersAndSorting(); // Apply current filters
                 swipeRefreshLayout.setRefreshing(false);
 
                 Log.d(TAG, "📊 RecyclerView updated with " + filteredList.size() + " students");
@@ -163,6 +209,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         });
     }
 
+    // Update showSortFilterDialog method
     private void showSortFilterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Sort & Filter");
@@ -175,55 +222,108 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         ChipGroup sortGroup = dialogView.findViewById(R.id.sort_chip_group);
         Chip sortNameChip = dialogView.findViewById(R.id.chip_sort_name);
         Chip sortDateChip = dialogView.findViewById(R.id.chip_sort_date);
-        sortGroup.setSingleSelection(true); // Ensure only one sort option at a time
+        sortGroup.setSingleSelection(true);
         sortNameChip.setCheckable(true);
         sortDateChip.setCheckable(true);
         if ("name".equals(currentSortBy)) sortNameChip.setChecked(true);
         if ("date".equals(currentSortBy)) sortDateChip.setChecked(true);
 
-        // Filter options (multiple selection)
+        // Filter options
         Chip filterInterestedChip = dialogView.findViewById(R.id.chip_filter_interested);
         Chip filterNotInterestedChip = dialogView.findViewById(R.id.chip_filter_not_interested);
         Chip filterCallMadeChip = dialogView.findViewById(R.id.chip_filter_call_made);
         Chip filterCallNotMadeChip = dialogView.findViewById(R.id.chip_filter_call_not_made);
-        Chip filterTodayChip = dialogView.findViewById(R.id.chip_filter_today);
-        Chip filterYesterdayChip = dialogView.findViewById(R.id.chip_filter_yesterday);
-        Chip filterEarlierChip = dialogView.findViewById(R.id.chip_filter_earlier);
 
         // Set current filter states
         filterInterestedChip.setChecked(filterInterested);
         filterNotInterestedChip.setChecked(filterNotInterested);
         filterCallMadeChip.setChecked(filterCallMade);
         filterCallNotMadeChip.setChecked(filterCallNotMade);
-        filterTodayChip.setChecked(filterToday);
-        filterYesterdayChip.setChecked(filterYesterday);
-        filterEarlierChip.setChecked(filterEarlier);
+
+        // Date filter options
+        RadioGroup dateRadioGroup = dialogView.findViewById(R.id.date_filter_radio_group);
+        RadioButton radioAllDates = dialogView.findViewById(R.id.radio_all_dates);
+        RadioButton radioToday = dialogView.findViewById(R.id.radio_today);
+        RadioButton radioYesterday = dialogView.findViewById(R.id.radio_yesterday);
+        RadioButton radioEarlier = dialogView.findViewById(R.id.radio_earlier);
+        RadioButton radioCustomRange = dialogView.findViewById(R.id.radio_custom_range);
+
+        // Date range selection layout
+        LinearLayout dateRangeLayout = dialogView.findViewById(R.id.date_range_layout);
+        TextView tvFromDate = dialogView.findViewById(R.id.tv_from_date);
+        TextView tvToDate = dialogView.findViewById(R.id.tv_to_date);
+
+        // Set current date filter selections
+        if (filterToday) radioToday.setChecked(true);
+        else if (filterYesterday) radioYesterday.setChecked(true);
+        else if (filterEarlier) radioEarlier.setChecked(true);
+        else if (useCustomDateRange) {
+            radioCustomRange.setChecked(true);
+            dateRangeLayout.setVisibility(View.VISIBLE);
+            // Display selected dates if available
+            if (fromDate != null) {
+                tvFromDate.setText(dateFormat.format(fromDate));
+            }
+            if (toDate != null) {
+                tvToDate.setText(dateFormat.format(toDate));
+            }
+        } else {
+            radioAllDates.setChecked(true);
+        }
+
+        // Setup date range visibility toggle on radio button selection
+        dateRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.radio_custom_range) {
+                dateRangeLayout.setVisibility(View.VISIBLE);
+            } else {
+                dateRangeLayout.setVisibility(View.GONE);
+            }
+        });
+
+        // Setup date pickers
+        tvFromDate.setOnClickListener(v -> {
+            showDatePickerDialog(tvFromDate, true);
+        });
+
+        tvToDate.setOnClickListener(v -> {
+            showDatePickerDialog(tvToDate, false);
+        });
 
         builder.setPositiveButton("Apply", (dialog, which) -> {
-            // Update sort and filter states
+            // Update sort state
             currentSortBy = sortNameChip.isChecked() ? "name" : sortDateChip.isChecked() ? "date" : null;
+
+            // Update filter states
             filterInterested = filterInterestedChip.isChecked();
             filterNotInterested = filterNotInterestedChip.isChecked();
             filterCallMade = filterCallMadeChip.isChecked();
             filterCallNotMade = filterCallNotMadeChip.isChecked();
-            filterToday = filterTodayChip.isChecked();
-            filterYesterday = filterYesterdayChip.isChecked();
-            filterEarlier = filterEarlierChip.isChecked();
 
-            applyFiltersAndSorting(currentSortBy, filterInterested, filterNotInterested, filterCallMade,
-                    filterCallNotMade, filterToday, filterYesterday, filterEarlier);
+            // Update date filter states
+            filterToday = radioToday.isChecked();
+            filterYesterday = radioYesterday.isChecked();
+            filterEarlier = radioEarlier.isChecked();
+            useCustomDateRange = radioCustomRange.isChecked();
+
+            // If none of the specific date filters are selected, treat as "all dates"
+            if (!filterToday && !filterYesterday && !filterEarlier && !useCustomDateRange) {
+                // All dates
+            }
+
+            applyFiltersAndSorting();
         });
+
         builder.setNegativeButton("Cancel", null);
         builder.show();
     }
 
-    private void applyFiltersAndSorting(String sortBy, boolean filterInterested, boolean filterNotInterested,
-                                        boolean filterCallMade, boolean filterCallNotMade,
-                                        boolean filterToday, boolean filterYesterday, boolean filterEarlier) {
+
+    // Update the applyFiltersAndSorting method to remove parameters and use class variables
+    private void applyFiltersAndSorting() {
         filteredList.clear();
         activeFiltersChipGroup.removeAllViews();
 
-        // Apply filters (multiple conditions can be true)
+        // Apply filters
         for (Student student : studentList) {
             boolean matchesFilter = true;
 
@@ -233,40 +333,57 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             if (filterCallMade && !"called".equals(student.getCallStatus())) matchesFilter = false;
             if (filterCallNotMade && "called".equals(student.getCallStatus())) matchesFilter = false;
 
-            // Date filters based on "ddMMyy" format (e.g., "080325")
+            // Apply date filters
             String today = dateFormat.format(new Date());
             String yesterday = dateFormat.format(new Date(System.currentTimeMillis() - 86400000));
-            if (filterToday && !today.equals(student.getSubmissionDate())) matchesFilter = false;
-            if (filterYesterday && !yesterday.equals(student.getSubmissionDate())) matchesFilter = false;
-            if (filterEarlier && (today.equals(student.getSubmissionDate()) || yesterday.equals(student.getSubmissionDate()))) matchesFilter = false;
+
+            if (filterToday && !today.equals(student.getSubmissionDate())) {
+                matchesFilter = false;
+            } else if (filterYesterday && !yesterday.equals(student.getSubmissionDate())) {
+                matchesFilter = false;
+            } else if (filterEarlier && (today.equals(student.getSubmissionDate()) || yesterday.equals(student.getSubmissionDate()))) {
+                matchesFilter = false;
+            } else if (useCustomDateRange && fromDate != null && toDate != null) {
+                try {
+                    Date studentDate = dateFormat.parse(student.getSubmissionDate());
+                    // Add one day to toDate to make the range inclusive
+                    Calendar toCalendar = Calendar.getInstance();
+                    toCalendar.setTime(toDate);
+                    toCalendar.add(Calendar.DAY_OF_MONTH, 1);
+
+                    if (studentDate.before(fromDate) || studentDate.after(toCalendar.getTime())) {
+                        matchesFilter = false;
+                    }
+                } catch (ParseException e) {
+                    Log.e(TAG, "Error parsing date: " + e.getMessage());
+                    matchesFilter = false;
+                }
+            }
 
             if (matchesFilter) filteredList.add(student);
         }
 
         // Apply sorting
-        if (sortBy != null) {
-            Collections.sort(filteredList, new Comparator<Student>() {
-                @Override
-                public int compare(Student s1, Student s2) {
-                    if ("name".equals(sortBy)) {
-                        return s1.getName().compareToIgnoreCase(s2.getName());
-                    } else if ("date".equals(sortBy)) {
-                        try {
-                            Date date1 = dateFormat.parse(s1.getSubmissionDate());
-                            Date date2 = dateFormat.parse(s2.getSubmissionDate());
-                            return date2.compareTo(date1); // Descending order
-                        } catch (ParseException e) {
-                            Log.e(TAG, "Error parsing date: " + e.getMessage());
-                            return 0;
-                        }
+        if (currentSortBy != null) {
+            Collections.sort(filteredList, (s1, s2) -> {
+                if ("name".equals(currentSortBy)) {
+                    return s1.getName().compareToIgnoreCase(s2.getName());
+                } else if ("date".equals(currentSortBy)) {
+                    try {
+                        Date date1 = dateFormat.parse(s1.getSubmissionDate());
+                        Date date2 = dateFormat.parse(s2.getSubmissionDate());
+                        return date2.compareTo(date1); // Descending order
+                    } catch (ParseException e) {
+                        Log.e(TAG, "Error parsing date: " + e.getMessage());
+                        return 0;
                     }
-                    return 0;
                 }
+                return 0;
             });
         }
 
         // Update chips to reflect current filters/sort
-        if (sortBy != null) addChip(sortBy.equals("name") ? "Sort: Name" : "Sort: Date");
+        if (currentSortBy != null) addChip(currentSortBy.equals("name") ? "Sort: Name" : "Sort: Date");
         if (filterInterested) addChip("Interested");
         if (filterNotInterested) addChip("Not Interested");
         if (filterCallMade) addChip("Call Made");
@@ -274,10 +391,51 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         if (filterToday) addChip("Today");
         if (filterYesterday) addChip("Yesterday");
         if (filterEarlier) addChip("Earlier");
+        if (useCustomDateRange && fromDate != null && toDate != null) {
+            SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+            addChip("Date: " + displayFormat.format(fromDate) + " - " + displayFormat.format(toDate));
+        }
 
-        adapter.notifyDataSetChanged(); // Update RecyclerView
+        adapter.notifyDataSetChanged();
     }
 
+
+    private void showDatePickerDialog(TextView targetTextView, boolean isFromDate) {
+        Calendar calendar = Calendar.getInstance();
+        if ((isFromDate && fromDate != null) || (!isFromDate && toDate != null)) {
+            calendar.setTime(isFromDate ? fromDate : toDate);
+        }
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    Calendar selectedCalendar = Calendar.getInstance();
+                    selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
+
+                    // Update appropriate date variable
+                    if (isFromDate) {
+                        fromDate = selectedCalendar.getTime();
+                    } else {
+                        toDate = selectedCalendar.getTime();
+                    }
+
+                    // Format for display
+                    SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+                    targetTextView.setText(displayFormat.format(selectedCalendar.getTime()));
+                },
+                year, month, day
+        );
+
+        datePickerDialog.show();
+    }
+
+
+
+    // Update the addChip method to handle the new date range filter
     private void addChip(String text) {
         Chip chip = new Chip(this);
         chip.setText(text);
@@ -294,13 +452,18 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
                 case "Today": filterToday = false; break;
                 case "Yesterday": filterYesterday = false; break;
                 case "Earlier": filterEarlier = false; break;
+                default:
+                    if (text.startsWith("Date: ")) {
+                        useCustomDateRange = false;
+                        fromDate = null;
+                        toDate = null;
+                    }
+                    break;
             }
-            applyFiltersAndSorting(currentSortBy, filterInterested, filterNotInterested, filterCallMade,
-                    filterCallNotMade, filterToday, filterYesterday, filterEarlier);
+            applyFiltersAndSorting();
         });
         activeFiltersChipGroup.addView(chip);
     }
-
     // Show a popup when no students are found
     private void showNoStudentsPopup() {
         new AlertDialog.Builder(this)

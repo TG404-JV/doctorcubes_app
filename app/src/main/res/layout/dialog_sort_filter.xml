@@ -74,26 +74,105 @@
             android:layout_height="wrap_content"
             android:text="Call Not Made"
             android:checkable="true" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_filter_today"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Today"
-            android:checkable="true" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_filter_yesterday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Yesterday"
-            android:checkable="true" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_filter_earlier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Earlier"
-            android:checkable="true" />
     </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Filter By Date"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/date_filter_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_all_dates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All Dates"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radio_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today" />
+
+        <RadioButton
+            android:id="@+id/radio_yesterday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yesterday" />
+
+        <RadioButton
+            android:id="@+id/radio_earlier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Earlier" />
+
+        <RadioButton
+            android:id="@+id/radio_custom_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Custom Date Range" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/date_range_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="From: "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_from_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Select date"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:background="#EF0C0C" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To: "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_to_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Select date"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:background="@drawable/login_gradient_background" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

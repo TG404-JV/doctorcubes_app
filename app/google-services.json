@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "94710265310",
+    "project_id": "test-d3e8c",
+    "storage_bucket": "test-d3e8c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94710265310:android:6080e4f922e4a9ae72194f",
+        "android_client_info": {
+          "package_name": "com.android.doctorcube"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYvMDYgax5guRdMrrSqemM-jGCmIFYv1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

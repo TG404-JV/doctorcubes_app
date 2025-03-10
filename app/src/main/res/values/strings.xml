@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Global Education Hub</string>
+
+    <!-- General strings -->
+    <string name="welcome">Welcome to Global Education Hub</string>
+    <string name="explore">Explore Opportunities</string>
+    <string name="get_started">Get Started</string>
+    <string name="learn_more">Learn More</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="loading">Loading…</string>
+
+    <!-- Advertisement Section -->
+    <string name="study_abroad_made_easy">Study Abroad Made Easy!</string>
+    <string name="banner_subtitle">Top Universities, Scholarships, and Visa Guidance!</string>
+
+    <!-- Section Titles -->
+    <string name="special_offers">Special Offers</string>
+    <string name="select_your_destination">Select Your Destination</string>
+    <string name="our_services">Our Services</string>
+    <string name="popular_universities">Popular Universities</string>
+    <string name="testimonials">Student Testimonials</string>
+
+    <!-- Offer Slider Texts -->
+    <string name="offer_free_admission">Free Admission Processing</string>
+    <string name="offer_free_admission_desc">Limited time offer: Get free admission processing for selected universities!</string>
+
+    <string name="offer_scholarship">50% Scholarship Opportunity</string>
+    <string name="offer_scholarship_desc">Apply now for a chance to win up to 50% scholarship for top universities!</string>
+
+    <string name="offer_visa_assistance">Free Visa Consultation</string>
+    <string name="offer_visa_assistance_desc">Book a session with our visa experts and get personalized guidance!</string>
+
+    <string name="offer_language_course">Free Language Course</string>
+    <string name="offer_language_course_desc">Enroll now and get a free language course to prepare for your studies abroad!</string>
+
+    <!-- Country Names -->
+    <string name="russia">Russia</string>
+    <string name="china">China</string>
+    <string name="kazakhstan">Kazakhstan</string>
+    <string name="uzbekistan">Uzbekistan</string>
+    <string name="georgia">Georgia</string>
+    <string name="nepal">Nepal</string>
+
+    <!-- Service Features -->
+    <string name="top_university_listings">Top University Listings</string>
+    <string name="top_university_listings_desc">Access information about over 5000+ top universities worldwide</string>
+
+    <string name="scholarship_assistance">Scholarship Assistance</string>
+    <string name="scholarship_assistance_desc">Find and apply for scholarships matching your profile</string>
+
+    <string name="visa_admission_guidance">Visa &amp; Admission Guidance</string>
+    <string name="visa_admission_guidance_desc">Step-by-step guidance for visa and admission processes</string>
+
+    <string name="application_tracking">Application Tracking</string>
+    <string name="application_tracking_desc">Track all your university applications in one place</string>
+
+    <string name="student_support">24/7 Student Support</string>
+    <string name="student_support_desc">Get assistance anytime from our expert counselors</string>
+
+    <!-- Actions -->
+    <string name="apply_now">Apply Now</string>
+    <string name="view_details">View Details</string>
+    <string name="share">Share</string>
+    <string name="book_consultation">Book Consultation</string>
+    <string name="download_brochure">Download Brochure</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">Login</string>
+
+
+    <!-- App Name -->
+
+    <!-- General UI Strings -->
+    <string name="search_universities_courses">Search universities, courses…</string>
+    <string name="see_all">See All</string>
+    <string name="get_consultation">Get Consultation</string>
+
+
+    <!-- Special Offers Content -->
+    <string name="early_bird_discount">Early Bird Discount</string>
+    <string name="application_fee_waiver">Application Fee Waiver</string>
+    <string name="scholarship_opportunity">Scholarship Opportunity</string>
+    <string name="free_consultation">Free Consultation</string>
+    <string name="limited_time_offer">Limited Time Offer</string>
+
+
+    <string name="continue_exploring">Continue Exploring</string>
+
+    <!-- Profile Related -->
+    <string name="profile_settings">Profile Settings</string>
+    <string name="my_applications">My Applications</string>
+    <string name="saved_universities">Saved Universities</string>
+    <string name="documents">My Documents</string>
+
+    <!-- Notifications -->
+    <string name="notification_application_update">Application Status Updated</string>
+    <string name="notification_document_required">Document Required</string>
+    <string name="notification_deadline_approaching">Deadline Approaching</string>
+
+    <!-- Error Messages -->
+    <string name="error_loading_data">Could not load data. Please try again.</string>
+    <string name="error_connection">No internet connection available</string>
+    <string name="error_try_again">Please try again later</string>
+
+    <!-- Success Messages -->
+    <string name="success_application_submitted">Application submitted successfully!</string>
+    <string name="success_profile_updated">Profile updated successfully</string>
+
+    <!-- Filter Options -->
+    <string name="filter_by">Filter By</string>
+    <string name="filter_tuition">Tuition Range</string>
+    <string name="filter_ranking">Ranking</string>
+    <string name="filter_course">Course</string>
+    <string name="filter_apply">Apply Filters</string>
+    <string name="filter_reset">Reset</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">Find Your Dream University</string>
+    <string name="onboarding_desc_1">Browse thousands of top universities worldwide</string>
+    <string name="onboarding_title_2">Apply with Confidence</string>
+    <string name="onboarding_desc_2">Get expert guidance throughout your application journey</string>
+    <string name="onboarding_title_3">Track Your Progress</string>
+    <string name="onboarding_desc_3">Stay updated with real-time application status</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+        <!-- App Info -->
+        <string name="admin_panel">Student Management</string>
+        <string name="admin_email">admin@example.com</string>
+
+        <!-- Navigation -->
+        <string name="dashboard">Dashboard</string>
+        <string name="students">Students</string>
+        <string name="call_logs">Call Logs</string>
+        <string name="analytics">Analytics</string>
+        <string name="settings">Settings</string>
+        <string name="logout">Logout</string>
+        <string name="account">Account</string>
+
+        <!-- Search -->
+        <string name="search_students">Search by name or contact number</string>
+        <string name="search_icon">Search Icon</string>
+        <string name="clear_search">Clear Search</string>
+
+        <!-- Sort & Filter -->
+        <string name="sort">Sort</string>
+        <string name="filter">Filter</string>
+        <string name="sort_by">Sort By</string>
+        <string name="filter_options">Filter Options</string>
+        <string name="apply">Apply</string>
+        <string name="cancel">Cancel</string>
+        <string name="clear">Clear All</string>
+
+        <!-- Sort Options -->
+        <string name="date_newest_to_oldest">Date (Newest to Oldest)</string>
+        <string name="date_oldest_to_newest">Date (Oldest to Newest)</string>
+        <string name="call_made_first">Call Made (Yes first)</string>
+        <string name="not_called_first">Not Called First</string>
+        <string name="interested_first">Interested (Yes first)</string>
+        <string name="not_interested_first">Not Interested First</string>
+        <string name="name_a_to_z">Name (A to Z)</string>
+
+        <!-- Filter Options -->
+        <string name="date_filter">Date Added</string>
+        <string name="call_status">Call Status</string>
+        <string name="interest_status">Interest Status</string>
+        <string name="all_time">All Time</string>
+        <string name="today">Today</string>
+        <string name="yesterday">Yesterday</string>
+        <string name="earlier">Earlier</string>
+        <string name="called_students">Called Students</string>
+        <string name="not_called_students">Not Called Students</string>
+        <string name="interested_students">Interested Students</string>
+        <string name="not_interested_students">Not Interested Students</string>
+
+        <!-- Student Card -->
+        <string name="call">Call</string>
+        <string name="call_made">Call Made</string>
+        <string name="interested">Interested</string>
+        <string name="app_logo">App Logo</string>
+        <string name="call_students">Call Students</string>
+
+    <string name="open">Open Drawer</string>
+    <string name="close">Close Drawer</string>
+
+</resources>

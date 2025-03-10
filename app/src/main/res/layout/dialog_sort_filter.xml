@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort By"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/sort_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Filter By"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/filter_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_filter_interested"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Interested" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_filter_not_interested"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not Interested" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_filter_call_made"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Call Made" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_filter_call_not_made"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Call Not Made" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_filter_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_filter_yesterday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yesterday" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_filter_earlier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Earlier" />
+    </com.google.android.material.chip.ChipGroup>
+</LinearLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary_color">#2196F3</color>
+    <color name="primary_dark_color">#1976D2</color>
+    <color name="primary_light_color">#64B5F6</color>
+
+    <!-- Accent Colors -->
+    <color name="accent_color">#03A9F4</color>
+
+    <!-- Background and Text Colors -->
+    <color name="background_color">#F0F4F8</color>
+    <color name="text_primary_color">#212121</color>
+    <color name="text_secondary_color">#616161</color>
+
+    <!-- Error and Success Colors -->
+    <color name="error_color">#FF5722</color>
+    <color name="success_color">#4CAF50</color>
+
+    <!-- Additional UI Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Button Colors -->
+    <color name="button_primary">#2196F3</color>
+    <color name="button_primary_variant">#1976D2</color>
+    <color name="button_primary_light">#64B5F6</color>
+
+    <color name="button_secondary">#03A9F4</color>
+    <color name="button_secondary_variant">#00BCD4</color>
+
+    <color name="button_success">#4CAF50</color>
+    <color name="button_success_variant">#388E3C</color>
+
+    <color name="button_error">#FF5722</color>
+    <color name="button_error_variant">#F44336</color>
+    <color name="light_gray">#E0E0E0</color> <!-- Light gray background for circle -->
+
+
+    <!-- Button Text Colors -->
+    <color name="button_text_primary">@color/white</color>
+    <color name="button_text_secondary">@color/white</color>
+    <color name="button_text_success">@color/white</color>
+    <color name="button_text_error">@color/white</color>
+
+    <!-- Disabled Button Colors -->
+    <color name="button_disabled">#B0BEC5</color>
+    <color name="button_disabled_text">#FFFFFF</color>
+
+
+        <!-- Primary theme colors -->
+        <color name="colorPrimary">#3F51B5</color>
+        <color name="colorPrimaryDark">#303F9F</color>
+        <color name="colorPrimaryLight">#C5CAE9</color>
+        <color name="colorAccent">#FF5722</color>
+
+        <!-- Secondary theme colors -->
+        <color name="colorSecondary">#00BCD4</color>
+        <color name="colorSecondaryDark">#0097A7</color>
+        <color name="colorSecondaryLight">#B2EBF2</color>
+
+        <!-- Text colors -->
+        <color name="colorTextPrimary">#FFFFFF</color>
+        <color name="colorTextSecondary">#D1D1D1</color>
+        <color name="colorTextDark">#212121</color>
+        <color name="colorTextHint">#9E9E9E</color>
+
+        <!-- Background colors -->
+        <color name="colorBackground">#121212</color>
+        <color name="colorBackgroundLight">#1E1E1E</color>
+        <color name="colorCardBackground">#2D2D2D</color>
+
+        <!-- Gradient colors -->
+        <color name="gradientStart">#3F51B5</color>
+        <color name="gradientCenter">#512DA8</color>
+        <color name="gradientEnd">#673AB7</color>
+
+        <!-- Other UI element colors -->
+        <color name="colorSuccess">#4CAF50</color>
+        <color name="colorError">#F44336</color>
+        <color name="colorWarning">#FFC107</color>
+        <color name="colorInfo">#2196F3</color>
+
+        <!-- Feature icon colors -->
+        <color name="colorIconTint">#FF5722</color>
+
+        <!-- Country flag border color -->
+        <color name="colorFlagBorder">#BDBDBD</color>
+</resources>

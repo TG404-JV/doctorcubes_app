@@ -52,6 +52,7 @@ dependencies {
     implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
         implementation ("androidx.webkit:webkit:1.8.0")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation (libs.android.pdf.viewer)
 
 
 

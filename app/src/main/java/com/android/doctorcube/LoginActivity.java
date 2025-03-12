@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -60,6 +61,13 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     loginUser(email, password);
                 }
+            }
+        });
+
+        findViewById(R.id.createAccountText).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
             }
         });
     }

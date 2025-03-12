@@ -40,7 +40,7 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
         notesList = getNotesList();
 
         // Set up adapter
-        adapter = new NotesAdapter(getContext(), notesList); // If inside a Fragment
+        adapter = new NotesAdapter(getContext(), notesList);
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -48,15 +48,27 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
 
     private List<NoteItem> getNotesList() {
         List<NoteItem> notes = new ArrayList<>();
+
         notes.add(new NoteItem("Mathematics", "Calculus notes", "Dr. Smith", "15 MB",
-                "https://drive.google.com/viewerng/viewer?embedded=true&url=https://yourfileurl.com/sample.pdf"));
+                "https://drive.google.com/uc?export=download&id=1TQwa6iLSPJyyvmimugZ4Nizc7qjc0psw"));
 
         notes.add(new NoteItem("Physics", "Mechanics fundamentals", "Prof. Johnson", "12 MB",
-                "https://drive.google.com/viewerng/viewer?embedded=true&url=https://yourfileurl.com/physics.pdf"));
+                "https://drive.google.com/uc?export=download&id=1XYZabcDEF456"));
+
+        notes.add(new NoteItem("Chemistry", "Organic Chemistry Basics", "Dr. Anderson", "8 MB",
+                "https://drive.google.com/uc?export=download&id=1QWERTYUIOPLKJHGFDSA"));
+
+        notes.add(new NoteItem("Biology", "Human Anatomy Overview", "Prof. Green", "20 MB",
+                "https://drive.google.com/uc?export=download&id=1BIOLOGYPDF123XYZ"));
+
+        notes.add(new NoteItem("Computer Science", "Data Structures & Algorithms", "Dr. Lee", "25 MB",
+                "https://drive.google.com/uc?export=download&id=1CSALGO987654321"));
+
+        notes.add(new NoteItem("History", "World War II Summary", "Dr. Carter", "10 MB",
+                "https://drive.google.com/uc?export=download&id=1HISTORYWWII9876"));
 
         return notes;
     }
-
 
     @Override
     public void performSearch(String query) {

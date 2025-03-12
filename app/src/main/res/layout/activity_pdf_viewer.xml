@@ -30,7 +30,7 @@
         android:textSize="14sp"
         android:paddingBottom="8dp" />
 
-    <!-- ProgressBar for better UX -->
+    <!-- ProgressBar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -38,11 +38,10 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <!-- WebView for displaying PDFs -->
-    <WebView
-        android:id="@+id/pdfWebView"
+    <!-- PDF Viewer -->
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="none"/>
+        android:layout_weight="1"/>
 </LinearLayout>

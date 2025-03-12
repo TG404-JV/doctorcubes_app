@@ -1,27 +1,31 @@
 package com.android.doctorcube;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.barteksc.pdfviewer.PDFView;
+
+import java.io.File;
+
 public class PdfViewerActivity extends AppCompatActivity {
 
-    private WebView pdfWebView;
+    private PDFView pdfView;
     private ProgressBar progressBar;
     private TextView titleTextView, descriptionTextView, sizeTextView;
+    private String pdfUrl;
+    private String pdfFileName = "downloaded_pdf.pdf"; // Name for local storage
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,48 +34,72 @@ public class PdfViewerActivity extends AppCompatActivity {
         titleTextView = findViewById(R.id.titleTextView);
         descriptionTextView = findViewById(R.id.descriptionTextView);
         sizeTextView = findViewById(R.id.sizeTextView);
-        pdfWebView = findViewById(R.id.pdfWebView);
+        pdfView = findViewById(R.id.pdfView);
         progressBar = findViewById(R.id.progressBar);
 
         // Get data from Intent
-        String pdfTitle = getIntent().getStringExtra("pdfTitle");
-        String pdfDescription = getIntent().getStringExtra("pdfDescription");
-        String pdfSize = getIntent().getStringExtra("pdfSize");
-        String pdfFilePath = getIntent().getStringExtra("pdfFilePath");
+        Intent intent = getIntent();
+        String pdfTitle = intent.getStringExtra("pdfTitle");
+        String pdfDescription = intent.getStringExtra("pdfDescription");
+        String pdfSize = intent.getStringExtra("pdfSize");
+        pdfUrl = intent.getStringExtra("pdfFilePath");
 
         // Set UI values
         titleTextView.setText(pdfTitle);
         descriptionTextView.setText(pdfDescription);
         sizeTextView.setText(pdfSize);
 
-        // Load PDF if path exists
-        if (pdfFilePath != null) {
-            loadPdf(pdfFilePath);
+        if (pdfUrl != null && !pdfUrl.isEmpty()) {
+            downloadAndOpenPdf(pdfUrl);
+        } else {
+            Toast.makeText(this, "Invalid PDF URL", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void loadPdf(String pdfUrl) {
+    private void downloadAndOpenPdf(String url) {
         progressBar.setVisibility(View.VISIBLE);
 
-        pdfWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+        File pdfFile = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), pdfFileName);
 
-        pdfWebView.setWebChromeClient(new WebChromeClient());
+        if (pdfFile.exists()) {
+            // If file already exists, load it
+            loadPdf(pdfFile);
+        } else {
+            // Download file using DownloadManager
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.setTitle("Downloading PDF");
+            request.setDescription("Please wait...");
+            request.setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, pdfFileName);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); // FIXED
 
-        WebSettings webSettings = pdfWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setBuiltInZoomControls(true);
-        webSettings.setDisplayZoomControls(false);
-        webSettings.setSupportZoom(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
+            DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            downloadManager.enqueue(request);
 
-        // Load PDF using Google Docs Viewer
-        String pdfViewerUrl = "https://drive.google.com/viewerng/viewer?embedded=true&url=" + Uri.encode(pdfUrl);
-        pdfWebView.loadUrl(pdfViewerUrl);
+            Toast.makeText(this, "Downloading PDF...", Toast.LENGTH_SHORT).show();
+
+            // Wait for the file to download
+            new android.os.Handler().postDelayed(() -> {
+                if (pdfFile.exists()) {
+                    loadPdf(pdfFile);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(PdfViewerActivity.this, "Failed to download PDF", Toast.LENGTH_SHORT).show();
+                }
+            }, 5000); // Wait 5 seconds for the download to complete
+        }
+    }
+
+    private void loadPdf(File file) {
+        if (file.exists()) {
+            pdfView.fromFile(file)
+                    .enableSwipe(true)
+                    .swipeHorizontal(false)
+                    .enableDoubletap(true)
+                    .onLoad(nbPages -> progressBar.setVisibility(View.GONE))
+                    .load();
+        } else {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(this, "PDF file not found!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

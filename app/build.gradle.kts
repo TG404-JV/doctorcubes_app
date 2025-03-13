@@ -32,6 +32,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17 // Update to latest LTS version
         targetCompatibility = JavaVersion.VERSION_17
     }
+
 }
 
 dependencies {
@@ -53,6 +54,10 @@ dependencies {
         implementation ("androidx.webkit:webkit:1.8.0")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation (libs.android.pdf.viewer)
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.4")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.4")
+    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
+
 
 
 

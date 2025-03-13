@@ -125,61 +125,61 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-        <!-- App Info -->
-        <string name="admin_panel">Student Management</string>
-        <string name="admin_email">admin@example.com</string>
+    <!-- App Info -->
+    <string name="admin_panel">Student Management</string>
+    <string name="admin_email">admin@example.com</string>
 
-        <!-- Navigation -->
-        <string name="dashboard">Dashboard</string>
-        <string name="students">Students</string>
-        <string name="call_logs">Call Logs</string>
-        <string name="analytics">Analytics</string>
-        <string name="settings">Settings</string>
-        <string name="logout">Logout</string>
-        <string name="account">Account</string>
+    <!-- Navigation -->
+    <string name="dashboard">Dashboard</string>
+    <string name="students">Students</string>
+    <string name="call_logs">Call Logs</string>
+    <string name="analytics">Analytics</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="account">Account</string>
 
-        <!-- Search -->
-        <string name="search_students">Search by name or contact number</string>
-        <string name="search_icon">Search Icon</string>
-        <string name="clear_search">Clear Search</string>
+    <!-- Search -->
+    <string name="search_students">Search by name or contact number</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="clear_search">Clear Search</string>
 
-        <!-- Sort & Filter -->
-        <string name="sort">Sort</string>
-        <string name="filter">Filter</string>
-        <string name="sort_by">Sort By</string>
-        <string name="filter_options">Filter Options</string>
-        <string name="apply">Apply</string>
-        <string name="cancel">Cancel</string>
-        <string name="clear">Clear All</string>
+    <!-- Sort & Filter -->
+    <string name="sort">Sort</string>
+    <string name="filter">Filter</string>
+    <string name="sort_by">Sort By</string>
+    <string name="filter_options">Filter Options</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear All</string>
 
-        <!-- Sort Options -->
-        <string name="date_newest_to_oldest">Date (Newest to Oldest)</string>
-        <string name="date_oldest_to_newest">Date (Oldest to Newest)</string>
-        <string name="call_made_first">Call Made (Yes first)</string>
-        <string name="not_called_first">Not Called First</string>
-        <string name="interested_first">Interested (Yes first)</string>
-        <string name="not_interested_first">Not Interested First</string>
-        <string name="name_a_to_z">Name (A to Z)</string>
+    <!-- Sort Options -->
+    <string name="date_newest_to_oldest">Date (Newest to Oldest)</string>
+    <string name="date_oldest_to_newest">Date (Oldest to Newest)</string>
+    <string name="call_made_first">Call Made (Yes first)</string>
+    <string name="not_called_first">Not Called First</string>
+    <string name="interested_first">Interested (Yes first)</string>
+    <string name="not_interested_first">Not Interested First</string>
+    <string name="name_a_to_z">Name (A to Z)</string>
 
-        <!-- Filter Options -->
-        <string name="date_filter">Date Added</string>
-        <string name="call_status">Call Status</string>
-        <string name="interest_status">Interest Status</string>
-        <string name="all_time">All Time</string>
-        <string name="today">Today</string>
-        <string name="yesterday">Yesterday</string>
-        <string name="earlier">Earlier</string>
-        <string name="called_students">Called Students</string>
-        <string name="not_called_students">Not Called Students</string>
-        <string name="interested_students">Interested Students</string>
-        <string name="not_interested_students">Not Interested Students</string>
+    <!-- Filter Options -->
+    <string name="date_filter">Date Added</string>
+    <string name="call_status">Call Status</string>
+    <string name="interest_status">Interest Status</string>
+    <string name="all_time">All Time</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="earlier">Earlier</string>
+    <string name="called_students">Called Students</string>
+    <string name="not_called_students">Not Called Students</string>
+    <string name="interested_students">Interested Students</string>
+    <string name="not_interested_students">Not Interested Students</string>
 
-        <!-- Student Card -->
-        <string name="call">Call</string>
-        <string name="call_made">Call Made</string>
-        <string name="interested">Interested</string>
-        <string name="app_logo">App Logo</string>
-        <string name="call_students">Call Students</string>
+    <!-- Student Card -->
+    <string name="call">Call</string>
+    <string name="call_made">Call Made</string>
+    <string name="interested">Interested</string>
+    <string name="app_logo">App Logo</string>
+    <string name="call_students">Call Students</string>
 
     <string name="open">Open Drawer</string>
     <string name="close">Close Drawer</string>

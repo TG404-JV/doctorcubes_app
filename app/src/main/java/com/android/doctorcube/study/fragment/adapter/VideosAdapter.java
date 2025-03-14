@@ -1,5 +1,7 @@
 package com.android.doctorcube.study.fragment.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.doctorcube.R;
 import com.android.doctorcube.study.fragment.models.VideoItem;
+import com.android.doctorcube.study.fragment.VideoPlayerActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-// VideosAdapter.java
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewHolder> {
 
-    private List<VideoItem> videosList;
+    private List<VideoItem> videoList;
+    private Context context;
 
-    public VideosAdapter(List<VideoItem> videosList) {
-        this.videosList = videosList;
+    public VideosAdapter(List<VideoItem> videoList, Context context) {
+        this.videoList = videoList;
+        this.context = context;
     }
 
     @NonNull
@@ -32,49 +37,30 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        VideoItem video = videosList.get(position);
-        holder.titleTextView.setText(video.getTitle());
-        holder.durationTextView.setText(video.getDuration());
-        holder.authorTextView.setText("by " + video.getAuthor());
-        holder.qualityTextView.setText(video.getQuality());
+        VideoItem video = videoList.get(position);
+        holder.title.setText(video.getTitle());
+        Picasso.get().load(video.getThumbnailUrl()).into(holder.thumbnail);
 
-        // Set click listener
         holder.itemView.setOnClickListener(v -> {
-            // Handle video item click
-            // You might want to play the video or show details
-        });
-
-        holder.playButton.setOnClickListener(v -> {
-            // Handle play action
+            Intent intent = new Intent(context, VideoPlayerActivity.class);
+            intent.putExtra("videoId", video.getVideoId());
+            context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return videosList.size();
+        return videoList.size();
     }
 
-    public void updateData(List<VideoItem> newData) {
-        this.videosList = newData;
-        notifyDataSetChanged();
-    }
-
-    static class VideoViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView;
-        TextView durationTextView;
-        TextView authorTextView;
-        TextView qualityTextView;
-        ImageView playButton;
-        ImageView thumbnailImageView;
+    public static class VideoViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        ImageView thumbnail;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            durationTextView = itemView.findViewById(R.id.durationTextView);
-            authorTextView = itemView.findViewById(R.id.authorTextView);
-            qualityTextView = itemView.findViewById(R.id.qualityTextView);
-            playButton = itemView.findViewById(R.id.playButton);
-            thumbnailImageView = itemView.findViewById(R.id.thumbnailImageView);
+            title = itemView.findViewById(R.id.videoTitle);
+            thumbnail = itemView.findViewById(R.id.videoThumbnail);
         }
     }
 }

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
-    app:cardElevation="0dp">
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/card_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,14 +34,14 @@
                     android:id="@+id/university_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_background_green"
-                    android:padding="4dp"
-                    android:text="Public"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_margin="8dp" />
+                    android:background="@drawable/rounded_background_accent"
+                android:padding="4dp"
+                android:text="Public"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -65,8 +66,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="University of Georgia"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_primary_color"
+                    android:textStyle="bold" />
                 </LinearLayout>
 
                 <TextView
@@ -74,9 +75,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="General Medicine"
-                    android:textColor="#E74C3C"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp" />
+                    android:textColor="@color/accent_color"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,17 +90,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Bachelor"
-                        android:background="@drawable/rounded_bg_light_gray"
-                        android:padding="4dp"
-                        android:layout_marginEnd="8dp" />
+                        android:background="@drawable/rounded_bg_hint"
+                    android:padding="4dp"
+                    android:textColor="@color/text_secondary_color"
+                    android:layout_marginEnd="8dp" />
 
                     <TextView
                         android:id="@+id/university_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Georgia"
-                        android:background="@drawable/rounded_bg_light_gray"
-                        android:padding="4dp" />
+                        android:background="@drawable/rounded_bg_hint"
+                    android:padding="4dp"
+                    android:textColor="@color/text_secondary_color" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,15 +120,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Duration: "
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/text_secondary_color" />
 
                         <TextView
                             android:id="@+id/duration"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="5.8 Yrs of MD, Incl. of..."
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp" />
+                            android:textColor="@color/text_primary_color"
+                        android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -138,15 +142,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Grade: "
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/text_secondary_color" />
 
                         <TextView
                             android:id="@+id/grade"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="A+"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp" />
+                            android:textColor="@color/text_primary_color"
+                        android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -159,15 +164,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Intake: "
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textColor="@color/text_secondary_color" />
 
                         <TextView
                             android:id="@+id/intake"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Feb-25, Sep-25"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp" />
+                            android:textColor="@color/text_primary_color"
+                        android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -186,9 +192,9 @@
                 android:layout_weight="1"
                 android:text="BROCHURE"
                 android:textAllCaps="true"
-                android:background="@color/colorAccent"
-                android:textColor="@android:color/white"
-                android:layout_marginEnd="4dp" />
+                android:background="@drawable/button_accent_gradient"
+            android:textColor="@color/button_text"
+            android:layout_marginEnd="4dp" />
 
             <Button
                 android:id="@+id/btn_eligibility"
@@ -197,14 +203,14 @@
                 android:layout_weight="1"
                 android:text="ELIGIBILITY"
                 android:textAllCaps="true"
-                android:background="@color/colorFlagBorder"
-                android:textColor="@android:color/white"
-                android:layout_marginStart="4dp" />
+                android:background="@drawable/gradient_toolbar"
+            android:textColor="@color/white"
+            android:layout_marginStart="4dp" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0E0E0" />
+            android:background="@color/divider_color" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

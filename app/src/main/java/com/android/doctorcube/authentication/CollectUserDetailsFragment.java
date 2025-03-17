@@ -116,7 +116,7 @@ public class CollectUserDetailsFragment extends Fragment {
         HashMap<String, Object> formData = new HashMap<>();
         formData.put("name", name);
         formData.put("email", email);
-        formData.put("phone", phone);
+        formData.put("mobile", phone);
         formData.put("state", state);
         formData.put("city", city);
         formData.put("country", country);

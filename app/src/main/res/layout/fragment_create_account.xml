@@ -143,8 +143,8 @@
                     android:layout_height="wrap_content"
                     android:text="Create Account"
                     android:layout_marginTop="24dp"
-                    android:backgroundTint="@color/button_secondary_variant"
                     android:paddingTop="16dp"
+                    android:backgroundTint="@color/button_accent"
                     android:paddingBottom="16dp"
                     app:cornerRadius="12dp"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>

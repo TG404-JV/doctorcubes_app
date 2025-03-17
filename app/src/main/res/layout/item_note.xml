@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/card_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,9 +18,10 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_notes"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="Note icon" />
+            app:tint="@color/primary_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Note icon" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -27,12 +29,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Mathematics"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/downloadButton"
-            app:layout_constraintStart_toEndOf="@+id/noteIcon"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/text_primary_color"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/downloadButton"
+        app:layout_constraintStart_toEndOf="@+id/noteIcon"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/descriptionTextView"
@@ -41,10 +43,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:text="Calculus notes"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/downloadButton"
-            app:layout_constraintStart_toEndOf="@+id/noteIcon"
-            app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+            android:textColor="@color/text_primary_color"
+        app:layout_constraintEnd_toStartOf="@+id/downloadButton"
+        app:layout_constraintStart_toEndOf="@+id/noteIcon"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
         <TextView
             android:id="@+id/authorTextView"
@@ -53,10 +55,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="by Dr. Smith"
-            android:textColor="@color/light_gray"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/noteIcon"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
+            android:textColor="@color/text_secondary_color"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/noteIcon"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
         <TextView
             android:id="@+id/sizeTextView"
@@ -65,10 +67,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="15 MB"
-            android:textColor="@color/light_gray"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/authorTextView"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
+            android:textColor="@color/text_secondary_color"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/authorTextView"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
         <ImageView
             android:id="@+id/downloadButton"
@@ -77,9 +79,10 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="12dp"
             android:src="@drawable/ic_download"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="Download button" />
+            app:tint="@color/accent_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Download button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

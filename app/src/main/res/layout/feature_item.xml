@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardElevation="1dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/material_on_surface_stroke"
+    app:cardCornerRadius="16dp"
+    app:rippleColor="@color/ripple_color"
+    app:cardBackgroundColor="@color/card_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <FrameLayout
+            android:id="@+id/icon_container"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            style="@style/CircleShape"
+            android:padding="4dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/feature_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                app:shapeAppearanceOverlay="@style/CircleShape"
+                tools:src="@drawable/ic_hostel" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/feature_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:letterSpacing="0.01"
+                android:textColor="@color/text_primary_color"
+                tools:text="University Listings" />
+
+            <TextView
+                android:id="@+id/feature_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:lineSpacingExtra="2dp"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/text_secondary_color"
+                tools:text="Browse through our curated list of universities" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/arrow_icon"
+            android:layout_width="24dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/primary_color" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -33,14 +33,27 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         getLifecycle().addObserver(youtubePlayerView); // Lifecycle management
 
-        String videoId = getIntent().getStringExtra("videoId");
+        // Get videoId from intent and provide a default value if null
+        final String videoId = getIntent().getStringExtra("videoId");
 
-
+        // Check if videoId is null and handle it
+        if (videoId == null) {
+            Toast.makeText(this, "Video ID not provided", Toast.LENGTH_SHORT).show();
+            // Either use a default video ID or finish the activity
+            // finish();
+            // return;
+        }
 
         youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(YouTubePlayer youTubePlayer) {
-                youTubePlayer.loadVideo(videoId, 0);
+                // Only load the video if videoId is not null
+                if (videoId != null) {
+                    youTubePlayer.loadVideo(videoId, 0);
+                } else if (!PLAYLIST_VIDEOS.isEmpty()) {
+                    // Fallback to the first video in the playlist if videoId is null
+                    youTubePlayer.loadVideo(PLAYLIST_VIDEOS.get(0), 0);
+                }
             }
         });
 

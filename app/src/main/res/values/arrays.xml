@@ -5,4 +5,9 @@
         <item>Name (Z-A)</item>
         <item>Rating (High to Low)</item>
     </string-array>
+    <string-array name="theme_options">
+        <item>Light Theme</item>
+        <item>Dark Theme</item>
+        <item>System Default</item>
+    </string-array>
 </resources>

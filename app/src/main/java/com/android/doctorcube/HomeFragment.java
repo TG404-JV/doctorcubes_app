@@ -1,7 +1,6 @@
 package com.android.doctorcube;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,21 +13,28 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.doctorcube.home.adapter.FeaturesAdapter;
 import com.android.doctorcube.home.adapter.OffersSliderAdapter;
+import com.android.doctorcube.home.data.FeatureData;
+import com.android.doctorcube.home.model.Feature;
 import com.android.doctorcube.home.model.OfferSlide;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureClickListener {
 
     private ViewPager2 offersViewPager;
-    private TabLayout offersTabLayout;
     private OffersSliderAdapter offersAdapter;
+    private RecyclerView featuresRecyclerView;
+    private FeaturesAdapter featuresAdapter;
     private Handler sliderHandler = new Handler();
     private Runnable sliderRunnable;
     private final int AUTO_SLIDE_INTERVAL = 3000; // 3 seconds
@@ -41,6 +47,9 @@ public class HomeFragment extends Fragment {
         // Initialize ViewPager for offers
         setupOffersSlider(view);
 
+        // Set up features RecyclerView
+        setupFeaturesRecyclerView(view);
+
         // Set up country selection click listeners
         setupCountrySelectionListeners(view);
 
@@ -50,9 +59,43 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    private void setupFeaturesRecyclerView(View view) {
+        featuresRecyclerView = view.findViewById(R.id.features_recycler_view);
+        featuresRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Get features data from FeatureData class
+        List<Feature> features = FeatureData.getInstance().getFeatures(requireContext());
+
+        // Set up adapter
+        featuresAdapter = new FeaturesAdapter(features, this);
+        featuresRecyclerView.setAdapter(featuresAdapter);
+    }
+
+    // Implement the OnFeatureClickListener method
+    @Override
+    public void onFeatureClick(Feature feature) {
+        // Handle feature clicks based on feature ID
+        if (feature.getId() == Feature.TYPE_UNIVERSITY_LISTINGS) {
+            // Open university listings screen or perform specific action
+            Toast.makeText(requireContext(), "University Listings Selected", Toast.LENGTH_SHORT).show();
+        } else if (feature.getId() == Feature.TYPE_SCHOLARSHIP) {
+            // Open scholarship screen
+            Toast.makeText(requireContext(), "Scholarship Selected", Toast.LENGTH_SHORT).show();
+        } else if (feature.getId() == Feature.TYPE_VISA_ADMISSION) {
+            // Open visa & admission screen
+            Toast.makeText(requireContext(), "Visa & Admission Selected", Toast.LENGTH_SHORT).show();
+        } else if (feature.getId() == Feature.TYPE_TRACKING) {
+            // Open tracking screen
+            Toast.makeText(requireContext(), "Application Tracking Selected", Toast.LENGTH_SHORT).show();
+        } else if (feature.getId() == Feature.TYPE_SUPPORT) {
+            // Open support screen or contact options
+            Toast.makeText(requireContext(), "Support Selected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void setupOffersSlider(View view) {
+        // Your existing code for offers slider setup
         offersViewPager = view.findViewById(R.id.offers_viewpager);
-        offersTabLayout = view.findViewById(R.id.offers_tab_layout);
 
         // Create sample offers data
         List<OfferSlide> offerSlides = new ArrayList<>();
@@ -64,11 +107,7 @@ public class HomeFragment extends Fragment {
         offersAdapter = new OffersSliderAdapter(offerSlides);
         offersViewPager.setAdapter(offersAdapter);
 
-        // Connect TabLayout with ViewPager2
-        new TabLayoutMediator(offersTabLayout, offersViewPager,
-                (tab, position) -> {
-                    // No text for tabs, they are just indicators
-                }).attach();
+
 
         // Auto-slide functionality
         sliderRunnable = () -> {
@@ -96,7 +135,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupCountrySelectionListeners(View view) {
-        // Get references to all country layouts
+        // Your existing code for country selection
         LinearLayout russiaLayout = view.findViewById(R.id.country_russia);
         LinearLayout georgiaLayout = view.findViewById(R.id.country_georgia);
         LinearLayout kazakhstanLayout = view.findViewById(R.id.country_kazakhstan);
@@ -120,8 +159,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupCommunicationButtons(View view) {
-        LinearLayout callButton = view.findViewById(R.id.call_now_button);
-        LinearLayout whatsappButton = view.findViewById(R.id.whatsapp_button);
+        // Your existing code for communication buttons
+        MaterialCardView callButton = view.findViewById(R.id.call_now_button);
+        MaterialCardView whatsappButton = view.findViewById(R.id.whatsapp_button);
 
         // Set up call button
         callButton.setOnClickListener(v -> {
@@ -152,14 +192,18 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        sliderHandler.removeCallbacks(sliderRunnable);
+    public void onResume() {
+        super.onResume();
+        // Restart auto-slide when the fragment resumes
+        startAutoSlide();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        startAutoSlide();
+    public void onDestroy() {
+        super.onDestroy();
+        // Clean up handler to prevent memory leaks
+        if (sliderHandler != null) {
+            sliderHandler.removeCallbacks(sliderRunnable);
+        }
     }
 }

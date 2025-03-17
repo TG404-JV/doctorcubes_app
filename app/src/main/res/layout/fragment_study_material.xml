@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:context=".StudyMaterialFragment">
 
     <!-- Toolbar with title -->
@@ -13,14 +13,14 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="@drawable/gradient_toolbar"
         android:elevation="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Study Materials"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
@@ -30,31 +30,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/card_background"
         app:cardCornerRadius="8dp"
         app:cardElevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_margin="8dp"
+                android:contentDescription="Search icon"
                 android:src="@drawable/ic_search"
-                android:contentDescription="Search icon" />
+                app:tint="@color/hint_color" />
 
             <EditText
                 android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@null"
                 android:hint="Search study materials..."
-                android:padding="8dp"
+                android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:imeOptions="actionSearch" />
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/text_primary_color"
+                android:textColorHint="@color/hint_color" />
+
+            <ImageView
+                android:id="@+id/clearSearchButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="8dp"
+                android:contentDescription="Clear search"
+                android:src="@drawable/ic_clear"
+                android:visibility="gone"
+                app:tint="@color/hint_color" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -63,29 +79,30 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/colorPrimary"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabTextColor="@color/light_gray"
-        app:tabMode="fixed"
         app:tabGravity="fill"
-        app:tabTextAppearance="@style/TabTextAppearance">
+        app:tabIndicatorColor="@color/accent_color"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/primary_dark_color"
+        app:tabTextAppearance="@style/TabTextAppearance"
+        app:tabTextColor="@color/text_secondary_color">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notes"/>
+            android:text="Notes" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Videos"/>
+            android:text="Videos" />
     </com.google.android.material.tabs.TabLayout>
 
     <!-- ViewPager2 for switching between Notes & Videos content -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"
+         />
 
 </LinearLayout>

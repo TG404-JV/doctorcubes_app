@@ -1,11 +1,10 @@
 package com.android.doctorcube.study.fragment;
 
-// NotesFragment.java
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +26,8 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
     private RecyclerView recyclerView;
     private NotesAdapter adapter;
     private List<NoteItem> notesList;
+    private List<NoteItem> originalNotesList; // Store the original list
+    private TextView emptyView;
 
     @Nullable
     @Override
@@ -34,10 +35,13 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        emptyView = view.findViewById(R.id.emptyView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         // Initialize data
-        notesList = getNotesList();
+        originalNotesList = getNotesList();
+        notesList = new ArrayList<>(originalNotesList); // Create a working copy
 
         // Set up adapter
         adapter = new NotesAdapter(getContext(), notesList);
@@ -73,16 +77,45 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
     @Override
     public void performSearch(String query) {
         List<NoteItem> filteredList = new ArrayList<>();
-        for (NoteItem note : notesList) {
+
+        for (NoteItem note : originalNotesList) {
             if (note.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                    note.getDescription().toLowerCase().contains(query.toLowerCase())) {
+                    note.getDescription().toLowerCase().contains(query.toLowerCase()) ||
+                    note.getAuthor().toLowerCase().contains(query.toLowerCase())) {
                 filteredList.add(note);
             }
         }
-        adapter.updateData(filteredList);
+
+        updateSearchResults(filteredList, query);
+    }
+
+    @Override
+    public void resetSearch() {
+        // Reset to original list
+        notesList.clear();
+        notesList.addAll(originalNotesList);
+        adapter.notifyDataSetChanged();
+
+        // Hide empty view if it was visible
+        if (emptyView != null) {
+            emptyView.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateSearchResults(List<NoteItem> filteredList, String query) {
+        notesList.clear();
+        notesList.addAll(filteredList);
+        adapter.notifyDataSetChanged();
 
         if (filteredList.isEmpty()) {
-            Toast.makeText(requireContext(), "No notes found for: " + query, Toast.LENGTH_SHORT).show();
+            if (emptyView != null) {
+                emptyView.setText("No notes found for: " + query);
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(requireContext(), "No notes found for: " + query, Toast.LENGTH_SHORT).show();
+            }
+        } else if (emptyView != null) {
+            emptyView.setVisibility(View.GONE);
         }
     }
 }

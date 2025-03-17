@@ -21,6 +21,7 @@ import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityData;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UniversitiesActivity extends AppCompatActivity {
 
@@ -32,18 +33,16 @@ public class UniversitiesActivity extends AppCompatActivity {
     private TextView countryNameTitle, noUniversitiesText;
     private ImageButton filterBtn, backBtn;
     private String countryFilter;
-    private boolean isSpinnerVisible = false;  // To track spinner visibility
+    private boolean isSpinnerVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_universities);
 
-        // Get country from intent
         countryFilter = getIntent().getStringExtra("COUNTRY_NAME") != null ?
                 getIntent().getStringExtra("COUNTRY_NAME") : "All";
 
-        // Initialize views
         recyclerView = findViewById(R.id.universities_recycler_view);
         searchEditText = findViewById(R.id.search_university);
         sortSpinner = findViewById(R.id.sort_spinner);
@@ -52,23 +51,16 @@ public class UniversitiesActivity extends AppCompatActivity {
         filterBtn = findViewById(R.id.filterBtn);
         backBtn = findViewById(R.id.backBtn);
 
-        // Set title
         countryNameTitle.setText(countryFilter.equals("All") ? "All Universities" : countryFilter + " Universities");
 
-        // Load university data
         loadUniversityData();
 
-        // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UniversityAdapter(this, universities);
+        adapter = new UniversityAdapter(this, universities, countryFilter); // Pass countryFilter to adapter
         recyclerView.setAdapter(adapter);
 
-        // Filter by country
-        if (!countryFilter.equals("All")) {
-            adapter.filterByCountry(countryFilter);
-        }
+        filterByCountry();
 
-        // Search functionality
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -78,33 +70,28 @@ public class UniversitiesActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                adapter.filter(s.toString());
+                adapter.filterByName(s.toString());
                 updateNoUniversitiesView();
             }
         });
 
-        // Hide spinner when search bar is clicked
         searchEditText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                hideSpinner();
-            }
+            if (hasFocus) hideSpinner();
         });
 
-        // Sorting functionality
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0: adapter.sortByName(true); break;  // A-Z
-                    case 1: adapter.sortByName(false); break; // Z-A
-                    case 2: adapter.sortByGrade(false); break; // High-Low
+                    case 0: adapter.sortByName(true); break;
+                    case 1: adapter.sortByName(false); break;
+                    case 2: adapter.sortByGrade(false); break;
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Filter button click - show/hide spinner with animation
         filterBtn.setOnClickListener(v -> {
             if (isSpinnerVisible) {
                 hideSpinner();
@@ -113,16 +100,23 @@ public class UniversitiesActivity extends AppCompatActivity {
             }
         });
 
-        // Back button click - go to previous fragment/activity
         backBtn.setOnClickListener(v -> onBackPressed());
     }
 
-    // Load university data
     private void loadUniversityData() {
         universities = UniversityData.getUniversities();
     }
 
-    // Update UI when no universities are found
+    private void filterByCountry() {
+        if (!countryFilter.equals("All")) {
+            universities = universities.stream()
+                    .filter(u -> u.getCountry().equalsIgnoreCase(countryFilter))
+                    .collect(Collectors.toList());
+        }
+        adapter.updateData(universities); // Update adapter with filtered list
+        updateNoUniversitiesView();
+    }
+
     private void updateNoUniversitiesView() {
         if (adapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
@@ -133,7 +127,6 @@ public class UniversitiesActivity extends AppCompatActivity {
         }
     }
 
-    // Show spinner with fade-in animation
     private void showSpinner() {
         if (!isSpinnerVisible) {
             sortSpinner.setVisibility(View.VISIBLE);
@@ -144,20 +137,17 @@ public class UniversitiesActivity extends AppCompatActivity {
         }
     }
 
-    // Hide spinner with fade-out animation
     private void hideSpinner() {
         if (isSpinnerVisible) {
             AlphaAnimation fadeOut = new AlphaAnimation(1f, 0f);
             fadeOut.setDuration(300);
-            fadeOut.setAnimationListener(new AlphaAnimation.AnimationListener() {
+            fadeOut.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     sortSpinner.setVisibility(View.GONE);
                 }
-
                 @Override
                 public void onAnimationRepeat(Animation animation) {}
-
                 @Override
                 public void onAnimationStart(Animation animation) {}
             });

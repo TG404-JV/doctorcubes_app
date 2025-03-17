@@ -45,7 +45,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth") // Ensure this is added
-    implementation("com.google.firebase:firebase-database") // Ensure this is added
+    implementation("com.google.firebase:firebase-database")
+    implementation(libs.recyclerview) // Ensure this is added
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Toolbar with elevation and proper styling -->
+        <!-- Enhanced Toolbar with gradient background -->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
@@ -23,28 +23,46 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/primary_color"
+                android:background="@drawable/gradient_toolbar"
                 app:titleTextColor="@color/white"
                 app:navigationIcon="@drawable/ic_back">
 
-                <TextView
-                    android:id="@+id/tvToolbarTitle"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Privacy Policy"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/ivLogo"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_studymaterial"
+                        android:layout_marginEnd="12dp"
+                        android:contentDescription="Privacy shield icon"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tvToolbarTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Privacy Policy"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.02" />
+                </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- Scrollable content for the privacy policy -->
+        <!-- Scrollable content with card-based sections -->
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
-            android:scrollbars="vertical"
+            android:scrollbars="none"
+            android:paddingBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,183 +73,529 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
-                <!-- Last Updated Date -->
-                <TextView
-                    android:id="@+id/tvLastUpdated"
-                    android:layout_width="wrap_content"
+                <!-- Header with medical education imagery -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardHeader"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Last Updated: March 1, 2025"
-                    android:textColor="@color/text_secondary_color"
-                    android:textStyle="italic"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/ivHeaderImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/flag_china"
+                            android:alpha="0.8"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:contentDescription="Medical education banner" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:background="@drawable/home_fragment_gradient_background"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvHeaderTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Your Privacy Matters"
+                            android:textColor="@color/white"
+                            android:textSize="24sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:layout_margin="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/ivHeaderImage" />
+
+                        <TextView
+                            android:id="@+id/tvLastUpdated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Last Updated: March 1, 2025"
+                            android:textColor="@color/white"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="italic"
+                            android:textSize="12sp"
+                            android:layout_margin="16dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/ivHeaderImage" />
+
+                        <TextView
+                            android:id="@+id/tvHeaderSubtitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="At DoctorCube, we are committed to protecting your personal information as you pursue your medical education abroad."
+                            android:textColor="@color/text_secondary_color"
+                            android:textSize="14sp"
+                            android:padding="16dp"
+                            app:layout_constraintTop_toBottomOf="@id/ivHeaderImage"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
 
                 <!-- Introduction Section -->
-                <TextView
-                    android:id="@+id/tvIntroTitle"
-                    android:layout_width="0dp"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardIntro"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Introduction"
-                    android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintTop_toBottomOf="@id/cardHeader"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvLastUpdated" />
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:id="@+id/tvIntroContent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="At DoctorCube, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application. Please read this policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application."
-                    android:textColor="@color/text_secondary_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvIntroTitle" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_whats_app"
+                                android:layout_marginEnd="8dp"
+                                android:contentDescription="Information icon"
+                                app:tint="@color/primary_color" />
+
+                            <TextView
+                                android:id="@+id/tvIntroTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Introduction"
+                                android:textColor="@color/text_primary_color"
+                                android:textSize="18sp"
+                                android:fontFamily="sans-serif-medium" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider_color"
+                            android:layout_marginBottom="8dp" />
+
+                        <TextView
+                            android:id="@+id/tvIntroContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="At DoctorCube, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application. Please read this policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application."
+                            android:textColor="@color/text_secondary_color"
+                            android:textSize="14sp"
+                            android:lineSpacingExtra="4dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <!-- Information We Collect Section -->
-                <TextView
-                    android:id="@+id/tvCollectionTitle"
-                    android:layout_width="0dp"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardCollection"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Information We Collect"
-                    android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintTop_toBottomOf="@id/cardIntro"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvIntroContent" />
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:id="@+id/tvCollectionContent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="We may collect personal information that you provide to us, including but not limited to:\n\n• Personal identifiers such as your name, email address, and phone number\n• University application details\n• Visa status information\n• Scholarship application information\n• Login credentials when you create an account"
-                    android:textColor="@color/text_secondary_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvCollectionTitle" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <!-- How We Use Your Information -->
-                <TextView
-                    android:id="@+id/tvUseTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="How We Use Your Information"
-                    android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvCollectionContent" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="8dp">
 
-                <TextView
-                    android:id="@+id/tvUseContent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="We use the information we collect to:\n\n• Process your applications\n• Provide customer support\n• Send you notifications about your application status\n• Improve our services\n• Communicate with you regarding updates and promotional offers"
-                    android:textColor="@color/text_secondary_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvUseTitle" />
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_location"
+                                android:layout_marginEnd="8dp"
+                                android:contentDescription="Data collection icon"
+                                app:tint="@color/primary_color" />
 
-                <!-- Disclosure of Your Information -->
-                <TextView
-                    android:id="@+id/tvDisclosureTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Disclosure of Your Information"
-                    android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvUseContent" />
+                            <TextView
+                                android:id="@+id/tvCollectionTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Information We Collect"
+                                android:textColor="@color/text_primary_color"
+                                android:textSize="18sp"
+                                android:fontFamily="sans-serif-medium" />
+                        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvDisclosureContent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="We may share information we have collected about you in certain situations. Your information may be disclosed as follows:\n\n• With universities and institutions when processing your applications\n• With service providers who perform services on our behalf\n• To comply with legal obligations\n• To protect and defend our rights and property"
-                    android:textColor="@color/text_secondary_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvDisclosureTitle" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider_color"
+                            android:layout_marginBottom="8dp" />
 
-                <!-- Security of Your Information -->
-                <TextView
-                    android:id="@+id/tvSecurityTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Security of Your Information"
-                    android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvDisclosureContent" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="We may collect the following information to help with your medical education abroad:"
+                            android:textColor="@color/text_secondary_color"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="8dp" />
 
-                <TextView
-                    android:id="@+id/tvSecurityContent"
-                    android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Personal identifiers (name, email, phone number)"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Medical university application details"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Academic qualifications including NEET scores"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Visa status and passport information"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- How We Use Your Information Section -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardUsage"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse."
-                    android:textColor="@color/text_secondary_color"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintTop_toBottomOf="@id/cardCollection"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSecurityTitle" />
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_call"
+                                android:tint="@color/primary_color"
+                                android:layout_marginEnd="8dp"
+                                android:contentDescription="Usage icon" />
+
+                            <TextView
+                                android:id="@+id/tvUsageTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="How We Use Your Information"
+                                android:textColor="@color/text_primary_color"
+                                android:textSize="18sp"
+                                android:fontFamily="sans-serif-medium" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider_color"
+                            android:layout_marginBottom="8dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="We use the information we collect for the following purposes:"
+                            android:textColor="@color/text_secondary_color"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="To assist with your medical university applications"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="To provide personalized counseling and support"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="To communicate updates and important information"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <!-- Contact Us Section -->
-                <TextView
-                    android:id="@+id/tvContactTitle"
-                    android:layout_width="0dp"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardContact"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Contact Us"
-                    android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintTop_toBottomOf="@id/cardUsage"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSecurityContent" />
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:id="@+id/tvContactContent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="If you have questions or concerns about this Privacy Policy, please contact us at:\n\nEmail: privacy@doctorcube.com\nPhone: +1 (123) 456-7890"
-                    android:textColor="@color/text_secondary_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvContactTitle" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_call"
+                                android:tint="@color/primary_color"
+                                android:layout_marginEnd="8dp"
+                                android:contentDescription="Contact icon" />
+
+                            <TextView
+                                android:id="@+id/tvContactTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Contact Us"
+                                android:textColor="@color/text_primary_color"
+                                android:textSize="18sp"
+                                android:fontFamily="sans-serif-medium" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider_color"
+                            android:layout_marginBottom="8dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If you have any questions about this Privacy Policy, please contact us at:"
+                            android:textColor="@color/text_secondary_color"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email: support@doctorcube.com"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <View
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
+                                    android:background="@drawable/dot_accent"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Phone: +91-123-456-7890"
+                                    android:textColor="@color/text_secondary_color"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <!-- Loading Progress Indicator -->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminateTint="@color/primary_color"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

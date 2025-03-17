@@ -1,11 +1,49 @@
 package com.android.doctorcube.adminpannel;
 
-public class Student {
-    private String id, name, mobile, email, state, city, interestedCountry, hasNeetScore, neetScore, hasPassport, submissionDate, callStatus, lastCallDate;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Student implements Parcelable {
+    private String id, name, mobile, email, state, city, interestedCountry, hasNeetScore, neetScore, hasPassport,
+            submissionDate, callStatus, lastCallDate, lastUpdatedDate, firebasePushDate;
     private boolean isInterested, isAdmitted;
 
     // Default constructor required for Firebase
     public Student() {}
+
+    // Constructor for Parcelable
+    protected Student(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        mobile = in.readString();
+        email = in.readString();
+        state = in.readString();
+        city = in.readString();
+        interestedCountry = in.readString();
+        hasNeetScore = in.readString();
+        neetScore = in.readString();
+        hasPassport = in.readString();
+        submissionDate = in.readString();
+        callStatus = in.readString();
+        lastCallDate = in.readString();
+        lastUpdatedDate = in.readString();
+        firebasePushDate = in.readString();
+        isInterested = in.readByte() != 0; // Boolean from byte
+        isAdmitted = in.readByte() != 0;   // Boolean from byte
+    }
+
+    // Creator required for Parcelable
+    public static final Creator<Student> CREATOR = new Creator<Student>() {
+        @Override
+        public Student createFromParcel(Parcel in) {
+            return new Student(in);
+        }
+
+        @Override
+        public Student[] newArray(int size) {
+            return new Student[size];
+        }
+    };
 
     // Getters and Setters
     public String getId() { return id; }
@@ -32,10 +70,40 @@ public class Student {
     public void setSubmissionDate(String submissionDate) { this.submissionDate = submissionDate; }
     public String getCallStatus() { return callStatus; }
     public void setCallStatus(String callStatus) { this.callStatus = callStatus; }
-    public boolean getIsInterested() { return isInterested; }
-    public void setIsInterested(boolean isInterested) { this.isInterested = isInterested; }
     public String getLastCallDate() { return lastCallDate; }
     public void setLastCallDate(String lastCallDate) { this.lastCallDate = lastCallDate; }
+    public String getLastUpdatedDate() { return lastUpdatedDate; }
+    public void setLastUpdatedDate(String lastUpdatedDate) { this.lastUpdatedDate = lastUpdatedDate; }
+    public String getFirebasePushDate() { return firebasePushDate; }
+    public void setFirebasePushDate(String firebasePushDate) { this.firebasePushDate = firebasePushDate; }
+    public boolean getIsInterested() { return isInterested; }
+    public void setIsInterested(boolean isInterested) { this.isInterested = isInterested; }
     public boolean isAdmitted() { return isAdmitted; }
     public void setAdmitted(boolean isAdmitted) { this.isAdmitted = isAdmitted; }
+
+    @Override
+    public int describeContents() {
+        return 0; // No special contents
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(mobile);
+        dest.writeString(email);
+        dest.writeString(state);
+        dest.writeString(city);
+        dest.writeString(interestedCountry);
+        dest.writeString(hasNeetScore);
+        dest.writeString(neetScore);
+        dest.writeString(hasPassport);
+        dest.writeString(submissionDate);
+        dest.writeString(callStatus);
+        dest.writeString(lastCallDate);
+        dest.writeString(lastUpdatedDate);
+        dest.writeString(firebasePushDate);
+        dest.writeByte((byte) (isInterested ? 1 : 0)); // Boolean to byte
+        dest.writeByte((byte) (isAdmitted ? 1 : 0));   // Boolean to byte
+    }
 }

@@ -1,178 +1,475 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/card_background">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sort By"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/sort_chip_group"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:singleSelection="true">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_sort_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:checkable="true" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_sort_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date"
-            android:checkable="true" />
-    </com.google.android.material.chip.ChipGroup>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Filter By"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/filter_chip_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_filter_interested"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Interested"
-            android:checkable="true" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_filter_not_interested"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Not Interested"
-            android:checkable="true" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_filter_call_made"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Call Made"
-            android:checkable="true" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_filter_call_not_made"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Call Not Made"
-            android:checkable="true" />
-    </com.google.android.material.chip.ChipGroup>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Filter By Date"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/date_filter_radio_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RadioButton
-            android:id="@+id/radio_all_dates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="All Dates"
-            android:checked="true" />
-
-        <RadioButton
-            android:id="@+id/radio_today"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Today" />
-
-        <RadioButton
-            android:id="@+id/radio_yesterday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Yesterday" />
-
-        <RadioButton
-            android:id="@+id/radio_earlier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Earlier" />
-
-        <RadioButton
-            android:id="@+id/radio_custom_range"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Custom Date Range" />
-    </RadioGroup>
-
-    <LinearLayout
-        android:id="@+id/date_range_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:scrollbars="vertical"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@color/card_background">
 
+            <!-- Title with Icon -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_sort_by_size"
+                    app:tint="@color/primary_color" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Filter and Sort Options"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary_color"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider_color"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Sort Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="From: "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_from_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Select date"
+                android:text="Sort By"
                 android:textSize="16sp"
-                android:padding="8dp"
-                android:background="#EF0C0C" />
-        </LinearLayout>
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark_color" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/sort_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:chipSpacingHorizontal="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_sort_name_asc"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name (A-Z)"
+                    app:chipBackgroundColor="@color/chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_sort_name_desc"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name (Z-A)"
+                    app:chipBackgroundColor="@color/chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@color/chip_text_selector"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_sort_date_newest"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date (Newest)"
+                    app:chipBackgroundColor="@color/chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@color/chip_text_selector"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_sort_date_oldest"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date (Oldest)"
+                    app:chipBackgroundColor="@color/chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@color/chip_text_selector"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_sort_last_updated_newest"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Updated (Newest)"
+                    app:chipBackgroundColor="@color/chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@color/chip_text_selector"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_sort_last_updated_oldest"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Updated (Oldest)"
+                    app:chipBackgroundColor="@color/chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@color/chip_text_selector"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_sort_firebase_push_newest"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Firebase Push (Newest)"
+                    app:chipBackgroundColor="@color/chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@color/chip_text_selector"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_sort_firebase_push_oldest"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Firebase Push (Oldest)"
+                    app:chipBackgroundColor="@color/chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@color/chip_text_selector"
+                    app:checkedIconTint="@color/white" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Filter Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="To: "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_to_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Select date"
+                android:layout_marginTop="16dp"
+                android:text="Filter By"
                 android:textSize="16sp"
-                android:padding="8dp"
-                android:background="@drawable/login_gradient_background" />
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark_color" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/filter_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_interested"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Interested"
+                    app:chipBackgroundColor="@color/filter_chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_not_interested"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Not Interested"
+                    app:chipBackgroundColor="@color/filter_chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_admitted"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Admitted"
+                    app:chipBackgroundColor="@color/filter_chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_not_admitted"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Not Admitted"
+                    app:chipBackgroundColor="@color/filter_chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_call_made"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Called"
+                    app:chipBackgroundColor="@color/filter_chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    app:checkedIconTint="@color/white" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_call_not_made"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Not Called"
+                    app:chipBackgroundColor="@color/filter_chip_background_selector"
+                    app:chipStrokeColor="@color/primary_light_color"
+                    app:chipStrokeWidth="1dp"
+                    app:checkedIconTint="@color/white" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Date Filter Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Filter By Date"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark_color" />
+
+            <RadioGroup
+                android:id="@+id/date_filter_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp">
+
+                <RadioButton
+                    android:id="@+id/radio_all_dates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All Dates"
+                    android:checked="true"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:buttonTint="@color/primary_color"
+                    android:paddingStart="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:buttonTint="@color/primary_color"
+                    android:paddingStart="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_yesterday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yesterday"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:buttonTint="@color/primary_color"
+                    android:paddingStart="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_last_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Week"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:buttonTint="@color/primary_color"
+                    android:paddingStart="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_last_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Month"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:buttonTint="@color/primary_color"
+                    android:paddingStart="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_last_updated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Updated"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:buttonTint="@color/primary_color"
+                    android:paddingStart="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_firebase_push"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Firebase Push Date"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:buttonTint="@color/primary_color"
+                    android:paddingStart="8dp"
+                    android:layout_marginBottom="4dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_custom_range"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Custom Date Range"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:buttonTint="@color/primary_color"
+                    android:paddingStart="8dp" />
+            </RadioGroup>
+
+            <!-- Custom Date Range -->
+            <LinearLayout
+                android:id="@+id/date_range_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="From:"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary_color"
+                        android:layout_marginEnd="12dp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/primary_light_color">
+
+                        <TextView
+                            android:id="@+id/tv_from_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Select Date"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_primary_color"
+                            android:padding="12dp"
+                            android:background="@android:color/transparent" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="To:"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary_color"
+                        android:layout_marginEnd="12dp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/primary_light_color">
+
+                        <TextView
+                            android:id="@+id/tv_to_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Select Date"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_primary_color"
+                            android:padding="12dp"
+                            android:background="@android:color/transparent" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Buttons Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="end">
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary_color"
+                    android:backgroundTint="@color/text_secondary_color"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/btn_apply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Apply"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/primary_color"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+    </ScrollView>
+</androidx.cardview.widget.CardView>

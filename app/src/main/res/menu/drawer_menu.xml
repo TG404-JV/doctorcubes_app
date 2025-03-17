@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_dashboard"
-            android:icon="@drawable/ic_home"
-            android:title="@string/dashboard" />
-        <item
-            android:id="@+id/nav_students"
-            android:icon="@drawable/ic_home"
-            android:title="@string/students"
-            android:checked="true" />
-        <item
-            android:id="@+id/nav_call_logs"
-            android:icon="@drawable/ic_home"
-            android:title="@string/call_logs" />
-        <item
-            android:id="@+id/nav_analytics"
-            android:icon="@drawable/ic_home"
-            android:title="@string/analytics" />
-    </group>
     <item android:title="@string/account">
         <menu>
+
+
             <item
-                android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_home"
-                android:title="@string/settings" />
+                android:id="@+id/nav_students"
+                android:icon="@drawable/icon_support"
+                android:title="Home" />
+
             <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_home"
-                android:title="@string/logout" />
+                android:id="@+id/nav_add_new"
+                android:icon="@drawable/icon_support"
+                android:title="Add a New" />
+
+            <item
+                android:id="@+id/nav_import_excel"
+                android:icon="@drawable/icon_support"
+                android:title="import data from xl" />
+
+            <item
+                android:id="@+id/nav_export_excel"
+                android:icon="@drawable/ic_whats_app"
+                android:title="Export data from xl" />
         </menu>
     </item>
 </menu>

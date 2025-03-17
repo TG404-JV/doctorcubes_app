@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_export_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Export Status"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_filter_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Applied Filters:"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_export_excel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Export to Excel" />
+
+        <Button
+            android:id="@+id/btn_view_excel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="View Exported File" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_sort_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="Sort and Filter"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        app:backgroundTint="@color/primary_color"
+        app:tint="@android:color/white" />
+
+</RelativeLayout>

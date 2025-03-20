@@ -5,51 +5,86 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@drawable/login_gradient_background"
     tools:context=".authentication.LoginFragment">
+
+    <!-- Background with gradient using the provided colors -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_gradient_background" />
+
+    <!-- App Logo at the top -->
+    <ImageView
+        android:id="@+id/appLogoImage"
+        android:layout_width="200dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/doctor_cubes_logo"
+        android:contentDescription="Education Consultancy Logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/appTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Global Education Partner"
+        android:textSize="22sp"
+        android:textColor="@color/text_on_primary"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appLogoImage" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/card_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appTitleText"
         app:layout_constraintWidth_percent="0.9">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_launcher_foreground"
-                android:contentDescription="DoctorCube Logo" />
+            android:padding="28dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Welcome Back"
-                android:textSize="24sp"
+                android:textSize="26sp"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:layout_marginTop="16dp"
                 android:textColor="@color/text_primary_color"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign in to access your global education journey"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary_color"/>
 
             <!-- Email Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:startIconDrawable="@drawable/input_background"
+                android:layout_marginTop="28dp"
+                app:startIconDrawable="@drawable/ic_email"
+                app:startIconTint="@color/icon_tint_primary"
+                app:boxStrokeColor="@color/input_focus"
+                app:hintTextColor="@color/primary_color"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -57,6 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email Address"
+                    android:textColor="@color/text_primary_color"
+                    android:textColorHint="@color/hint_color"
                     android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,6 +103,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:endIconMode="password_toggle"
+                app:endIconTint="@color/icon_tint_primary"
+                app:startIconDrawable="@drawable/ic_lock"
+                app:startIconTint="@color/icon_tint_primary"
+                app:boxStrokeColor="@color/input_focus"
+                app:hintTextColor="@color/primary_color"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -73,6 +115,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
+                    android:textColor="@color/text_primary_color"
+                    android:textColorHint="@color/hint_color"
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,30 +125,91 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Forgot Password?"
-                android:textColor="@color/primary_color"
+                android:textColor="@color/text_link"
                 android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:padding="8dp"/>
+                android:layout_marginTop="12dp"
+                android:textSize="14sp"
+                android:padding="4dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login"
-                android:layout_marginTop="16dp"
-                style="@style/PrimaryButton"/>
+                android:layout_height="56dp"
+                android:text="Sign In"
+                android:textSize="16sp"
+                android:textColor="@color/button_text_primary"
+                android:layout_marginTop="24dp"
+                app:cornerRadius="12dp"
+                android:backgroundTint="@color/button_primary"
+                app:rippleColor="@color/button_primary_pressed"
+                app:elevation="4dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="24dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/divider_color" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Don't have an account? "
+                    android:text="OR"
+                    android:padding="8dp"
+                    android:textColor="@color/text_tertiary_color" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/divider_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center">
+
+                <!-- Google Sign In Button -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/googleSignInButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/card_border"
+                    android:layout_marginEnd="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_google"
+                        android:contentDescription="Sign in with Google" />
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New to our platform? "
                     android:textColor="@color/text_secondary_color"/>
 
                 <TextView
@@ -112,10 +217,83 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Create Account"
-                    android:textColor="@color/primary_color"
+                    android:textColor="@color/text_link"
                     android:textStyle="bold"
-                    android:padding="8dp"/>
+                    android:padding="4dp"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <!-- Countries flags or education-related illustration at bottom -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp"
+            android:layout_marginEnd="8dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/usa_color"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp"
+            android:layout_marginEnd="8dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/uk_color"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp"
+            android:layout_marginEnd="8dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/canada_color"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp"
+            android:layout_marginEnd="8dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/australia_color"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/germany_color"/>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

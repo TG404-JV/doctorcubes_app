@@ -44,6 +44,12 @@
         <action
             android:id="@+id/action_loginFragment2_to_adminActivity2"
             app:destination="@id/adminActivity2" />
+        <action
+            android:id="@+id/action_loginFragment2_to_collectUserDetailsFragment"
+            app:destination="@id/collectUserDetailsFragment" />
+        <action
+            android:id="@+id/action_loginFragment2_to_createAccountFragment2"
+            app:destination="@id/createAccountFragment2" />
     </fragment>
     <fragment
         android:id="@+id/createAccountFragment2"
@@ -53,6 +59,9 @@
         <action
             android:id="@+id/action_createAccountFragment2_to_collectUserDetailsFragment"
             app:destination="@id/collectUserDetailsFragment" />
+        <action
+            android:id="@+id/action_createAccountFragment2_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
     </fragment>
     <fragment
         android:id="@+id/collectUserDetailsFragment"

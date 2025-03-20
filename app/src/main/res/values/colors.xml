@@ -1,64 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
-    <color name="primary_color">#0288D1</color>         <!-- Deep Sky Blue: Trust and education -->
-    <color name="primary_dark_color">#01579B</color>    <!-- Darker variant for depth -->
-    <color name="primary_light_color">#4FC3F7</color>   <!-- Lighter variant for highlights -->
+    <!-- Primary Brand Colors -->
+    <color name="primary_color">#0288D1</color>         <!-- Deep Sky Blue: Trust, education, and reliability -->
+    <color name="primary_dark_color">#01579B</color>    <!-- Darker blue for status bar and depth -->
+    <color name="primary_light_color">#4FC3F7</color>   <!-- Lighter blue for highlights and subtleties -->
 
     <!-- Accent Colors -->
-    <color name="accent_color">#FFA726</color>          <!-- Vibrant Orange: Energy and action -->
+    <color name="accent_color">#FFA726</color>          <!-- Warm Orange: Energy, opportunity, and action -->
+    <color name="accent_dark_color">#F57C00</color>     <!-- Darker orange for pressed states -->
+    <color name="accent_light_color">#FFCC80</color>    <!-- Lighter orange for subtle accents -->
 
-    <!-- Background and Text Colors -->
-    <color name="background_color">#F5F7FA</color>      <!-- Light Gray-Blue: Clean and neutral -->
-    <color name="card_background">#FFFFFF</color>       <!-- Pure White: Crisp cards -->
-    <color name="text_primary_color">#212121</color>    <!-- Dark Gray: Readable primary text -->
-    <color name="text_secondary_color">#757575</color>   <!-- Medium Gray: Subtle secondary text -->
+    <!-- Background Colors -->
+    <color name="background_color">#F5F7FA</color>      <!-- Light Gray-Blue: Clean, professional background -->
+    <color name="secondary_background">#EEF2F6</color>  <!-- Slightly darker background for sections -->
+
+    <!-- Card Design Colors -->
+    <color name="card_background">#FFFFFF</color>       <!-- Pure White: Crisp, clean cards -->
+    <color name="card_shadow">#20000000</color>         <!-- Subtle shadow for cards -->
+    <color name="card_border">#E1E8ED</color>           <!-- Subtle border for cards -->
+    <color name="card_highlight">#E1F5FE</color>        <!-- Very light blue for highlighted cards -->
+    <color name="card_accent_border">#4FC3F7</color>    <!-- Light blue accent for featured cards -->
+    <color name="premium_card_bg">#FFFDE7</color>       <!-- Very light yellow for premium offers -->
+
+    <!-- Text Colors -->
+    <color name="text_primary_color">#212121</color>    <!-- Dark Gray: Clear, readable primary text -->
+    <color name="text_secondary_color">#757575</color>  <!-- Medium Gray: Subtle secondary text -->
+    <color name="text_tertiary_color">#9E9E9E</color>   <!-- Light Gray: Very subtle tertiary information -->
+    <color name="text_on_primary">#FFFFFF</color>       <!-- White text on primary colored backgrounds -->
+    <color name="text_on_accent">#212121</color>        <!-- Dark text on accent colored backgrounds -->
+    <color name="text_link">#0277BD</color>             <!-- Slightly darker blue for links -->
+    <color name="text_highlight">#01579B</color>        <!-- Primary dark for highlighted text -->
+
+    <!-- Button Colors - Refined -->
+    <color name="button_primary">#0288D1</color>        <!-- Primary blue -->
+    <color name="button_primary_pressed">#01579B</color><!-- Darker blue for pressed state -->
+    <color name="button_secondary">#E1F5FE</color>      <!-- Very light blue for secondary buttons -->
+    <color name="button_secondary_text">#0288D1</color> <!-- Primary blue text on secondary buttons -->
+    <color name="button_accent">#FFA726</color>         <!-- Warm orange for CTA buttons -->
+    <color name="button_accent_pressed">#F57C00</color> <!-- Darker orange for pressed state -->
+    <color name="button_success">#43A047</color>        <!-- Slightly darker green for better visibility -->
+    <color name="button_error">#E53935</color>          <!-- Slightly darker red for better visibility -->
+    <color name="button_disabled">#CFD8DC</color>       <!-- Light Gray: Disabled state -->
+    <color name="button_text_primary">#FFFFFF</color>   <!-- White text on primary buttons -->
+    <color name="button_text_secondary">#0288D1</color> <!-- Blue text on secondary buttons -->
+    <color name="button_disabled_text">#90A4AE</color>  <!-- Medium Gray: Disabled text -->
+    <color name="button_outline">#BBDEFB</color>        <!-- Light blue for button outlines -->
 
     <!-- Status Colors -->
-    <color name="success_color">#4CAF50</color>         <!-- Green: Success feedback -->
-    <color name="error_color">#F44336</color>          <!-- Red: Error feedback -->
-    <color name="warning_color">#FFB300</color>         <!-- Amber: Warning feedback -->
+    <color name="success_color">#43A047</color>         <!-- Green: Success feedback, approvals -->
+    <color name="error_color">#E53935</color>           <!-- Red: Error feedback, rejections -->
+    <color name="warning_color">#FFB300</color>         <!-- Amber: Warning feedback, attention needed -->
+    <color name="info_color">#039BE5</color>            <!-- Blue: Information, notifications -->
 
-    <!-- Button Colors -->
-    <color name="button_primary">@color/primary_color</color>
-    <color name="button_primary_pressed">@color/primary_dark_color</color>
-    <color name="button_accent">@color/accent_color</color>
-    <color name="button_accent_pressed">#F57C00</color> <!-- Darker orange for pressed state -->
-    <color name="button_disabled">#B0BEC5</color>       <!-- Gray: Disabled state -->
-    <color name="button_text">@color/white</color>      <!-- White text on buttons -->
-    <color name="button_disabled_text">#ECEFF1</color>  <!-- Light Gray: Disabled text -->
+    <!-- UI Component Colors -->
+    <color name="checkbox_tint">#0288D1</color>         <!-- Primary blue for checkbox/radio -->
+    <color name="switch_thumb_on">#0288D1</color>       <!-- Primary blue for switch thumb when on -->
+    <color name="switch_track_on">#81D4FA</color>       <!-- Light blue for switch track when on -->
+    <color name="switch_thumb_off">#F5F5F5</color>      <!-- Light gray for switch thumb when off -->
+    <color name="switch_track_off">#BDBDBD</color>      <!-- Gray for switch track when off -->
+    <color name="slider_inactive">#BBDEFB</color>       <!-- Light blue for inactive part of slider -->
+    <color name="slider_active">#0288D1</color>         <!-- Primary blue for active part of slider -->
+    <color name="progress_primary">#0288D1</color>      <!-- Primary blue for progress indicators -->
+    <color name="progress_secondary">#B3E5FC</color>    <!-- Very light blue for secondary progress -->
+    <color name="input_outline">#BBDEFB</color>         <!-- Light blue for input field outlines -->
+    <color name="input_focus">#0288D1</color>           <!-- Primary blue for focused input fields -->
 
-    <!-- Gradient Colors (for toolbar/buttons) -->
-    <color name="gradient_start">@color/primary_color</color>
-    <color name="gradient_end">@color/primary_dark_color</color>
+    <!-- Tab and Navigation Colors -->
+    <color name="tab_selected">#0288D1</color>          <!-- Primary blue for selected tab -->
+    <color name="tab_unselected">#78909C</color>        <!-- Blue-gray for unselected tabs -->
+    <color name="tab_indicator">#0288D1</color>         <!-- Primary blue for tab indicator -->
+    <color name="nav_selected">#0288D1</color>          <!-- Primary blue for selected nav item -->
+    <color name="nav_unselected">#78909C</color>        <!-- Blue-gray for unselected nav items -->
+    <color name="nav_background">#FFFFFF</color>        <!-- White navigation background -->
+    <color name="nav_ripple">#E1F5FE</color>            <!-- Very light blue for nav ripple effect -->
+
+    <!-- Gradient Colors -->
+    <color name="gradient_primary_start">#0288D1</color>
+    <color name="gradient_primary_end">#01579B</color>
+    <color name="gradient_accent_start">#FFA726</color>
+    <color name="gradient_accent_end">#F57C00</color>
+    <color name="gradient_card_start">#FFFFFF</color>
+    <color name="gradient_card_end">#F5F7FA</color>     <!-- Subtle gradient for premium cards -->
 
     <!-- UI Element Colors -->
-    <color name="icon_tint">@color/primary_color</color>     <!-- Icons match primary color -->
-    <color name="divider_color">#E0E0E0</color>             <!-- Light Gray: Dividers -->
-    <color name="hint_color">#B0BEC5</color>                <!-- Gray: Hints and placeholders -->
+    <color name="icon_tint_primary">#0288D1</color>     <!-- Primary blue for icons -->
+    <color name="icon_tint_secondary">#78909C</color>   <!-- Blue-gray for secondary icons -->
+    <color name="icon_tint_accent">#FFA726</color>      <!-- Accent orange for special icons -->
+    <color name="divider_color">#E0E0E0</color>         <!-- Light Gray: Subtle dividers -->
+    <color name="hint_color">#B0BEC5</color>            <!-- Gray: Hints and placeholders -->
+    <color name="ripple_color">#33000000</color>        <!-- Subtle black ripple effect -->
+    <color name="ripple_light">#33FFFFFF</color>        <!-- Subtle white ripple effect for dark backgrounds -->
+    <color name="badge_color">#0288D1</color>           <!-- Primary blue for badges -->
+    <color name="badge_text">#FFFFFF</color>            <!-- White text for badges -->
+
+    <!-- Service Category Colors - Refined -->
+    <!-- University Services -->
+    <color name="university_icon_bg">#E3F2FD</color>    <!-- Light Blue -->
+    <color name="university_icon_tint">#0277BD</color>  <!-- Slightly darker blue for better visibility -->
+
+    <!-- Scholarship Services -->
+    <color name="scholarship_icon_bg">#E8F5E9</color>   <!-- Light Green -->
+    <color name="scholarship_icon_tint">#2E7D32</color> <!-- Green -->
+
+    <!-- Visa Services -->
+    <color name="visa_icon_bg">#FFF3E0</color>          <!-- Light Orange -->
+    <color name="visa_icon_tint">#EF6C00</color>        <!-- Orange -->
+
+    <!-- Application Tracking -->
+    <color name="tracking_icon_bg">#EDE7F6</color>      <!-- Light Purple -->
+    <color name="tracking_icon_tint">#5E35B1</color>    <!-- Slightly lighter purple for better visibility -->
+
+    <!-- Support Services -->
+    <color name="support_icon_bg">#FFEBEE</color>       <!-- Light Red -->
+    <color name="support_icon_tint">#D32F2F</color>     <!-- Red -->
+
+    <!-- Communication Button Colors - Refined -->
+    <color name="whatsapp_button_color">#25D366</color> <!-- WhatsApp Green -->
+    <color name="call_button_color">#0288D1</color>     <!-- Primary blue for call buttons -->
+    <color name="email_button_color">#D32F2F</color>    <!-- Email Red -->
+    <color name="chat_button_color">#0288D1</color>     <!-- Primary blue for chat button -->
+
+    <!-- Country-specific Colors (for country flags or categories) -->
+    <color name="usa_color">#3E80B4</color>             <!-- USA Blue -->
+    <color name="uk_color">#334A87</color>              <!-- UK Blue -->
+    <color name="canada_color">#D80621</color>          <!-- Canada Red -->
+    <color name="australia_color">#00843D</color>       <!-- Australia Green -->
+    <color name="germany_color">#DD0000</color>         <!-- Germany Red -->
 
     <!-- Base Colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
 
-    <color name="whatsapp_button_color">#25D366</color>  <!-- WhatsApp Green -->
-    <color name="call_button_color">#1976D2</color>      <!-- Material Blue -->
-    <color name="ripple_color">#33FFFFFF</color>
-
-    <!-- Icon background colors for each service -->
-    <color name="university_icon_bg">#E3F2FD</color>        <!-- Light Blue -->
-    <color name="scholarship_icon_bg">#E8F5E9</color>       <!-- Light Green -->
-    <color name="visa_icon_bg">#FFF3E0</color>              <!-- Light Orange -->
-    <color name="tracking_icon_bg">#EDE7F6</color>          <!-- Light Purple -->
-    <color name="support_icon_bg">#FFEBEE</color>           <!-- Light Red -->
-
-    <!-- You could also update the tint colors if desired -->
-    <color name="university_icon_tint">#1565C0</color>      <!-- Blue -->
-    <color name="scholarship_icon_tint">#2E7D32</color>     <!-- Green -->
-    <color name="visa_icon_tint">#EF6C00</color>            <!-- Orange -->
-    <color name="tracking_icon_tint">#6200EA</color>        <!-- Purple -->
-    <color name="support_icon_tint">#D32F2F</color>         <!-- Red -->
-
-
+    <!-- Notification Colors -->
+    <color name="notification_unread">#E1F5FE</color>   <!-- Very light blue for unread notifications -->
+    <color name="notification_urgent">#FFEBEE</color>   <!-- Very light red for urgent notifications -->
 </resources>

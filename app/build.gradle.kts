@@ -46,6 +46,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth") // Ensure this is added
     implementation("com.google.firebase:firebase-database")
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+
     implementation(libs.recyclerview) // Ensure this is added
 
     testImplementation(libs.junit)
@@ -67,6 +69,7 @@ dependencies {
 
     implementation ("org.apache.poi:poi:5.2.5")
     implementation ("org.apache.poi:poi-ooxml:5.2.5")
+    implementation ("com.gauravk.bubblenavigation:bubblenavigation:1.0.7")
 
 
 

@@ -1,6 +1,5 @@
 package com.android.doctorcube.home.adapter;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class OffersSliderAdapter extends RecyclerView.Adapter<OffersSliderAdapte
         TextView offerTitle;
         TextView offerDescription;
 
-        public OfferViewHolder(@NonNull View itemView) {
+        OfferViewHolder(@NonNull View itemView) {
             super(itemView);
             offerImage = itemView.findViewById(R.id.offer_image);
             offerTitle = itemView.findViewById(R.id.offer_title);

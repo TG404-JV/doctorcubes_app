@@ -183,5 +183,6 @@
 
     <string name="open">Open Drawer</string>
     <string name="close">Close Drawer</string>
+    <string name="default_web_client_id">94710265310-f5avta1rpbbbe9veqi00fn07ofs6p7dh.apps.googleusercontent.com</string>
 
 </resources>

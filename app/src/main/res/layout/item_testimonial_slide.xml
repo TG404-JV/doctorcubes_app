@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/card_background"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Quote Icon -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/primary_color" />
+
+        <!-- Testimonial Text -->
+        <TextView
+            android:id="@+id/testimonial_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:padding="8dp"
+            android:textColor="@color/text_primary_color"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            tools:text="DoctorCubes made my dream of studying medicine abroad come true. Their guidance throughout the application process was invaluable." />
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/divider_color" />
+
+        <!-- Profile Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- Student Avatar with Flag Badge -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/testimonial_avatar"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/CircleShape"
+                    android:background="@drawable/circle_background"
+                    tools:src="@tools:sample/avatars" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/testimonial_flag"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom|end"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/CircleShape"
+                    android:background="@drawable/circle_flag_background"
+                    tools:src="@drawable/flag_russia" />
+            </FrameLayout>
+
+            <!-- Name and Additional Info -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/testimonial_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary_color"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="John Smith" />
+
+                <TextView
+                    android:id="@+id/testimonial_university"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/accent_color"
+                    android:textSize="13sp"
+                    tools:text="Sechenov University" />
+
+                <TextView
+                    android:id="@+id/testimonial_batch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_secondary_color"
+                    android:textSize="12sp"
+                    tools:text="Batch 2023" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Rating Stars -->
+        <RatingBar
+            android:id="@+id/testimonial_rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressTint="@color/progress_primary"
+            android:rating="5"
+            android:stepSize="0.5" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -2,35 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:orientation="vertical"
     android:gravity="center"
-    android:orientation="vertical">
+    android:background="@color/card_background"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/offer_image"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/home_fragment_gradient_background" />
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/offer_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Special Offer!"
-        android:textColor="@color/black"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/text_primary_color"
+        android:gravity="center"
+        android:layout_marginTop="12dp" />
 
     <TextView
         android:id="@+id/offer_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary_color"
         android:gravity="center"
-        android:text="Limited time discount available"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:layout_marginTop="8dp" />
 </LinearLayout>

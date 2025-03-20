@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.doctorcube.PdfViewerActivity;
 import com.android.doctorcube.R;
 import com.android.doctorcube.study.fragment.models.NoteItem;
+import com.google.android.material.chip.Chip;
 
 import java.util.List;
 
-// NotesAdapter.java
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
     private List<NoteItem> notesList;
@@ -40,21 +39,21 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         NoteItem note = notesList.get(position);
         holder.titleTextView.setText(note.getTitle());
         holder.descriptionTextView.setText(note.getDescription());
-        holder.authorTextView.setText("by " + note.getAuthor());
-        holder.sizeTextView.setText(note.getSize());
+        holder.authorChip.setText("by " + note.getAuthor());
+        holder.sizeChip.setText(note.getSize());
 
         // Open PDF when item is clicked
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PdfViewerActivity.class);
             intent.putExtra("pdfTitle", note.getTitle());
             intent.putExtra("pdfDescription", note.getDescription());
+            intent.putExtra("pdfAuthor", note.getAuthor()); // Updated key to match PdfViewerActivity
             intent.putExtra("pdfSize", note.getSize());
-            intent.putExtra("pdfFilePath", note.getPdfUrl()); // PDF file path (assets or URL)
+            intent.putExtra("pdfFilePath", note.getPdfUrl());
+            intent.putExtra("pdfCategory", note.getCategory());
+            intent.putExtra("pdfLastModified", note.getLastModified());
+            intent.putExtra("pdfTotalPages", note.getTotalPages());
             context.startActivity(intent);
-        });
-
-        holder.downloadButton.setOnClickListener(v -> {
-            // Implement download functionality (if needed)
         });
     }
 
@@ -71,17 +70,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     static class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView descriptionTextView;
-        TextView authorTextView;
-        TextView sizeTextView;
-        ImageView downloadButton;
+        Chip authorChip;
+        Chip sizeChip;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
-            authorTextView = itemView.findViewById(R.id.authorTextView);
-            sizeTextView = itemView.findViewById(R.id.sizeTextView);
-            downloadButton = itemView.findViewById(R.id.downloadButton);
+            authorChip = itemView.findViewById(R.id.authorChip);
+            sizeChip = itemView.findViewById(R.id.sizeChip);
         }
     }
 }

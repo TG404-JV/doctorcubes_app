@@ -1,5 +1,6 @@
 package com.android.doctorcube;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.content.Context;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -27,6 +29,7 @@ public class StudyMaterialFragment extends Fragment {
     private ViewPager2 viewPager;
     private EditText searchEditText;
     private ImageView clearSearchButton;
+    private Toolbar toolbar;
     private StudyMaterialPagerAdapter pagerAdapter;
     private String currentSearchQuery = "";
 
@@ -41,15 +44,23 @@ public class StudyMaterialFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize views
+        toolbar = view.findViewById(R.id.toolbar);
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
         searchEditText = view.findViewById(R.id.searchEditText);
         clearSearchButton = view.findViewById(R.id.clearSearchButton);
 
-        // Initially hide the clear button
-        if (clearSearchButton != null) {
-            clearSearchButton.setVisibility(View.GONE);
+        // Check for null views
+        if (toolbar == null || tabLayout == null || viewPager == null || searchEditText == null || clearSearchButton == null) {
+            Toast.makeText(getContext(), "Error: Missing UI components", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        // Initially hide the clear button
+        clearSearchButton.setVisibility(View.GONE);
+
+        // Set up the Toolbar
+        setupToolbar();
 
         // Set up the ViewPager with the adapter
         setupViewPager();
@@ -58,19 +69,34 @@ public class StudyMaterialFragment extends Fragment {
         setupSearch();
     }
 
+    private void setupToolbar() {
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setSupportActionBar(toolbar);
+            // No menu button in the latest XML, so no drawer toggle needed
+            // If you want to add it back, include the menu button in XML and uncomment the following:
+            /*
+            view.findViewById(R.id.menu_button).setOnClickListener(v -> {
+                ((MainActivity) getActivity()).openDrawer();
+            });
+            */
+        }
+    }
+
     private void setupViewPager() {
         // Create adapter
         pagerAdapter = new StudyMaterialPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
 
-        // Connect TabLayout with ViewPager2
+        // Connect TabLayout with ViewPager2 and set icons
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
                     tab.setText("Notes");
+                    tab.setIcon(R.drawable.ic_book);
                     break;
                 case 1:
                     tab.setText("Videos");
+                    tab.setIcon(R.drawable.ic_video);
                     break;
             }
         }).attach();
@@ -90,17 +116,15 @@ public class StudyMaterialFragment extends Fragment {
 
     private void setupSearch() {
         // Clear button functionality
-        if (clearSearchButton != null) {
-            clearSearchButton.setOnClickListener(v -> {
-                searchEditText.setText("");
-                clearSearchButton.setVisibility(View.GONE);
-                currentSearchQuery = "";
-                resetSearch();
-                hideKeyboard();
-            });
-        }
+        clearSearchButton.setOnClickListener(v -> {
+            searchEditText.setText("");
+            clearSearchButton.setVisibility(View.GONE);
+            currentSearchQuery = "";
+            resetSearch();
+            hideKeyboard();
+        });
 
-        // Handle search action
+        // Handle search action on keyboard "Search" button
         searchEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 currentSearchQuery = searchEditText.getText().toString().trim();
@@ -127,9 +151,7 @@ public class StudyMaterialFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Show/hide clear button based on search text
-                if (clearSearchButton != null) {
-                    clearSearchButton.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
-                }
+                clearSearchButton.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
 
                 // Cancel any pending search
                 if (searchRunnable != null) {
@@ -190,6 +212,6 @@ public class StudyMaterialFragment extends Fragment {
     // Interface to be implemented by fragments that support search
     public interface SearchableFragment {
         void performSearch(String query);
-        void resetSearch(); // Method to reset search
+        void resetSearch();
     }
 }

@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +33,10 @@ public class GetStartedFragment extends Fragment {
         btnCreateAccount = view.findViewById(R.id.btn_create_account);
         btnLogin = view.findViewById(R.id.btn_login);
 
+        // Initially hide Create Account and Login buttons
+        btnCreateAccount.setVisibility(View.GONE);
+        btnLogin.setVisibility(View.GONE);
+
         btnGetStarted.setOnClickListener(v -> {
             if (!isButtonsVisible) {
                 showButtonsWithAnimation();
@@ -50,13 +54,16 @@ public class GetStartedFragment extends Fragment {
     }
 
     private void showButtonsWithAnimation() {
-        Animation fadeIn = new AlphaAnimation(0, 1);
+        Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
+        Animation fadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+
+        slideUp.setDuration(500);
         fadeIn.setDuration(500);
 
         btnCreateAccount.setVisibility(View.VISIBLE);
         btnLogin.setVisibility(View.VISIBLE);
 
-        btnCreateAccount.startAnimation(fadeIn);
+        btnCreateAccount.startAnimation(slideUp);
         btnLogin.startAnimation(fadeIn);
     }
 }

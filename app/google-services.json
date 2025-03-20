@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "94710265310",
+    "firebase_url": "https://test-d3e8c-default-rtdb.firebaseio.com",
     "project_id": "test-d3e8c",
     "storage_bucket": "test-d3e8c.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.android.doctorcube"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "94710265310-qestm7cl1nana3kar8a1n5t6lfpg96pn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.doctorcube",
+            "certificate_hash": "bdd2fa25498a38eae7f46cfb9baac6d916847cf1"
+          }
+        },
+        {
+          "client_id": "94710265310-f5avta1rpbbbe9veqi00fn07ofs6p7dh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDYvMDYgax5guRdMrrSqemM-jGCmIFYv1I"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94710265310-f5avta1rpbbbe9veqi00fn07ofs6p7dh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

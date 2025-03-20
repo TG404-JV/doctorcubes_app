@@ -18,16 +18,15 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/gradient_toolbar"
             app:title="Settings"
-            app:titleTextColor="@color/text_primary_color"
-            app:navigationIcon="@drawable/ic_back"> <!-- Added back icon -->
-
+            app:titleTextColor="@color/text_on_primary"
+            app:navigationIcon="@drawable/ic_back">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DoctorCubes"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/primary_color"
+                android:textColor="@color/text_on_primary"
                 android:layout_gravity="center"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -43,14 +42,12 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Edit Details Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/profile_settings_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                android:layout_marginBottom="16dp"
+                app:cardElevation="6dp" android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/card_background">
 
                 <LinearLayout
@@ -63,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Edit Details"
-                        android:textSize="18sp"
+                        android:textSize="19sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary_color"/>
 
@@ -71,34 +68,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="12dp">
-
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical">  <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_manage"
+                        app:tint="@color/icon_tint_primary" /> <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Edit Profile Details"
+                        android:textSize="16sp"
+                        android:layout_marginStart="16dp"
+                        android:textColor="@color/text_secondary_color"/>
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_manage"
-                            app:tint="@color/icon_tint" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Edit Profile Details"
-                            android:textSize="16sp"
-                            android:layout_marginStart="12dp"
-                            android:textColor="@color/text_secondary_color"/>
+                            android:src="@android:drawable/ic_menu_edit"
+                            app:tint="@color/icon_tint_secondary" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Theme Selection Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/card_background">
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -110,25 +108,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Theme"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary_color"/>
+                        android:textColor="@color/text_primary_color"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/theme_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"/>
+                        android:layout_marginTop="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select App Theme"
+                        android:textColor="@color/text_secondary_color"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- About Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/about_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                app:cardElevation="6dp"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/card_background">
 
@@ -142,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="About"
-                        android:textSize="18sp"
+                        android:textSize="19sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary_color"/>
 
@@ -150,32 +154,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="12dp">
-
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical">
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_info_details"
-                            app:tint="@color/icon_tint" />
-
+                            app:tint="@color/icon_tint_primary" />
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="About DoctorCubes"
                             android:textSize="16sp"
-                            android:layout_marginStart="12dp"
+                            android:layout_marginStart="16dp"
                             android:textColor="@color/text_secondary_color"/>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_delete"
+                            app:tint="@color/icon_tint_secondary" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Privacy Policy Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                app:cardElevation="6dp"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/card_background">
 
@@ -193,7 +200,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Privacy Policy"
-                        android:textSize="18sp"
+                        android:textSize="19sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary_color"/>
 
@@ -201,38 +208,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="12dp">
-
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical">
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_lock_lock"
-                            app:tint="@color/icon_tint" />
-
+                            app:tint="@color/icon_tint_primary" />
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="View Privacy Details"
                             android:textSize="16sp"
-                            android:layout_marginStart="12dp"
+                            android:layout_marginStart="16dp"
                             android:textColor="@color/text_secondary_color"/>
-
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_more"
-                            app:tint="@color/icon_tint" />
+                            android:src="@drawable/ic_back"
+                            app:tint="@color/icon_tint_secondary" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- FAQ Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                app:cardElevation="6dp"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/card_background">
 
@@ -250,7 +254,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="FAQ"
-                        android:textSize="18sp"
+                        android:textSize="19sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary_color"/>
 
@@ -258,43 +262,42 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="12dp">
-
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical">
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_help"
-                            app:tint="@color/icon_tint" />
-
+                            app:tint="@color/icon_tint_primary" />
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Frequently Asked Questions"
                             android:textSize="16sp"
-                            android:layout_marginStart="12dp"
+                            android:layout_marginStart="16dp"
                             android:textColor="@color/text_secondary_color"/>
-
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_more"
-                            app:tint="@color/icon_tint" />
+                            android:src="@android:drawable/ic_delete"
+                            app:tint="@color/icon_tint_secondary" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Logout Button -->
             <Button
                 android:id="@+id/logout_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Logout"
-                android:textSize="16sp"
-                android:textColor="@color/button_text"
-                android:backgroundTint="@color/error_color"
-                app:cornerRadius="8dp"
-                android:layout_marginTop="16dp"/>
+                android:textSize="17sp"
+                android:textColor="@color/text_on_primary"
+                android:backgroundTint="@color/button_error"
+                app:cornerRadius="12dp"
+                android:layout_marginTop="24dp"
+                android:paddingVertical="12dp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

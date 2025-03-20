@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +25,7 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
     private RecyclerView recyclerView;
     private NotesAdapter adapter;
     private List<NoteItem> notesList;
-    private List<NoteItem> originalNotesList; // Store the original list
+    private List<NoteItem> originalNotesList;
     private TextView emptyView;
 
     @Nullable
@@ -41,80 +40,80 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
 
         // Initialize data
         originalNotesList = getNotesList();
-        notesList = new ArrayList<>(originalNotesList); // Create a working copy
+        notesList = new ArrayList<>(originalNotesList);
 
         // Set up adapter
-        adapter = new NotesAdapter(getContext(), notesList);
+        adapter = new NotesAdapter(requireContext(), notesList);
         recyclerView.setAdapter(adapter);
+
+        // Update empty state initially
+        updateEmptyState();
 
         return view;
     }
 
     private List<NoteItem> getNotesList() {
         List<NoteItem> notes = new ArrayList<>();
-
         notes.add(new NoteItem("Mathematics", "Calculus notes", "Dr. Smith", "15 MB",
-                "https://drive.google.com/uc?export=download&id=1TQwa6iLSPJyyvmimugZ4Nizc7qjc0psw"));
-
+                "https://drive.google.com/uc?export=download&id=1TQwa6iLSPJyyvmimugZ4Nizc7qjc0psw",
+                "Math", "March 10, 2025", 50));
         notes.add(new NoteItem("Physics", "Mechanics fundamentals", "Prof. Johnson", "12 MB",
-                "https://drive.google.com/uc?export=download&id=1XYZabcDEF456"));
-
+                "https://drive.google.com/uc?export=download&id=1XYZabcDEF456",
+                "Physics", "March 12, 2025", 45));
         notes.add(new NoteItem("Chemistry", "Organic Chemistry Basics", "Dr. Anderson", "8 MB",
-                "https://drive.google.com/uc?export=download&id=1QWERTYUIOPLKJHGFDSA"));
-
+                "https://drive.google.com/uc?export=download&id=1QWERTYUIOPLKJHGFDSA",
+                "Chemistry", "March 14, 2025", 30));
         notes.add(new NoteItem("Biology", "Human Anatomy Overview", "Prof. Green", "20 MB",
-                "https://drive.google.com/uc?export=download&id=1BIOLOGYPDF123XYZ"));
-
+                "https://drive.google.com/uc?export=download&id=1BIOLOGYPDF123XYZ",
+                "Biology", "March 15, 2025", 60));
         notes.add(new NoteItem("Computer Science", "Data Structures & Algorithms", "Dr. Lee", "25 MB",
-                "https://drive.google.com/uc?export=download&id=1CSALGO987654321"));
-
+                "https://drive.google.com/uc?export=download&id=1CSALGO987654321",
+                "CS", "March 16, 2025", 80));
         notes.add(new NoteItem("History", "World War II Summary", "Dr. Carter", "10 MB",
-                "https://drive.google.com/uc?export=download&id=1HISTORYWWII9876"));
-
+                "https://drive.google.com/uc?export=download&id=1HISTORYWWII9876",
+                "History", "March 17, 2025", 35));
         return notes;
     }
 
     @Override
     public void performSearch(String query) {
         List<NoteItem> filteredList = new ArrayList<>();
+        query = query.toLowerCase();
 
         for (NoteItem note : originalNotesList) {
-            if (note.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                    note.getDescription().toLowerCase().contains(query.toLowerCase()) ||
-                    note.getAuthor().toLowerCase().contains(query.toLowerCase())) {
+            if (note.getTitle().toLowerCase().contains(query) ||
+                    note.getDescription().toLowerCase().contains(query) ||
+                    note.getAuthor().toLowerCase().contains(query) ||
+                    note.getCategory().toLowerCase().contains(query)) {
                 filteredList.add(note);
             }
         }
 
-        updateSearchResults(filteredList, query);
+        adapter.updateData(filteredList);
+        updateEmptyState(query, filteredList.isEmpty());
     }
 
     @Override
     public void resetSearch() {
-        // Reset to original list
-        notesList.clear();
-        notesList.addAll(originalNotesList);
-        adapter.notifyDataSetChanged();
-
-        // Hide empty view if it was visible
-        if (emptyView != null) {
-            emptyView.setVisibility(View.GONE);
-        }
+        adapter.updateData(originalNotesList);
+        updateEmptyState("", false);
     }
 
-    private void updateSearchResults(List<NoteItem> filteredList, String query) {
-        notesList.clear();
-        notesList.addAll(filteredList);
-        adapter.notifyDataSetChanged();
+    private void updateEmptyState() {
+        updateEmptyState("", adapter.getItemCount() == 0);
+    }
 
-        if (filteredList.isEmpty()) {
-            if (emptyView != null) {
+    private void updateEmptyState(String query, boolean isEmpty) {
+        if (isEmpty) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+            if (!query.isEmpty()) {
                 emptyView.setText("No notes found for: " + query);
-                emptyView.setVisibility(View.VISIBLE);
             } else {
-                Toast.makeText(requireContext(), "No notes found for: " + query, Toast.LENGTH_SHORT).show();
+                emptyView.setText("No notes available");
             }
-        } else if (emptyView != null) {
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
     }

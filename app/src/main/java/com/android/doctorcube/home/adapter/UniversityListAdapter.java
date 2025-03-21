@@ -40,7 +40,7 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
     public void onBindViewHolder(@NonNull UniversityViewHolder holder, int position) {
         University university = universities.get(position);
 
-        holder.flagImageView.setImageResource(university.getImageResourceId());
+        holder.flagImageView.setImageResource(university.getBannerResourceId());
         holder.nameTextView.setText(university.getName());
         holder.locationTextView.setText(String.format("%s, %s", university.getLocation(), university.getCountry()));
         holder.courseTextView.setText(university.getCourseName());

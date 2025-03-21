@@ -1,12 +1,16 @@
 package com.android.doctorcube.settings;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +21,27 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.android.doctorcube.R;
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SettingsHome extends Fragment {
     private static final String TAG = "SettingsHomeFragment";
+    private static final String PREFS_NAME = "UserProfilePrefs";
     private NavController navController;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private SharedPreferences sharedPreferences;
+    private String userId;
+
+    // Views
+    private TextView userName, userEmail, userStatus;
+    private ImageView profileImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,22 +53,57 @@ public class SettingsHome extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize NavController inside onViewCreated()
+        // Initialize Firebase and SharedPreferences
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            userId = currentUser.getUid();
+        }
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        // Initialize NavController
         navController = Navigation.findNavController(view);
 
-        CardView editDetailsCard = view.findViewById(R.id.profile_settings_card);
-        CardView aboutCard = view.findViewById(R.id.about_card);
-        LinearLayout privacyLayout = view.findViewById(R.id.privacy_policy_layout);
-        LinearLayout faqLayout = view.findViewById(R.id.faq_layout);
-        Button logoutButton = view.findViewById(R.id.logout_button);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        // Initialize views
+        initViews(view);
+
+        // Load student data
+        loadStudentData();
+
+        // Set up click listeners
+        setupClickListeners();
+
+        // Handle toolbar
+        setupToolbar(view);
+    }
+
+    private void initViews(View view) {
+        // Profile views
+        profileImage = view.findViewById(R.id.profile_image);
+        userName = view.findViewById(R.id.user_name);
+        userEmail = view.findViewById(R.id.user_email);
+        userStatus = view.findViewById(R.id.user_status);
+    }
+
+    private void setupClickListeners() {
+        // Find views
+        LinearLayout profileCard = requireView().findViewById(R.id.profile_settings_layout);
+        LinearLayout aboutLayout = requireView().findViewById(R.id.about_layout);
+        LinearLayout privacyLayout = requireView().findViewById(R.id.privacy_policy_layout);
+        LinearLayout faqLayout = requireView().findViewById(R.id.faq_layout);
+        Button logoutButton = requireView().findViewById(R.id.logout_button);
+        LinearLayout notificationLayout = requireView().findViewById(R.id.notification_settings_layout);
+        LinearLayout themeLayout = requireView().findViewById(R.id.theme_settings_layout);
+        LinearLayout languageLayout = requireView().findViewById(R.id.language_settings_layout);
+        Button consultationButton = requireView().findViewById(R.id.schedule_consultation_button);
 
         // Set click listeners with safe navigation
-        if (editDetailsCard != null) {
-            editDetailsCard.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_fragmentEditDetails));
+        if (profileCard != null) {
+            profileCard.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_fragmentEditDetails));
         }
-        if (aboutCard != null) {
-            aboutCard.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_fragmentAbout));
+        if (aboutLayout != null) {
+            aboutLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_fragmentAbout));
         }
         if (privacyLayout != null) {
             privacyLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_fragmentPrivacy));
@@ -56,10 +112,28 @@ public class SettingsHome extends Fragment {
             faqLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_fragmentFAQ));
         }
         if (logoutButton != null) {
-            logoutButton.setOnClickListener(v -> Log.d(TAG, "Logout clicked"));
+            logoutButton.setOnClickListener(v -> {
+                mAuth.signOut();
+                Log.d(TAG, "User logged out");
+                // Add navigation to login screen if needed
+            });
         }
+        if (notificationLayout != null) {
+         //   notificationLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_notificationSettings));
+        }
+        if (themeLayout != null) {
+          //  themeLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_themeSettings));
+        }
+        if (languageLayout != null) {
+         //   languageLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_languageSettings));
+        }
+        if (consultationButton != null) {
+          //  consultationButton.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_consultationBooking));
+        }
+    }
 
-        // Handle toolbar back button
+    private void setupToolbar(View view) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setNavigationOnClickListener(v -> {
                 if (navController.getCurrentDestination() != null &&
@@ -72,7 +146,78 @@ public class SettingsHome extends Fragment {
         }
     }
 
-    // Safe navigation method to avoid crashes
+    private void loadStudentData() {
+        // Try loading from SharedPreferences first
+        String name = sharedPreferences.getString(userId + "_fullName", "");
+        String email = sharedPreferences.getString(userId + "_email", "");
+        String status = sharedPreferences.getString(userId + "_status", "Student • USA Aspirant");
+
+        if (!name.isEmpty() && !email.isEmpty()) {
+            updateUI(name, email, status);
+            loadProfileImage();
+        } else {
+            fetchDataFromFirebase();
+        }
+    }
+
+    private void fetchDataFromFirebase() {
+        if (userId != null) {
+            mDatabase.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        String name = snapshot.child("fullName").getValue(String.class);
+                        String email = snapshot.child("email").getValue(String.class);
+                        String status = snapshot.child("status").getValue(String.class);
+
+                        // Use defaults if null
+                        name = name != null ? name : "Unknown User";
+                        email = email != null ? email : "No email";
+                        status = status != null ? status : "Student • USA Aspirant";
+
+                        // Save to SharedPreferences
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(userId + "_fullName", name);
+                        editor.putString(userId + "_email", email);
+                        editor.putString(userId + "_status", status);
+                        editor.apply();
+
+                        updateUI(name, email, status);
+                        loadProfileImage();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e(TAG, "Failed to load user data: " + error.getMessage());
+                    updateUI("John Smith", "john.smith@example.com", "Student • USA Aspirant"); // Fallback
+                }
+            });
+        }
+    }
+
+    private void updateUI(String name, String email, String status) {
+        userName.setText(name);
+        userEmail.setText(email);
+        userStatus.setText(status);
+    }
+
+    private void loadProfileImage() {
+        String imagePath = sharedPreferences.getString(userId + "_image_path", "");
+        if (!imagePath.isEmpty()) {
+            Glide.with(this)
+                    .load(imagePath)
+                    .circleCrop()
+                    .placeholder(R.drawable.doctor_cubes_logo)
+                    .into(profileImage);
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.doctor_cubes_logo)
+                    .circleCrop()
+                    .into(profileImage);
+        }
+    }
+
     private void safeNavigate(int actionId) {
         try {
             if (navController != null && navController.getCurrentDestination() != null) {

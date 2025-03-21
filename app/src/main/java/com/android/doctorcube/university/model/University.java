@@ -10,11 +10,20 @@ public class University {
     private String duration;
     private String grade;
     private String intake;
-    private int imageResourceId;
+    private String language;
+    private String universityType; // Public/Private
+    private int bannerResourceId;
+    private int logoResourceId;
+    private int flagResourceId;
+    private String field; // e.g., "medical"
+    private String ranking; // e.g., "Top 500"
+    private String scholarshipInfo;
 
     public University(String id, String name, String location, String country,
                       String courseName, String degreeType, String duration,
-                      String grade, String intake, int imageResourceId) {
+                      String grade, String intake, String language,
+                      String universityType, int bannerResourceId, int logoResourceId,
+                      int flagResourceId, String field, String ranking, String scholarshipInfo) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -24,9 +33,17 @@ public class University {
         this.duration = duration;
         this.grade = grade;
         this.intake = intake;
-        this.imageResourceId = imageResourceId;
+        this.language = language;
+        this.universityType = universityType;
+        this.bannerResourceId = bannerResourceId;
+        this.logoResourceId = logoResourceId;
+        this.flagResourceId = flagResourceId;
+        this.field = field;
+        this.ranking = ranking;
+        this.scholarshipInfo = scholarshipInfo;
     }
 
+    // Getters
     public String getId() { return id; }
     public String getName() { return name; }
     public String getLocation() { return location; }
@@ -36,5 +53,12 @@ public class University {
     public String getDuration() { return duration; }
     public String getGrade() { return grade; }
     public String getIntake() { return intake; }
-    public int getImageResourceId() { return imageResourceId; }
+    public String getLanguage() { return language; }
+    public String getUniversityType() { return universityType; }
+    public int getBannerResourceId() { return bannerResourceId; }
+    public int getLogoResourceId() { return logoResourceId; }
+    public int getFlagResourceId() { return flagResourceId; }
+    public String getField() { return field; }
+    public String getRanking() { return ranking; }
+    public String getScholarshipInfo() { return scholarshipInfo; }
 }

@@ -1,11 +1,8 @@
 package com.android.doctorcube.adminpannel.adminhome;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.doctorcube.R;
-import com.android.doctorcube.adminpannel.ChipManager;
 import com.android.doctorcube.adminpannel.FilterManager;
 import com.android.doctorcube.adminpannel.SortFilterDialogManager;
 import com.android.doctorcube.adminpannel.Student;
@@ -31,9 +28,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,22 +39,35 @@ import java.util.Locale;
 
 public class FragmentExportXLData extends Fragment {
 
-    private static final int STORAGE_PERMISSION_CODE = 100;
-
     private List<Student> studentList;
     private List<Student> filteredStudentList;
     private Button exportButton, viewButton;
-    private TextView statusTextView, filterDetailsTextView;
+    private TextView statusTextView, progressStatusTextView;
     private FloatingActionButton fabSortFilter;
-    private File exportedFile;
+    private View progressLayout;
+    private Uri exportedFileUri;
     private StudentDataLoader dataLoader;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy", Locale.getDefault());
-    private SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    public SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
     // Reused classes from FragmentAdminHome
     private FilterManager filterManager;
     private SortFilterDialogManager dialogManager;
-    private ChipManager chipManager; // Optional, if you want to show chips here
+
+    // Activity Result Launcher for SAF
+    private final ActivityResultLauncher<Intent> createFileLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
+                    Uri uri = result.getData().getData();
+                    if (uri != null) {
+                        exportedFileUri = uri;
+                        exportToExcel(uri);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "File creation canceled!", Toast.LENGTH_SHORT).show();
+                    statusTextView.setText("Export canceled by user.");
+                }
+            });
 
     public static FragmentExportXLData newInstance(Bundle args) {
         FragmentExportXLData fragment = new FragmentExportXLData();
@@ -72,29 +82,28 @@ public class FragmentExportXLData extends Fragment {
         studentList = new ArrayList<>();
         filteredStudentList = new ArrayList<>();
 
-        // Initialize FilterManager with default state
         filterManager = new FilterManager(studentList, filteredStudentList, new StudentSorter(dateFormat, getContext()), dateFormat, displayFormat, getContext());
         dialogManager = new SortFilterDialogManager(getContext(), filterManager);
-        dialogManager.setOnApplyCallback(this::updateFilterDetailsAndStatus); // Set callback to update UI after applying filters
-        // chipManager = new ChipManager(null, filterManager, null); // Uncomment if you add a ChipGroup to XML
+        dialogManager.setOnApplyCallback(this::updateFilterDetailsAndStatus);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_export_xl_data, container, false);
 
-        exportButton = view.findViewById(R.id.btn_export_excel);
-        viewButton = view.findViewById(R.id.btn_view_excel);
+        exportButton = view.findViewById(R.id.btn_export_data);
+        viewButton = view.findViewById(R.id.btn_view_exported);
         statusTextView = view.findViewById(R.id.tv_export_status);
-        filterDetailsTextView = view.findViewById(R.id.tv_filter_details);
-        fabSortFilter = view.findViewById(R.id.fab_sort_filter);
+        fabSortFilter = view.findViewById(R.id.fab_filter);
+        progressLayout = view.findViewById(R.id.progress_layout);
+        progressStatusTextView = view.findViewById(R.id.tv_progress_status);
 
         viewButton.setEnabled(false);
         statusTextView.setText("Loading student data from Firebase...");
 
         loadStudentDataFromFirebase();
 
-        exportButton.setOnClickListener(v -> checkStoragePermission());
+        exportButton.setOnClickListener(v -> startExportProcess());
         viewButton.setOnClickListener(v -> viewExportedFile());
         fabSortFilter.setOnClickListener(v -> dialogManager.showSortFilterDialog());
 
@@ -107,16 +116,9 @@ public class FragmentExportXLData extends Fragment {
             public void onDataLoaded(List<Student> students) {
                 studentList.clear();
                 studentList.addAll(students);
+                filterManager.setStudentList(studentList);
                 filterManager.applyFiltersAndSorting();
-                if (filteredStudentList.isEmpty()) {
-                    statusTextView.setText("No filtered data available to export.");
-                    exportButton.setEnabled(false);
-                    filterDetailsTextView.setText("No filters applied or no matching data.");
-                } else {
-                    statusTextView.setText("Ready to export " + filteredStudentList.size() + " student records.");
-                    exportButton.setEnabled(true);
-                    updateFilterDetailsAndStatus();
-                }
+                updateFilterDetailsAndStatus();
             }
 
             @Override
@@ -129,62 +131,84 @@ public class FragmentExportXLData extends Fragment {
     }
 
     public void updateFilterDetailsAndStatus() {
-        StringBuilder filterDetails = new StringBuilder("Applied Filters:\n");
-        if (filterManager.getCurrentSortBy() != null) {
-            filterDetails.append("Sort By: ").append(filterManager.getCurrentSortBy()).append("\n");
-        }
-        if (!filterManager.getSearchQuery().isEmpty()) {
-            filterDetails.append("Search: ").append(filterManager.getSearchQuery()).append("\n");
-        }
-        if (filterManager.isFilterInterested()) filterDetails.append("Interested: Yes\n");
-        if (filterManager.isFilterNotInterested()) filterDetails.append("Not Interested: Yes\n");
-        if (filterManager.isFilterAdmitted()) filterDetails.append("Admitted: Yes\n");
-        if (filterManager.isFilterNotAdmitted()) filterDetails.append("Not Admitted: Yes\n");
-        if (filterManager.isFilterCalled()) filterDetails.append("Called: Yes\n");
-        if (filterManager.isFilterNotCalled()) filterDetails.append("Not Called: Yes\n");
-        switch (filterManager.getDateFilter()) {
-            case "today": filterDetails.append("Date: Today\n"); break;
-            case "yesterday": filterDetails.append("Date: Yesterday\n"); break;
-            case "last_week": filterDetails.append("Date: Last Week\n"); break;
-            case "last_month": filterDetails.append("Date: Last Month\n"); break;
-            case "last_updated": filterDetails.append("Date: Last Updated\n"); break;
-            case "firebase_push": filterDetails.append("Date: Firebase Push\n"); break;
-            case "custom":
-                if (filterManager.getFromDate() != null && filterManager.getToDate() != null) {
-                    filterDetails.append("Date Range: ")
-                            .append(displayFormat.format(filterManager.getFromDate()))
-                            .append(" - ")
-                            .append(displayFormat.format(filterManager.getToDate()))
-                            .append("\n");
+        if (filterManager != null) {
+            filterManager.applyFiltersAndSorting();
+            StringBuilder filterDetails = new StringBuilder();
+            if (filterManager.getCurrentSortBy() != null) {
+                filterDetails.append("Sort By: ").append(filterManager.getCurrentSortBy()).append("\n");
+            }
+            if (!filterManager.getSearchQuery().isEmpty()) {
+                filterDetails.append("Search: ").append(filterManager.getSearchQuery()).append("\n");
+            }
+            if (filterManager.isFilterInterested()) filterDetails.append("Interested: Yes\n");
+            if (filterManager.isFilterNotInterested()) filterDetails.append("Not Interested: Yes\n");
+            if (filterManager.isFilterAdmitted()) filterDetails.append("Admitted: Yes\n");
+            if (filterManager.isFilterNotAdmitted()) filterDetails.append("Not Admitted: Yes\n");
+            if (filterManager.isFilterCalled()) filterDetails.append("Called: Yes\n");
+            if (filterManager.isFilterNotCalled()) filterDetails.append("Not Called: Yes\n");
+            String dateFilter = filterManager.getDateFilter();
+            if (dateFilter != null) {
+                switch (dateFilter) {
+                    case "today":
+                        filterDetails.append("Date: Today\n");
+                        break;
+                    case "yesterday":
+                        filterDetails.append("Date: Yesterday\n");
+                        break;
+                    case "last_week":
+                        filterDetails.append("Date: Last Week\n");
+                        break;
+                    case "last_month":
+                        filterDetails.append("Date: Last Month\n");
+                        break;
+                    case "last_updated":
+                        filterDetails.append("Date: Last Updated\n");
+                        break;
+                    case "firebase_push":
+                        filterDetails.append("Date: Firebase Push\n");
+                        break;
+                    case "custom":
+                        if (filterManager.getFromDate() != null && filterManager.getToDate() != null) {
+                            filterDetails.append("Date Range: ")
+                                    .append(displayFormat.format(filterManager.getFromDate()))
+                                    .append(" - ")
+                                    .append(displayFormat.format(filterManager.getToDate()))
+                                    .append("\n");
+                        }
+                        break;
+                    default:
+                        filterDetails.append("Date: All Dates\n");
                 }
-                break;
-        }
-        filterDetailsTextView.setText(filterDetails.toString().trim());
-        statusTextView.setText("Ready to export " + filteredStudentList.size() + " student records.");
-        exportButton.setEnabled(!filteredStudentList.isEmpty());
-    }
+            }
 
-    private void checkStoragePermission() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-        } else {
-            exportToExcel();
+            statusTextView.setText("Ready to export " + filteredStudentList.size() + " student records.");
+            exportButton.setEnabled(!filteredStudentList.isEmpty());
+            viewButton.setEnabled(exportedFileUri != null);
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == STORAGE_PERMISSION_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            exportToExcel();
-        } else {
-            Toast.makeText(getContext(), "Storage permission denied!", Toast.LENGTH_SHORT).show();
-            statusTextView.setText("Export failed: Storage permission denied.");
+    private void startExportProcess() {
+        if (filteredStudentList == null || filteredStudentList.isEmpty()) {
+            Toast.makeText(getContext(), "No data to export!", Toast.LENGTH_SHORT).show();
+            statusTextView.setText("No data to export!");
+            return;
         }
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String fileName = "Students_" + timeStamp + ".xlsx";
+
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        intent.putExtra(Intent.EXTRA_TITLE, fileName);
+        createFileLauncher.launch(intent);
     }
 
-    private void exportToExcel() {
+    private void exportToExcel(Uri uri) {
+        progressLayout.setVisibility(View.VISIBLE);
+        progressStatusTextView.setText("Exporting... (0/" + filteredStudentList.size() + ")");
+        exportButton.setEnabled(false);
+
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Filtered Students");
 
@@ -199,54 +223,81 @@ public class FragmentExportXLData extends Fragment {
         for (int i = 0; i < filteredStudentList.size(); i++) {
             Student student = filteredStudentList.get(i);
             Row row = sheet.createRow(i + 1);
-            row.createCell(0).setCellValue(student.getId() != null ? student.getId() : "");
-            row.createCell(1).setCellValue(student.getName() != null ? student.getName() : "");
-            row.createCell(2).setCellValue(student.getMobile() != null ? student.getMobile() : "");
-            row.createCell(3).setCellValue(student.getEmail() != null ? student.getEmail() : "");
-            row.createCell(4).setCellValue(student.getState() != null ? student.getState() : "");
-            row.createCell(5).setCellValue(student.getCity() != null ? student.getCity() : "");
-            row.createCell(6).setCellValue(student.getInterestedCountry() != null ? student.getInterestedCountry() : "");
-            row.createCell(7).setCellValue(student.getHasNeetScore() != null ? student.getHasNeetScore() : "");
-            row.createCell(8).setCellValue(student.getNeetScore() != null ? student.getNeetScore() : "");
-            row.createCell(9).setCellValue(student.getHasPassport() != null ? student.getHasPassport() : "");
-            row.createCell(10).setCellValue(student.getSubmissionDate() != null ? student.getSubmissionDate() : "");
-            row.createCell(11).setCellValue(student.getCallStatus() != null ? student.getCallStatus() : "");
-            row.createCell(12).setCellValue(student.getLastCallDate() != null ? student.getLastCallDate() : "");
+            setCellValue(row, 0, student.getId());
+            setCellValue(row, 1, student.getName());
+            setCellValue(row, 2, student.getMobile());
+            setCellValue(row, 3, student.getEmail());
+            setCellValue(row, 4, student.getState());
+            setCellValue(row, 5, student.getCity());
+            setCellValue(row, 6, student.getInterestedCountry());
+            setCellValue(row, 7, student.getHasNeetScore());
+            setCellValue(row, 8, student.getNeetScore());
+            setCellValue(row, 9, student.getHasPassport());
+            setCellValue(row, 10, student.getSubmissionDate());
+            setCellValue(row, 11, student.getCallStatus());
+            setCellValue(row, 12, student.getLastCallDate());
             row.createCell(13).setCellValue(student.getIsInterested() ? "Yes" : "No");
             row.createCell(14).setCellValue(student.isAdmitted() ? "Yes" : "No");
+
+            progressStatusTextView.setText("Exporting... (" + (i + 1) + "/" + filteredStudentList.size() + ")");
         }
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String fileName = "Students_" + timeStamp + ".xlsx";
-        exportedFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-
-        try (FileOutputStream fos = new FileOutputStream(exportedFile)) {
-            workbook.write(fos);
+        try (OutputStream outputStream = getContext().getContentResolver().openOutputStream(uri)) {
+            workbook.write(outputStream);
             workbook.close();
-            Toast.makeText(getContext(), "Excel file saved to Downloads: " + fileName, Toast.LENGTH_LONG).show();
-            statusTextView.setText("Export successful! File saved as " + fileName);
+            progressLayout.setVisibility(View.GONE);
+            statusTextView.setText("Export successful! File saved.");
+            Toast.makeText(getContext(), "Excel file saved successfully!", Toast.LENGTH_LONG).show();
             viewButton.setEnabled(true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            progressLayout.setVisibility(View.GONE);
+            statusTextView.setText("Export failed: File not found.");
+            Toast.makeText(getContext(), "Error: File not found!", Toast.LENGTH_SHORT).show();
+            exportButton.setEnabled(true);
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(), "Error saving Excel file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            progressLayout.setVisibility(View.GONE);
             statusTextView.setText("Export failed: " + e.getMessage());
-            viewButton.setEnabled(false);
+            Toast.makeText(getContext(), "Error saving Excel file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            exportButton.setEnabled(true);
+        }
+    }
+
+    private void setCellValue(Row row, int cellIndex, Object value) {
+        if (value != null) {
+            if (value instanceof String) {
+                row.createCell(cellIndex).setCellValue((String) value);
+            } else if (value instanceof Integer) {
+                row.createCell(cellIndex).setCellValue((Integer) value);
+            } else if (value instanceof Long) {
+                row.createCell(cellIndex).setCellValue((Long) value);
+            } else if (value instanceof Double) {
+                row.createCell(cellIndex).setCellValue((Double) value);
+            } else if (value instanceof Boolean) {
+                row.createCell(cellIndex).setCellValue((Boolean) value);
+            } else if (value instanceof Date) {
+                row.createCell(cellIndex).setCellValue((Date) value);
+            } else {
+                row.createCell(cellIndex).setCellValue(value.toString());
+            }
+        } else {
+            row.createCell(cellIndex).setCellValue("");
         }
     }
 
     private void viewExportedFile() {
-        if (exportedFile != null && exportedFile.exists()) {
+        if (exportedFileUri != null) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(exportedFile);
-            intent.setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(exportedFileUri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             try {
                 startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(getContext(), "No app found to open Excel file!", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(getContext(), "File not found!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No exported file available!", Toast.LENGTH_SHORT).show();
         }
     }
 }

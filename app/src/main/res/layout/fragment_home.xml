@@ -5,13 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_color">
 
-    <!-- Background World Map Pattern -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/world_map_pattern"
-        android:alpha="0.08"
-        android:scaleType="centerCrop" />
 
     <!-- Main ScrollView to contain all content -->
     <ScrollView
@@ -70,11 +63,11 @@
                         app:tint="@color/primary_color" />
 
                     <ImageView
-                        android:id="@+id/profile_icon"
+                        android:id="@+id/call"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:padding="8dp"
-                        android:src="@drawable/ic_profile"
+                        android:src="@drawable/ic_call"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         app:tint="@color/primary_color" />
                 </LinearLayout>
@@ -180,13 +173,6 @@
                     android:textStyle="bold"
                     android:textColor="@color/primary_dark_color" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:textSize="14sp"
-                    android:textColor="@color/accent_color"
-                    android:textStyle="bold" />
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -411,13 +397,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/primary_dark_color" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:textSize="14sp"
-                    android:textColor="@color/accent_color"
-                    android:textStyle="bold" />
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -445,13 +425,6 @@
                     android:textStyle="bold"
                     android:textColor="@color/primary_dark_color" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:textSize="14sp"
-                    android:textColor="@color/accent_color"
-                    android:textStyle="bold" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -478,13 +451,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/primary_dark_color" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:textSize="14sp"
-                    android:textColor="@color/accent_color"
-                    android:textStyle="bold" />
+
             </LinearLayout>
 
             <androidx.viewpager2.widget.ViewPager2

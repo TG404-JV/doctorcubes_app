@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.android.doctorcube.R;
 import com.android.doctorcube.settings.faq.FAQAdapter;
@@ -32,6 +34,7 @@ public class FragmentFAQ extends Fragment {
     private FAQViewModel faqViewModel;
     private Toolbar toolbar;
     private ProgressBar progressBar;
+    private NavController navController;
 
     @Nullable
     @Override
@@ -41,6 +44,9 @@ public class FragmentFAQ extends Fragment {
 
         // Initialize views
         initViews(view);
+
+        // Initialize NavController
+        navController = NavHostFragment.findNavController(this);
 
         // Setup toolbar with back button
         setupToolbar();
@@ -73,10 +79,8 @@ public class FragmentFAQ extends Fragment {
 
     private void setupToolbar() {
         toolbar.setNavigationOnClickListener(v -> {
-            // Handle back button press
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
+            // Use NavController to navigate back
+            navigateToHome();
         });
     }
 
@@ -153,4 +157,19 @@ public class FragmentFAQ extends Fragment {
             }
         }
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (navController != null) {
+            navigateToHome();
+        }
+    }
+
+    private void navigateToHome() {
+        if (navController != null) {
+            navController.navigate(R.id.action_global_settingsHome);
+        }
+    }
 }
+

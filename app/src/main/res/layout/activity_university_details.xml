@@ -449,7 +449,6 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior">
                 android:layout_marginTop="16dp"
                 android:text="Apply Now"
                 android:background="@drawable/button_accent_gradient"
-                android:textColor="@color/button_text"
                 android:padding="12dp"
                 app:cornerRadius="8dp" />
         </LinearLayout>

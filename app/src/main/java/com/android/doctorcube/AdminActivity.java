@@ -22,11 +22,16 @@ import com.android.doctorcube.adminpannel.adminhome.FragmentImportXLData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKey;
+
+import android.util.Log;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class AdminActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,9 +43,9 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
     private NavigationView navigationView;
     private Toolbar toolbar;
     private SharedPreferences prefs;
-    private boolean isSuperAdmin = false; // Default to false until fetched
+    private boolean isSuperAdmin = false;
     private FirebaseAuth mAuth;
-    private DatabaseReference usersRef;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +54,29 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-        usersRef = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+        currentUser = mAuth.getCurrentUser();
 
-        // Initialize SharedPreferences
-        prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        // Initialize Encrypted SharedPreferences
+        try {
+            MasterKey masterKey = new MasterKey.Builder(this, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build();
+
+            prefs = EncryptedSharedPreferences.create(
+                    this,
+                    PREFS_NAME,
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                        );
+        } catch (GeneralSecurityException | IOException e) {
+            // Handle error
+            Toast.makeText(this, "Error initializing secure storage: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            isSuperAdmin = false;
+            prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE); // fallback
+        }
+
 
         // Initialize UI Components
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -85,7 +109,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         TextView adminNameTextView = headerView.findViewById(R.id.tv_admin_name);
         TextView adminEmailTextView = headerView.findViewById(R.id.tv_admin_email);
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+
         if (currentUser != null) {
             // Set email and name from Firebase Authentication
             String email = currentUser.getEmail();
@@ -94,30 +118,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             adminEmailTextView.setText(email != null ? email : getString(R.string.admin_email));
             adminNameTextView.setText(name);
 
-            // Fetch role from Firebase Realtime Database
-            String uid = currentUser.getUid();
-            usersRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        String role = snapshot.child("role").getValue(String.class);
-                        isSuperAdmin = "superadmin".equals(role);
-                        // Cache role in SharedPreferences
-                        prefs.edit().putString(KEY_USER_ROLE, role).apply();
-                    } else {
-                        // Default to "user" if no role found
-                        isSuperAdmin = false;
-                        prefs.edit().putString(KEY_USER_ROLE, "user").apply();
-                        Toast.makeText(AdminActivity.this, "Role not found, defaulting to user", Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(AdminActivity.this, "Failed to fetch role: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    isSuperAdmin = false; // Fallback
-                }
-            });
         } else {
             // User not signed in, fallback to defaults
             adminEmailTextView.setText(getString(R.string.admin_email));
@@ -139,11 +140,17 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         if (id == R.id.nav_students) {
             loadFragment(new FragmentAdminHome());
         } else if (id == R.id.nav_add_new) {
+            // Fetch role from SharedPreferences
+            String role = prefs.getString(KEY_USER_ROLE, "user");
+            isSuperAdmin = "superadmin".equals(role);
+            Log.d(TAG, "Retrieved role from Shared Preferences: " + role);
+
             if (isSuperAdmin) {
                 loadFragment(new FragmentAddNewUser());
             } else {
-                Toast.makeText(this, "Only Super Admins can add new users.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminActivity.this, "Only Super Admins can add new users.", Toast.LENGTH_SHORT).show();
             }
+
         } else if (id == R.id.nav_import_excel) {
             loadFragment(new FragmentImportXLData());
         } else if (id == R.id.nav_export_excel) {
@@ -162,3 +169,4 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 }
+

@@ -48,7 +48,8 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
 
-    implementation(libs.recyclerview) // Ensure this is added
+    implementation(libs.recyclerview)
+    implementation(libs.firebase.firestore) // Ensure this is added
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -70,13 +71,7 @@ dependencies {
     implementation ("org.apache.poi:poi:5.2.5")
     implementation ("org.apache.poi:poi-ooxml:5.2.5")
     implementation ("com.gauravk.bubblenavigation:bubblenavigation:1.0.7")
-
-
-
-
-
-
-
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 }
 
 // Apply the Google Services plugin at the end

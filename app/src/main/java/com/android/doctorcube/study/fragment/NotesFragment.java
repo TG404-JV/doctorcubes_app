@@ -58,7 +58,7 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
                 "https://drive.google.com/uc?export=download&id=1TQwa6iLSPJyyvmimugZ4Nizc7qjc0psw",
                 "Math", "March 10, 2025", 50));
         notes.add(new NoteItem("Physics", "Mechanics fundamentals", "Prof. Johnson", "12 MB",
-                "https://drive.google.com/uc?export=download&id=1XYZabcDEF456",
+                "https://drive.google.com/file/d/1aitdpqtldgIGTxmk72LI13J_HhruV5qN/view?usp=sharing",
                 "Physics", "March 12, 2025", 45));
         notes.add(new NoteItem("Chemistry", "Organic Chemistry Basics", "Dr. Anderson", "8 MB",
                 "https://drive.google.com/uc?export=download&id=1QWERTYUIOPLKJHGFDSA",

@@ -74,6 +74,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_back"
+            android:rotation="180"
             app:tint="@color/primary_color" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

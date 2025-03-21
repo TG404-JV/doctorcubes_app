@@ -1,56 +1,371 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@color/background_color">
 
-    <LinearLayout
-        android:id="@+id/content_layout"
+    <!-- Top App Bar -->
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/tv_export_status"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Export Status"
-            android:textSize="16sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_filter_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Applied Filters:"
-            android:textSize="14sp" />
+            <!-- Status Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
-        <Button
-            android:id="@+id/btn_export_excel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Export to Excel" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-        <Button
-            android:id="@+id/btn_view_excel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="View Exported File" />
-    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Export Status"
+                        android:textColor="@color/text_primary_color"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@color/divider_color" />
+
+                    <TextView
+                        android:id="@+id/tv_export_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_info"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@color/info_color"
+                        android:text="Ready to export 24 medical student applications"
+                        android:textColor="@color/text_secondary_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_last_export"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Last export: 03/19/2025 at 15:30"
+                        android:textColor="@color/text_tertiary_color"
+                        android:textSize="14sp" />
+
+                    <!-- Progress Layout (Added) -->
+                    <LinearLayout
+                        android:id="@+id/progress_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:visibility="gone"
+                        android:layout_marginTop="12dp">
+
+                        <ProgressBar
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:indeterminateTint="@color/primary_color" />
+
+                        <TextView
+                            android:id="@+id/tv_progress_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Exporting... (0/24)"
+                            android:textColor="@color/text_primary_color"
+                            android:textSize="14sp"
+                            android:layout_marginStart="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Filters Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Applied Filters"
+                            android:textColor="@color/text_primary_color"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_edit_filters"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Edit"
+                            android:textColor="@color/button_secondary_text"
+                            app:iconTint="@color/button_secondary_text" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@color/divider_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Program:"
+                            android:textColor="@color/text_secondary_color"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_filter_program"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="MBBS, MD, Medical Research"
+                            android:textColor="@color/text_primary_color" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Country:"
+                            android:textColor="@color/text_secondary_color"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_filter_country"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="USA, UK, Germany, Australia"
+                            android:textColor="@color/text_primary_color" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Status:"
+                            android:textColor="@color/text_secondary_color"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_filter_status"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Applied, Under Review, Accepted"
+                            android:textColor="@color/text_primary_color" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Date Range:"
+                            android:textColor="@color/text_secondary_color"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_filter_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Jan 1, 2025 - Mar 20, 2025"
+                            android:textColor="@color/text_primary_color" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Export Options Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Export Options"
+                        android:textColor="@color/text_primary_color"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/divider_color" />
+
+                    <RadioGroup
+                        android:id="@+id/rg_export_format"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp">
+
+                        <RadioButton
+                            android:id="@+id/rb_excel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/checkbox_tint"
+                            android:checked="true"
+                            android:text="Excel Format (.xlsx)"
+                            android:textColor="@color/text_primary_color"
+                            android:paddingVertical="4dp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_csv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/checkbox_tint"
+                            android:text="CSV Format (.csv)"
+                            android:textColor="@color/text_primary_color"
+                            android:paddingVertical="4dp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_pdf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/checkbox_tint"
+                            android:text="PDF Report (.pdf)"
+                            android:textColor="@color/text_primary_color"
+                            android:paddingVertical="4dp" />
+                    </RadioGroup>
+
+                    <CheckBox
+                        android:id="@+id/cb_include_stats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/checkbox_tint"
+                        android:checked="true"
+                        android:text="Include statistics summary"
+                        android:textColor="@color/text_primary_color"
+                        android:paddingVertical="4dp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_include_contacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/checkbox_tint"
+                        android:checked="true"
+                        android:text="Include contact information"
+                        android:textColor="@color/text_primary_color"
+                        android:paddingVertical="4dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Action Buttons -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_export_data"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="Export Data"
+                android:textSize="16sp"
+                android:textColor="@color/button_text_primary"
+                android:backgroundTint="@color/button_accent"
+                app:cornerRadius="12dp"
+                app:rippleColor="@color/ripple_light"
+                app:icon="@drawable/ic_excel_file"
+                app:iconTint="@color/button_text_primary"
+                app:iconGravity="textStart"
+                android:paddingVertical="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_exported"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View Previous Exports"
+                android:textSize="16sp"
+                android:textColor="@color/button_secondary_text"
+                app:strokeColor="@color/button_secondary_text"
+                app:cornerRadius="12dp"
+                app:rippleColor="@color/ripple_light"
+                app:icon="@drawable/ic_upload"
+                app:iconTint="@color/button_secondary_text"
+                app:iconGravity="textStart"
+                android:paddingVertical="12dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Filter FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_sort_filter"
+        android:id="@+id/fab_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="Sort and Filter"
-        android:src="@android:drawable/ic_menu_sort_by_size"
-        app:backgroundTint="@color/primary_color"
-        app:tint="@android:color/white" />
-
-</RelativeLayout>
+        android:src="@drawable/ic_filter"
+        app:backgroundTint="@color/button_accent"
+        app:tint="@color/button_text_primary" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

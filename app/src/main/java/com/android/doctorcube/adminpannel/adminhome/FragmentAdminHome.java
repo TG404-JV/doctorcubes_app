@@ -1,6 +1,7 @@
 package com.android.doctorcube.adminpannel.adminhome;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,7 +28,6 @@ import com.android.doctorcube.adminpannel.Student;
 import com.android.doctorcube.adminpannel.StudentAdapter;
 import com.android.doctorcube.adminpannel.StudentDataLoader;
 import com.android.doctorcube.adminpannel.StudentSorter;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 
 import java.text.SimpleDateFormat;
@@ -41,22 +41,21 @@ public class FragmentAdminHome extends Fragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    public StudentAdapter adapter;
+    private StudentAdapter adapter;
     private List<Student> studentList;
     private List<Student> filteredList;
     private StudentDataLoader dataLoader;
     private StudentSorter sorter;
-    private MaterialButton sortButton, filterButton;
+    private ImageButton filterButton;
     private ChipGroup activeFiltersChipGroup;
     private EditText searchEditText;
-    private ImageButton clearSearchButton;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy", Locale.getDefault());
     private SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
     private FilterManager filterManager;
     private SortFilterDialogManager dialogManager;
-    public ChipManager chipManager;
+    private ChipManager chipManager;
 
     public FragmentAdminHome() {
         // Required empty public constructor
@@ -69,32 +68,33 @@ public class FragmentAdminHome extends Fragment {
         // UI Setup
         recyclerView = view.findViewById(R.id.students_recycler_view);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
-        sortButton = view.findViewById(R.id.sort_button);
         filterButton = view.findViewById(R.id.filter_button);
         activeFiltersChipGroup = view.findViewById(R.id.active_filters_chip_group);
         searchEditText = view.findViewById(R.id.search_edit_text);
-        clearSearchButton = view.findViewById(R.id.clear_search_button);
 
+        // RecyclerView setup
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
+        // Initialize data structures
         studentList = new ArrayList<>();
         filteredList = new ArrayList<>();
         adapter = new StudentAdapter(filteredList, getContext());
         recyclerView.setAdapter(adapter);
 
+        // Initialize helpers
         dataLoader = new StudentDataLoader();
         sorter = new StudentSorter(dateFormat, getContext());
-
-        // Initialize managers
         filterManager = new FilterManager(studentList, filteredList, sorter, dateFormat, displayFormat, getContext());
-        dialogManager = new SortFilterDialogManager(getContext(), filterManager);
+        dialogManager = new SortFilterDialogManager(getContext(), filterManager, this::updateUIAfterFilter); // Pass callback
         chipManager = new ChipManager(activeFiltersChipGroup, filterManager, searchEditText);
 
-        swipeRefreshLayout.setColorSchemeColors(0xFF4CAF50); // Green
+        // Swipe refresh setup (only for initial load or manual refresh)
+        swipeRefreshLayout.setColorSchemeColors(Color.GREEN);
         swipeRefreshLayout.setOnRefreshListener(this::loadStudentData);
 
+        // Search functionality
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -104,26 +104,31 @@ public class FragmentAdminHome extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                filterManager.setSearchQuery(s.toString().trim());
+                String query = s.toString().trim();
+                filterManager.setSearchQuery(query);
                 filterManager.applyFiltersAndSorting();
-                adapter.notifyDataSetChanged(); // Notify adapter here
-                clearSearchButton.setVisibility(filterManager.getSearchQuery().isEmpty() ? View.GONE : View.VISIBLE);
-                chipManager.updateChips();
+                updateUIAfterFilter();
             }
         });
 
-        clearSearchButton.setOnClickListener(v -> {
-            searchEditText.setText("");
-            filterManager.setSearchQuery("");
-            filterManager.applyFiltersAndSorting();
-            adapter.notifyDataSetChanged(); // Notify adapter here
-            clearSearchButton.setVisibility(View.GONE);
-            chipManager.updateChips();
+        // Filter button click
+        filterButton.setOnClickListener(v -> {
+            v.animate()
+                    .scaleX(0.9f)
+                    .scaleY(0.9f)
+                    .setDuration(100)
+                    .withEndAction(() -> {
+                        v.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .setDuration(100)
+                                .start();
+                        dialogManager.showSortFilterDialog();
+                    })
+                    .start();
         });
 
-        sortButton.setOnClickListener(v -> dialogManager.showSortFilterDialog());
-        filterButton.setOnClickListener(v -> dialogManager.showSortFilterDialog());
-
+        // Initial data load
         loadStudentData();
 
         return view;
@@ -138,15 +143,8 @@ public class FragmentAdminHome extends Fragment {
                 studentList.clear();
                 studentList.addAll(students);
                 filterManager.applyFiltersAndSorting();
-                adapter.notifyDataSetChanged(); // Ensure adapter is notified
+                updateUIAfterFilter();
                 swipeRefreshLayout.setRefreshing(false);
-                if (filteredList.isEmpty()) {
-                    Log.d(TAG, "Filtered list is empty");
-                    showNoStudentsPopup();
-                } else {
-                    Log.d(TAG, "Filtered list size: " + filteredList.size());
-                }
-                chipManager.updateChips();
             }
 
             @Override
@@ -158,6 +156,18 @@ public class FragmentAdminHome extends Fragment {
         });
     }
 
+    // Callback to update UI after filter changes
+    private void updateUIAfterFilter() {
+        adapter.notifyDataSetChanged();
+        chipManager.updateChips();
+        if (filteredList.isEmpty()) {
+            Log.d(TAG, "Filtered list is empty");
+            showNoStudentsPopup();
+        } else {
+            Log.d(TAG, "Filtered list size: " + filteredList.size());
+        }
+    }
+
     public List<Student> getFilteredList() {
         return new ArrayList<>(filteredList);
     }
@@ -165,7 +175,7 @@ public class FragmentAdminHome extends Fragment {
     private void showNoStudentsPopup() {
         new AlertDialog.Builder(getContext())
                 .setTitle("No Students Found")
-                .setMessage("No student registrations are available in the database or no matches for current filters.")
+                .setMessage("No student registrations are available or no matches for current filters.")
                 .setPositiveButton("Refresh", (dialog, which) -> loadStudentData())
                 .setNegativeButton("OK", null)
                 .show();

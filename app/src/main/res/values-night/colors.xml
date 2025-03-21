@@ -1,62 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- res/values-night/colors.xml (snippet) -->
-    <color name="primary_color">#64B5F6</color>         <!-- Slightly brighter blue -->
-    <color name="primary_dark_color">#0277BD</color>    <!-- Richer dark blue -->
-    <color name="primary_light_color">#90CAF9</color>   <!-- Softer light blue -->
-    <!-- Accent Colors -->
-    <color name="accent_color">#FFB300</color>          <!-- Shifted to Amber for better contrast -->
+    <color name="primary_color">#81D4FA</color>
+    <color name="primary_dark_color">#4FC3F7</color>
+    <color name="primary_light_color">#E0F7FA</color>
+    <color name="accent_color">#FFAB40</color>
+    <color name="accent_dark_color">#FF9100</color>
+    <color name="accent_light_color">#FFD180</color>
+    <color name="background_color">#0A0A0A</color>
+    <color name="secondary_background">#1A1A1A</color>
+    <color name="card_background">#262626</color>
+    <color name="card_shadow">#60000000</color>
+    <color name="card_border">#444444</color>
+    <color name="card_highlight">#29B6F6</color>
+    <color name="card_accent_border">#81D4FA</color>
+    <color name="premium_card_bg">#404020</color>
+    <color name="text_primary_color">#F5F5F5</color>
+    <color name="text_secondary_color">#B0BEC5</color>
+    <color name="text_tertiary_color">#90A4AE</color>
+    <color name="text_on_primary">#0A0A0A</color>
+    <color name="text_on_accent">#0A0A0A</color>
+    <color name="text_link">#80DEEA</color>
+    <color name="text_highlight">#81D4FA</color>
+    <color name="button_primary">#81D4FA</color>
+    <color name="button_primary_pressed">#4FC3F7</color>
+    <color name="button_secondary">#29B6F6</color>
+    <color name="button_secondary_text">#0A0A0A</color>
+    <color name="button_accent">#FFAB40</color>
+    <color name="button_accent_pressed">#FF9100</color>
+    <color name="button_success">#66BB6A</color>
+    <color name="button_error">#EF5350</color>
+    <color name="button_disabled">#4A4A4A</color>
+    <color name="button_text_primary">#0A0A0A</color>
+    <color name="button_text_secondary">#0A0A0A</color>
+    <color name="button_disabled_text">#B0BEC5</color>
+    <color name="button_outline">#81D4FA</color>
+    <color name="success_color">#66BB6A</color>
+    <color name="error_color">#EF5350</color>
+    <color name="warning_color">#FFC107</color>
+    <color name="info_color">#80DEEA</color>
+    <color name="checkbox_tint">#81D4FA</color>
+    <color name="switch_thumb_on">#81D4FA</color>
+    <color name="switch_track_on">#B2EBF2</color>
+    <color name="switch_thumb_off">#616161</color>
+    <color name="switch_track_off">#757575</color>
+    <color name="slider_inactive">#B2EBF2</color>
+    <color name="slider_active">#81D4FA</color>
+    <color name="progress_primary">#81D4FA</color>
+    <color name="progress_secondary">#B2EBF2</color>
+    <color name="input_outline">#81D4FA</color>
+    <color name="input_focus">#81D4FA</color>
+    <color name="tab_selected">#81D4FA</color>
+    <color name="tab_unselected">#90A4AE</color>
+    <color name="tab_indicator">#81D4FA</color>
+    <color name="nav_selected">#81D4FA</color>
+    <color name="nav_unselected">#90A4AE</color>
+    <color name="nav_background">#1A1A1A</color>
+    <color name="nav_ripple">#29B6F6</color>
+    <color name="gradient_primary_start">#81D4FA</color>
+    <color name="gradient_primary_end">#4FC3F7</color>
+    <color name="gradient_accent_start">#FFAB40</color>
+    <color name="gradient_accent_end">#FF9100</color>
+    <color name="gradient_card_start">#262626</color>
+    <color name="gradient_card_end">#1A1A1A</color>
 
-    <!-- Background and Text Colors -->
-    <color name="background_color">#212121</color>      <!-- Dark Gray: Base background -->
-    <color name="card_background">#424242</color>       <!-- Darker Gray: Cards -->
-    <color name="text_primary_color">#E0E0E0</color>    <!-- Light Gray: Primary text -->
-    <color name="text_secondary_color">#B0BEC5</color>   <!-- Light Gray-Blue: Secondary text -->
+    <color name="icon_tint_primary">#81D4FA</color>
+    <color name="icon_tint_secondary">#B0BEC5</color>
+    <color name="icon_tint_accent">#FFAB40</color>
+    <color name="divider_color">#3D3D3D</color>
+    <color name="hint_color">#B0BEC5</color>
+    <color name="ripple_color">#4DFFFFFF</color>
+    <color name="ripple_light">#4D000000</color>
+    <color name="badge_color">#81D4FA</color>
+    <color name="badge_text">#0A0A0A</color>
+    <color name="university_icon_bg">#29B6F6</color>
+    <color name="university_icon_tint">#E0F7FA</color>
+    <color name="scholarship_icon_bg">#81C784</color>
+    <color name="scholarship_icon_tint">#E8F5E9</color>
+    <color name="visa_icon_bg">#FFAB40</color>
+    <color name="visa_icon_tint">#FFD180</color>
+    <color name="tracking_icon_bg">#90CAF9</color>
+    <color name="tracking_icon_tint">#E3F2FD</color>
+    <color name="support_icon_bg">#F48FB1</color>
+    <color name="support_icon_tint">#FCE4EC</color>
+    <color name="whatsapp_button_color">#25D366</color>
+    <color name="call_button_color">#81D4FA</color>
+    <color name="email_button_color">#EF5350</color>
+    <color name="chat_button_color">#81D4FA</color>
+    <color name="usa_color">#80DEEA</color>
+    <color name="uk_color">#9FA8DA</color>
+    <color name="canada_color">#EF5350</color>
+    <color name="australia_color">#81C784</color>
+    <color name="germany_color">#EF5350</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
 
-    <!-- Status Colors -->
-    <color name="success_color">#81C784</color>         <!-- Lighter Green: Success -->
-    <color name="error_color">#EF5350</color>          <!-- Lighter Red: Error -->
-    <color name="warning_color">#FFB300</color>         <!-- Amber: Warning (unchanged) -->
-
-    <!-- Button Colors -->
-    <color name="button_primary">@color/primary_color</color>
-    <color name="button_primary_pressed">@color/primary_dark_color</color>
-    <color name="button_accent">@color/accent_color</color>
-    <color name="button_accent_pressed">#F57C00</color> <!-- Darker orange (unchanged) -->
-    <color name="button_disabled">#616161</color>       <!-- Dark Gray: Disabled state -->
-    <color name="button_text">@color/white</color>      <!-- White text (unchanged) -->
-    <color name="button_disabled_text">#757575</color>   <!-- Medium Gray: Disabled text -->
-
-    <!-- Gradient Colors (for toolbar/buttons) -->
-    <color name="gradient_start">@color/primary_dark_color</color>
-    <color name="gradient_end">@color/primary_color</color> <!-- Inverted for dark mode -->
-
-    <!-- UI Element Colors -->
-    <color name="icon_tint">@color/primary_light_color</color> <!-- Lighter tint for icons -->
-    <color name="divider_color">#616161</color>             <!-- Dark Gray: Dividers -->
-    <color name="hint_color">#90A4AE</color>               <!-- Gray-Blue: Hints -->
-
-    <!-- Base Colors -->
-    <color name="white">#FFFFFF</color>                    <!-- Unchanged -->
-    <color name="black">#000000</color>                    <!-- Unchanged -->
-    <color name="transparent">#00000000</color>            <!-- Unchanged -->
-
-    <!-- Specific Button Colors -->
-    <color name="whatsapp_button_color">#4CAF50</color>     <!-- Lighter Green for dark -->
-    <color name="call_button_color">#42A5F5</color>        <!-- Lighter Blue -->
-    <color name="ripple_color">#33FFFFFF</color>           <!-- Unchanged: subtle ripple -->
-
-    <!-- Icon background colors for each service -->
-    <color name="university_icon_bg">#263238</color>        <!-- Dark Blue-Gray -->
-    <color name="scholarship_icon_bg">#2E7D32</color>       <!-- Dark Green -->
-    <color name="visa_icon_bg">#BF360C</color>             <!-- Dark Orange -->
-    <color name="tracking_icon_bg">#4527A0</color>          <!-- Dark Purple -->
-    <color name="support_icon_bg">#B71C1C</color>           <!-- Dark Red -->
-
-    <!-- Icon tint colors for each service -->
-    <color name="university_icon_tint">#81D4FA</color>      <!-- Light Blue -->
-    <color name="scholarship_icon_tint">#A5D6A7</color>     <!-- Light Green -->
-    <color name="visa_icon_tint">#FFCC80</color>            <!-- Light Orange -->
-    <color name="tracking_icon_tint">#B39DDB</color>        <!-- Light Purple -->
-    <color name="support_icon_tint">#EF9A9A</color>         <!-- Light Red -->
+    <color name="notification_unread">#29B6F6</color>
+    <color name="notification_urgent">#F44336</color>
 </resources>

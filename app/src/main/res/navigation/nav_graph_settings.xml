@@ -36,6 +36,12 @@
             android:id="@+id/action_fragmentEditDetails_pop"
             app:popUpTo="@id/settingsHome"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_fragmentEditDetails_self"
+            app:destination="@id/fragmentEditDetails" />
+        <action
+            android:id="@+id/action_fragmentEditDetails_to_settingsHome"
+            app:destination="@id/settingsHome" />
     </fragment>
 
     <fragment
@@ -47,6 +53,9 @@
             android:id="@+id/action_fragmentAbout_pop"
             app:popUpTo="@id/settingsHome"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_fragmentAbout_to_settingsHome"
+            app:destination="@id/settingsHome" />
     </fragment>
 
     <fragment
@@ -58,6 +67,9 @@
             android:id="@+id/action_fragmentPrivacy_pop"
             app:popUpTo="@id/settingsHome"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_fragmentPrivacy_to_settingsHome"
+            app:destination="@id/settingsHome" />
     </fragment>
 
     <fragment
@@ -69,6 +81,9 @@
             android:id="@+id/action_fragmentFAQ_pop"
             app:popUpTo="@id/settingsHome"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_fragmentFAQ_to_settingsHome"
+            app:destination="@id/settingsHome" />
     </fragment>
 
     <!-- Global action to navigate back to settingsHome -->

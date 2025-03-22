@@ -10,7 +10,7 @@
         android:id="@+id/splashFragment2"
         android:name="com.android.doctorcube.authentication.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment2_to_getStartedFragment"
             app:destination="@id/getStartedFragment" />
@@ -25,19 +25,17 @@
         android:id="@+id/getStartedFragment"
         android:name="com.android.doctorcube.authentication.GetStartedFragment"
         android:label="fragment_get_started"
-        tools:layout="@layout/fragment_get_started" >
+        tools:layout="@layout/fragment_get_started">
+
         <action
-            android:id="@+id/action_getStartedFragment_to_loginFragment2"
-            app:destination="@id/loginFragment2" />
-        <action
-            android:id="@+id/action_getStartedFragment_to_createAccountFragment2"
-            app:destination="@id/createAccountFragment2" />
+            android:id="@+id/action_getStartedFragment_to_fragmentAskUser"
+            app:destination="@id/fragmentAskUser" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment2"
         android:name="com.android.doctorcube.authentication.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment2_to_mainActivity2"
             app:destination="@id/mainActivity2" />
@@ -55,7 +53,7 @@
         android:id="@+id/createAccountFragment2"
         android:name="com.android.doctorcube.authentication.CreateAccountFragment"
         android:label="fragment_create_account"
-        tools:layout="@layout/fragment_create_account" >
+        tools:layout="@layout/fragment_create_account">
         <action
             android:id="@+id/action_createAccountFragment2_to_collectUserDetailsFragment"
             app:destination="@id/collectUserDetailsFragment" />
@@ -67,7 +65,7 @@
         android:id="@+id/collectUserDetailsFragment"
         android:name="com.android.doctorcube.authentication.CollectUserDetailsFragment"
         android:label="fragment_collect_user_details"
-        tools:layout="@layout/fragment_collect_user_details" >
+        tools:layout="@layout/fragment_collect_user_details">
         <action
             android:id="@+id/action_collectUserDetailsFragment_to_mainActivity2"
             app:destination="@id/mainActivity2" />
@@ -82,4 +80,16 @@
         android:name="com.android.doctorcube.AdminActivity"
         android:label="activity_admin"
         tools:layout="@layout/activity_admin" />
+    <fragment
+        android:id="@+id/fragmentAskUser"
+        android:name="com.android.doctorcube.authentication.FragmentAskUser"
+        android:label="fragment_ask_user"
+        tools:layout="@layout/fragment_ask_user">
+        <action
+            android:id="@+id/action_getStartedFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
+        <action
+            android:id="@+id/action_getStartedFragment_to_createAccountFragment2"
+            app:destination="@id/createAccountFragment2" />
+    </fragment>
 </navigation>

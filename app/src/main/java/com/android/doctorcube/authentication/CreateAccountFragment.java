@@ -1,22 +1,33 @@
 package com.android.doctorcube.authentication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -30,12 +41,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -56,14 +67,17 @@ public class CreateAccountFragment extends Fragment {
     private NavController navController;
     private SharedPreferences sharedPreferences;
     private GoogleSignInClient googleSignInClient;
-    private String verificationId; // For OTP verification
+    private String verificationId;
+    private Handler handler = new Handler();
 
+    // UI Elements
     private EditText fullNameEditText, emailEditText, phoneEditText, passwordEditText, confirmPasswordEditText, otpEditText;
     private Button createAccountButton, verifyOtpButton, cancelOtpButton;
     private CheckBox termsCheckbox;
     private ImageView googleSignInButton;
-    private TextView termsText, loginText, resendOtpText;
+    private TextView termsText, loginText, resendOtpText, passwordStrengthText;
     private CardView otpVerificationDialog;
+    private ProgressBar progressBar;
 
     private static final int RC_SIGN_IN = 9001;
 
@@ -76,15 +90,14 @@ public class CreateAccountFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_create_account, container, false);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize Firebase Auth and Database
+        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-
-        // Initialize NavController
         navController = Navigation.findNavController(view);
 
         // Initialize Views
@@ -103,37 +116,122 @@ public class CreateAccountFragment extends Fragment {
         verifyOtpButton = view.findViewById(R.id.verifyOtpButton);
         cancelOtpButton = view.findViewById(R.id.cancelOtpButton);
         resendOtpText = view.findViewById(R.id.resendOtpText);
+        passwordStrengthText = view.findViewById(R.id.passwordStrengthText);
+        progressBar = view.findViewById(R.id.progressBar);
 
         // Initialize Encrypted SharedPreferences
         try {
             String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
             sharedPreferences = EncryptedSharedPreferences.create(
-                    "user_prefs",
-                    masterKeyAlias,
-                    requireContext(),
+                    "user_prefs", masterKeyAlias, requireContext(),
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
             Toast.makeText(requireContext(), "Error initializing preferences", Toast.LENGTH_SHORT).show();
         }
 
         // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // From google-services.json
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
 
+        // Set up password visibility toggle
+        passwordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_eye, 0);
+        passwordEditText.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (passwordEditText.getRight() - passwordEditText.getCompoundDrawables()[2].getBounds().width())) {
+                    togglePasswordVisibility(passwordEditText);
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        // Real-time validation
+        setupRealTimeValidation();
+
         // Set Click Listeners
         createAccountButton.setOnClickListener(v -> registerUser());
         googleSignInButton.setOnClickListener(v -> signInWithGoogle());
-        loginText.setOnClickListener(v -> navController.navigate(R.id.action_createAccountFragment2_to_collectUserDetailsFragment));
+        loginText.setOnClickListener(v -> navController.navigate(R.id.action_createAccountFragment2_to_loginFragment2));
         termsText.setOnClickListener(v -> showTermsAndConditions());
         verifyOtpButton.setOnClickListener(v -> verifyOtp());
         cancelOtpButton.setOnClickListener(v -> otpVerificationDialog.setVisibility(View.GONE));
         resendOtpText.setOnClickListener(v -> resendOtp());
+
+        // Handle back press
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                navController.navigate(R.id.action_createAccountFragment2_to_collectUserDetailsFragment);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void setupRealTimeValidation() {
+        fullNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().isEmpty()) {
+                    fullNameEditText.setError("Enter Full Name");
+                } else if (s.toString().matches(".*\\d.*")) {
+                    fullNameEditText.setError("Name cannot contain numbers");
+                } else {
+                    fullNameEditText.setError(null);
+                }
+            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString().trim()).matches()) {
+                    emailEditText.setError("Invalid email format");
+                } else {
+                    emailEditText.setError(null);
+                }
+            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+        phoneEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() != 10 || !s.toString().matches("\\d+")) {
+                    phoneEditText.setError("Enter a valid 10-digit phone number");
+                } else {
+                    phoneEditText.setError(null);
+                }
+            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                String password = s.toString().trim();
+                if (!password.isEmpty()) {
+                    updatePasswordStrength(password);
+                    if (!isValidPassword(password)) {
+                        passwordEditText.setError("Password must be 8-14 chars with uppercase, lowercase, number, and special char");
+                    } else {
+                        passwordEditText.setError(null);
+                    }
+                }
+            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
     }
 
     private void registerUser() {
@@ -144,24 +242,29 @@ public class CreateAccountFragment extends Fragment {
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
         // Validate inputs
-        if (TextUtils.isEmpty(fullName)) {
-            fullNameEditText.setError("Enter Full Name");
+        if (TextUtils.isEmpty(fullName) || fullName.matches(".*\\d.*")) {
+            fullNameEditText.setError("Enter a valid Full Name");
+            shakeField(fullNameEditText);
             return;
         }
-        if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Enter Email");
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.setError("Enter a valid Email");
+            shakeField(emailEditText);
             return;
         }
-        if (TextUtils.isEmpty(phone)) {
-            phoneEditText.setError("Enter Phone Number");
+        if (phone.length() != 10 || !phone.matches("\\d+")) {
+            phoneEditText.setError("Enter a valid 10-digit Phone Number");
+            shakeField(phoneEditText);
             return;
         }
-        if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Enter Password");
+        if (!isValidPassword(password)) {
+            passwordEditText.setError("Password must be 8-14 chars with uppercase, lowercase, number, and special char");
+            shakeField(passwordEditText);
             return;
         }
         if (!password.equals(confirmPassword)) {
             confirmPasswordEditText.setError("Passwords do not match");
+            shakeField(confirmPasswordEditText);
             return;
         }
         if (!termsCheckbox.isChecked()) {
@@ -169,8 +272,33 @@ public class CreateAccountFragment extends Fragment {
             return;
         }
 
-        // Start phone verification
-        sendOtp(phone);
+        // Show progress and disable button
+        progressBar.setVisibility(View.VISIBLE);
+        createAccountButton.setEnabled(false);
+        createAccountButton.setAlpha(0.5f);
+        sendOtp("+1" + phone); // Assuming US country code; use CountryCodePicker for dynamic codes
+    }
+
+    private boolean isValidPassword(String password) {
+        if (password.length() < 8 || password.length() > 14) return false;
+        if (!password.matches(".*[A-Z].*")) return false;
+        if (!password.matches(".*[a-z].*")) return false;
+        if (!password.matches(".*[0-9].*")) return false;
+        if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) return false;
+        return true;
+    }
+
+    private void updatePasswordStrength(String password) {
+        if (password.length() < 8) {
+            passwordStrengthText.setText("Weak");
+            passwordStrengthText.setTextColor(Color.RED);
+        } else if (isValidPassword(password)) {
+            passwordStrengthText.setText("Strong");
+            passwordStrengthText.setTextColor(Color.GREEN);
+        } else {
+            passwordStrengthText.setText("Medium");
+            passwordStrengthText.setTextColor(Color.YELLOW);
+        }
     }
 
     private void sendOtp(String phoneNumber) {
@@ -186,11 +314,20 @@ public class CreateAccountFragment extends Fragment {
 
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
-                        Toast.makeText(requireContext(), "Verification Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        createAccountButton.setEnabled(true);
+                        createAccountButton.setAlpha(1.0f);
+                        String message = e instanceof FirebaseAuthInvalidCredentialsException ? "Invalid phone number format" :
+                                e instanceof FirebaseTooManyRequestsException ? "Too many attempts, try again later" :
+                                        "Verification failed, please try again";
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onCodeSent(@NonNull String verId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                        progressBar.setVisibility(View.GONE);
+                        createAccountButton.setEnabled(true);
+                        createAccountButton.setAlpha(1.0f);
                         verificationId = verId;
                         otpVerificationDialog.setVisibility(View.VISIBLE);
                         startOtpCountdown();
@@ -204,14 +341,19 @@ public class CreateAccountFragment extends Fragment {
         String otp = otpEditText.getText().toString().trim();
         if (TextUtils.isEmpty(otp)) {
             otpEditText.setError("Enter OTP");
+            shakeField(otpEditText);
             return;
         }
+        progressBar.setVisibility(View.VISIBLE);
+        verifyOtpButton.setEnabled(false);
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
         signInWithPhoneAuthCredential(credential);
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
+            progressBar.setVisibility(View.GONE);
+            verifyOtpButton.setEnabled(true);
             if (task.isSuccessful()) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 String fullName = fullNameEditText.getText().toString().trim();
@@ -221,16 +363,19 @@ public class CreateAccountFragment extends Fragment {
                 saveUserDetails(user.getUid(), fullName, email, phone);
                 saveUserLoginStatus("user");
                 otpVerificationDialog.setVisibility(View.GONE);
-                // Pass data to CollectUserDetailsFragment
+
                 Bundle bundle = new Bundle();
                 bundle.putString("userId", user.getUid());
                 bundle.putString("fullName", fullName);
                 bundle.putString("email", email);
                 bundle.putString("phone", phone);
-                navController.navigate(R.id.collectUserDetailsFragment, bundle);
-
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Success")
+                        .setMessage("Account created successfully!")
+                        .setPositiveButton("OK", (dialog, which) -> navController.navigate(R.id.collectUserDetailsFragment, bundle))
+                        .show();
             } else {
-                Toast.makeText(requireContext(), "OTP Verification Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "OTP Verification Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -250,13 +395,21 @@ public class CreateAccountFragment extends Fragment {
     }
 
     private void resendOtp() {
-        String phone = phoneEditText.getText().toString().trim();
-        if (!TextUtils.isEmpty(phone)) {
-            sendOtp(phone);
-        }
+        new AlertDialog.Builder(requireContext())
+                .setMessage("Resend OTP to " + phoneEditText.getText().toString().trim() + "?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    String phone = phoneEditText.getText().toString().trim();
+                    if (!TextUtils.isEmpty(phone)) {
+                        sendOtp("+91" + phone); // Adjust country code as needed
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     private void signInWithGoogle() {
+        progressBar.setVisibility(View.VISIBLE);
+        googleSignInButton.setEnabled(false);
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -268,39 +421,37 @@ public class CreateAccountFragment extends Fragment {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account); // Pass account
+                firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                Toast.makeText(requireContext(), "Google Sign-In Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                googleSignInButton.setEnabled(true);
+                Toast.makeText(requireContext(), "Google Sign-In Failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) { // Added account parameter
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
+            progressBar.setVisibility(View.GONE);
+            googleSignInButton.setEnabled(true);
             if (task.isSuccessful()) {
                 FirebaseUser user = mAuth.getCurrentUser();
-                String fullName = account.getDisplayName();  // Get from Google Account
-                String email = account.getEmail();        // Get from Google Account
-                String phone = "000000000";
-                if (phone == null)
-                {
-                    phone = "N/A";
-                }
+                String fullName = account.getDisplayName();
+                String email = account.getEmail();
+                String phone = "N/A";
 
                 saveUserDetails(user.getUid(), fullName, email, phone);
                 saveUserLoginStatus("user");
 
-                // Pass data to CollectUserDetailsFragment
                 Bundle bundle = new Bundle();
                 bundle.putString("userId", user.getUid());
                 bundle.putString("fullName", fullName);
                 bundle.putString("email", email);
                 bundle.putString("phone", phone);
                 navController.navigate(R.id.collectUserDetailsFragment, bundle);
-
             } else {
-                Toast.makeText(requireContext(), "Google Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Google Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -325,8 +476,25 @@ public class CreateAccountFragment extends Fragment {
     }
 
     private void showTermsAndConditions() {
-        // Implement your Terms and Conditions display logic here (e.g., dialog or navigation)
-        Toast.makeText(requireContext(), "Terms and Conditions clicked", Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Terms and Conditions")
+                .setMessage("Your terms and conditions text here...")
+                .setPositiveButton("Accept", (dialog, which) -> termsCheckbox.setChecked(true))
+                .setNegativeButton("Decline", null)
+                .show();
+    }
+
+    private void togglePasswordVisibility(EditText editText) {
+        if (editText.getTransformationMethod() == null) {
+            editText.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
+        } else {
+            editText.setTransformationMethod(null);
+        }
+        editText.setSelection(editText.getText().length());
+    }
+
+    private void shakeField(View view) {
+        Animation shake = AnimationUtils.loadAnimation(requireContext(), R.anim.shake);
+        view.startAnimation(shake);
     }
 }
-

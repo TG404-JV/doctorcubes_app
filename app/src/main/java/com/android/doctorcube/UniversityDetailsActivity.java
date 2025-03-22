@@ -11,13 +11,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.doctorcube.university.model.UniversityDetailsData;
+
 public class UniversityDetailsActivity extends AppCompatActivity {
 
     // Views
     private ImageView universityImageView;
-    private TextView nameTextView, locationTextView, courseTextView, degreeTextView,
-            durationTextView, gradeTextView, intakeTextView, descriptionTextView,
-            establishedTextView, rankingTextView, addressTextView, phoneTextView, emailTextView;
+    private TextView locationTextView, descriptionTextView, establishedTextView,
+            rankingTextView, addressTextView, phoneTextView, emailTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,23 +39,18 @@ public class UniversityDetailsActivity extends AppCompatActivity {
         // Get data from the intent
         Intent intent = getIntent();
         if (intent != null) {
-            // Retrieve university details from the intent
-            String location = intent.getStringExtra("UNIVERSITY_LOCATION");
-            String country = intent.getStringExtra("UNIVERSITY_COUNTRY");
-            String intake = intent.getStringExtra("UNIVERSITY_INTAKE");
-            int imageResourceId = intent.getIntExtra("UNIVERSITY_IMAGE", R.drawable.flag_china);
-
-            // Set data to views
-            locationTextView.setText(location + ", " + country);
-            universityImageView.setImageResource(imageResourceId);
-
-            // Example static data for additional fields
-            descriptionTextView.setText("This university was established in 1965 and has been ranked among the top educational institutions consistently for the past decade.");
-            establishedTextView.setText("1965");
-            rankingTextView.setText("#15 National");
-            addressTextView.setText("123 University Avenue, Boston, MA 02215");
-            phoneTextView.setText("+1 (555) 123-4567");
-            emailTextView.setText("admissions@university.edu");
+            String universityName = intent.getStringExtra("UNIVERSITY_NAME");
+            if (universityName != null) {
+                // Fetch university details from UniversityDetailsData
+                UniversityDetailsData.UniversityDetail detail = UniversityDetailsData.getUniversityDetail(universityName);
+                if (detail != null) {
+                    // Set university data to views
+                    setUniversityData(universityName, detail);
+                } else {
+                    // Fallback if university not found
+                    setFallbackData(universityName);
+                }
+            }
         }
     }
 
@@ -67,5 +63,32 @@ public class UniversityDetailsActivity extends AppCompatActivity {
         addressTextView = findViewById(R.id.university_address);
         phoneTextView = findViewById(R.id.university_phone);
         emailTextView = findViewById(R.id.university_email);
+    }
+
+    private void setUniversityData(String universityName, UniversityDetailsData.UniversityDetail detail) {
+        // Set the collapsing toolbar title
+        setTitle(universityName);
+
+        // Set data to views
+        universityImageView.setImageResource(detail.getImageResourceId());
+        locationTextView.setText(detail.getLocation());
+        descriptionTextView.setText(detail.getDescription());
+        establishedTextView.setText(detail.getEstablished());
+        rankingTextView.setText(detail.getRanking());
+        addressTextView.setText(detail.getAddress());
+        phoneTextView.setText(detail.getPhone());
+        emailTextView.setText(detail.getEmail());
+    }
+
+    private void setFallbackData(String universityName) {
+        setTitle(universityName);
+        universityImageView.setImageResource(R.drawable.icon_university); // Default fallback image
+        locationTextView.setText("Location Not Available");
+        descriptionTextView.setText("Details for " + universityName + " are currently unavailable.");
+        establishedTextView.setText("N/A");
+        rankingTextView.setText("N/A");
+        addressTextView.setText("N/A");
+        phoneTextView.setText("N/A");
+        emailTextView.setText("N/A");
     }
 }

@@ -72,6 +72,11 @@ dependencies {
     implementation ("org.apache.poi:poi-ooxml:5.2.5")
     implementation ("com.gauravk.bubblenavigation:bubblenavigation:1.0.7")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    // Notification Tool
+    implementation ("androidx.work:work-runtime:2.9.0")
+    implementation ("androidx.room:room-runtime:2.6.1")
+    annotationProcessor ("androidx.room:room-compiler:2.6.1")
 }
 
 // Apply the Google Services plugin at the end

@@ -11,27 +11,28 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.doctorcube.study.adapter.StudyMaterialPagerAdapter;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 public class StudyMaterialFragment extends Fragment {
 
-    private TabLayout tabLayout;
+    private MaterialButtonToggleGroup toggleGroup;
     private ViewPager2 viewPager;
     private EditText searchEditText;
     private ImageView clearSearchButton;
-    private Toolbar toolbar;
     private StudyMaterialPagerAdapter pagerAdapter;
     private String currentSearchQuery = "";
+    private Runnable searchRunnable;
 
     @Nullable
     @Override
@@ -44,14 +45,13 @@ public class StudyMaterialFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize views
-        toolbar = view.findViewById(R.id.toolbar);
-        tabLayout = view.findViewById(R.id.tabLayout);
+        toggleGroup = view.findViewById(R.id.segmentedButtonGroup);
         viewPager = view.findViewById(R.id.viewPager);
         searchEditText = view.findViewById(R.id.searchEditText);
         clearSearchButton = view.findViewById(R.id.clearSearchButton);
 
         // Check for null views
-        if (toolbar == null || tabLayout == null || viewPager == null || searchEditText == null || clearSearchButton == null) {
+        if (toggleGroup == null || viewPager == null || searchEditText == null || clearSearchButton == null) {
             Toast.makeText(getContext(), "Error: Missing UI components", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -59,54 +59,73 @@ public class StudyMaterialFragment extends Fragment {
         // Initially hide the clear button
         clearSearchButton.setVisibility(View.GONE);
 
-        // Set up the Toolbar
+        // Set up the MainActivity's Toolbar
         setupToolbar();
 
-        // Set up the ViewPager with the adapter
-        setupViewPager();
+        // Set up the ViewPager and segmented buttons
+        setupViewPagerAndButtons();
 
         // Set up search functionality
         setupSearch();
     }
 
     private void setupToolbar() {
-        if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).setSupportActionBar(toolbar);
-            // No menu button in the latest XML, so no drawer toggle needed
-            // If you want to add it back, include the menu button in XML and uncomment the following:
-            /*
-            view.findViewById(R.id.menu_button).setOnClickListener(v -> {
-                ((MainActivity) getActivity()).openDrawer();
-            });
-            */
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar toolbar = activity.findViewById(R.id.toolbar);
+            if (toolbar != null) {
+                TextView appTitle = toolbar.findViewById(R.id.app_title);
+                if (appTitle != null) {
+                    appTitle.setText("Study Material"); // Directly set the TextView text
+                } else {
+                    Toast.makeText(getContext(), "app_title TextView not found in Toolbar", Toast.LENGTH_SHORT).show();
+                }
+                // Set subtitle via ActionBar
+                if (activity.getSupportActionBar() != null) {
+                    activity.getSupportActionBar().setSubtitle("Premium Study Materials for Abroad Education");
+                }
+            } else {
+                Toast.makeText(getContext(), "MainActivity Toolbar not set", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getContext(), "Activity is not AppCompatActivity", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void setupViewPager() {
+    private void setupViewPagerAndButtons() {
         // Create adapter
         pagerAdapter = new StudyMaterialPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
 
-        // Connect TabLayout with ViewPager2 and set icons
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            switch (position) {
-                case 0:
-                    tab.setText("Notes");
-                    tab.setIcon(R.drawable.ic_book);
-                    break;
-                case 1:
-                    tab.setText("Videos");
-                    tab.setIcon(R.drawable.ic_video);
-                    break;
-            }
-        }).attach();
+        // Set initial checked button (Notes)
+        toggleGroup.check(R.id.btnNotes);
 
-        // Add page change listener for custom actions when tab changes
+        // Sync toggle group with ViewPager2
+        toggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if (isChecked) {
+                    if (checkedId == R.id.btnNotes) {
+                        viewPager.setCurrentItem(0);
+                    } else if (checkedId == R.id.btnVideos) {
+                        viewPager.setCurrentItem(1);
+                    }
+                    // Re-apply search if query exists
+                    if (!currentSearchQuery.isEmpty()) {
+                        performSearch(currentSearchQuery);
+                    }
+                }
+            }
+        });
+
+        // Sync ViewPager2 with toggle group
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                // When switching tabs, re-apply search if query exists
+                int buttonId = position == 0 ? R.id.btnNotes : R.id.btnVideos;
+                toggleGroup.check(buttonId);
+                // Re-apply search if query exists
                 if (!currentSearchQuery.isEmpty()) {
                     performSearch(currentSearchQuery);
                 }
@@ -141,8 +160,6 @@ public class StudyMaterialFragment extends Fragment {
 
         // Real-time search as user types
         searchEditText.addTextChangedListener(new TextWatcher() {
-            private Runnable searchRunnable;
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // Not used
@@ -150,7 +167,7 @@ public class StudyMaterialFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Show/hide clear button based on search text
+                // Show/hide clear button based on text
                 clearSearchButton.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
 
                 // Cancel any pending search
@@ -158,7 +175,7 @@ public class StudyMaterialFragment extends Fragment {
                     searchEditText.removeCallbacks(searchRunnable);
                 }
 
-                // Delay search to avoid searching on every character typed
+                // Delay search to avoid searching on every character
                 searchRunnable = () -> {
                     String query = s.toString().trim();
                     currentSearchQuery = query;
@@ -189,18 +206,22 @@ public class StudyMaterialFragment extends Fragment {
     }
 
     // Perform search on the current visible fragment
-    private void performSearch(String query) {
-        Fragment currentFragment = pagerAdapter.getFragmentAt(viewPager.getCurrentItem());
-        if (currentFragment instanceof SearchableFragment) {
-            ((SearchableFragment) currentFragment).performSearch(query);
+    public void performSearch(String query) {
+        if (pagerAdapter != null) {
+            Fragment currentFragment = pagerAdapter.getFragmentAt(viewPager.getCurrentItem());
+            if (currentFragment instanceof SearchableFragment) {
+                ((SearchableFragment) currentFragment).performSearch(query);
+            }
         }
     }
 
     // Reset search on the current visible fragment
-    private void resetSearch() {
-        Fragment currentFragment = pagerAdapter.getFragmentAt(viewPager.getCurrentItem());
-        if (currentFragment instanceof SearchableFragment) {
-            ((SearchableFragment) currentFragment).resetSearch();
+    public void resetSearch() {
+        if (pagerAdapter != null) {
+            Fragment currentFragment = pagerAdapter.getFragmentAt(viewPager.getCurrentItem());
+            if (currentFragment instanceof SearchableFragment) {
+                ((SearchableFragment) currentFragment).resetSearch();
+            }
         }
     }
 
@@ -209,9 +230,11 @@ public class StudyMaterialFragment extends Fragment {
         return currentSearchQuery;
     }
 
-    // Interface to be implemented by fragments that support search
+    // Interface for fragments that support search
     public interface SearchableFragment {
         void performSearch(String query);
         void resetSearch();
     }
+
+
 }

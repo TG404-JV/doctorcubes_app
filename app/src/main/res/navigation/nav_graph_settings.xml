@@ -25,6 +25,9 @@
             android:id="@+id/action_settingsHome_pop"
             app:popUpTo="@id/settingsHome"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_settingsHome_to_notificationPref"
+            app:destination="@id/notificationPref" />
     </fragment>
 
     <fragment
@@ -92,4 +95,24 @@
         app:destination="@id/settingsHome"
         app:popUpTo="@id/settingsHome"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/notificationPref"
+        android:name="com.android.doctorcube.settings.NotificationPref"
+        android:label="fragment_notification_pref"
+        tools:layout="@layout/fragment_notification_pref" >
+        <action
+            android:id="@+id/action_notificationPref_to_settingsHome"
+            app:destination="@id/settingsHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.android.doctorcube.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_notificationPref"
+            app:destination="@id/notificationPref" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsHome"
+            app:destination="@id/settingsHome" />
+    </fragment>
 </navigation>

@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -16,8 +17,7 @@ import com.android.doctorcube.R;
 
 public class GetStartedFragment extends Fragment {
 
-    private Button btnGetStarted, btnCreateAccount, btnLogin;
-    private boolean isButtonsVisible = false;
+
 
     @Nullable
     @Override
@@ -29,41 +29,11 @@ public class GetStartedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnGetStarted = view.findViewById(R.id.btn_get_started);
-        btnCreateAccount = view.findViewById(R.id.btn_create_account);
-        btnLogin = view.findViewById(R.id.btn_login);
-
-        // Initially hide Create Account and Login buttons
-        btnCreateAccount.setVisibility(View.GONE);
-        btnLogin.setVisibility(View.GONE);
-
-        btnGetStarted.setOnClickListener(v -> {
-            if (!isButtonsVisible) {
-                showButtonsWithAnimation();
-                isButtonsVisible = true;
+        view.findViewById(R.id.get_started_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_getStartedFragment_to_fragmentAskUser);
             }
         });
-
-        btnCreateAccount.setOnClickListener(v ->
-                Navigation.findNavController(view).navigate(R.id.createAccountFragment2)
-        );
-
-        btnLogin.setOnClickListener(v ->
-                Navigation.findNavController(view).navigate(R.id.loginFragment2)
-        );
-    }
-
-    private void showButtonsWithAnimation() {
-        Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
-        Animation fadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
-
-        slideUp.setDuration(500);
-        fadeIn.setDuration(500);
-
-        btnCreateAccount.setVisibility(View.VISIBLE);
-        btnLogin.setVisibility(View.VISIBLE);
-
-        btnCreateAccount.startAnimation(slideUp);
-        btnLogin.startAnimation(fadeIn);
     }
 }

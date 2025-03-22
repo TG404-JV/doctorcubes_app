@@ -23,7 +23,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@drawable/gradient_toolbar"
+                android:background="@drawable/gradient_toolbar_background"
                 app:titleTextColor="@color/white"
                 app:navigationIcon="@drawable/ic_back">
 
@@ -103,7 +103,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="120dp"
-                            android:background="@drawable/home_fragment_gradient_background"
+                            android:background="@drawable/gradient_toolbar_background"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent" />

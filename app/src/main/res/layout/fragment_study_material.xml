@@ -9,15 +9,20 @@
 
     <!-- App Bar -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_primary_background">
+        android:background="@color/secondary_background">
 
+        <!-- Toolbar removed or hidden; rely on MainActivity's Toolbar -->
+        <!-- If you want to keep it for specific cases, uncomment and adjust visibility -->
+        <!--
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
+            android:visibility="gone"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleTextColor="@color/text_on_primary">
 
@@ -34,8 +39,8 @@
 
                     <ImageView
                         android:id="@+id/backButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:contentDescription="Back"
                         android:src="@drawable/ic_back"
                         app:tint="@color/text_on_primary" />
@@ -43,45 +48,38 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="10dp"
                         android:text="Study Resources"
                         android:textColor="@color/text_on_primary"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/notificationButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="Notifications"
-                        android:src="@drawable/ic_notification"
-                        app:tint="@color/text_on_primary" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginStart="36dp"
                     android:text="Premium Study Materials for Abroad Education"
                     android:textColor="@color/text_on_primary"
                     android:textSize="14sp" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
+        -->
 
-        <!-- Search Bar -->
+        <!-- Improved Search Bar -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchCard"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="60dp"
             android:layout_margin="16dp"
             app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
             app:strokeColor="@color/card_border"
             app:strokeWidth="1dp">
 
@@ -89,15 +87,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_margin="12dp"
                     android:contentDescription="Search icon"
                     android:src="@drawable/ic_search"
-                    app:tint="@color/icon_tint_secondary" />
+                    app:tint="@drawable/icon_tint_selector" />
 
                 <EditText
                     android:id="@+id/searchEditText"
@@ -109,55 +108,62 @@
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:padding="8dp"
+                    android:padding="12dp"
                     android:textColor="@color/text_primary_color"
-                    android:textColorHint="@color/hint_color" />
+                    android:textColorHint="@color/hint_color"
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/clearSearchButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_margin="12dp"
                     android:contentDescription="Clear search"
                     android:src="@drawable/ic_clear"
                     android:visibility="gone"
-                    app:tint="@color/icon_tint_secondary" />
-
-
+                    app:tint="@drawable/icon_tint_selector" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- TabLayout -->
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
+        <!-- Segmented Button Group -->
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/segmentedButtonGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:tabBackground="@android:color/transparent"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="?attr/colorPrimary"
-            app:tabIndicatorHeight="3dp"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="?attr/colorPrimary"
-            app:tabTextColor="?attr/colorOnSurface"
-            app:tabRippleColor="?attr/colorPrimaryVariant"
-            app:tabTextAppearance="@style/TabTextAppearance">
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            app:singleSelection="true"
+            app:selectionRequired="true">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNotes"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_book"
-                android:text="Notes" />
+                android:layout_weight="1"
+                android:text="Notes"
+                android:textColor="@color/segmented_text_selector"
+                app:icon="@drawable/ic_book"
+                app:iconSize="20dp"
+                app:iconGravity="start"
+                app:iconTint="@drawable/icon_tint_selector"
+                app:strokeColor="@color/button_outline"
+                app:cornerRadius="8dp" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVideos"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_video"
-                android:text="Videos" />
-
-
-        </com.google.android.material.tabs.TabLayout>
-
+                android:layout_weight="1"
+                android:text="Videos"
+                android:textColor="@color/segmented_text_selector"
+                app:icon="@drawable/ic_video"
+                app:iconGravity="start"
+                app:iconTint="@drawable/icon_tint_selector"
+                app:strokeColor="@color/button_outline"
+                app:cornerRadius="8dp" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- ViewPager2 -->
@@ -166,7 +172,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -36,12 +36,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.TimeUnit;
@@ -60,9 +60,9 @@ public class LoginFragment extends Fragment {
     private String verificationCode;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
-    private String resetEmail; // Store email for reset
-    private static final String PREFS_NAME = "DoctorCubePrefs";  // Added constant
-    private static final String KEY_USER_ROLE = "user_role";    // Added constant
+    private String resetEmail;
+    private static final String PREFS_NAME = "DoctorCubePrefs";
+    private static final String KEY_USER_ROLE = "user_role";
     private boolean isSuperAdmin = false;
 
     @Nullable
@@ -85,7 +85,7 @@ public class LoginFragment extends Fragment {
         try {
             String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
             sharedPreferences = EncryptedSharedPreferences.create(
-                    PREFS_NAME, // Changed to use constant
+                    PREFS_NAME,
                     masterKeyAlias,
                     requireContext(),
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
@@ -93,7 +93,6 @@ public class LoginFragment extends Fragment {
             );
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
-            // Handle error appropriately
             Toast.makeText(getContext(), "Error initializing secure storage: " + e.getMessage(), Toast.LENGTH_LONG).show();
             sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
@@ -105,10 +104,19 @@ public class LoginFragment extends Fragment {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
 
-        // Check if user is already logged in
-        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            String userType = sharedPreferences.getString(KEY_USER_ROLE, ""); //changed key
+        // Check login status and keep user on login screen if not logged in
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        if (isLoggedIn && currentUser != null) {
+            String userType = sharedPreferences.getString(KEY_USER_ROLE, "");
             navigateToFragment(navController, userType);
+        } else {
+            // User is not logged in, explicitly sign out Firebase to ensure clean state
+            if (currentUser != null) {
+                mAuth.signOut();
+                mGoogleSignInClient.signOut(); // Also sign out from Google
+            }
+            // Proceed to setup login UI (user stays on LoginFragment)
         }
 
         // Handle login button click
@@ -119,7 +127,7 @@ public class LoginFragment extends Fragment {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(getActivity(), "Please enter email and password", Toast.LENGTH_SHORT).show();
             } else {
-                loginUser(email, password, Navigation.findNavController(getView()));
+                loginUser(email, password, navController);
             }
         });
 
@@ -132,6 +140,13 @@ public class LoginFragment extends Fragment {
         // Navigate to CreateAccountFragment on button click
         view.findViewById(R.id.createAccountText).setOnClickListener(v ->
                 navController.navigate(R.id.createAccountFragment2));
+
+        // Check intent destination (if applicable from previous context)
+        String destination = requireActivity().getIntent().getStringExtra("destination");
+        if (destination != null) {
+            Log.d("LoginFragment", "Destination from intent: " + destination);
+            // Handle specific destinations if needed, but don’t navigate yet
+        }
 
         return view;
     }
@@ -161,8 +176,7 @@ public class LoginFragment extends Fragment {
                     saveUserLoginStatus(role);
                     navigateToFragment(navController, role);
                 } else {
-                    //If the user exists in Firebase Auth but not in the Realtime Database, navigate to CollectUserDetails.
-                    Navigation.findNavController(getView()).navigate(R.id.collectUserDetailsFragment);
+                    navController.navigate(R.id.collectUserDetailsFragment);
                 }
             }
 
@@ -176,7 +190,7 @@ public class LoginFragment extends Fragment {
     private void saveUserLoginStatus(String role) {
         sharedPreferences.edit()
                 .putBoolean("isLoggedIn", true)
-                .putString(KEY_USER_ROLE, role) //changed key
+                .putString(KEY_USER_ROLE, role)
                 .apply();
     }
 
@@ -186,9 +200,9 @@ public class LoginFragment extends Fragment {
         } else if ("admin".equals(role) || "superadmin".equals(role)) {
             navController.navigate(R.id.adminActivity2);
         } else {
-            // Handle the case where the role is not defined or is invalid
             Toast.makeText(getContext(), "Invalid user role.", Toast.LENGTH_SHORT).show();
-            mAuth.signOut(); //sign out the user.
+            mAuth.signOut();
+            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply();
         }
     }
 
@@ -197,19 +211,13 @@ public class LoginFragment extends Fragment {
         builder.setTitle("Forgot Password");
         builder.setMessage("Choose how to reset your password:");
 
-        builder.setPositiveButton("Email", (dialog, which) -> {
-            resetPasswordByEmail();
-        });
-
-        builder.setNegativeButton("Phone", (dialog, which) -> {
-            resetPasswordByPhone();
-        });
-
+        builder.setPositiveButton("Email", (dialog, which) -> resetPasswordByEmail());
+        builder.setNegativeButton("Phone", (dialog, which) -> resetPasswordByPhone());
         builder.show();
     }
 
     private void resetPasswordByEmail() {
-        resetEmail = emailField.getText().toString().trim(); // Store for later
+        resetEmail = emailField.getText().toString().trim();
         if (resetEmail.isEmpty()) {
             Toast.makeText(requireContext(), "Please enter your email to reset password.", Toast.LENGTH_SHORT).show();
             return;
@@ -227,7 +235,7 @@ public class LoginFragment extends Fragment {
 
     private void resetPasswordByPhone() {
         final EditText phoneInput = new EditText(getContext());
-        phoneInput.setHint("+91-"); // Set hint with country code
+        phoneInput.setHint("+91-");
         phoneInput.setInputType(android.text.InputType.TYPE_CLASS_PHONE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -236,13 +244,12 @@ public class LoginFragment extends Fragment {
 
         builder.setPositiveButton("Send Code", (dialog, which) -> {
             String phoneNumber = phoneInput.getText().toString().trim();
-            if (phoneNumber.isEmpty() || !phoneNumber.matches("\\d{10}")) { //basic validation
+            if (phoneNumber.isEmpty() || !phoneNumber.matches("\\d{10}")) {
                 Toast.makeText(requireContext(), "Please enter a valid 10-digit phone number.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // Append the country code before sending for verification
             String fullPhoneNumber = "+91" + phoneNumber;
-            sendVerificationCode(fullPhoneNumber); // Use the method with phone number
+            sendVerificationCode(fullPhoneNumber);
             dialog.dismiss();
         });
 
@@ -251,47 +258,34 @@ public class LoginFragment extends Fragment {
     }
 
     private void sendVerificationCode(String phoneNumber) {
-        // Generate a random 6-digit code
         verificationCode = String.format("%06d", new java.util.Random().nextInt(1000000));
-        String message = "Your verification code is: " + verificationCode;
-
-        // Use Firebase to send SMS
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,        // Phone number to verify
-                60,                 // Timeout in seconds
-                TimeUnit.SECONDS,   // Unit of timeout
-                requireActivity(),      // Activity
-                new OnVerificationStateChangedCallbacks() { // OnVerificationStateChangedCallbacks
+                phoneNumber,
+                60,
+                TimeUnit.SECONDS,
+                requireActivity(),
+                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-                        // This callback will be invoked instantly if you have previously verified the phone number.
-                        // Sign in directly.
                         signInWithPhoneAuthCredential(credential);
                     }
 
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
-                        // This callback will be invoked if the verification fails.
                         Log.e("PhoneAuth", "Verification failed", e);
-                        Toast.makeText(getContext(), "Phone verification failed: " + e.getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Phone verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onCodeSent(@NonNull String verificationId,
-                                           @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                        // The SMS verification code has been sent to the user.
-                        // Save the verification ID and resending token for later use.
+                    public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
                         mVerificationId = verificationId;
                         mResendToken = token;
-                        // Show a dialog or fragment to input the code.
-                        showOtpDialogForReset(mVerificationId); // Pass verification ID
+                        showOtpDialogForReset(mVerificationId);
                     }
                 });
-
     }
 
-    private void showOtpDialogForReset(final String verificationId) { //changed parameter name
+    private void showOtpDialogForReset(final String verificationId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Enter Verification Code");
         final EditText input = new EditText(getContext());
@@ -299,36 +293,25 @@ public class LoginFragment extends Fragment {
         builder.setPositiveButton("Verify", (dialog, which) -> {
             String enteredCode = input.getText().toString().trim();
             if (enteredCode.equals(verificationCode)) {
-                // Correct OTP, proceed with reset
-                verifyPhoneNumberWithCodeForReset(verificationId, enteredCode); //use new method
-                dialog.dismiss(); // Dismiss after successful verification
+                verifyPhoneNumberWithCodeForReset(verificationId, enteredCode);
+                dialog.dismiss();
             } else {
                 Toast.makeText(getContext(), "Incorrect code. Please try again.", Toast.LENGTH_SHORT).show();
-                // Do NOT dismiss the dialog here.  Allow the user to try again.
             }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
     }
 
-
-
     private void verifyPhoneNumberWithCodeForReset(String verificationId, String code) {
-        // [START verify_phone_number_with_code]
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        // [END verify_phone_number_with_code]
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success
-                        // Now that phone number is verified, show dialog to enter new password
                         showNewPasswordDialog();
-
                     } else {
-                        // Sign in failed
                         Log.e("PhoneAuth", "Phone sign-in failed", task.getException());
-                        Toast.makeText(getContext(), "Phone sign-in failed: " + task.getException().getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Phone sign-in failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -343,19 +326,16 @@ public class LoginFragment extends Fragment {
             String newPassword = newPasswordInput.getText().toString().trim();
             if (newPassword.length() < 6) {
                 Toast.makeText(getContext(), "Password must be at least 6 characters.", Toast.LENGTH_SHORT).show();
-                showNewPasswordDialog(); // Show the dialog again
+                showNewPasswordDialog();
                 return;
             }
-            // Get the current user
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            FirebaseUser user = mAuth.getCurrentUser();
             if (user != null) {
-                // Update the password
                 user.updatePassword(newPassword)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "Password has been reset successfully. Please login with new password", Toast.LENGTH_LONG).show();
-                                FirebaseAuth.getInstance().signOut();
-                                // Clear the fields
+                                Toast.makeText(getContext(), "Password reset successfully. Please login.", Toast.LENGTH_LONG).show();
+                                mAuth.signOut();
                                 emailField.setText("");
                                 passwordField.setText("");
                             } else {
@@ -369,28 +349,20 @@ public class LoginFragment extends Fragment {
         builder.show();
     }
 
-
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success
                         FirebaseUser user = task.getResult().getUser();
-                        // Get the user's phone number.
                         String phoneNumber = user.getPhoneNumber();
                         NavController navController = Navigation.findNavController(getView());
-                        // Now that we have signed in, fetch the user data.
                         fetchUserData(user.getUid(), navController);
                     } else {
-                        // Sign in failed
                         Log.e("PhoneAuth", "Phone sign-in failed", task.getException());
-                        Toast.makeText(getContext(), "Phone sign-in failed: " + task.getException().getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Phone sign-in failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-
-
 
     private void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -422,7 +394,6 @@ public class LoginFragment extends Fragment {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            //Check if the user is in the database
                             fetchGoogleUserData(user.getUid());
                         }
                     } else {
@@ -438,13 +409,11 @@ public class LoginFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 NavController navController = Navigation.findNavController(getView());
                 if (snapshot.exists()) {
-                    // User exists in database, proceed with login
                     String role = snapshot.child("role").getValue(String.class);
                     saveUserLoginStatus(role);
                     navigateToFragment(navController, role);
                 } else {
-                    // User doesn't exist, navigate to CollectUserDetails
-                    Navigation.findNavController(getView()).navigate(R.id.collectUserDetailsFragment);
+                    navController.navigate(R.id.collectUserDetailsFragment);
                 }
             }
 
@@ -455,4 +424,3 @@ public class LoginFragment extends Fragment {
         });
     }
 }
-

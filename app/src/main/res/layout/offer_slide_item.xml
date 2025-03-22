@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/card_background"
-    android:padding="16dp">
+    android:background="@color/card_background">
 
     <ImageView
         android:id="@+id/offer_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"/>
 
     <TextView

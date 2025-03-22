@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-
-    <!-- Gradient instead of solid color for a dynamic look -->
-    <gradient
-        android:startColor="@color/accent_color"
-    android:endColor="@color/button_accent_pressed"
-    android:angle="45"/>
-
-    <!-- Size -->
+    <solid android:color="#E6E6E6" />
     <size
-        android:width="40dp"
-        android:height="40dp"/>
-
-    <!-- Optional: Add a subtle stroke for definition -->
-    <stroke
-        android:width="1dp"
-        android:color="@color/white"/>
+        android:width="48dp"
+        android:height="48dp" />
 </shape>

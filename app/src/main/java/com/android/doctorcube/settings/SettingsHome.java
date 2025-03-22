@@ -1,6 +1,11 @@
 package com.android.doctorcube.settings;
 
+
+
+import static android.content.Intent.getIntent;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,6 +71,7 @@ public class SettingsHome extends Fragment {
         // Initialize NavController
         navController = Navigation.findNavController(view);
 
+
         // Initialize views
         initViews(view);
 
@@ -94,8 +101,7 @@ public class SettingsHome extends Fragment {
         LinearLayout faqLayout = requireView().findViewById(R.id.faq_layout);
         Button logoutButton = requireView().findViewById(R.id.logout_button);
         LinearLayout notificationLayout = requireView().findViewById(R.id.notification_settings_layout);
-        LinearLayout themeLayout = requireView().findViewById(R.id.theme_settings_layout);
-        LinearLayout languageLayout = requireView().findViewById(R.id.language_settings_layout);
+
         Button consultationButton = requireView().findViewById(R.id.schedule_consultation_button);
 
         // Set click listeners with safe navigation
@@ -119,14 +125,9 @@ public class SettingsHome extends Fragment {
             });
         }
         if (notificationLayout != null) {
-         //   notificationLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_notificationSettings));
+            notificationLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_notificationPref));
         }
-        if (themeLayout != null) {
-          //  themeLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_themeSettings));
-        }
-        if (languageLayout != null) {
-         //   languageLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_languageSettings));
-        }
+
         if (consultationButton != null) {
           //  consultationButton.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_consultationBooking));
         }
@@ -208,11 +209,11 @@ public class SettingsHome extends Fragment {
             Glide.with(this)
                     .load(imagePath)
                     .circleCrop()
-                    .placeholder(R.drawable.doctor_cubes_logo)
+                    .placeholder(R.drawable.ic_doctorcubes_white)
                     .into(profileImage);
         } else {
             Glide.with(this)
-                    .load(R.drawable.doctor_cubes_logo)
+                    .load(R.drawable.ic_doctorcubes_white)
                     .circleCrop()
                     .into(profileImage);
         }

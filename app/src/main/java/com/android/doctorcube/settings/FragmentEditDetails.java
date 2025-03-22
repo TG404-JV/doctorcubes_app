@@ -189,7 +189,7 @@ public class FragmentEditDetails extends Fragment {
             Glide.with(this)
                     .load(localFile)
                     .circleCrop()
-                    .placeholder(R.drawable.doctor_cubes_logo)
+                    .placeholder(R.drawable.ic_doctorcubes_white)
                     .into(profileImageView);
         }
 

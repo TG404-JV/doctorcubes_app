@@ -5,92 +5,93 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="3dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="4dp"
     app:strokeWidth="1dp"
     app:strokeColor="@color/card_border"
     app:cardBackgroundColor="@color/card_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+<androidx.constraintlayout.widget.ConstraintLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:padding="14dp">
 
-        <ImageView
-            android:id="@+id/noteIcon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:padding="8dp"
-            android:background="@drawable/circular_background"
-            android:src="@drawable/ic_notes"
-            app:tint="@color/primary_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="Note icon" />
+<ImageView
+    android:id="@+id/noteIcon"
+    android:layout_width="70dp"
+android:layout_height="70dp"
+android:padding="10dp"
+android:background="@drawable/circular_background_with_shadow"
+android:src="@drawable/ic_notes"
+app:tint="@color/primary_color"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toTopOf="parent"
+android:contentDescription="Note icon" />
 
-        <TextView
-            android:id="@+id/titleTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Mathematics"
-            android:textColor="@color/text_primary_color"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/noteIcon"
-            app:layout_constraintTop_toTopOf="parent" />
+<TextView
+    android:id="@+id/titleTextView"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:text="Mathematics"
+    android:textColor="@color/text_primary_color"
+    android:textSize="19sp"
+android:textStyle="bold"
+android:ellipsize="end"
+android:maxLines="1"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toEndOf="@+id/noteIcon"
+app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/descriptionTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:text="Calculus notes"
-            android:textColor="@color/text_primary_color"
-            android:ellipsize="end"
-            android:maxLines="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/noteIcon"
-            app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+<TextView
+    android:id="@+id/descriptionTextView"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="4dp"
+    android:text="Calculus notes"
+    android:textColor="@color/text_primary_color"
+    android:textSize="15sp"
+android:ellipsize="end"
+android:maxLines="2"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toEndOf="@+id/noteIcon"
+app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/authorChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="by Dr. Smith"
-            android:textSize="12sp"
-            android:textColor="@color/text_secondary_color"
-            app:chipBackgroundColor="@color/chip_background"
-            app:chipStrokeColor="@color/chip_stroke"
-            app:chipStrokeWidth="1dp"
-            app:chipMinHeight="24dp"
-            app:layout_constraintStart_toEndOf="@+id/noteIcon"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
+<com.google.android.material.chip.Chip
+    android:id="@+id/authorChip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:text="by Dr. Smith"
+    android:textSize="12sp"
+    android:textColor="@color/text_secondary_color"
+    app:chipBackgroundColor="@color/chip_background"
+    app:chipStrokeColor="@color/chip_stroke"
+    app:chipStrokeWidth="1dp"
+    app:chipMinHeight="24dp"
+    app:layout_constraintStart_toEndOf="@+id/noteIcon"
+    app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/sizeChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="15 MB"
-            android:textSize="12sp"
-            android:textColor="@color/text_secondary_color"
-            app:chipBackgroundColor="@color/chip_background"
-            app:chipStrokeColor="@color/chip_stroke"
-            app:chipStrokeWidth="1dp"
-            app:chipMinHeight="24dp"
-            app:chipIcon="@drawable/ic_file_size"
-            app:chipIconTint="@color/text_secondary_color"
-            app:chipIconSize="12dp"
-            app:layout_constraintStart_toEndOf="@+id/authorChip"
-            app:layout_constraintTop_toTopOf="@+id/authorChip" />
+<com.google.android.material.chip.Chip
+    android:id="@+id/sizeChip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:text="15 MB"
+    android:textSize="11sp"
+android:textColor="@color/text_secondary_color"
+app:chipBackgroundColor="@color/chip_background"
+app:chipStrokeColor="@color/chip_stroke"
+app:chipStrokeWidth="1dp"
+app:chipMinHeight="24dp"
+app:chipIcon="@drawable/ic_file_size"
+app:chipIconTint="@color/text_secondary_color"
+app:chipIconSize="12dp"
+app:layout_constraintStart_toEndOf="@+id/authorChip"
+app:layout_constraintTop_toTopOf="@+id/authorChip" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>

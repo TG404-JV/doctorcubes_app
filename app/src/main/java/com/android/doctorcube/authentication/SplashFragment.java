@@ -25,6 +25,8 @@ import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
 import com.android.doctorcube.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -34,6 +36,7 @@ public class SplashFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private ImageView ivGlobe, ivLogo, ivAirplane;
     private TextView tvAppName, tvTagline;
+    private FirebaseAuth mAuth;
 
     @Nullable
     @Override
@@ -45,11 +48,14 @@ public class SplashFragment extends Fragment {
 
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
-        // Initialize Encrypted SharedPreferences
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Initialize Encrypted SharedPreferences (match LoginFragment)
         try {
             String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
             sharedPreferences = EncryptedSharedPreferences.create(
-                    "user_prefs",
+                    "DoctorCubePrefs", // Consistent with LoginFragment
                     masterKeyAlias,
                     requireContext(),
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
@@ -57,18 +63,26 @@ public class SplashFragment extends Fragment {
             );
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
+            sharedPreferences = requireContext().getSharedPreferences("DoctorCubePrefs", requireContext().MODE_PRIVATE);
         }
 
         // Start animations with a slight delay
         new Handler(Looper.getMainLooper()).postDelayed(this::startAnimations, 300);
 
-        // Delay for 2 seconds before navigation
+        // Check login status and navigate after 2 seconds
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-                String userType = sharedPreferences.getString("userType", "");
-                navigateToFragment(navController, userType);
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+            if (isLoggedIn && currentUser != null) {
+                String userRole = sharedPreferences.getString("user_role", ""); // Match LoginFragment key
+                navigateToFragment(navController, userRole);
             } else {
-                // Redirect to GetStartedFragment if user is NOT logged in
+                // Sign out if Firebase has a user but SharedPreferences doesn’t
+                if (currentUser != null) {
+                    mAuth.signOut();
+                }
+                // Navigate to GetStartedFragment if not logged in
                 navController.navigate(R.id.getStartedFragment);
             }
         }, 2000); // 2-second splash delay
@@ -142,8 +156,13 @@ public class SplashFragment extends Fragment {
     private void navigateToFragment(NavController navController, String role) {
         if ("user".equals(role)) {
             navController.navigate(R.id.mainActivity2);
-        } else {
+        } else if ("admin".equals(role) || "superadmin".equals(role)) {
             navController.navigate(R.id.adminActivity2);
+        } else {
+            // Invalid role, treat as not logged in
+            mAuth.signOut();
+            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply();
+            navController.navigate(R.id.getStartedFragment);
         }
     }
 }

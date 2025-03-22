@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Global Education Hub</string>
+    <string name="app_name">DoctorCubes</string>
 
     <!-- General strings -->
     <string name="welcome">Welcome to Global Education Hub</string>
@@ -9,6 +9,7 @@
     <string name="learn_more">Learn More</string>
     <string name="contact_us">Contact Us</string>
     <string name="loading">Loading…</string>
+    4
 
     <!-- Advertisement Section -->
     <string name="study_abroad_made_easy">Study Abroad Made Easy!</string>

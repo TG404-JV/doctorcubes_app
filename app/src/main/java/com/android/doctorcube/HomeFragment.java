@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +56,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
 
     // Search bar components
     private EditText searchEditText;
-    private ImageView filterIcon;
     private List<University> fullUniversityList; // Store the full list for filtering
 
     @Nullable
@@ -63,8 +65,8 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
 
         // Initialize search bar components
         searchEditText = view.findViewById(R.id.search_edit_text); // Add an ID to EditText in XML
-        filterIcon = view.findViewById(R.id.filter_icon); // Add an ID to filter ImageView in XML
 
+        setupToolbar();
         setupOffersSlider(view);
         setupFeaturesRecyclerView(view);
         setupUniversitiesRecyclerView(view);
@@ -84,9 +86,9 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         }
 
         List<OfferSlide> offerSlides = new ArrayList<>();
-        offerSlides.add(new OfferSlide(R.drawable.flag_china, "Special Discount on Application Fee", "Limited time offer for early applicants"));
-        offerSlides.add(new OfferSlide(R.drawable.create_account_gradient_background, "Scholarship Opportunities", "Up to 50% scholarship for merit students"));
-        offerSlides.add(new OfferSlide(R.drawable.flag_russia, "Free Visa Assistance", "Complete guidance for visa processing"));
+        offerSlides.add(new OfferSlide(R.drawable.ic_offer_1, "Special Discount on Application Fee", "Limited time offer for early applicants"));
+        offerSlides.add(new OfferSlide(R.drawable.ic_offer_2, "Scholarship Opportunities", "Up to 50% scholarship for merit students"));
+        offerSlides.add(new OfferSlide(R.drawable.ic_offer_3, "Free Visa Assistance", "Complete guidance for visa processing"));
 
         offersAdapter = new OffersSliderAdapter(offerSlides);
         offersViewPager.setAdapter(offersAdapter);
@@ -220,10 +222,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     }
 
     private void setupSearchBar() {
-        if (searchEditText == null || filterIcon == null) {
-            Toast.makeText(getActivity(), "Search bar components not found", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         // TextWatcher for dynamic search
         searchEditText.addTextChangedListener(new TextWatcher() {
@@ -243,11 +241,7 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             }
         });
 
-        // Filter icon click (placeholder for future filter options)
-        filterIcon.setOnClickListener(v -> {
-            Toast.makeText(getActivity(), "Filter options coming soon!", Toast.LENGTH_SHORT).show();
-            // Future: Open a dialog or fragment for advanced filtering
-        });
+
     }
 
     private void filterUniversities(String query) {
@@ -295,6 +289,29 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             case Feature.TYPE_SUPPORT:
                 Toast.makeText(getActivity(), "Support Selected", Toast.LENGTH_SHORT).show();
                 break;
+        }
+    }
+
+    private void setupToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar toolbar = activity.findViewById(R.id.toolbar);
+            if (toolbar != null) {
+                TextView appTitle = toolbar.findViewById(R.id.app_title);
+                if (appTitle != null) {
+                    appTitle.setText("Home"); // Directly set the TextView text
+                } else {
+                    Toast.makeText(getContext(), "app_title TextView not found in Toolbar", Toast.LENGTH_SHORT).show();
+                }
+                // Set subtitle via ActionBar
+                if (activity.getSupportActionBar() != null) {
+                    activity.getSupportActionBar().setSubtitle("Premium Study Materials for Abroad Education");
+                }
+            } else {
+                Toast.makeText(getContext(), "MainActivity Toolbar not set", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getContext(), "Activity is not AppCompatActivity", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.doctorcube.communication.CommunicationUtils;
+import com.android.doctorcube.communication.SearchUtils;
 import com.android.doctorcube.home.adapter.EventAdapter;
 import com.android.doctorcube.home.adapter.FeaturesAdapter;
 import com.android.doctorcube.home.adapter.TestimonialsSliderAdapter;
@@ -211,70 +213,33 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         if (uzbekistanLayout != null) uzbekistanLayout.setOnClickListener(v -> openUniversitiesActivity("Uzbekistan"));
     }
 
+    // In HomeFragment.java
     private void setupCommunicationButtons(View view) {
-        MaterialCardView callButton = view.findViewById(R.id.call_now_button);
-        MaterialCardView whatsappButton = view.findViewById(R.id.whatsapp_button);
-
-        if (callButton != null) {
-            callButton.setOnClickListener(v -> {
-                Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse("tel:+1234567890"));
-                startActivity(callIntent);
-            });
-        }
-
-        if (whatsappButton != null) {
-            whatsappButton.setOnClickListener(v -> {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://api.whatsapp.com/send?phone=919730037126&text=" + Uri.encode("Hello, I would like to inquire about studying medicine abroad.")));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), "Please install WhatsApp first", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        CommunicationUtils commUtils = new CommunicationUtils(getActivity());
+        commUtils.setupCommunicationButtons(view);
     }
-
+    // In HomeFragment.java
     private void setupSearchBar() {
-        if (searchEditText == null) {
-            Toast.makeText(getActivity(), "Search EditText not found", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        SearchUtils<University> searchUtils = new SearchUtils<>(
+                getActivity(),
+                searchEditText,
+                fullUniversityList,
+                new SearchUtils.SearchCallback<University>() {
+                    @Override
+                    public void onSearchResults(List<University> filteredList) {
+                        if (universityListAdapter != null) {
+                            universityListAdapter.updateData(filteredList);
+                        }
+                    }
 
-        // TextWatcher for dynamic search
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // No action needed
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterUniversities(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No action needed
-            }
-        });
-    }
-
-    private void filterUniversities(String query) {
-        if (fullUniversityList == null || universityListAdapter == null) return;
-
-        List<University> filteredList = new ArrayList<>();
-        String lowerCaseQuery = query.toLowerCase();
-
-        for (University university : fullUniversityList) {
-            if (university.getName().toLowerCase().contains(lowerCaseQuery) ||
-                    university.getCountry().toLowerCase().contains(lowerCaseQuery)) {
-                filteredList.add(university);
-            }
-        }
-
-        universityListAdapter.updateData(filteredList);
+                    @Override
+                    public String getSearchText(University university) {
+                        // Define what to search in University objects
+                        return university.getName() + " " + university.getCountry();
+                    }
+                }
+        );
+        searchUtils.setupSearchBar();
     }
 
     private void setupCategoryButtons() {

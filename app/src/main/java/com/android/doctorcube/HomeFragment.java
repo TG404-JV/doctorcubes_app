@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,21 +17,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.doctorcube.home.adapter.FeaturesAdapter;
-import com.android.doctorcube.home.adapter.OffersSliderAdapter;
 import com.android.doctorcube.home.adapter.TestimonialsSliderAdapter;
 import com.android.doctorcube.home.adapter.UniversityListAdapter;
 import com.android.doctorcube.home.data.FeatureData;
 import com.android.doctorcube.home.data.Testimonial;
 import com.android.doctorcube.home.model.Feature;
-import com.android.doctorcube.home.model.OfferSlide;
 import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityData;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -41,8 +40,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureClickListener {
 
-    private ViewPager2 offersViewPager;
-    private OffersSliderAdapter offersAdapter;
     private RecyclerView featuresRecyclerView;
     private FeaturesAdapter featuresAdapter;
     private RecyclerView universitiesRecyclerView;
@@ -50,7 +47,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     private ViewPager2 testimonialsViewPager;
     private TestimonialsSliderAdapter testimonialsAdapter;
     private Handler sliderHandler = new Handler();
-    private Runnable offersSliderRunnable;
     private Runnable testimonialsSliderRunnable;
     private final int AUTO_SLIDE_INTERVAL = 3000;
 
@@ -58,60 +54,41 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     private EditText searchEditText;
     private List<University> fullUniversityList; // Store the full list for filtering
 
+    // Category buttons
+    private MaterialCardView studyButton, examButton, universityButton;
+
+    // Upcoming Events "SEE ALL" button
+    private TextView seeAllEventsButton;
+
+    // Invite Friends button
+    private MaterialButton inviteButton;
+
+    // Bottom Navigation
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Initialize search bar components
-        searchEditText = view.findViewById(R.id.search_edit_text); // Add an ID to EditText in XML
+        // Initialize UI components
+        searchEditText = view.findViewById(R.id.searchEditText);
+        studyButton = view.findViewById(R.id.studyButton); // Add IDs to MaterialCardView in XML
+        examButton = view.findViewById(R.id.examButton);
+        universityButton = view.findViewById(R.id.universityButton);
+        seeAllEventsButton = view.findViewById(R.id.see_all_events); // Add ID to "SEE ALL" TextView in XML
+        inviteButton = view.findViewById(R.id.invite_button); // Add ID to "INVITE" Button in XML
 
         setupToolbar();
-        setupOffersSlider(view);
         setupFeaturesRecyclerView(view);
         setupUniversitiesRecyclerView(view);
         setupTestimonialsSlider(view);
         setupCountrySelectionListeners(view);
         setupCommunicationButtons(view);
         setupSearchBar();
+        setupCategoryButtons();
+        setupEventListeners();
 
         return view;
-    }
-
-    private void setupOffersSlider(View view) {
-        offersViewPager = view.findViewById(R.id.offers_viewpager);
-        if (offersViewPager == null) {
-            Toast.makeText(getActivity(), "Offers ViewPager not found", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        List<OfferSlide> offerSlides = new ArrayList<>();
-        offerSlides.add(new OfferSlide(R.drawable.ic_offer_1, "Special Discount on Application Fee", "Limited time offer for early applicants"));
-        offerSlides.add(new OfferSlide(R.drawable.ic_offer_2, "Scholarship Opportunities", "Up to 50% scholarship for merit students"));
-        offerSlides.add(new OfferSlide(R.drawable.ic_offer_3, "Free Visa Assistance", "Complete guidance for visa processing"));
-
-        offersAdapter = new OffersSliderAdapter(offerSlides);
-        offersViewPager.setAdapter(offersAdapter);
-
-        offersSliderRunnable = () -> {
-            int currentPosition = offersViewPager.getCurrentItem();
-            if (currentPosition == offersAdapter.getItemCount() - 1) {
-                offersViewPager.setCurrentItem(0);
-            } else {
-                offersViewPager.setCurrentItem(currentPosition + 1);
-            }
-            sliderHandler.postDelayed(offersSliderRunnable, AUTO_SLIDE_INTERVAL);
-        };
-        startOffersAutoSlide();
-
-        offersViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                sliderHandler.removeCallbacks(offersSliderRunnable);
-                sliderHandler.postDelayed(offersSliderRunnable, AUTO_SLIDE_INTERVAL);
-            }
-        });
     }
 
     private void setupFeaturesRecyclerView(View view) {
@@ -121,7 +98,7 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             return;
         }
 
-        featuresRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        featuresRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         List<Feature> features = FeatureData.getInstance().getFeatures(requireContext());
         featuresAdapter = new FeaturesAdapter(features, this);
         featuresRecyclerView.setAdapter(featuresAdapter);
@@ -137,7 +114,7 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         universitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         fullUniversityList = UniversityData.getUniversities(); // Store full list
         if (getContext() != null) {
-            universityListAdapter = new UniversityListAdapter(getContext(), new ArrayList<>(fullUniversityList)); // Pass a copy
+            universityListAdapter = new UniversityListAdapter(getContext(), new ArrayList<>(fullUniversityList));
             universitiesRecyclerView.setAdapter(universityListAdapter);
         } else {
             Toast.makeText(getActivity(), "Context unavailable for universities", Toast.LENGTH_SHORT).show();
@@ -181,12 +158,12 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     }
 
     private void setupCountrySelectionListeners(View view) {
-        LinearLayout russiaLayout = view.findViewById(R.id.country_russia);
-        LinearLayout georgiaLayout = view.findViewById(R.id.country_georgia);
-        LinearLayout kazakhstanLayout = view.findViewById(R.id.country_kazakhstan);
-        LinearLayout nepalLayout = view.findViewById(R.id.country_nepal);
-        LinearLayout chinaLayout = view.findViewById(R.id.country_china);
-        LinearLayout uzbekistanLayout = view.findViewById(R.id.country_uzbekistan);
+        CardView russiaLayout = view.findViewById(R.id.country_russia_card);
+        CardView georgiaLayout = view.findViewById(R.id.country_georgia_card);
+        CardView kazakhstanLayout = view.findViewById(R.id.country_kazakhstan_card);
+        CardView nepalLayout = view.findViewById(R.id.country_nepal_card);
+        CardView chinaLayout = view.findViewById(R.id.country_china_card);
+        CardView uzbekistanLayout = view.findViewById(R.id.country_uzbekistan_card);
 
         if (russiaLayout != null) russiaLayout.setOnClickListener(v -> openUniversitiesActivity("Russia"));
         if (georgiaLayout != null) georgiaLayout.setOnClickListener(v -> openUniversitiesActivity("Georgia"));
@@ -222,6 +199,10 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     }
 
     private void setupSearchBar() {
+        if (searchEditText == null) {
+            Toast.makeText(getActivity(), "Search EditText not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // TextWatcher for dynamic search
         searchEditText.addTextChangedListener(new TextWatcher() {
@@ -240,8 +221,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
                 // No action needed
             }
         });
-
-
     }
 
     private void filterUniversities(String query) {
@@ -251,15 +230,60 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         String lowerCaseQuery = query.toLowerCase();
 
         for (University university : fullUniversityList) {
-            // Assuming University has getName() and getCountry() methods
             if (university.getName().toLowerCase().contains(lowerCaseQuery) ||
                     university.getCountry().toLowerCase().contains(lowerCaseQuery)) {
                 filteredList.add(university);
             }
         }
 
-        universityListAdapter.updateData(filteredList); // Update adapter with filtered list
+        universityListAdapter.updateData(filteredList);
     }
+
+    private void setupCategoryButtons() {
+        if (studyButton != null) {
+            studyButton.setOnClickListener(v -> {
+                Toast.makeText(getActivity(), "Study Category Selected", Toast.LENGTH_SHORT).show();
+                // Add logic to filter or navigate based on "Study" category
+            });
+        }
+
+        if (examButton != null) {
+            examButton.setOnClickListener(v -> {
+                Toast.makeText(getActivity(), "Exam Category Selected", Toast.LENGTH_SHORT).show();
+                // Add logic to filter or navigate based on "Exam" category
+            });
+        }
+
+        if (universityButton != null) {
+            universityButton.setOnClickListener(v -> {
+                Toast.makeText(getActivity(), "University Category Selected", Toast.LENGTH_SHORT).show();
+                // Add logic to filter or navigate based on "University" category
+            });
+        }
+    }
+
+    private void setupEventListeners() {
+        if (seeAllEventsButton != null) {
+            seeAllEventsButton.setOnClickListener(v -> {
+                Toast.makeText(getActivity(), "See All Events Clicked", Toast.LENGTH_SHORT).show();
+                // Navigate to an EventsActivity or Fragment
+              /*  Intent intent = new Intent(getActivity(), EventsActivity.class);
+                startActivity(intent);*/
+            });
+        }
+
+        if (inviteButton != null) {
+            inviteButton.setOnClickListener(v -> {
+                Toast.makeText(getActivity(), "Invite Friends Clicked", Toast.LENGTH_SHORT).show();
+                // Implement invite functionality (e.g., share intent)
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Join me on DoctorCube to explore study abroad opportunities! Get $20 for a ticket: [Your Referral Link]");
+                startActivity(Intent.createChooser(shareIntent, "Invite Friends"));
+            });
+        }
+    }
+
 
     private void openUniversitiesActivity(String country) {
         if (getActivity() != null) {
@@ -299,11 +323,10 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             if (toolbar != null) {
                 TextView appTitle = toolbar.findViewById(R.id.app_title);
                 if (appTitle != null) {
-                    appTitle.setText("Home"); // Directly set the TextView text
+                    appTitle.setText("Home");
                 } else {
                     Toast.makeText(getContext(), "app_title TextView not found in Toolbar", Toast.LENGTH_SHORT).show();
                 }
-                // Set subtitle via ActionBar
                 if (activity.getSupportActionBar() != null) {
                     activity.getSupportActionBar().setSubtitle("Premium Study Materials for Abroad Education");
                 }
@@ -312,12 +335,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             }
         } else {
             Toast.makeText(getContext(), "Activity is not AppCompatActivity", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void startOffersAutoSlide() {
-        if (offersSliderRunnable != null && sliderHandler != null) {
-            sliderHandler.postDelayed(offersSliderRunnable, AUTO_SLIDE_INTERVAL);
         }
     }
 
@@ -330,15 +347,14 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     @Override
     public void onResume() {
         super.onResume();
-        startOffersAutoSlide();
         startTestimonialsAutoSlide();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
         if (sliderHandler != null) {
-            sliderHandler.removeCallbacks(offersSliderRunnable);
             sliderHandler.removeCallbacks(testimonialsSliderRunnable);
         }
     }
@@ -347,7 +363,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     public void onDestroy() {
         super.onDestroy();
         if (sliderHandler != null) {
-            sliderHandler.removeCallbacks(offersSliderRunnable);
             sliderHandler.removeCallbacks(testimonialsSliderRunnable);
             sliderHandler = null;
         }

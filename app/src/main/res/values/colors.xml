@@ -161,5 +161,8 @@
     <!-- Button Colors -->
     <color name="whatsapp_button_color">#25D366</color>  <!-- WhatsApp Green -->
     <color name="call_button_color">#219653</color>      <!-- Deep Green -->
+    <color name="ripple_effect">#33FFFFFF</color>
+    <color name="background_light">#F4F6F9</color>
+
 
 </resources>

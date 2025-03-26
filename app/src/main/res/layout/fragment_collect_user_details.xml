@@ -4,80 +4,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="#0064D1"
     tools:context=".authentication.CollectUserDetailsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:background="@drawable/bg_collect_user_detail"
 
-        <!-- Header -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="24dp">
+        android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher_round" />
+        <!-- Header with back button and title -->
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="Complete Your Profile"
-                android:textColor="@color/text_primary_color"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:padding="16dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="Help us personalize your medical education abroad journey"
-                android:textColor="@color/text_secondary_color"
-                android:textSize="14sp" />
-        </LinearLayout>
+               <ImageView
+                   android:id="@+id/backButton"
+                   android:layout_width="32dp"
+                   android:layout_height="32dp"
+                   android:layout_alignParentStart="true"
+                   android:layout_centerVertical="true"
+                   android:src="@drawable/ic_back"
+                   app:tint="@color/white" />
 
-        <!-- Card Container -->
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerInParent="true"
+                   android:text="Profile Setup"
+                   android:textColor="@color/white"
+                   android:textSize="20sp"
+                   android:textStyle="bold" />
+           </RelativeLayout>
+
+           <!-- Main title section -->
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:padding="24dp">
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="Complete"
+                   android:textColor="@color/white"
+                   android:textSize="40sp"
+                   android:textStyle="bold" />
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="your profile"
+                   android:textColor="@color/white"
+                   android:textSize="40sp"
+                   android:textStyle="bold" />
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="8dp"
+                   android:text="Help us personalize your medical education abroad journey"
+                   android:textColor="@color/white"
+                   android:textSize="16sp" />
+           </LinearLayout>
+       </LinearLayout>
+
+        <!-- White card container for user details form -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            app:cardCornerRadius="24dp"
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
+                <!-- Personal Information Section -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:text="Personal Information"
                     android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
 
                 <!-- Name Field -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:boxStrokeColor="@color/input_focus"
+                    app:boxStrokeColor="@color/primary_color"
                     app:startIconDrawable="@drawable/ic_profile"
-                    app:startIconTint="@color/icon_tint_primary"
+                    app:startIconTint="@color/primary_color"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -93,9 +123,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:boxStrokeColor="@color/input_focus"
+                    app:boxStrokeColor="@color/primary_color"
                     app:startIconDrawable="@drawable/ic_email"
-                    app:startIconTint="@color/icon_tint_primary"
+                    app:startIconTint="@color/primary_color"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -110,10 +140,10 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxStrokeColor="@color/input_focus"
+                    android:layout_marginBottom="24dp"
+                    app:boxStrokeColor="@color/primary_color"
                     app:startIconDrawable="@drawable/ic_call"
-                    app:startIconTint="@color/icon_tint_primary"
+                    app:startIconTint="@color/primary_color"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -123,39 +153,25 @@
                         android:hint="Phone Number"
                         android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-        <!-- Location Card -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
+                <!-- Location Details Section -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:text="Location Details"
                     android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
 
                 <!-- Country Selection -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:boxStrokeColor="@color/input_focus"
+                    app:boxStrokeColor="@color/primary_color"
+                    app:startIconDrawable="@drawable/ic_location"
+                    app:startIconTint="@color/primary_color"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <AutoCompleteTextView
@@ -171,7 +187,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:boxStrokeColor="@color/input_focus"
+                    app:boxStrokeColor="@color/primary_color"
+                    app:startIconDrawable="@drawable/ic_location"
+                    app:startIconTint="@color/primary_color"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -186,7 +204,10 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:boxStrokeColor="@color/input_focus"
+                    android:layout_marginBottom="24dp"
+                    app:boxStrokeColor="@color/primary_color"
+                    app:startIconDrawable="@drawable/ic_location"
+                    app:startIconTint="@color/primary_color"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -196,32 +217,16 @@
                         android:hint="City"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-        <!-- Medical Background Card -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
+                <!-- Medical Education Section -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:text="Medical Education"
                     android:textColor="@color/text_primary_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
 
                 <!-- NEET Score Section -->
                 <TextView
@@ -233,26 +238,26 @@
                     android:layout_marginBottom="8dp" />
 
                 <RadioGroup
-                    android:id="@+id/needScoreGroup"
+                    android:id="@+id/neetScoreGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="16dp">
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/needScoreYes"
+                        android:id="@+id/neetScoreYes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Yes"
                         android:layout_marginEnd="24dp"
-                        android:buttonTint="@color/checkbox_tint" />
+                        android:buttonTint="@color/primary_color" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/needScoreNo"
+                        android:id="@+id/neetScoreNo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"
-                        android:buttonTint="@color/checkbox_tint" />
+                        android:buttonTint="@color/primary_color" />
                 </RadioGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -260,7 +265,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:boxStrokeColor="@color/input_focus"
+                    app:boxStrokeColor="@color/primary_color"
                     android:visibility="gone"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -277,54 +282,57 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Do you have a Passport?"
-                    android:textColor="@color/text_primary_color"
+                    android:textColor="@color/primary_color"
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp" />
 
                 <RadioGroup
-                    android:id="@+id/Passport"
+                    android:id="@+id/passportGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp">
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/PassportYes"
+                        android:id="@+id/passportYes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Yes"
                         android:layout_marginEnd="24dp"
-                        android:buttonTint="@color/checkbox_tint" />
+                        android:buttonTint="@color/primary_color" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/PassportNo"
+                        android:id="@+id/passportNo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="No"
-                        android:buttonTint="@color/checkbox_tint" />
+                        android:buttonTint="@color/primary_color" />
                 </RadioGroup>
+
+                <!-- Submit Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/submitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Submit Details"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:cornerRadius="8dp"
+                    android:backgroundTint="@color/primary_color"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Help Message -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your information helps us match you with the best medical education opportunities abroad"
+                    android:textColor="@color/text_secondary_color"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Bottom Navigation Bar -->
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <!-- Submit Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/submitButton"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Submit Details"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:cornerRadius="8dp"
-            android:backgroundTint="@color/button_primary"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Help Message -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Your information helps us match you with the best medical education opportunities abroad"
-            android:textColor="@color/text_tertiary_color"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:layout_marginBottom="16dp"/>
     </LinearLayout>
 </ScrollView>

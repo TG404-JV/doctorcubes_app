@@ -5,50 +5,33 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar; // Use AppCompat Toolbar
+import androidx.appcompat.app.AppCompatActivity; // Add this import
+import androidx.appcompat.widget.Toolbar; // Already imported
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;  // Import NavHostFragment
+import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.android.doctorcube.R;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentAbout#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentAbout extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private NavController navController;  // Add NavController
-    private Toolbar toolbar; // Declare Toolbar
+    private NavController navController;
+    private Toolbar fragmentToolbar; // Renamed for clarity
 
     public FragmentAbout() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentAbout.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentAbout newInstance(String param1, String param2) {
         FragmentAbout fragment = new FragmentAbout();
         Bundle args = new Bundle();
@@ -70,22 +53,23 @@ public class FragmentAbout extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about, container, false);
 
         // Initialize NavController
         navController = NavHostFragment.findNavController(this);
 
-        // Initialize Toolbar and set back button listener
-        toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToHome(); // Call the navigation method
-            }
-        });
+        // Hide MainActivity Toolbar
+        hideMainActivityToolbar();
 
-        // Initialize UI elements and set listeners (Inside onCreateView)
+        // Initialize Fragment's Toolbar and set back button listener
+        fragmentToolbar = view.findViewById(R.id.toolbar);
+        if (fragmentToolbar != null) {
+            fragmentToolbar.setNavigationOnClickListener(v -> navigateToHome());
+            // Optionally set title for Fragment's Toolbar
+            fragmentToolbar.setTitle("About");
+        }
+
+        // Initialize UI elements and set listeners
         MaterialButton emailButton = view.findViewById(R.id.btnEmail);
         MaterialButton whatsappButton = view.findViewById(R.id.btnWhatsApp);
         MaterialButton callButton = view.findViewById(R.id.btnCall);
@@ -97,14 +81,41 @@ public class FragmentAbout extends Fragment {
         return view;
     }
 
+    private void hideMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar); // MainActivity's Toolbar ID
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.GONE); // Hide the MainActivity Toolbar
+            }
+            // Optionally hide the ActionBar if it's being used
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().hide();
+            }
+        }
+    }
+
+    private void showMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.VISIBLE); // Show it back
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().show();
+            }
+        }
+    }
+
     private void openEmailApp() {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:support@doctorcube.com")); // Replace with your support email
+        intent.setData(Uri.parse("mailto:support@doctorcube.com"));
         startActivity(Intent.createChooser(intent, "Send Email"));
     }
 
     private void openWhatsApp() {
-        String phoneNumber = "+1234567890";  // Replace with your WhatsApp number
+        String phoneNumber = "+1234567890";
         String url = "https://api.whatsapp.com/send?phone=" + phoneNumber;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
@@ -112,25 +123,22 @@ public class FragmentAbout extends Fragment {
     }
 
     private void openDialer() {
-        String phoneNumber = "+1234567890";  // Replace with your phone number
+        String phoneNumber = "+1234567890";
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + phoneNumber));
         startActivity(intent);
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        // Handle back navigation when the fragment is detached
-        if (navController != null) {
-            navigateToHome();
-        }
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Show MainActivity Toolbar when leaving this Fragment
+        showMainActivityToolbar();
     }
 
     private void navigateToHome() {
         if (navController != null) {
-            navController.navigate(R.id.action_global_settingsHome); // Use the correct action ID
+            navController.navigate(R.id.action_global_settingsHome);
         }
     }
 }
-

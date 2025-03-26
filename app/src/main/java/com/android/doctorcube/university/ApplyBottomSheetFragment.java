@@ -80,12 +80,12 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
         cityEditText = view.findViewById(R.id.cityEditText);
         neetScoreEditText = view.findViewById(R.id.neetScore);
         countrySpinner = view.findViewById(R.id.countrySpinner);
-        neetScoreGroup = view.findViewById(R.id.needScoreGroup);
-        passportGroup = view.findViewById(R.id.Passport);
-        neetScoreYes = view.findViewById(R.id.needScoreYes);
-        neetScoreNo = view.findViewById(R.id.needScoreNo);
-        passportYes = view.findViewById(R.id.PassportYes);
-        passportNo = view.findViewById(R.id.PassportNo);
+        neetScoreGroup = view.findViewById(R.id.neetScoreGroup); // Fixed ID typo
+        passportGroup = view.findViewById(R.id.passportGroup);   // Fixed ID typo
+        neetScoreYes = view.findViewById(R.id.neetScoreYes);     // Fixed ID typo
+        neetScoreNo = view.findViewById(R.id.neetScoreNo);       // Fixed ID typo
+        passportYes = view.findViewById(R.id.passportYes);       // Fixed ID typo
+        passportNo = view.findViewById(R.id.passportNo);
         neetScoreLayout = view.findViewById(R.id.neetScoreLayout);
         submitButton = view.findViewById(R.id.submitButton);
 
@@ -143,7 +143,7 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void setUpListeners() {
         neetScoreGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            neetScoreLayout.setVisibility(checkedId == R.id.needScoreYes ? View.VISIBLE : View.GONE);
+            neetScoreLayout.setVisibility(checkedId == R.id.neetScoreYes ? View.VISIBLE : View.GONE);
         });
 
         submitButton.setOnClickListener(v -> {

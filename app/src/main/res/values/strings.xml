@@ -190,4 +190,14 @@
 
     <string name="admitted">Admitted</string>
 
+    <!-- Search-related strings -->
+    <string name="search_hint">Search...</string>
+    <string name="search_icon_description">Search icon</string>
+    <string name="filter_icon_description">Filter options</string>
+
+    <!-- Button texts -->
+    <string name="study_button_text">Study</string>
+    <string name="exam_button_text">Exam</string>
+    <string name="university_button_text">University</string>
+
 </resources>

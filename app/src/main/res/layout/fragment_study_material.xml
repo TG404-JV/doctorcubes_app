@@ -18,7 +18,7 @@
         <!-- If you want to keep it for specific cases, uncomment and adjust visibility -->
         <!--
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar"A
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"

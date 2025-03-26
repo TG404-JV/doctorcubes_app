@@ -4,59 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/background_color">
 
 
+
+    <!-- Image -->
     <ImageView
-        android:layout_width="wrap_content"
+        android:id="@+id/mask_image"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_get_strated_mask"
-        app:layout_constraintBottom_toTopOf="@+id/heading_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:contentDescription="Decorative mask image"
+        android:layout_marginTop="16dp"
+        app:layout_constraintWidth_percent="0.8"
+    app:layout_constraintBottom_toTopOf="@id/heading_text"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintVertical_bias="0.3" />
 
+    <!-- Heading -->
     <TextView
         android:id="@+id/heading_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
-        android:text="Make Your Abroad Admission Dream \nCome True "
-        android:fontFamily="sans-serif-black"
-        android:textSize="32sp"
+        android:layout_marginBottom="16dp"
+        android:text="Make Your Abroad Admission Dream Come True"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/button_container" />
+        android:textColor="#212121"
+    android:lineSpacingExtra="4dp"
+    android:gravity="center"
+    app:layout_constraintWidth_percent="0.9"
+    app:layout_constraintBottom_toTopOf="@id/subheading_text"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Subheading (Optional) -->
+    <TextView
+        android:id="@+id/subheading_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="Start your journey today!"
+        android:fontFamily="sans-serif"
+        android:textSize="16sp"
+        android:textColor="#616161"
+    android:gravity="center"
+    app:layout_constraintWidth_percent="0.9"
+    app:layout_constraintBottom_toTopOf="@id/button_container"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Button Container -->
     <LinearLayout
         android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         android:padding="24dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
-
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/get_started_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_corner_button"
-            android:drawableEnd="@drawable/ic_arrow_forward"
-            android:drawableTint="@color/white"
-            app:cornerRadius="15dp"
-            android:drawablePadding="8dp"
+            android:text="Get Started"
+            android:textSize="18sp"
+            android:textColor="@color/white"
             android:paddingStart="24dp"
             android:paddingTop="16dp"
             android:paddingEnd="24dp"
             android:paddingBottom="16dp"
-            android:text="Get Started"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:drawableEnd="@drawable/ic_arrow_forward"
+            android:drawableTint="@color/white"
+            android:drawablePadding="8dp"
+            app:cornerRadius="12dp"
+            android:background="@drawable/login_gradient_background"
+        app:elevation="4dp"
+        app:rippleColor="#80FFFFFF" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

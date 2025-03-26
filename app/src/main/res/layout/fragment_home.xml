@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
-
+    android:background="@android:color/white">
 
     <!-- Main ScrollView to contain all content -->
     <ScrollView
@@ -15,328 +14,1048 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <!-- App Bar -->
-
-            <!-- Search Bar -->
-            <com.google.android.material.card.MaterialCardView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginBottom="16dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="28dp"
-                app:cardBackgroundColor="@color/white">
+                android:layout_height="140dp"
+                android:background="@drawable/bg_home_header"
+                android:layout_marginBottom="10dp"
+                android:paddingBottom="8dp">
 
+                <!-- Header with Location and Search Bar -->
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="8dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_search"
-                        android:layout_marginStart="16dp"
-                        app:tint="@color/text_secondary_color" />
-
-                    <EditText
-                        android:id="@+id/search_edit_text"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="Search universities, countries, services..."
-                        android:textColorHint="@color/hint_color"
-                        android:textColor="@color/text_primary_color"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp" />
-
-
-
-
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- 1. Special Offers Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Special Offers"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_dark_color" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:textSize="14sp"
-                    android:textColor="@color/accent_color"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/offers_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginBottom="16dp" />
-
-
-
-            <!-- 2. Countries Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Countries to Study MBBS Abroad"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_dark_color" />
-
-            </LinearLayout>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="24dp"
-                app:cardBackgroundColor="@color/card_background">
-
-                <LinearLayout
+                    android:id="@+id/searchHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <GridLayout
+                    <!-- Search Bar -->
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        app:cardBackgroundColor="@color/card_background"
+                        app:cardCornerRadius="24dp"
+                        app:cardElevation="2dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/input_outline">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginStart="16dp"
+                                android:src="@android:drawable/ic_menu_search"
+                                android:contentDescription="@string/search_icon_description"
+                                app:tint="@color/icon_tint_secondary" />
+
+                            <EditText
+                                android:id="@+id/searchEditText"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:hint="@string/search_hint"
+                                android:textColor="@color/text_primary_color"
+                                android:textColorHint="@color/text_secondary_color"
+                                android:textSize="16sp" />
+
+                            <ImageView
+                                android:id="@+id/filterIcon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="16dp"
+                                android:src="@android:drawable/ic_menu_slideshow"
+                                android:contentDescription="@string/filter_icon_description"
+                                app:tint="@color/icon_tint_secondary" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- Category Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="40dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <!-- Study Button -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/studyButton"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:columnCount="3"
-                        android:rowCount="2"
-                        android:alignmentMode="alignMargins"
-                        android:useDefaultMargins="true">
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:minWidth="100dp"
+                        app:cardBackgroundColor="@color/university_icon_bg"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:rippleColor="@color/ripple_color">
 
-                        <!-- Countries Grid -->
                         <LinearLayout
-                            android:id="@+id/country_russia"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="8dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground">
+                            android:orientation="horizontal"
+                            android:padding="12dp">
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/flag_russia"
-                                android:padding="4dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/CircleShape"
-                                android:background="@drawable/circular_background" />
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="8dp"
+                                android:src="@android:drawable/ic_menu_myplaces"
+                                app:tint="@color/university_icon_tint" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Russia"
-                                android:textSize="13sp"
-                                android:textColor="@color/text_primary_color"
-                                android:layout_marginTop="8dp" />
+                                android:text="@string/study_button_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Exam Button -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/examButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:minWidth="100dp"
+                        app:cardBackgroundColor="@color/tracking_icon_bg"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:rippleColor="@color/ripple_color">
 
                         <LinearLayout
-                            android:id="@+id/country_georgia"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="8dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground">
+                            android:orientation="horizontal"
+                            android:padding="12dp">
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/flag_georgia"
-                                android:padding="4dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/CircleShape"
-                                android:background="@drawable/circular_background" />
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="8dp"
+                                android:src="@android:drawable/stat_sys_headset"
+                                app:tint="@color/tracking_icon_tint" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Georgia"
-                                android:textSize="13sp"
-                                android:textColor="@color/text_primary_color"
-                                android:layout_marginTop="8dp" />
+                                android:text="@string/exam_button_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- University Button -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/universityButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minWidth="100dp"
+                        app:cardBackgroundColor="@color/scholarship_icon_bg"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:rippleColor="@color/ripple_color">
 
                         <LinearLayout
-                            android:id="@+id/country_kazakhstan"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="8dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground">
+                            android:orientation="horizontal"
+                            android:padding="12dp">
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/flag_kazakhstan"
-                                android:padding="4dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/CircleShape"
-                                android:background="@drawable/circular_background" />
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="8dp"
+                                android:src="@android:drawable/ic_menu_share"
+                                app:tint="@color/scholarship_icon_tint" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Kazakhstan"
-                                android:textSize="13sp"
-                                android:textColor="@color/text_primary_color"
-                                android:layout_marginTop="8dp" />
+                                android:text="@string/university_button_text"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </RelativeLayout>
+            <!-- Upcoming Events Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
-                        <LinearLayout
-                            android:id="@+id/country_nepal"
-                            android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Upcoming Events"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/see_all_events"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SEE ALL"
+                        android:visibility="gone"
+                        android:textColor="@android:color/holo_blue_light"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Event 1 -->
+                        <androidx.cardview.widget.CardView
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground">
+                            android:layout_marginEnd="16dp"
+                            app:cardCornerRadius="12dp">
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/flag_nepal"
-                                android:padding="4dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/CircleShape"
-                                android:background="@drawable/circular_background" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Nepal"
-                                android:textSize="13sp"
-                                android:textColor="@color/text_primary_color"
-                                android:layout_marginTop="8dp" />
-                        </LinearLayout>
+                                android:orientation="vertical">
 
-                        <LinearLayout
-                            android:id="@+id/country_china"
-                            android:layout_width="0dp"
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="120dp">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/ic_offer_1"
+                                        android:scaleType="centerCrop" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top|start"
+                                        android:layout_margin="8dp"
+                                        android:background="@android:color/holo_red_light"
+                                        android:padding="4dp"
+                                        android:text="10\nJUNE"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                </FrameLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
+                                    android:text="International Band"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@android:drawable/ic_menu_myplaces" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="London, UK"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@android:drawable/ic_menu_myplaces" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="+20 Going"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Event 2 -->
+                        <androidx.cardview.widget.CardView
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground">
+                            android:layout_marginEnd="16dp"
+                            app:cardCornerRadius="12dp">
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/flag_china"
-                                android:padding="4dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/CircleShape"
-                                android:background="@drawable/circular_background" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="China"
-                                android:textSize="13sp"
-                                android:textColor="@color/text_primary_color"
-                                android:layout_marginTop="8dp" />
-                        </LinearLayout>
+                                android:orientation="vertical">
 
-                        <LinearLayout
-                            android:id="@+id/country_uzbekistan"
-                            android:layout_width="0dp"
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="120dp">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/ic_offer_2"
+                                        android:scaleType="centerCrop" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top|start"
+                                        android:layout_margin="8dp"
+                                        android:background="@android:color/holo_red_light"
+                                        android:padding="4dp"
+                                        android:text="10\nJUNE"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                </FrameLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
+                                    android:text="Jo Malone"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@android:drawable/ic_menu_myplaces" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="Radius Gal"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@android:drawable/ic_menu_myplaces" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="+21 Going"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Event 3 -->
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackground">
+                            android:layout_marginEnd="16dp"
+                            app:cardCornerRadius="12dp">
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:src="@drawable/flag_uzbekistan"
-                                android:padding="4dp"
-                                android:scaleType="centerCrop"
-                                app:shapeAppearanceOverlay="@style/CircleShape"
-                                android:background="@drawable/circular_background" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Uzbekistan"
-                                android:textSize="13sp"
-                                android:textColor="@color/text_primary_color"
-                                android:layout_marginTop="8dp" />
-                        </LinearLayout>
-                    </GridLayout>
+                                android:orientation="vertical">
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="120dp">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/ic_offer_3"
+                                        android:scaleType="centerCrop" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top|start"
+                                        android:layout_margin="8dp"
+                                        android:background="@android:color/holo_red_light"
+                                        android:padding="4dp"
+                                        android:text="10\nJUNE"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                </FrameLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
+                                    android:text="Jo Malone"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@android:drawable/ic_menu_myplaces" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="Radius Gal"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@android:drawable/ic_menu_myplaces" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="+21 Going"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <!-- Invite Friends Banner -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardBackgroundColor="@color/background_color"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Invite your friends"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Make His Dream"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/invite_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/primary_light_color"
+                            android:padding="12dp"
+                            android:text="INVITE"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/ic_doctorcubes_black" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <!-- Countries to Study MBBS Abroad Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Countries to Study MBBS Abroad"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Country Card: Russia -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/country_russia_card"
+                            android:layout_width="160dp"
+                            android:layout_height="220dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/flag_russia" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:text="Russia"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:text="60+ Universities"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="13sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="12dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:src="@drawable/ic_ranking"
+                                            app:tint="@android:color/holo_orange_light" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="6dp"
+                                            android:fontFamily="sans-serif"
+                                            android:text="4.5"
+                                            android:textColor="@android:color/darker_gray"
+                                            android:textSize="13sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Country Card: Georgia -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/country_georgia_card"
+                            android:layout_width="160dp"
+                            android:layout_height="220dp"
+                            android:layout_marginEnd="16dp"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/flag_georgia" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:text="Georgia"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:text="15+ Universities"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="13sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="12dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:src="@drawable/ic_ranking"
+                                            app:tint="@android:color/holo_orange_light" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="6dp"
+                                            android:fontFamily="sans-serif"
+                                            android:text="4.3"
+                                            android:textColor="@android:color/darker_gray"
+                                            android:textSize="13sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Country Card: Kazakhstan -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/country_kazakhstan_card"
+                            android:layout_width="160dp"
+                            android:layout_height="220dp"
+                            android:layout_marginEnd="16dp"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/flag_kazakhstan" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:text="Kazakhstan"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:text="20+ Universities"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="13sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="12dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:src="@drawable/ic_ranking"
+                                            app:tint="@android:color/holo_orange_light" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="6dp"
+                                            android:fontFamily="sans-serif"
+                                            android:text="4.2"
+                                            android:textColor="@android:color/darker_gray"
+                                            android:textSize="13sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Country Card: Nepal -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/country_nepal_card"
+                            android:layout_width="160dp"
+                            android:layout_height="220dp"
+                            android:layout_marginEnd="16dp"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/flag_nepal" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:text="Nepal"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:text="10+ Universities"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="13sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="12dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:src="@drawable/ic_ranking"
+                                            app:tint="@android:color/holo_orange_light" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="6dp"
+                                            android:fontFamily="sans-serif"
+                                            android:text="4.0"
+                                            android:textColor="@android:color/darker_gray"
+                                            android:textSize="13sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Country Card: China -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/country_china_card"
+                            android:layout_width="160dp"
+                            android:layout_height="220dp"
+                            android:layout_marginEnd="16dp"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/flag_china" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:text="China"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:text="45+ Universities"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="13sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="12dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:src="@drawable/ic_ranking"
+                                            app:tint="@android:color/holo_orange_light" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="6dp"
+                                            android:fontFamily="sans-serif"
+                                            android:text="4.4"
+                                            android:textColor="@android:color/darker_gray"
+                                            android:textSize="13sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- Country Card: Uzbekistan -->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/country_uzbekistan_card"
+                            android:layout_width="160dp"
+                            android:layout_height="220dp"
+                            android:layout_marginEnd="16dp"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/flag_uzbekistan" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="12dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:text="Uzbekistan"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:text="12+ Universities"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="13sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="12dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:src="@drawable/ic_ranking"
+                                            app:tint="@android:color/holo_orange_light" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="6dp"
+                                            android:fontFamily="sans-serif"
+                                            android:text="4.1"
+                                            android:textColor="@android:color/darker_gray"
+                                            android:textSize="13sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
 
             <!-- 3. Top Universities Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Top Medical Universities"
+                    android:textColor="@color/primary_dark_color"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_dark_color" />
-
-
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -345,25 +1064,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:clipToPadding="false"
-                android:orientation="horizontal"
+                android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <!-- 4. Our Services Section with RecyclerView -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Our Services"
+                    android:textColor="@color/primary_dark_color"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_dark_color" />
-
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -372,25 +1092,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:clipToPadding="false"
-                android:orientation="horizontal" />
+                android:nestedScrollingEnabled="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <!-- 5. Testimonials Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Success Stories"
+                    android:textColor="@color/primary_dark_color"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_dark_color" />
-
-
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <androidx.viewpager2.widget.ViewPager2
@@ -404,9 +1125,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardElevation="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="@color/card_background">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -417,11 +1140,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="Contact Us"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
                         android:textColor="@color/text_primary_color"
-                        android:layout_marginBottom="16dp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -432,9 +1155,10 @@
                             android:id="@+id/call_now_button"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
                             android:clickable="true"
+                            android:contentDescription="Call now button"
                             android:focusable="true"
                             app:cardBackgroundColor="@color/call_button_color"
                             app:cardCornerRadius="12dp"
@@ -444,8 +1168,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:gravity="center"
+                                android:orientation="vertical"
                                 android:padding="14dp">
 
                                 <ImageView
@@ -457,11 +1181,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
                                     android:text="Call Now"
-                                    android:textStyle="bold"
-                                    android:textSize="14sp"
                                     android:textColor="@color/white"
-                                    android:layout_marginTop="6dp" />
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 
@@ -469,9 +1193,10 @@
                             android:id="@+id/whatsapp_button"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginStart="8dp"
+                            android:layout_weight="1"
                             android:clickable="true"
+                            android:contentDescription="Chat on WhatsApp button"
                             android:focusable="true"
                             app:cardBackgroundColor="@color/whatsapp_button_color"
                             app:cardCornerRadius="12dp"
@@ -481,8 +1206,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:gravity="center"
+                                android:orientation="vertical"
                                 android:padding="14dp">
 
                                 <ImageView
@@ -494,11 +1219,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
                                     android:text="Chat on WhatsApp"
-                                    android:textStyle="bold"
-                                    android:textSize="14sp"
                                     android:textColor="@color/white"
-                                    android:layout_marginTop="6dp" />
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
@@ -506,4 +1231,6 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
+
+
 </RelativeLayout>

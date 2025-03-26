@@ -19,8 +19,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
-                android:background="@drawable/bg_home_header"
                 android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_home_header"
                 android:paddingBottom="8dp">
 
                 <!-- Header with Location and Search Bar -->
@@ -38,8 +38,8 @@
                         app:cardBackgroundColor="@color/card_background"
                         app:cardCornerRadius="24dp"
                         app:cardElevation="2dp"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="@color/input_outline">
+                        app:strokeColor="@color/input_outline"
+                        app:strokeWidth="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -52,8 +52,8 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_marginStart="16dp"
-                                android:src="@android:drawable/ic_menu_search"
                                 android:contentDescription="@string/search_icon_description"
+                                android:src="@android:drawable/ic_menu_search"
                                 app:tint="@color/icon_tint_secondary" />
 
                             <EditText
@@ -74,8 +74,8 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_marginEnd="16dp"
-                                android:src="@android:drawable/ic_menu_slideshow"
                                 android:contentDescription="@string/filter_icon_description"
+                                android:src="@android:drawable/ic_menu_slideshow"
                                 app:tint="@color/icon_tint_secondary" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -86,11 +86,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:orientation="horizontal"
                     android:layout_marginTop="40dp"
+                    android:orientation="horizontal"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
                     android:paddingBottom="8dp">
 
                     <!-- Study Button -->
@@ -98,8 +98,8 @@
                         android:id="@+id/studyButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
                         android:minWidth="100dp"
                         app:cardBackgroundColor="@color/university_icon_bg"
                         app:cardCornerRadius="12dp"
@@ -134,8 +134,8 @@
                         android:id="@+id/examButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
                         android:minWidth="100dp"
                         app:cardBackgroundColor="@color/tracking_icon_bg"
                         app:cardCornerRadius="12dp"
@@ -229,347 +229,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SEE ALL"
-                        android:visibility="gone"
                         android:textColor="@android:color/holo_blue_light"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <!-- Event 1 -->
-                        <androidx.cardview.widget.CardView
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            app:cardCornerRadius="12dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="120dp">
-
-                                    <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@drawable/ic_offer_1"
-                                        android:scaleType="centerCrop" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="top|start"
-                                        android:layout_margin="8dp"
-                                        android:background="@android:color/holo_red_light"
-                                        android:padding="4dp"
-                                        android:text="10\nJUNE"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold" />
-                                </FrameLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:padding="8dp"
-                                    android:text="International Band"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:padding="8dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:src="@android:drawable/ic_menu_myplaces" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="London, UK"
-                                        android:textColor="@android:color/darker_gray"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:padding="8dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:src="@android:drawable/ic_menu_myplaces" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="+20 Going"
-                                        android:textColor="@android:color/darker_gray"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <!-- Event 2 -->
-                        <androidx.cardview.widget.CardView
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            app:cardCornerRadius="12dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="120dp">
-
-                                    <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@drawable/ic_offer_2"
-                                        android:scaleType="centerCrop" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="top|start"
-                                        android:layout_margin="8dp"
-                                        android:background="@android:color/holo_red_light"
-                                        android:padding="4dp"
-                                        android:text="10\nJUNE"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold" />
-                                </FrameLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:padding="8dp"
-                                    android:text="Jo Malone"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:padding="8dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:src="@android:drawable/ic_menu_myplaces" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="Radius Gal"
-                                        android:textColor="@android:color/darker_gray"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:padding="8dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:src="@android:drawable/ic_menu_myplaces" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="+21 Going"
-                                        android:textColor="@android:color/darker_gray"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <!-- Event 3 -->
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            app:cardCornerRadius="12dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="120dp">
-
-                                    <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@drawable/ic_offer_3"
-                                        android:scaleType="centerCrop" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="top|start"
-                                        android:layout_margin="8dp"
-                                        android:background="@android:color/holo_red_light"
-                                        android:padding="4dp"
-                                        android:text="10\nJUNE"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold" />
-                                </FrameLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:padding="8dp"
-                                    android:text="Jo Malone"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:padding="8dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:src="@android:drawable/ic_menu_myplaces" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="Radius Gal"
-                                        android:textColor="@android:color/darker_gray"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:padding="8dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:src="@android:drawable/ic_menu_myplaces" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="+21 Going"
-                                        android:textColor="@android:color/darker_gray"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
-                </HorizontalScrollView>
-            </LinearLayout>
-
-            <!-- Invite Friends Banner -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:cardBackgroundColor="@color/background_color"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+            <!-- Invite Friends Banner -->
+            <include layout="@layout/item_invite" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Invite your friends"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Make His Dream"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="14sp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/invite_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/primary_light_color"
-                            android:padding="12dp"
-                            android:text="INVITE"
-                            android:textColor="@android:color/white"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/ic_doctorcubes_black" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
             <!-- Countries to Study MBBS Abroad Section -->
             <LinearLayout
@@ -608,7 +286,6 @@
                             android:layout_width="160dp"
                             android:layout_height="220dp"
                             android:layout_marginEnd="16dp"
-                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="10dp"
                             app:cardBackgroundColor="@android:color/white"
                             app:cardCornerRadius="12dp"
@@ -1124,9 +801,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp">

@@ -12,7 +12,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/secondary_background">
+        android:background="@color/background_color">
 
         <!-- Toolbar removed or hidden; rely on MainActivity's Toolbar -->
         <!-- If you want to keep it for specific cases, uncomment and adjust visibility -->

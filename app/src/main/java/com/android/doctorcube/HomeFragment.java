@@ -23,11 +23,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.doctorcube.home.adapter.EventAdapter;
 import com.android.doctorcube.home.adapter.FeaturesAdapter;
 import com.android.doctorcube.home.adapter.TestimonialsSliderAdapter;
 import com.android.doctorcube.home.adapter.UniversityListAdapter;
 import com.android.doctorcube.home.data.FeatureData;
 import com.android.doctorcube.home.data.Testimonial;
+import com.android.doctorcube.home.model.Event;
 import com.android.doctorcube.home.model.Feature;
 import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityData;
@@ -38,7 +40,7 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureClickListener {
+public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureClickListener , EventAdapter.OnItemClickListener {
 
     private RecyclerView featuresRecyclerView;
     private FeaturesAdapter featuresAdapter;
@@ -63,6 +65,10 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     // Invite Friends button
     private MaterialButton inviteButton;
 
+
+    private RecyclerView recyclerView;
+    private EventAdapter adapter;
+    private List<Event> eventList; // Expects List<Event>, not List<EventAdapter>
     // Bottom Navigation
 
     @Nullable
@@ -77,8 +83,11 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         universityButton = view.findViewById(R.id.universityButton);
         seeAllEventsButton = view.findViewById(R.id.see_all_events); // Add ID to "SEE ALL" TextView in XML
         inviteButton = view.findViewById(R.id.invite_button); // Add ID to "INVITE" Button in XML
+        recyclerView = view.findViewById(R.id.recyclerView);
+
 
         setupToolbar();
+        setUpComingEvents();
         setupFeaturesRecyclerView(view);
         setupUniversitiesRecyclerView(view);
         setupTestimonialsSlider(view);
@@ -89,6 +98,35 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         setupEventListeners();
 
         return view;
+    }
+
+
+    private void setUpComingEvents()
+    {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        // Prepare data
+        eventList = new ArrayList<>();
+        eventList.add(new Event(R.drawable.ic_offer_1, "10\nJUNE", "International Band", "London, UK", "+20 Going"));
+        eventList.add(new Event(R.drawable.ic_offer_2, "10\nJUNE", "Jo Malone", "Radius Gal", "+21 Going"));
+        eventList.add(new Event(R.drawable.ic_offer_3, "10\nJUNE", "Jo Malone", "Radius Gal", "+21 Going"));
+
+        // Set adapter
+        adapter = new EventAdapter(eventList, this);
+        recyclerView.setAdapter(adapter);
+    }
+
+
+    @Override
+    public void onItemClick(int position, Event event) {
+        // Handle the click event here
+        String message = "Clicked on: " + event.getTitle() + " at position " + position;
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+
+        // You can add more actions here, like starting a new activity:
+        // Intent intent = new Intent(this, DetailActivity.class);
+        // intent.putExtra("event_title", event.getTitle());
+        // startActivity(intent);
     }
 
     private void setupFeaturesRecyclerView(View view) {

@@ -65,8 +65,6 @@ public class FragmentAbout extends Fragment {
         fragmentToolbar = view.findViewById(R.id.toolbar);
         if (fragmentToolbar != null) {
             fragmentToolbar.setNavigationOnClickListener(v -> navigateToHome());
-            // Optionally set title for Fragment's Toolbar
-            fragmentToolbar.setTitle("About");
         }
 
         // Initialize UI elements and set listeners

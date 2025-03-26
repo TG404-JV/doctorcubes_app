@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -32,7 +33,7 @@ public class FragmentFAQ extends Fragment {
     private MaterialButton btnWhatsAppContact;
     private FAQAdapter faqAdapter;
     private FAQViewModel faqViewModel;
-    private Toolbar toolbar;
+    private Toolbar fragmentToolbar; // Renamed for clarity
     private ProgressBar progressBar;
     private NavController navController;
 
@@ -42,11 +43,14 @@ public class FragmentFAQ extends Fragment {
         // Inflate the updated layout
         View view = inflater.inflate(R.layout.fragment_f_a_q, container, false);
 
-        // Initialize views
-        initViews(view);
-
         // Initialize NavController
         navController = NavHostFragment.findNavController(this);
+
+        // Hide MainActivity Toolbar
+        hideMainActivityToolbar();
+
+        // Initialize views
+        initViews(view);
 
         // Setup toolbar with back button
         setupToolbar();
@@ -73,15 +77,15 @@ public class FragmentFAQ extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewFAQ);
         emptyStateLayout = view.findViewById(R.id.emptyStateLayout);
         btnWhatsAppContact = view.findViewById(R.id.btnWhatsAppContact);
-        toolbar = view.findViewById(R.id.toolbar);
+        fragmentToolbar = view.findViewById(R.id.toolbar);
         progressBar = view.findViewById(R.id.progressBar);
     }
 
     private void setupToolbar() {
-        toolbar.setNavigationOnClickListener(v -> {
-            // Use NavController to navigate back
-            navigateToHome();
-        });
+        if (fragmentToolbar != null) {
+            fragmentToolbar.setNavigationOnClickListener(v -> navigateToHome());
+            fragmentToolbar.setTitle("FAQ");
+        }
     }
 
     private void setupRecyclerView() {
@@ -158,6 +162,39 @@ public class FragmentFAQ extends Fragment {
         }
     }
 
+    private void hideMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.GONE);
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().hide();
+            }
+        }
+    }
+
+    private void showMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.VISIBLE);
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().show();
+            }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Show MainActivity Toolbar when leaving this Fragment
+        showMainActivityToolbar();
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -172,4 +209,3 @@ public class FragmentFAQ extends Fragment {
         }
     }
 }
-

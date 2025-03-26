@@ -21,7 +21,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -64,6 +66,7 @@ public class FragmentEditDetails extends Fragment {
     private ProgressBar progressBar;
     private CardView profileCard;
     private AppCompatImageButton backButton;
+    private Toolbar fragmentToolbar; // Added for fragment-specific toolbar
 
     // User data
     private String userId;
@@ -89,9 +92,14 @@ public class FragmentEditDetails extends Fragment {
         // Initialize SharedPreferences
         sharedPreferences = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        // Initialize views
-        initViews(view);
+        // Initialize NavController
         navController = NavHostFragment.findNavController(this);
+
+        // Hide MainActivity Toolbar
+        hideMainActivityToolbar();
+
+        // Initialize views including Toolbar
+        initViews(view);
 
         // Load user data
         loadUserData();
@@ -100,6 +108,12 @@ public class FragmentEditDetails extends Fragment {
     }
 
     private void initViews(View view) {
+        // Initialize Fragment's Toolbar
+        fragmentToolbar = view.findViewById(R.id.toolbar);
+        if (fragmentToolbar != null) {
+            fragmentToolbar.setNavigationOnClickListener(v -> navigateToHome());
+        }
+
         profileImageView = view.findViewById(R.id.profileImageView);
         emailLayout = view.findViewById(R.id.emailLayout);
         fullNameLayout = view.findViewById(R.id.fullNameLayout);
@@ -145,7 +159,7 @@ public class FragmentEditDetails extends Fragment {
         phoneEditText.addTextChangedListener(textWatcher);
 
         // Set back button listener
-        backButton.setOnClickListener(v -> navigateToHome()); // Use extracted method
+        backButton.setOnClickListener(v -> navigateToHome());
     }
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -395,11 +409,42 @@ public class FragmentEditDetails extends Fragment {
         changePasswordButton.setEnabled(!isLoading);
     }
 
+    private void hideMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.GONE);
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().hide();
+            }
+        }
+    }
+
+    private void showMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.VISIBLE);
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().show();
+            }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Show MainActivity Toolbar when leaving this Fragment
+        showMainActivityToolbar();
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
-        // Manually handle back navigation if the fragment is detached.
-        // This is important for handling device back button presses.
         if (navController != null) {
             navigateToHome();
         }

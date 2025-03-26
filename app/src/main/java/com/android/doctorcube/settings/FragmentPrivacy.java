@@ -3,6 +3,7 @@ package com.android.doctorcube.settings;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -30,16 +31,50 @@ public class FragmentPrivacy extends Fragment {
         // Initialize NavController
         navController = NavHostFragment.findNavController(this);
 
+        // Hide MainActivity Toolbar
+        hideMainActivityToolbar();
+
         // Initialize Toolbar
         toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToHome();
-            }
-        });
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(v -> navigateToHome());
+            toolbar.setTitle("Privacy Policy"); // Set title for the toolbar
+        }
 
         return view;
+    }
+
+    private void hideMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.GONE);
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().hide();
+            }
+        }
+    }
+
+    private void showMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.VISIBLE);
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().show();
+            }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Show MainActivity Toolbar when leaving this Fragment
+        showMainActivityToolbar();
     }
 
     @Override
@@ -56,4 +91,3 @@ public class FragmentPrivacy extends Fragment {
         }
     }
 }
-

@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -36,6 +38,7 @@ public class NotificationPref extends Fragment {
     private MaterialButton btnNotificationTime, btnResetTime;
     private RecyclerView recyclerViewNotifications;
     private ImageButton backBtn;
+    private Toolbar toolbar; // Added toolbar field
     private SharedPreferences prefs;
     private NotificationAdapter adapter;
     private static final String PREFS_NAME = "NotificationPrefs";
@@ -50,6 +53,9 @@ public class NotificationPref extends Fragment {
         // Initialize SharedPreferences
         prefs = requireActivity().getSharedPreferences(PREFS_NAME, requireActivity().MODE_PRIVATE);
 
+        // Hide MainActivity Toolbar
+        hideMainActivityToolbar();
+
         // Initialize views with null checks
         switchNotifications = view.findViewById(R.id.switch_notifications);
         switchUniversity = view.findViewById(R.id.switch_university);
@@ -60,7 +66,14 @@ public class NotificationPref extends Fragment {
         btnNotificationTime = view.findViewById(R.id.btn_notification_time);
         btnResetTime = view.findViewById(R.id.btn_reset_time);
         recyclerViewNotifications = view.findViewById(R.id.recyclerview_notifications);
-        backBtn=view.findViewById(R.id.backBtn);
+        backBtn = view.findViewById(R.id.backBtn);
+        toolbar = view.findViewById(R.id.toolbar); // Initialize toolbar
+
+        // Setup toolbar
+        if (toolbar != null) {
+            toolbar.setTitle("Notification Preferences");
+            toolbar.setNavigationOnClickListener(v -> navigateToHome());
+        }
 
         if (switchNotifications == null || btnNotificationTime == null || recyclerViewNotifications == null) {
             Toast.makeText(requireContext(), "Error initializing notification settings", Toast.LENGTH_SHORT).show();
@@ -108,10 +121,8 @@ public class NotificationPref extends Fragment {
 
     private void setupRecyclerView() {
         recyclerViewNotifications.setLayoutManager(new LinearLayoutManager(requireContext()));
-        // Initialize adapter with empty list initially
         adapter = new NotificationAdapter(null);
         recyclerViewNotifications.setAdapter(adapter);
-        // Load notifications asynchronously
         new LoadNotificationsTask().execute();
     }
 
@@ -192,7 +203,44 @@ public class NotificationPref extends Fragment {
         btnResetTime.setEnabled(enabled);
     }
 
-    // AsyncTask to load notifications off the main thread
+    private void hideMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.GONE);
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().hide();
+            }
+        }
+    }
+
+    private void showMainActivityToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            Toolbar mainToolbar = activity.findViewById(R.id.toolbar);
+            if (mainToolbar != null) {
+                mainToolbar.setVisibility(View.VISIBLE);
+            }
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().show();
+            }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Show MainActivity Toolbar when leaving this Fragment
+        showMainActivityToolbar();
+    }
+
+    private void navigateToHome() {
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(R.id.action_notificationPref_to_settingsHome);
+    }
+
     private class LoadNotificationsTask extends AsyncTask<Void, Void, List<NotificationItem>> {
         @Override
         protected List<NotificationItem> doInBackground(Void... voids) {

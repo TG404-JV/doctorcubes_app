@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -280,12 +281,12 @@ public class CreateAccountFragment extends Fragment {
     }
 
     private boolean isValidPassword(String password) {
-        if (password.length() < 8 || password.length() > 14) return false;
-        if (!password.matches(".*[A-Z].*")) return false;
-        if (!password.matches(".*[a-z].*")) return false;
-        if (!password.matches(".*[0-9].*")) return false;
-        if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) return false;
-        return true;
+            if (password.length() < 8 || password.length() > 14) return false;
+            if (!password.matches(".*[A-Z].*")) return false;
+            if (!password.matches(".*[a-z].*")) return false;
+            if (!password.matches(".*[0-9].*")) return false;
+            if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) return false;
+            return true;
     }
 
     private void updatePasswordStrength(String password) {
@@ -317,9 +318,16 @@ public class CreateAccountFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
                         createAccountButton.setEnabled(true);
                         createAccountButton.setAlpha(1.0f);
-                        String message = e instanceof FirebaseAuthInvalidCredentialsException ? "Invalid phone number format" :
-                                e instanceof FirebaseTooManyRequestsException ? "Too many attempts, try again later" :
-                                        "Verification failed, please try again";
+                        String message;
+                        if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            message = "Invalid phone number format";
+                        } else if (e instanceof FirebaseTooManyRequestsException) {
+                            message = "Too many attempts, try again later";
+                        } else {
+                            message = "Verification failed: " + e.getMessage(); // Include detailed error message
+                        }
+                        // Log the error for debugging
+                        Log.e("CreateAccountFragment", "Phone verification failed", e);
                         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
                     }
 
@@ -336,7 +344,6 @@ public class CreateAccountFragment extends Fragment {
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-
     private void verifyOtp() {
         String otp = otpEditText.getText().toString().trim();
         if (TextUtils.isEmpty(otp)) {

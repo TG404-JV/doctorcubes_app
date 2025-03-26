@@ -199,5 +199,9 @@
     <string name="study_button_text">Study</string>
     <string name="exam_button_text">Exam</string>
     <string name="university_button_text">University</string>
-
+    <string name="app_tagline">Global Medical Education Pathways</string>
+    <string name="loading_text">Navigating Your Medical Journey</string>
+    <string name="footer_text">© 2024 DoctorCubes | Connecting Medical Professionals Globally</string>
+    <string name="airplane_description">Flying Airplane Icon</string>
+    <string name="logo_description">DoctorCubes Logo</string>
 </resources>

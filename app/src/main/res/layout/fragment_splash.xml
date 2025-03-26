@@ -4,41 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_background"
+    android:background="@color/white"
     tools:context=".authentication.SplashFragment">
-
-    <ImageView
-        android:id="@+id/ivGlobe"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/icon_university"
-        app:layout_constraintBottom_toTopOf="@id/ivLogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:scaleType="fitCenter"/>
 
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:src="@drawable/ic_doctorcubes_black"
+        android:adjustViewBounds="true"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@id/tvAppName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:adjustViewBounds="true"
-        app:layout_constraintTop_toBottomOf="@id/ivGlobe" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="DoctorCubes"
         android:textColor="@color/primary_dark_color"
-        android:textSize="40sp"
+        android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tvTagline"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,35 +37,22 @@
         android:id="@+id/tvTagline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:alpha="0"
+        android:layout_marginTop="8dp"
         android:text="Your Gateway to Global Education"
         android:textColor="@color/primary_color"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAppName" />
 
-    <ImageView
-        android:id="@+id/ivAirplane"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/ic_call"
-        android:translationX="-400dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvAppName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivGlobe"
-        android:scaleType="fitCenter"/>
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/primary_color"
         app:layout_constraintBottom_toTopOf="@id/tvLoading"
@@ -93,7 +68,7 @@
         android:layout_marginBottom="40dp"
         android:text="Loading..."
         android:textColor="@color/primary_color"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

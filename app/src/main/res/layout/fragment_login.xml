@@ -224,76 +224,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Countries flags or education-related illustration at bottom -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="48dp"
-            android:layout_height="32dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp"
-            android:layout_marginEnd="8dp">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/usa_color"/>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="48dp"
-            android:layout_height="32dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp"
-            android:layout_marginEnd="8dp">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/uk_color"/>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="48dp"
-            android:layout_height="32dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp"
-            android:layout_marginEnd="8dp">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/canada_color"/>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="48dp"
-            android:layout_height="32dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp"
-            android:layout_marginEnd="8dp">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/australia_color"/>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="48dp"
-            android:layout_height="32dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/germany_color"/>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

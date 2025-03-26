@@ -84,7 +84,6 @@
                         android:orientation="horizontal"
                         android:padding="16dp">
 
-                        <!-- Stats Section -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -115,7 +114,6 @@
                             android:layout_height="match_parent"
                             android:background="@color/divider_color" />
 
-                        <!-- More Stats -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -130,8 +128,7 @@
                                 android:fontFamily="sans-serif-medium"
                                 android:text="86"
                                 android:textColor="@color/text_highlight"
-                                android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:textSize="24sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -146,13 +143,13 @@
             </LinearLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <!-- Search Section (Stays visible when scrolling) -->
+        <!-- Search Section -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             app:cardBackgroundColor="@color/card_background"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
@@ -164,7 +161,6 @@
                 android:orientation="horizontal"
                 android:padding="12dp">
 
-                <!-- Search Bar with Icon -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="48dp"
@@ -198,7 +194,6 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <!-- Filter Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/filterBtn"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -213,52 +208,18 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Filter Chips Container (Initially Gone) -->
-        <HorizontalScrollView
-            android:id="@+id/filter_chips_container"
+        <!-- Spinner for Filters -->
+        <Spinner
+            android:id="@+id/filter_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:clipToPadding="false"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:scrollbars="none"
-            android:visibility="gone">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/filter_chip_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:chipSpacing="8dp"
-                app:singleLine="true">
-
-                <!-- Example Filter Chips -->
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Top Ranked"
-                    app:chipBackgroundColor="@color/card_highlight"
-                    app:chipIcon="@drawable/ic_ranking"
-                    app:chipIconTint="@color/primary_color"
-                    app:closeIconVisible="true" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Scholarships"
-                    app:chipBackgroundColor="@color/card_highlight"
-                    app:chipIcon="@drawable/scholarship_banner_bg"
-                    app:chipIconTint="@color/scholarship_icon_tint"
-                    app:closeIconVisible="true" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Engineering"
-                    app:chipBackgroundColor="@color/card_highlight"
-                    app:closeIconVisible="true" />
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
+            android:background="@drawable/spinner_background"
+            android:visibility="gone"
+            android:padding="8dp"
+            android:spinnerMode="dropdown" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Main Content with RecyclerView -->
@@ -272,7 +233,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- University List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/universities_recycler_view"
                 android:layout_width="match_parent"
@@ -280,7 +240,6 @@
                 android:clipToPadding="false"
                 android:padding="12dp" />
 
-            <!-- Empty State -->
             <LinearLayout
                 android:id="@+id/empty_state_container"
                 android:layout_width="match_parent"
@@ -328,6 +287,4 @@
             </LinearLayout>
         </FrameLayout>
     </androidx.core.widget.NestedScrollView>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

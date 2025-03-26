@@ -151,4 +151,12 @@ public class MainActivity extends AppCompatActivity {
             toolbar.setTitle("Settings");
         }
     }
+
+    public BubbleNavigationConstraintView getBubbleNavigation() {
+        return bubbleNavigation;
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 }

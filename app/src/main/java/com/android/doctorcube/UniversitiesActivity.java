@@ -5,9 +5,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,8 +22,6 @@ import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityData;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +36,10 @@ public class UniversitiesActivity extends AppCompatActivity {
     private TextView countryNameTitle, noUniversitiesText, universityCount, topRankedCount;
     private ImageButton backBtn;
     private MaterialButton clearFiltersBtn, filterBtn;
-    private ChipGroup filterChipGroup;
+    private Spinner filterSpinner;
     private AppBarLayout appBarLayout;
     private String countryFilter;
-    private List<String> activeFilters = new ArrayList<>();
+    private String selectedFilter = "None"; // Default filter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +60,19 @@ public class UniversitiesActivity extends AppCompatActivity {
         universityCount = findViewById(R.id.university_count);
         topRankedCount = findViewById(R.id.top_ranked_count);
         clearFiltersBtn = findViewById(R.id.clear_filters_btn);
-        filterChipGroup = findViewById(R.id.filter_chip_group);
+        filterSpinner = findViewById(R.id.filter_spinner);
         appBarLayout = findViewById(R.id.appBarLayout);
 
-        // Verify filterBtn initialization
-        if (filterBtn == null) {
-            Log.e("UniversitiesActivity", "filterBtn is null, check XML ID");
+        // Verify critical components
+        if (filterBtn == null || filterSpinner == null) {
+            Log.e("UniversitiesActivity", "Critical UI component is null: filterBtn=" + filterBtn + ", filterSpinner=" + filterSpinner);
+            return;
         }
 
-        // Set title
-        countryNameTitle.setText(countryFilter.equals("All") ? "All Universities" : countryFilter + " Universities");
+        // Set initial title
+        countryNameTitle.setText(countryFilter.equals("All") ? "All Universities" : "Universities in " + countryFilter);
 
-        // Load and setup data with null safety
+        // Load and setup data
         loadUniversityData();
         if (universities == null) {
             universities = new ArrayList<>();
@@ -82,14 +85,13 @@ public class UniversitiesActivity extends AppCompatActivity {
             return;
         }
 
-        setupFilterChips();
+        setupFilterSpinner();
         filterByCountry();
 
         // Setup listeners
         setupSearch();
         setupFilterButton();
         setupClearFilters();
-
         backBtn.setOnClickListener(v -> onBackPressed());
     }
 
@@ -117,33 +119,25 @@ public class UniversitiesActivity extends AppCompatActivity {
         }
     }
 
-    private void setupFilterChips() {
-        String[] filterOptions = {"Top Ranked", "Scholarships", "Engineering", "Sort A-Z", "Sort Z-A", "Sort Grade"};
+    private void setupFilterSpinner() {
+        String[] filterOptions = {"None", "Top Ranked", "Scholarships", "Engineering", "Sort A-Z", "Sort Z-A", "Sort Grade"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, filterOptions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSpinner.setAdapter(adapter);
 
-        for (String filter : filterOptions) {
-            Chip chip = new Chip(this);
-            chip.setText(filter);
-            chip.setCheckable(true);
-            chip.setCloseIconVisible(true);
-            chip.setChipBackgroundColorResource(R.color.card_highlight);
-            filterChipGroup.addView(chip);
-
-            chip.setOnCloseIconClickListener(v -> {
-                chip.setChecked(false);
-                activeFilters.remove(chip.getText().toString());
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedFilter = filterOptions[position];
+                Log.d("UniversitiesActivity", "Spinner selected: " + selectedFilter);
                 applyFilters();
-            });
-        }
-
-        filterChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            activeFilters.clear();
-            for (int i = 0; i < filterChipGroup.getChildCount(); i++) {
-                Chip chip = (Chip) filterChipGroup.getChildAt(i);
-                if (chip.isChecked()) {
-                    activeFilters.add(chip.getText().toString());
-                }
             }
-            applyFilters();
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedFilter = "None";
+                applyFilters();
+            }
         });
     }
 
@@ -166,32 +160,27 @@ public class UniversitiesActivity extends AppCompatActivity {
     }
 
     private void setupFilterButton() {
-        if (filterBtn != null) {
-            filterBtn.setOnClickListener(v -> {
-                Log.d("UniversitiesActivity", "Filter button clicked");
-                if (filterChipGroup != null) {
-                    int visibility = filterChipGroup.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
-                    filterChipGroup.setVisibility(visibility);
-                    Log.d("UniversitiesActivity", "FilterChipGroup visibility set to: " + (visibility == View.VISIBLE ? "VISIBLE" : "GONE"));
-                } else {
-                    Log.w("UniversitiesActivity", "filterChipGroup is null");
-                }
-            });
-        } else {
-            Log.e("UniversitiesActivity", "filterBtn is null in setupFilterButton");
-        }
+        filterBtn.setOnClickListener(v -> {
+            Log.d("UniversitiesActivity", "Filter button clicked");
+            Toast.makeText(this, "Filter button clicked", Toast.LENGTH_SHORT).show();
+            int visibility = filterSpinner.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
+            filterSpinner.setVisibility(visibility);
+            Log.d("UniversitiesActivity", "FilterSpinner visibility set to: " + (visibility == View.VISIBLE ? "VISIBLE" : "GONE"));
+        });
     }
 
     private void setupClearFilters() {
         clearFiltersBtn.setOnClickListener(v -> {
-            filterChipGroup.clearCheck();
-            activeFilters.clear();
+            Log.d("UniversitiesActivity", "Clear filters button clicked");
+            Toast.makeText(this, "Filters cleared", Toast.LENGTH_SHORT).show();
+            filterSpinner.setSelection(0); // Reset to "None"
+            selectedFilter = "None";
             searchEditText.setText("");
             if (adapter != null) {
                 adapter.updateData(universities);
                 filterByCountry();
             }
-            filterChipGroup.setVisibility(View.GONE);
+            filterSpinner.setVisibility(View.GONE);
         });
     }
 
@@ -231,41 +220,37 @@ public class UniversitiesActivity extends AppCompatActivity {
                     .collect(Collectors.toList());
         }
 
-        if (!activeFilters.isEmpty()) {
-            for (String filter : activeFilters) {
-                switch (filter.toLowerCase()) {
-                    case "top ranked":
-                        filteredUniversities = filteredUniversities.stream()
-                                .filter(u -> u.getRanking() != null && u.getRanking().contains("Top"))
-                                .collect(Collectors.toList());
-                        break;
-                    case "scholarships":
-                        filteredUniversities = filteredUniversities.stream()
-                                .filter(u -> u.getScholarshipInfo() != null && !u.getScholarshipInfo().isEmpty())
-                                .collect(Collectors.toList());
-                        break;
-                    case "engineering":
-                        filteredUniversities = filteredUniversities.stream()
-                                .filter(u -> u.getField() != null && u.getField().equalsIgnoreCase("engineering"))
-                                .collect(Collectors.toList());
-                        break;
-                    case "sort a-z":
-                        adapter.sortByName(true);
-                        updateNoUniversitiesView();
-                        updateStats();
-                        return;
-                    case "sort z-a":
-                        adapter.sortByName(false);
-                        updateNoUniversitiesView();
-                        updateStats();
-                        return;
-                    case "sort grade":
-                        adapter.sortByGrade(true);
-                        updateNoUniversitiesView();
-                        updateStats();
-                        return;
-                }
+        if (!selectedFilter.equals("None")) {
+            switch (selectedFilter.toLowerCase()) {
+                case "top ranked":
+                    filteredUniversities = filteredUniversities.stream()
+                            .filter(u -> u.getRanking() != null && u.getRanking().contains("Top"))
+                            .collect(Collectors.toList());
+                    adapter.updateData(filteredUniversities);
+                    break;
+                case "scholarships":
+                    filteredUniversities = filteredUniversities.stream()
+                            .filter(u -> u.getScholarshipInfo() != null && !u.getScholarshipInfo().isEmpty())
+                            .collect(Collectors.toList());
+                    adapter.updateData(filteredUniversities);
+                    break;
+                case "engineering":
+                    filteredUniversities = filteredUniversities.stream()
+                            .filter(u -> u.getField() != null && u.getField().equalsIgnoreCase("engineering"))
+                            .collect(Collectors.toList());
+                    adapter.updateData(filteredUniversities);
+                    break;
+                case "sort a-z":
+                    adapter.sortByName(true);
+                    break;
+                case "sort z-a":
+                    adapter.sortByName(false);
+                    break;
+                case "sort grade":
+                    adapter.sortByGrade(true);
+                    break;
             }
+        } else {
             adapter.updateData(filteredUniversities);
         }
 
@@ -290,14 +275,13 @@ public class UniversitiesActivity extends AppCompatActivity {
     }
 
     private void updateNoUniversitiesView() {
+        View emptyStateContainer = findViewById(R.id.empty_state_container);
         if (adapter == null || adapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
-            noUniversitiesText.setVisibility(View.VISIBLE);
-            clearFiltersBtn.setVisibility(View.VISIBLE);
+            emptyStateContainer.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
-            noUniversitiesText.setVisibility(View.GONE);
-            clearFiltersBtn.setVisibility(View.GONE);
+            emptyStateContainer.setVisibility(View.GONE);
         }
     }
 }

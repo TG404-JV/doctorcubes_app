@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -243,29 +244,79 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     }
 
     private void setupCategoryButtons() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
         if (studyButton != null) {
             studyButton.setOnClickListener(v -> {
-                Toast.makeText(getActivity(), "Study Category Selected", Toast.LENGTH_SHORT).show();
-                // Add logic to filter or navigate based on "Study" category
+
+                // Create and load StudyFragment
+                StudyMaterialFragment studyFragment = new StudyMaterialFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame_container, studyFragment)
+                        .setCustomAnimations(
+                                R.anim.fragment_fade_enter,
+                                R.anim.fragment_fade_exit,
+                                R.anim.fragment_fade_enter,
+                                R.anim.fragment_fade_exit
+                        )
+                        .addToBackStack(null)
+                        .commit();
+
+                // Update toolbar title
+                ((MainActivity) requireActivity()).getToolbar().setTitle("Study");
+                // Update bubble navigation to deselect all (optional, since this is a sub-section)
+                ((MainActivity) requireActivity()).getBubbleNavigation().setCurrentActiveItem(1);
             });
         }
 
         if (examButton != null) {
             examButton.setOnClickListener(v -> {
-                Toast.makeText(getActivity(), "Exam Category Selected", Toast.LENGTH_SHORT).show();
-                // Add logic to filter or navigate based on "Exam" category
+                Toast.makeText(getActivity(), "Comming Soon", Toast.LENGTH_SHORT).show();
+
+                /*// Create and load ExamFragment
+                ExamFragment examFragment = new ExamFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame_container, examFragment)
+                        .setCustomAnimations(
+                                R.anim.fragment_fade_enter,
+                                R.anim.fragment_fade_exit,
+                                R.anim.fragment_fade_enter,
+                                R.anim.fragment_fade_exit
+                        )
+                        .addToBackStack(null)
+                        .commit();
+
+                // Update toolbar title
+                ((MainActivity) requireActivity()).getToolbar().setTitle("Exams");
+                ((MainActivity) requireActivity()).getBubbleNavigation().setCurrentActiveItem(-1);*/
             });
         }
 
         if (universityButton != null) {
             universityButton.setOnClickListener(v -> {
-                Toast.makeText(getActivity(), "University Category Selected", Toast.LENGTH_SHORT).show();
-                // Add logic to filter or navigate based on "University" category
+
+              /*  // Create and load UniversityFragment
+                UniversityFragment universityFragment = new UniversityFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame_container, universityFragment)
+                        .setCustomAnimations(
+                                R.anim.fragment_fade_enter,
+                                R.anim.fragment_fade_exit,
+                                R.anim.fragment_fade_enter,
+                                R.anim.fragment_fade_exit
+                        )
+                        .addToBackStack(null)
+                        .commit();
+
+                // Update toolbar title
+                ((MainActivity) requireActivity()).getToolbar().setTitle("Universities");
+                ((MainActivity) requireActivity()).getBubbleNavigation().setCurrentActiveItem(-1);*/
+
+                openUniversitiesActivity("All");
+
             });
         }
-    }
-
-    private void setupEventListeners() {
+    }    private void setupEventListeners() {
         if (seeAllEventsButton != null) {
             seeAllEventsButton.setOnClickListener(v -> {
                 Toast.makeText(getActivity(), "See All Events Clicked", Toast.LENGTH_SHORT).show();

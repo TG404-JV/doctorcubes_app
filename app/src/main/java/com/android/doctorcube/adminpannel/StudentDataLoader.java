@@ -1,3 +1,4 @@
+// StudentDataLoader.java
 package com.android.doctorcube.adminpannel;
 
 import android.util.Log;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.Locale;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is responsible for loading student data from Firestore.  It retrieves
@@ -154,6 +157,7 @@ public class StudentDataLoader {
         } else {
             Log.w(TAG, "Registration Date is  null for document: " + document.getId());
         }
+        student.setLastCallDate(FirestoreDataHelper.getString(document, "lastCallDate"));
 
         return student;
     }
@@ -187,6 +191,7 @@ public class StudentDataLoader {
         } else {
             Log.w(TAG, "Upload Date is null for document: " + document.getId());
         }
+        student.setLastCallDate(FirestoreDataHelper.getString(document, "lastCallDate"));
         return student;
     }
     /**
@@ -218,6 +223,7 @@ public class StudentDataLoader {
         } else {
             Log.w(TAG, "Submission Date is null for document: " + document.getId());
         }
+        student.setLastCallDate(FirestoreDataHelper.getString(document, "lastCallDate"));
         return student;
     }
 
@@ -232,8 +238,12 @@ public class StudentDataLoader {
      * @param value The new value for the field.
      */
     public void updateStudent(String collection, String documentId, String field, Object value) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(field, value);
+        updates.put("lastUpdatedDate", new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(new Date()));
+
         firestoreDB.collection(collection).document(documentId)
-                .update(field, value)
+                .update(updates)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Student data updated successfully for document: " + documentId + " in collection " + collection))
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to update student data: " + e.getMessage()));
     }
@@ -407,3 +417,4 @@ public class StudentDataLoader {
         }
     }
 }
+

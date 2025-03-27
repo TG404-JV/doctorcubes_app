@@ -7,6 +7,7 @@ public class Student implements Parcelable {
     private String id, name, mobile, email, state, city, interestedCountry, hasNeetScore, neetScore, hasPassport,
             submissionDate, callStatus, lastCallDate, lastUpdatedDate, firebasePushDate;
     private boolean isInterested, isAdmitted;
+    private String collection; // Added field to store the collection name
 
     // Default constructor required for Firebase
     public Student() {}
@@ -30,6 +31,7 @@ public class Student implements Parcelable {
         firebasePushDate = in.readString();
         isInterested = in.readByte() != 0; // Boolean from byte
         isAdmitted = in.readByte() != 0;   // Boolean from byte
+        collection = in.readString(); // Added: Read collection from Parcel
     }
 
     // Creator required for Parcelable
@@ -81,6 +83,9 @@ public class Student implements Parcelable {
     public boolean isAdmitted() { return isAdmitted; }
     public void setAdmitted(boolean isAdmitted) { this.isAdmitted = isAdmitted; }
 
+    public String getCollection() { return collection; } // Added getter for collection
+    public void setCollection(String collection) { this.collection = collection; } // Added setter for collection
+
     @Override
     public int describeContents() {
         return 0; // No special contents
@@ -105,5 +110,7 @@ public class Student implements Parcelable {
         dest.writeString(firebasePushDate);
         dest.writeByte((byte) (isInterested ? 1 : 0)); // Boolean to byte
         dest.writeByte((byte) (isAdmitted ? 1 : 0));   // Boolean to byte
+        dest.writeString(collection); // Added: Write collection to Parcel
     }
 }
+

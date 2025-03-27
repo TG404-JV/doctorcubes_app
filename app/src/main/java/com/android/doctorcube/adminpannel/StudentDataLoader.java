@@ -15,13 +15,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Tasks; // Import the Tasks class
+import com.google.android.gms.tasks.Tasks;
 
 /**
  * This class is responsible for loading student data from Firestore.  It retrieves
- * data from both the "registrations" and "xl data" collections and merges them
- * into a single list of Student objects.
+ * data from the "registrations", "xl data", and "app_submissions" collections
+ * and merges them into a single list of Student objects.
  */
 public class StudentDataLoader {
 
@@ -61,8 +60,8 @@ public class StudentDataLoader {
     }
 
     /**
-     * Loads student data from Firestore.  This method retrieves data from both
-     * the "registrations" and "xl data" collections and merges them into a single
+     * Loads student data from Firestore.  This method retrieves data from the
+     * "registrations", "xl data",and "app_submissions" collections and merges them into a single
      * list.  It then notifies the listener.
      *
      * @param listener The DataLoadListener to notify when the data is loaded.
@@ -75,8 +74,9 @@ public class StudentDataLoader {
     private void loadRegistrationsAndXlData(final DataLoadListener listener) {
         final Task<QuerySnapshot> registrationsTask = firestoreDB.collection("registrations").get();
         final Task<QuerySnapshot> xlDataTask = firestoreDB.collection("xl_data").get();
+        final Task<QuerySnapshot> appSubmissionsTask = firestoreDB.collection("app_submissions").get(); // Get app_submissions
 
-        Tasks.whenAllSuccess(registrationsTask, xlDataTask) // Use whenAllSuccess
+        Tasks.whenAllSuccess(registrationsTask, xlDataTask, appSubmissionsTask) // Use whenAllSuccess
                 .addOnSuccessListener(new OnSuccessListener<List<Object>>() {
                     @Override
                     public void onSuccess(List<Object> results) {
@@ -88,27 +88,22 @@ public class StudentDataLoader {
                                 for (DocumentSnapshot document : snapshot) {
                                     try {
                                         Student student;
-                                        if (snapshot.getMetadata().isFromCache()) {
-                                            if(document.getReference().getParent().getId().equals("registrations")){
-                                                student = createStudentFromRegistration(document);
-                                            }
-                                            else{
-                                                student = createStudentFromXlData(document);
-                                            }
-
+                                        String collectionName = document.getReference().getParent().getId(); //changed
+                                        if (collectionName.equals("registrations")) {
+                                            student = createStudentFromRegistration(document);
+                                        } else if (collectionName.equals("xl_data")) {
+                                            student = createStudentFromXlData(document);
+                                        } else if (collectionName.equals("app_submissions")) {  // Handle app_submissions
+                                            student = createStudentFromAppSubmissions(document);
                                         }
                                         else{
-                                            if(document.getReference().getParent().getId().equals("registrations")){
-                                                student = createStudentFromRegistration(document);
-                                            }
-                                            else{
-                                                student = createStudentFromXlData(document);
-                                            }
+                                            student = null;
                                         }
-
-                                        if (student != null) {
+                                        if(student!=null){
+                                            student.setCollection(collectionName); // Store the collection name!
                                             allStudents.add(student);
                                         }
+
                                     } catch (Exception e) {
                                         Log.e(TAG, "Error parsing data: " + e.getMessage(), e);
                                         listener.onDataLoadFailed("Error parsing data: " + e.getMessage());
@@ -194,13 +189,44 @@ public class StudentDataLoader {
         }
         return student;
     }
+    /**
+     * Creates a Student object from a DocumentSnapshot from the "app_submissions"
+     * collection.
+     *
+     * @param document The DocumentSnapshot.
+     * @return A Student object, or null if there's an error.
+     */
+    private Student createStudentFromAppSubmissions(DocumentSnapshot document) throws ParseException {
+        Student student = new Student();
+        student.setId(document.getId());
+        student.setName(FirestoreDataHelper.getString(document, "name"));
+        student.setMobile(FirestoreDataHelper.getString(document, "mobile"));
+        student.setEmail(FirestoreDataHelper.getString(document, "email"));
+        student.setState(FirestoreDataHelper.getString(document, "state"));
+        student.setCity(FirestoreDataHelper.getString(document, "city"));
+        student.setInterestedCountry(FirestoreDataHelper.getString(document, "interestedCountry"));
+        student.setHasNeetScore(FirestoreDataHelper.getString(document, "hasNeetScore"));
+        student.setNeetScore(FirestoreDataHelper.getString(document, "neetScore"));
+        student.setHasPassport(FirestoreDataHelper.getString(document, "hasPassport"));
+        student.setCallStatus(FirestoreDataHelper.getString(document, "callStatus", "pending"));
+        student.setIsInterested(FirestoreDataHelper.getBoolean(document, "isInterested", false));
+        student.setAdmitted(FirestoreDataHelper.getBoolean(document, "isAdmitted", false));
+        Date submissionDate = FirestoreDataHelper.getTimestamp(document, "submissionDate");
+        if (submissionDate != null) {
+            student.setSubmissionDate(dateFormat.format(submissionDate));
+            student.setFirebasePushDate(dateFormat.format(submissionDate));
+        } else {
+            Log.w(TAG, "Submission Date is null for document: " + document.getId());
+        }
+        return student;
+    }
 
     /**
      * Updates a student's data in Firestore.  This method allows you to update
-     * a specific field for a student in either the "registrations" or "xl data"
+     * a specific field for a student in either the "registrations", "xl data" or "app_submissions"
      * collection.
      *
-     * @param collection The Firestore collection ("registrations" or "xl data").
+     * @param collection The Firestore collection ("registrations", "xl data", or "app_submissions").
      * @param documentId The ID of the document to update.
      * @param field The field to update.
      * @param value The new value for the field.
@@ -381,4 +407,3 @@ public class StudentDataLoader {
         }
     }
 }
-

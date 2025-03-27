@@ -20,8 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.doctorcube.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,13 +33,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     private static final int REQUEST_CALL_PHONE = 1;
     private List<Student> studentList;
     private Context context;
-    private DatabaseReference databaseReference;
+    private FirebaseFirestore firestoreDB;
     private Student studentToCall;
 
     public StudentAdapter(List<Student> studentList, Context context) {
         this.studentList = studentList;
         this.context = context;
-        this.databaseReference = FirebaseDatabase.getInstance().getReference("registrations");
+        this.firestoreDB = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -79,7 +78,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             if (adapterPosition != RecyclerView.NO_POSITION) {
                 Student currentStudent = studentList.get(adapterPosition);
                 currentStudent.setCallStatus(isChecked ? "called" : "pending");
-                updateCallStatusInFirebase(currentStudent);
+                updateCallStatusInFirestore(currentStudent);
             }
         });
 
@@ -90,19 +89,18 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             if (adapterPosition != RecyclerView.NO_POSITION) {
                 Student currentStudent = studentList.get(adapterPosition);
                 currentStudent.setIsInterested(isChecked);
-                updateInterestedStatusInFirebase(currentStudent);
+                updateInterestedStatusInFirestore(currentStudent);
             }
         });
 
-        // Handle "Admitted" checkbox (assuming this is a new field in Student class)
         holder.checkBoxAdmitted.setOnCheckedChangeListener(null);
-        holder.checkBoxAdmitted.setChecked(student.isAdmitted()); // Add isAdmitted() to Student class
+        holder.checkBoxAdmitted.setChecked(student.isAdmitted());
         holder.checkBoxAdmitted.setOnCheckedChangeListener((buttonView, isChecked) -> {
             int adapterPosition = holder.getAdapterPosition();
             if (adapterPosition != RecyclerView.NO_POSITION) {
                 Student currentStudent = studentList.get(adapterPosition);
-                currentStudent.setAdmitted(isChecked); // Add setAdmitted() to Student class
-                updateAdmittedStatusInFirebase(currentStudent);
+                currentStudent.setAdmitted(isChecked);
+                updateAdmittedStatusInFirestore(currentStudent);
             }
         });
     }
@@ -131,35 +129,68 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
                 .show();
     }
 
-    private void updateCallStatusInFirebase(Student student) {
-        if (student.getId() == null || student.getSubmissionDate() == null) return;
-        databaseReference.child(student.getSubmissionDate()).child(student.getId())
-                .child("callStatus").setValue(student.getCallStatus())
+    private void updateCallStatusInFirestore(Student student) {
+        String collection = getCollectionName(student);
+        if (collection == null || student.getId() == null) {
+            Log.e(TAG, "Collection or Student ID is null");
+            return;
+        }
+
+        firestoreDB.collection(collection).document(student.getId())
+                .update("callStatus", student.getCallStatus())
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Call status updated successfully for student: " + student.getId() + " in collection: " + collection))
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to update call status: " + e.getMessage()));
     }
 
-    private void updateInterestedStatusInFirebase(Student student) {
-        if (student.getId() == null || student.getSubmissionDate() == null) return;
-        databaseReference.child(student.getSubmissionDate()).child(student.getId())
-                .child("isInterested").setValue(student.getIsInterested())
+    private void updateInterestedStatusInFirestore(Student student) {
+        String collection = getCollectionName(student);
+        if (collection == null || student.getId() == null) {
+            Log.e(TAG, "Collection or Student ID is null");
+            return;
+        }
+
+        firestoreDB.collection(collection).document(student.getId())
+                .update("isInterested", student.getIsInterested())
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Interested status updated successfully for student: " + student.getId() + " in collection: " + collection))
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to update interested status: " + e.getMessage()));
     }
 
-    private void updateAdmittedStatusInFirebase(Student student) {
-        if (student.getId() == null || student.getSubmissionDate() == null) return;
-        databaseReference.child(student.getSubmissionDate()).child(student.getId())
-                .child("isAdmitted").setValue(student.isAdmitted())
+    private void updateAdmittedStatusInFirestore(Student student) {
+        String collection = getCollectionName(student);
+        if (collection == null || student.getId() == null) {
+            Log.e(TAG, "Collection or Student ID is null");
+            return;
+        }
+
+        firestoreDB.collection(collection).document(student.getId())
+                .update("isAdmitted", student.isAdmitted())
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Admitted status updated successfully for student: " + student.getId() + " in collection: " + collection))
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to update admitted status: " + e.getMessage()));
     }
 
     private void updateLastCallDate(Student student) {
-        if (student.getId() == null || student.getSubmissionDate() == null) return;
+        String collection = getCollectionName(student);
+        if (collection == null || student.getId() == null) {
+            Log.e(TAG, "Collection or Student ID is null");
+            return;
+        }
         String currentDate = new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(new Date());
         student.setLastCallDate(currentDate);
-        databaseReference.child(student.getSubmissionDate()).child(student.getId())
-                .child("lastCallDate").setValue(currentDate)
+
+        firestoreDB.collection(collection).document(student.getId())
+                .update("lastCallDate", currentDate)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Last call date updated for student: " + student.getId() + " in collection: " + collection))
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to update last call date: " + e.getMessage()));
     }
+
+    private String getCollectionName(Student student) {
+        if (student == null || student.getId() == null) {
+            Log.e(TAG, "Invalid student data or ID");
+            return null;
+        }
+        return student.getCollection(); //changed
+    }
+
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CALL_PHONE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

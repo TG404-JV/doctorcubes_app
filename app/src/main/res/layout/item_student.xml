@@ -62,11 +62,12 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_call_student"
                 style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:contentDescription="@string/call_student"
                 app:icon="@drawable/ic_call"
+                app:iconGravity="textEnd"
                 app:iconSize="24dp"
                 app:cornerRadius="8dp"
                 android:backgroundTint="@color/button_accent" />

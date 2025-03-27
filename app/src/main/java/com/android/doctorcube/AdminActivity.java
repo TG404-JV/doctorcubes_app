@@ -19,11 +19,14 @@ import com.android.doctorcube.adminpannel.adminhome.FragmentAddNewUser;
 import com.android.doctorcube.adminpannel.adminhome.FragmentAdminHome;
 import com.android.doctorcube.adminpannel.adminhome.FragmentExportXLData;
 import com.android.doctorcube.adminpannel.adminhome.FragmentImportXLData;
+import com.android.doctorcube.adminpannel.adminhome.FragmentUploadStudyMaterial;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
+import com.google.firebase.firestore.FirebaseFirestoreException; // Import this
+import com.google.firebase.firestore.Source; // Import Source
 
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
@@ -38,6 +41,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
     private static final String TAG = "AdminActivity";
     private static final String PREFS_NAME = "DoctorCubePrefs";
     private static final String KEY_USER_ROLE = "user_role";
+    private static final String USER_COLLECTION = "Users"; // Firestore collection name
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -46,6 +50,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
     private boolean isSuperAdmin = false;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private FirebaseFirestore firestoreDB; // Use Firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+        firestoreDB = FirebaseFirestore.getInstance(); // Initialize Firestore
         currentUser = mAuth.getCurrentUser();
 
         // Initialize Encrypted SharedPreferences
@@ -69,7 +74,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
                     masterKey,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                        );
+            );
         } catch (GeneralSecurityException | IOException e) {
             // Handle error
             Toast.makeText(this, "Error initializing secure storage: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -111,13 +116,36 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
 
 
         if (currentUser != null) {
-            // Set email and name from Firebase Authentication
+            // Set email from Firebase Authentication
             String email = currentUser.getEmail();
-            String name = currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "Admin";
-
             adminEmailTextView.setText(email != null ? email : getString(R.string.admin_email));
-            adminNameTextView.setText(name);
 
+            // Get additional user data (name, role) from Firestore
+            firestoreDB.collection(USER_COLLECTION)
+                    .document(currentUser.getUid())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String name = document.getString("name");
+                                String role = document.getString("role");
+                                adminNameTextView.setText(name != null ? name : "Admin");
+                                isSuperAdmin = "superadmin".equals(role);
+                                // Store the role in shared preferences.
+                                prefs.edit().putString(KEY_USER_ROLE, role).apply();
+                                Log.d(TAG, "User role: " + role);
+                            } else {
+                                Log.d(TAG, "No such document");
+                                adminNameTextView.setText("Admin");
+                                isSuperAdmin = false;
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                            adminNameTextView.setText("Admin");
+                            isSuperAdmin = false;
+                        }
+                    });
 
         } else {
             // User not signed in, fallback to defaults
@@ -155,6 +183,8 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             loadFragment(new FragmentImportXLData());
         } else if (id == R.id.nav_export_excel) {
             loadFragment(new FragmentExportXLData());
+        } else if (id == R.id.UploadStudyMaterial) {
+            loadFragment(new FragmentUploadStudyMaterial());
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

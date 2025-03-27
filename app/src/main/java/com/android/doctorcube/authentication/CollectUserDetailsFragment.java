@@ -26,9 +26,9 @@ import androidx.security.crypto.MasterKeys;
 import com.android.doctorcube.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
+import com.google.firebase.firestore.DocumentReference; // Import DocumentReference
+import com.google.firebase.firestore.FieldValue; // Import FieldValue
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
@@ -47,11 +47,11 @@ public class CollectUserDetailsFragment extends Fragment {
     private Button submitButton;
     private NavController navController;
     private SharedPreferences sharedPreferences;
-    private DatabaseReference databaseReference;
+    private FirebaseFirestore firestoreDB; // Use Firestore
     private FirebaseAuth mAuth;
 
     // Array of countries for the dropdown
-    private final String[] countries = {"USA", "Canada", "UK", "Germany", "France", "Australia", "India", "China", "Brazil", "Japan"}; //Add more
+    private final String[] countries = {"USA", "Canada", "UK", "Germany", "France", "Australia", "India", "China", "Brazil", "Japan"};
     private String userId;
     private String userFullName;
     private String userEmail;
@@ -68,7 +68,7 @@ public class CollectUserDetailsFragment extends Fragment {
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        firestoreDB = FirebaseFirestore.getInstance(); // Initialize Firestore
 
         // Initialize NavController
         navController = Navigation.findNavController(view);
@@ -81,11 +81,11 @@ public class CollectUserDetailsFragment extends Fragment {
         cityEditText = view.findViewById(R.id.cityEditText);
         neetScoreEditText = view.findViewById(R.id.neetScore);
         countrySpinner = view.findViewById(R.id.countrySpinner);
-        neetScoreGroup = view.findViewById(R.id.neetScoreGroup); // Fixed ID typo
-        passportGroup = view.findViewById(R.id.passportGroup);   // Fixed ID typo
-        neetScoreYes = view.findViewById(R.id.neetScoreYes);     // Fixed ID typo
-        neetScoreNo = view.findViewById(R.id.neetScoreNo);       // Fixed ID typo
-        passportYes = view.findViewById(R.id.passportYes);       // Fixed ID typo
+        neetScoreGroup = view.findViewById(R.id.neetScoreGroup);
+        passportGroup = view.findViewById(R.id.passportGroup);
+        neetScoreYes = view.findViewById(R.id.neetScoreYes);
+        neetScoreNo = view.findViewById(R.id.neetScoreNo);
+        passportYes = view.findViewById(R.id.passportYes);
         passportNo = view.findViewById(R.id.passportNo);
         neetScoreLayout = view.findViewById(R.id.neetScoreLayout);
         submitButton = view.findViewById(R.id.submitButton);
@@ -156,7 +156,7 @@ public class CollectUserDetailsFragment extends Fragment {
 
         submitButton.setOnClickListener(v -> {
             if (validateInputs()) {
-                saveUserDetails(v); // Pass the view to submitData
+                saveUserDetails(v);
             }
         });
     }
@@ -210,8 +210,7 @@ public class CollectUserDetailsFragment extends Fragment {
         return true;
     }
 
-    private void saveUserDetails(View view) { // Added view parameter
-        //String userId = mAuth.getCurrentUser().getUid();  //getting from bundle now
+    private void saveUserDetails(View view) {
         String name = nameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
         String phone = phoneEditText.getText().toString().trim();
@@ -222,7 +221,7 @@ public class CollectUserDetailsFragment extends Fragment {
         boolean hasNeetScore = neetScoreYes.isChecked();
         boolean hasPassport = passportYes.isChecked();
 
-        // Use a Map to store the data
+        // Use a Map to store the data for Firestore
         Map<String, Object> userData = new HashMap<>();
         userData.put("name", name);
         userData.put("email", email);
@@ -235,46 +234,28 @@ public class CollectUserDetailsFragment extends Fragment {
             userData.put("neetScore", neetScore);
         }
         userData.put("hasPassport", hasPassport);
+        userData.put("userId", userId); // Include the user ID
+        userData.put("timestamp", FieldValue.serverTimestamp()); // Add a timestamp
 
-        // Get current date in ddMMyy format (matching the JavaScript code)
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy", Locale.getDefault());
-        String formattedDate = sdf.format(new Date());
+        // Firestore: Use "app_submissions" as the collection
+        firestoreDB.collection("app_submissions")
+                .add(userData) // Use .add() to generate a unique ID
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(getContext(), "Thank you! Our team will connect with you soon.", Toast.LENGTH_SHORT).show();
+                    Log.d("Firestore", "Document saved successfully with ID: " + documentReference.getId());
 
-        // Create a HashMap for user data
-        HashMap<String, Object> formData = new HashMap<>();
-        formData.put("name", name);
-        formData.put("email", email);
-        formData.put("mobile", phone);
-        formData.put("state", state);
-        formData.put("city", city);
-        formData.put("country", country);
-        formData.put("needScore", hasNeetScore ? "Yes" : "No");
-        formData.put("neetScore", hasNeetScore ? neetScore : "N/A");
-        formData.put("passport", hasPassport ? "Yes" : "No");
+                    // Set application submitted to true
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isApplicationSubmitted", true);
+                    editor.apply();
 
-        // Create reference to "registrations/{ddmmyy}" path (matching the JavaScript path)
-        DatabaseReference registrationRef = FirebaseDatabase.getInstance().getReference("registrations").child(formattedDate);
-
-        // Generate a unique key under the date node
-        DatabaseReference newRegistrationRef = registrationRef.push();
-
-        // Upload data
-        newRegistrationRef.setValue(formData).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Thank you! Our team will connect with you soon.", Toast.LENGTH_SHORT).show();
-                Log.d("Firebase", "Data saved successfully with key: " + newRegistrationRef.getKey());
-
-                // Set application submitted to true
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isApplicationSubmitted", true);
-                editor.apply();
-
-                // Navigate to next screen
-                Navigation.findNavController(view).navigate(R.id.action_collectUserDetailsFragment_to_mainActivity2);
-            } else {
-                Toast.makeText(getContext(), "There was an error submitting your form. Please try again.", Toast.LENGTH_SHORT).show();
-                Log.e("Firebase", "Error saving data", task.getException());
-            }
-        });
+                    // Navigate to next screen
+                    Navigation.findNavController(view).navigate(R.id.action_collectUserDetailsFragment_to_mainActivity2);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "There was an error submitting your form. Please try again.", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error saving data", e);
+                });
     }
 }
+

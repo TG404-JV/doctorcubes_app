@@ -6,7 +6,7 @@ public class VideoItem {
     private String thumbnailUrl;
     private String description;
 
-    public VideoItem(String title, String videoId, String thumbnailUrl) {
+    public VideoItem(String title, String videoId, String thumbnailUrl, String description) {
         this.title = title;
         this.videoId = videoId;
         this.thumbnailUrl = thumbnailUrl;

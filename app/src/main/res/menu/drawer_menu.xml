@@ -23,6 +23,11 @@
                 android:id="@+id/nav_export_excel"
                 android:icon="@drawable/ic_whats_app"
                 android:title="Export data from xl" />
+
+            <item
+                android:id="@+id/UploadStudyMaterial"
+                android:icon="@drawable/ic_studymaterial"
+                android:title="Upload Study Material" />
         </menu>
     </item>
 </menu>

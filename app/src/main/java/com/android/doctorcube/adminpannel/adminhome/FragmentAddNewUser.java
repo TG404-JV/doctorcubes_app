@@ -3,6 +3,7 @@ package com.android.doctorcube.adminpannel.adminhome;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,20 +22,23 @@ import androidx.security.crypto.MasterKeys;
 import com.android.doctorcube.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult; // Import for AuthResult
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.android.material.textfield.TextInputLayout; // Import TextInputLayout
+import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
+import com.google.firebase.firestore.DocumentReference; // Import DocumentReference
+import com.google.firebase.firestore.FieldValue;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class FragmentAddNewUser extends Fragment {
 
     private FirebaseAuth mAuth;
-    private DatabaseReference databaseReference;
+    private FirebaseFirestore firestoreDB; // Use Firestore
     private SharedPreferences sharedPreferences;
 
     // Use TextInputLayout instead of EditText for proper error display
@@ -57,21 +61,21 @@ public class FragmentAddNewUser extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize Firebase Auth and Database Reference
+        // Initialize Firebase Auth and Firestore
         mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        firestoreDB = FirebaseFirestore.getInstance(); // Initialize Firestore
 
         // Initialize Views using TextInputLayout
         tilUserName = view.findViewById(R.id.tilUserName);
         tilEmail = view.findViewById(R.id.tilEmail);
         tilPhone = view.findViewById(R.id.tilPhone);
         tilPassword = view.findViewById(R.id.tilPassword);
-        tilRole = view.findViewById(R.id.tilRole); // Find TextInputLayout for Role
-        etUserName = view.findViewById(R.id.etUserName); // Find EditText inside TextInputLayout
-        etEmail = view.findViewById(R.id.etEmail);     // Find EditText inside TextInputLayout
-        etPhone = view.findViewById(R.id.etPhone);     // Find EditText inside TextInputLayout
-        etPassword = view.findViewById(R.id.etPassword); // Find EditText inside TextInputLayout
-        etRole = view.findViewById(R.id.etRole);       // Find AutoCompleteTextView
+        tilRole = view.findViewById(R.id.tilRole);
+        etUserName = view.findViewById(R.id.etUserName);
+        etEmail = view.findViewById(R.id.etEmail);
+        etPhone = view.findViewById(R.id.etPhone);
+        etPassword = view.findViewById(R.id.etPassword);
+        etRole = view.findViewById(R.id.etRole);
         btnAddUser = view.findViewById(R.id.btnAddUser);
 
         // Initialize Encrypted SharedPreferences
@@ -86,6 +90,7 @@ public class FragmentAddNewUser extends Fragment {
             );
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
+            Toast.makeText(requireContext(), "Error initializing preferences", Toast.LENGTH_SHORT).show();
         }
 
         // Set up the role dropdown
@@ -120,7 +125,7 @@ public class FragmentAddNewUser extends Fragment {
             tilUserName.setError("Enter Full Name");
             return;
         } else {
-            tilUserName.setError(null); // Clear error
+            tilUserName.setError(null);
         }
         if (TextUtils.isEmpty(email)) {
             tilEmail.setError("Enter Email");
@@ -149,14 +154,14 @@ public class FragmentAddNewUser extends Fragment {
 
         // Create user in Firebase Authentication
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<com.google.firebase.auth.AuthResult>() {
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() { // Use AuthResult
                     @Override
-                    public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task) { // Use AuthResult
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
                                 saveUserDetails(user.getUid(), fullName, email, phone, selectedRole);
-                                saveUserLoginStatus(selectedRole);
+                                // Removed saveUserLoginStatus(role);  // Do not automatically log in.
 
                                 // Reset fields after successful registration
                                 etUserName.setText("");
@@ -166,7 +171,7 @@ public class FragmentAddNewUser extends Fragment {
                                 etRole.setText("");
                                 selectedRole = null;
 
-                                Toast.makeText(requireContext(), "Admin Registered Successfully!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Admin Registered Successfully!  Account created.  The user can now log in.", Toast.LENGTH_LONG).show();
                             }
                         } else {
                             Toast.makeText(requireContext(), "Sign-up Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -176,21 +181,23 @@ public class FragmentAddNewUser extends Fragment {
     }
 
     private void saveUserDetails(String userId, String fullName, String email, String phone, String role) {
-        HashMap<String, Object> userData = new HashMap<>();
-        userData.put("fullName", fullName);
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("name", fullName); // Changed from "fullName" to "name" to match Firestore field
         userData.put("email", email);
         userData.put("phone", phone);
         userData.put("role", role);
+        userData.put("timestamp", FieldValue.serverTimestamp());
 
-        databaseReference.child(userId).setValue(userData)
-                .addOnSuccessListener(aVoid -> Toast.makeText(requireContext(), "User Data Saved!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to save user data.", Toast.LENGTH_SHORT).show());
-    }
-
-    private void saveUserLoginStatus(String role) {
-        sharedPreferences.edit()
-                .putBoolean("isLoggedIn", true)
-                .putString("userType", role)
-                .apply();
+        firestoreDB.collection("Users").document(userId) // Use Firestore
+                .set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(requireContext(), "User Data Saved to Firestore!", Toast.LENGTH_SHORT).show();
+                    Log.d("Firestore", "User data saved for user ID: " + userId);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(requireContext(), "Failed to save user data to Firestore.", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error saving user data", e);
+                });
     }
 }
+

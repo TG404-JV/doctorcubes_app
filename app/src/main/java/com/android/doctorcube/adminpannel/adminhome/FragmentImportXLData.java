@@ -1,7 +1,6 @@
 package com.android.doctorcube.adminpannel.adminhome;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -24,8 +22,8 @@ import androidx.fragment.app.Fragment;
 
 import com.android.doctorcube.R;
 import com.android.doctorcube.adminpannel.Student;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference; // Import for Firestore
+import com.google.firebase.firestore.FirebaseFirestore; // Import for Firestore
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -41,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FragmentImportXLData extends Fragment {
 
@@ -50,12 +49,12 @@ public class FragmentImportXLData extends Fragment {
     private Button selectExcelButton, importDataButton;
     private CardView fileInfoCard;
     private View progressLayout;
-    private DatabaseReference databaseReference;
+    private FirebaseFirestore firestoreDB; // Use Firestore
     private SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy", Locale.getDefault());
     private SimpleDateFormat[] excelDateFormats = {
             new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()),
             new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()),
-            new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()), // Corrected format
+            new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()),
             new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()),
             new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()),
             new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()),
@@ -87,7 +86,7 @@ public class FragmentImportXLData extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databaseReference = FirebaseDatabase.getInstance().getReference("registrations");
+        firestoreDB = FirebaseFirestore.getInstance(); // Initialize Firestore
     }
 
     @Override
@@ -221,7 +220,7 @@ public class FragmentImportXLData extends Fragment {
         }
         if (fileModifiedDate <= 0) return "Unknown";
         Date date = new Date(fileModifiedDate * 1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault()); // Corrected format
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault());
         return sdf.format(date);
     }
 
@@ -236,7 +235,7 @@ public class FragmentImportXLData extends Fragment {
             selectExcelButton.setEnabled(true);
             return;
         }
-        uploadToFirebase(students);
+        uploadToFirestore(students);
     }
 
     private List<Student> parseExcelFile(Uri uri) {
@@ -348,18 +347,18 @@ public class FragmentImportXLData extends Fragment {
         return dateFormat.format(new Date());
     }
 
-    private void uploadToFirebase(List<Student> students) {
+    private void uploadToFirestore(List<Student> students) {
         int total = students.size();
-        int[] uploadedCount = {0};
+        AtomicInteger uploadedCount = new AtomicInteger();
         String currentDate = dateFormat.format(new Date());
+        CollectionReference xlDataRef = firestoreDB.collection("xl_data"); //changed path
 
         progressLayout.setVisibility(View.VISIBLE);
         tvProgressStatus.setText("Uploading data... (0/" + total + ")");
 
         for (Student student : students) {
-            String studentId = TextUtils.isEmpty(student.getId()) ? databaseReference.push().getKey() : student.getId();
+            String studentId = TextUtils.isEmpty(student.getId()) ? firestoreDB.collection("xl_data").document().getId() : student.getId(); // Generate ID for Firestore
             String submissionDate = TextUtils.isEmpty(student.getSubmissionDate()) ? currentDate : student.getSubmissionDate();
-            DatabaseReference dateRef = databaseReference.child(submissionDate).child(studentId);
 
             Map<String, Object> studentData = new HashMap<>();
             studentData.put("id", studentId);
@@ -379,12 +378,13 @@ public class FragmentImportXLData extends Fragment {
             studentData.put("isAdmitted", student.isAdmitted());
             studentData.put("firebasePushDate", currentDate);
 
-            dateRef.setValue(studentData)
+            xlDataRef.document(studentId)  // Use the studentId as the document ID
+                    .set(studentData)
                     .addOnSuccessListener(aVoid -> {
-                        uploadedCount[0]++;
-                        tvProgressStatus.setText("Uploading data... (" + uploadedCount[0] + "/" + total + ")");
-                        Log.d(TAG, "Successfully uploaded student: " + student.getName() + " under " + submissionDate);
-                        if (uploadedCount[0] == total) {
+                        uploadedCount.getAndIncrement();
+                        tvProgressStatus.setText("Uploading data... (" + uploadedCount + "/" + total + ")");
+                        Log.d(TAG, "Successfully uploaded student: " + student.getName() + " under xl data");
+                        if (uploadedCount.get() == total) {
                             progressLayout.setVisibility(View.GONE);
                             statusTextView.setText("Data upload completed! " + total + " students imported.");
                             Toast.makeText(getContext(), "Imported " + total + " students!", Toast.LENGTH_SHORT).show();

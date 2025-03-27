@@ -2,6 +2,7 @@ package com.android.doctorcube.study.fragment.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +11,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.doctorcube.PdfViewerActivity;
 import com.android.doctorcube.R;
+import com.android.doctorcube.PdfViewerActivity;
 import com.android.doctorcube.study.fragment.models.NoteItem;
-import com.google.android.material.chip.Chip;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
-    private List<NoteItem> notesList;
     private Context context;
+    private List<NoteItem> notesList;
+    private static final String TAG = "NotesAdapter";
 
     public NotesAdapter(Context context, List<NoteItem> notesList) {
         this.context = context;
-        this.notesList = notesList;
+        this.notesList = new ArrayList<>(notesList); // Create a new copy to avoid reference issues
+        Log.d(TAG, "Constructor: Initial list size: " + this.notesList.size());
     }
 
     @NonNull
@@ -37,48 +40,44 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         NoteItem note = notesList.get(position);
-        holder.titleTextView.setText(note.getTitle());
-        holder.descriptionTextView.setText(note.getDescription());
-        holder.authorChip.setText("by " + note.getAuthor());
-        holder.sizeChip.setText(note.getSize());
+        holder.title.setText(note.getTitle());
+        holder.url.setText(note.getUrl());
+        Log.d(TAG, "onBindViewHolder: Binding position " + position + " - Title: " + note.getTitle());
 
-        // Open PDF when item is clicked
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PdfViewerActivity.class);
             intent.putExtra("pdfTitle", note.getTitle());
-            intent.putExtra("pdfDescription", note.getDescription());
-            intent.putExtra("pdfAuthor", note.getAuthor()); // Updated key to match PdfViewerActivity
-            intent.putExtra("pdfSize", note.getSize());
-            intent.putExtra("pdfFilePath", note.getPdfUrl());
-            intent.putExtra("pdfCategory", note.getCategory());
-            intent.putExtra("pdfLastModified", note.getLastModified());
-            intent.putExtra("pdfTotalPages", note.getTotalPages());
+            intent.putExtra("pdfFilePath", note.getUrl());
             context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return notesList.size();
+        int size = notesList != null ? notesList.size() : 0;
+        Log.d(TAG, "getItemCount: Returning size: " + size);
+        return size;
     }
 
-    public void updateData(List<NoteItem> newData) {
-        this.notesList = newData;
+    public void updateData(List<NoteItem> newNotesList) {
+        Log.d(TAG, "updateData: Input list size: " + (newNotesList != null ? newNotesList.size() : 0));
+        if (newNotesList == null) {
+            this.notesList = new ArrayList<>();
+        } else {
+            this.notesList = new ArrayList<>(newNotesList); // Replace with a new copy
+        }
+        Log.d(TAG, "updateData: After update - List size: " + notesList.size());
         notifyDataSetChanged();
     }
 
-    static class NoteViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView;
-        TextView descriptionTextView;
-        Chip authorChip;
-        Chip sizeChip;
+    public static class NoteViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView url;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
-            authorChip = itemView.findViewById(R.id.authorChip);
-            sizeChip = itemView.findViewById(R.id.sizeChip);
+            title = itemView.findViewById(R.id.noteTitle);
+            url = itemView.findViewById(R.id.noteUrl);
         }
     }
 }

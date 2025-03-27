@@ -55,6 +55,8 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
+import com.google.firebase.firestore.SetOptions; // Import SetOptions
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -64,7 +66,8 @@ import java.util.concurrent.TimeUnit;
 public class CreateAccountFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference; // Realtime Database
+    private FirebaseFirestore firestoreDB; // Firestore
     private NavController navController;
     private SharedPreferences sharedPreferences;
     private GoogleSignInClient googleSignInClient;
@@ -81,6 +84,7 @@ public class CreateAccountFragment extends Fragment {
     private ProgressBar progressBar;
 
     private static final int RC_SIGN_IN = 9001;
+    private static final String USER_COLLECTION = "Users"; // Firestore collection name
 
     public CreateAccountFragment() {
         // Required empty public constructor
@@ -98,7 +102,8 @@ public class CreateAccountFragment extends Fragment {
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users"); // Realtime DB
+        firestoreDB = FirebaseFirestore.getInstance(); // Initialize Firestore
         navController = Navigation.findNavController(view);
 
         // Initialize Views
@@ -281,12 +286,12 @@ public class CreateAccountFragment extends Fragment {
     }
 
     private boolean isValidPassword(String password) {
-            if (password.length() < 8 || password.length() > 14) return false;
-            if (!password.matches(".*[A-Z].*")) return false;
-            if (!password.matches(".*[a-z].*")) return false;
-            if (!password.matches(".*[0-9].*")) return false;
-            if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) return false;
-            return true;
+        if (password.length() < 8 || password.length() > 14) return false;
+        if (!password.matches(".*[A-Z].*")) return false;
+        if (!password.matches(".*[a-z].*")) return false;
+        if (!password.matches(".*[0-9].*")) return false;
+        if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) return false;
+        return true;
     }
 
     private void updatePasswordStrength(String password) {
@@ -367,7 +372,7 @@ public class CreateAccountFragment extends Fragment {
                 String email = emailEditText.getText().toString().trim();
                 String phone = phoneEditText.getText().toString().trim();
 
-                saveUserDetails(user.getUid(), fullName, email, phone);
+                saveUserDetails(user.getUid(), fullName, email, phone, "user"); // Hardcoded role
                 saveUserLoginStatus("user");
                 otpVerificationDialog.setVisibility(View.GONE);
 
@@ -376,12 +381,9 @@ public class CreateAccountFragment extends Fragment {
                 bundle.putString("fullName", fullName);
                 bundle.putString("email", email);
                 bundle.putString("phone", phone);
-                new AlertDialog.Builder(requireContext())
-                        .setTitle("Success")
-                        .setMessage("Account created successfully!")
-                        .setPositiveButton("OK", (dialog, which) -> navController.navigate(R.id.collectUserDetailsFragment, bundle))
-                        .show();
+                navController.navigate(R.id.collectUserDetailsFragment, bundle);
             } else {
+                Log.e("CreateAccountFragment", "Phone sign-in failed", task.getException());
                 Toast.makeText(requireContext(), "OTP Verification Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -418,7 +420,15 @@ public class CreateAccountFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         googleSignInButton.setEnabled(false);
         Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        try{
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        } catch(Exception e){
+            Log.e("CreateAccountFragment", "Error starting Google Sign-In activity", e);
+            progressBar.setVisibility(View.GONE);
+            googleSignInButton.setEnabled(true);
+            Toast.makeText(requireContext(), "Failed to start Google Sign-In activity: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
@@ -432,13 +442,13 @@ public class CreateAccountFragment extends Fragment {
             } catch (ApiException e) {
                 progressBar.setVisibility(View.GONE);
                 googleSignInButton.setEnabled(true);
+                Log.e("CreateAccountFragment", "Google Sign-In failed", e);
                 Toast.makeText(requireContext(), "Google Sign-In Failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
+            }        }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null); // Use getIdToken()
         mAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
             progressBar.setVisibility(View.GONE);
             googleSignInButton.setEnabled(true);
@@ -448,7 +458,7 @@ public class CreateAccountFragment extends Fragment {
                 String email = account.getEmail();
                 String phone = "N/A";
 
-                saveUserDetails(user.getUid(), fullName, email, phone);
+                saveUserDetails(user.getUid(), fullName, email, phone, "user"); // Hardcoded role
                 saveUserLoginStatus("user");
 
                 Bundle bundle = new Bundle();
@@ -458,21 +468,30 @@ public class CreateAccountFragment extends Fragment {
                 bundle.putString("phone", phone);
                 navController.navigate(R.id.collectUserDetailsFragment, bundle);
             } else {
+                Log.e("CreateAccountFragment", "Firebase authentication failed", task.getException());
                 Toast.makeText(requireContext(), "Google Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void saveUserDetails(String userId, String fullName, String email, String phone) {
+    private void saveUserDetails(String userId, String fullName, String email, String phone, String role) {
         HashMap<String, Object> userData = new HashMap<>();
         userData.put("fullName", fullName);
         userData.put("email", email);
         userData.put("phone", phone);
-        userData.put("role", "user");
+        userData.put("role", role);
 
-        databaseReference.child(userId).setValue(userData)
-                .addOnSuccessListener(aVoid -> Toast.makeText(requireContext(), "User Registered Successfully!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to save user details.", Toast.LENGTH_SHORT).show());
+        firestoreDB.collection(USER_COLLECTION) // Use Firestore
+                .document(userId)
+                .set(userData, SetOptions.merge()) // Use set with merge
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(requireContext(), "User Registered Successfully!", Toast.LENGTH_SHORT).show();
+                    // No need to write to Realtime Database here anymore
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("CreateAccountFragment", "Failed to save user details to Firestore", e);
+                    Toast.makeText(requireContext(), "Failed to save user details.", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void saveUserLoginStatus(String role) {
@@ -505,3 +524,4 @@ public class CreateAccountFragment extends Fragment {
         view.startAnimation(shake);
     }
 }
+

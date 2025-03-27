@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -36,11 +37,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -49,31 +47,37 @@ import java.util.concurrent.TimeUnit;
 public class LoginFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private DatabaseReference databaseReference;
-    private MaterialButton loginButton;
-    private TextInputEditText emailField, passwordField;
+    private FirebaseFirestore firestoreDB;
+    private NavController navController;
     private SharedPreferences sharedPreferences;
-    private TextView forgotPasswordText;
-    private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
-    private MaterialCardView googleSignInButton;
     private String verificationCode;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private String resetEmail;
+    private static final int RC_SIGN_IN = 9001;
     private static final String PREFS_NAME = "DoctorCubePrefs";
     private static final String KEY_USER_ROLE = "user_role";
+    private static final String USER_COLLECTION = "Users";
     private boolean isSuperAdmin = false;
+
+    private TextInputEditText emailField,passwordField;
+    private MaterialButton loginButton;
+
+    private TextView forgotPasswordText;
+
+
+    private MaterialCardView googleSignInButton;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
-        // Initialize Firebase Auth
+        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-
+        firestoreDB = FirebaseFirestore.getInstance();
         // Initialize UI Elements
         emailField = view.findViewById(R.id.emailEditText);
         passwordField = view.findViewById(R.id.passwordEditText);
@@ -104,17 +108,17 @@ public class LoginFragment extends Fragment {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
 
-        // Check login status and keep user on login screen if not logged in
+        // Check login status
         FirebaseUser currentUser = mAuth.getCurrentUser();
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
         if (isLoggedIn && currentUser != null) {
             String userType = sharedPreferences.getString(KEY_USER_ROLE, "");
             navigateToFragment(navController, userType);
         } else {
-            // User is not logged in, explicitly sign out Firebase to ensure clean state
+            // User is not logged in, explicitly sign out
             if (currentUser != null) {
                 mAuth.signOut();
-                mGoogleSignInClient.signOut(); // Also sign out from Google
+                mGoogleSignInClient.signOut();
             }
             // Proceed to setup login UI (user stays on LoginFragment)
         }
@@ -137,15 +141,14 @@ public class LoginFragment extends Fragment {
         // Handle Google Sign In
         googleSignInButton.setOnClickListener(v -> signInWithGoogle());
 
-        // Navigate to CreateAccountFragment on button click
+        // Navigate to CreateAccountFragment
         view.findViewById(R.id.createAccountText).setOnClickListener(v ->
                 navController.navigate(R.id.createAccountFragment2));
 
-        // Check intent destination (if applicable from previous context)
+        // Check intent destination
         String destination = requireActivity().getIntent().getStringExtra("destination");
         if (destination != null) {
             Log.d("LoginFragment", "Destination from intent: " + destination);
-            // Handle specific destinations if needed, but don’t navigate yet
         }
 
         return view;
@@ -166,25 +169,31 @@ public class LoginFragment extends Fragment {
     }
 
     private void fetchUserData(String userId, NavController navController) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String role = snapshot.child("role").getValue(String.class);
-                    saveUserLoginStatus(role);
-                    navigateToFragment(navController, role);
-                } else {
-                    navController.navigate(R.id.collectUserDetailsFragment);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "Error fetching data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        firestoreDB.collection(USER_COLLECTION)
+                .document(userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            String role = document.getString("role");
+                            if (role != null) {
+                                saveUserLoginStatus(role);
+                                navigateToFragment(navController, role);
+                            } else {
+                                Toast.makeText(getContext(), "User role is null.", Toast.LENGTH_SHORT).show();
+                                mAuth.signOut();
+                                sharedPreferences.edit().putBoolean("isLoggedIn", false).apply();
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "User document does not exist.", Toast.LENGTH_SHORT).show();
+                            navController.navigate(R.id.collectUserDetailsFragment);
+                        }
+                    } else {
+                        Log.e("LoginFragment", "Error fetching user data", task.getException());
+                        Toast.makeText(getActivity(), "Error fetching data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void saveUserLoginStatus(String role) {
@@ -354,6 +363,7 @@ public class LoginFragment extends Fragment {
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult().getUser();
+                        assert user != null;
                         String phoneNumber = user.getPhoneNumber();
                         NavController navController = Navigation.findNavController(getView());
                         fetchUserData(user.getUid(), navController);
@@ -403,24 +413,30 @@ public class LoginFragment extends Fragment {
     }
 
     private void fetchGoogleUserData(String uid) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                NavController navController = Navigation.findNavController(getView());
-                if (snapshot.exists()) {
-                    String role = snapshot.child("role").getValue(String.class);
-                    saveUserLoginStatus(role);
-                    navigateToFragment(navController, role);
-                } else {
-                    navController.navigate(R.id.collectUserDetailsFragment);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        firestoreDB.collection(USER_COLLECTION)
+                .document(uid)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        NavController navController = Navigation.findNavController(getView());
+                        if (document.exists()) {
+                            String role = document.getString("role");
+                            if (role != null) {
+                                saveUserLoginStatus(role);
+                                navigateToFragment(navController, role);
+                            } else {
+                                Toast.makeText(getContext(), "User role is null.", Toast.LENGTH_SHORT).show();
+                                mAuth.signOut();
+                                sharedPreferences.edit().putBoolean("isLoggedIn", false).apply();
+                            }
+                        } else {
+                            navController.navigate(R.id.collectUserDetailsFragment);
+                        }
+                    } else {
+                        Log.e("LoginFragment", "Error fetching Google user data", task.getException());
+                        Toast.makeText(getContext(), "Database error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

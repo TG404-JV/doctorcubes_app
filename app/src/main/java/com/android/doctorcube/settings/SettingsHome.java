@@ -1,7 +1,5 @@
 package com.android.doctorcube.settings;
 
-
-
 import static android.content.Intent.getIntent;
 
 import android.content.Context;
@@ -35,6 +33,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.File;
 
 public class SettingsHome extends Fragment {
     private static final String TAG = "SettingsHomeFragment";
@@ -44,6 +45,7 @@ public class SettingsHome extends Fragment {
     private DatabaseReference mDatabase;
     private SharedPreferences sharedPreferences;
     private String userId;
+    private FirebaseFirestore mFirestore;
 
     // Views
     private TextView userName, userEmail, userStatus;
@@ -67,6 +69,7 @@ public class SettingsHome extends Fragment {
         }
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        mFirestore = FirebaseFirestore.getInstance(); // Initialize Firestore
 
         // Initialize NavController
         navController = Navigation.findNavController(view);
@@ -129,7 +132,7 @@ public class SettingsHome extends Fragment {
         }
 
         if (consultationButton != null) {
-          //  consultationButton.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_consultationBooking));
+            //  consultationButton.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_consultationBooking));
         }
     }
 
@@ -163,6 +166,41 @@ public class SettingsHome extends Fragment {
 
     private void fetchDataFromFirebase() {
         if (userId != null) {
+            mFirestore.collection("Users").document(userId) // Use Firestore
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String name = documentSnapshot.getString("fullName");
+                            String email = documentSnapshot.getString("email");
+                            String status = documentSnapshot.getString("status");
+                            String imageUrl = documentSnapshot.getString("imageUrl"); // Get image URL
+
+                            // Use defaults if null
+                            name = name != null ? name : "Unknown User";
+                            email = email != null ? email : "No email";
+                            status = status != null ? status : "Student • USA Aspirant";
+
+                            // Save to SharedPreferences
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(userId + "_fullName", name);
+                            editor.putString(userId + "_email", email);
+                            editor.putString(userId + "_status", status);
+                            editor.putString(userId + "_profile_image_url", imageUrl); // Save image URL
+                            editor.apply();
+
+                            updateUI(name, email, status);
+                            loadProfileImage(); // Load image
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Failed to load user data from Firestore: " + e.getMessage());
+                        fetchDataFromRealtimeDatabase(); // Fallback to Realtime Database
+                    });
+        }
+    }
+
+    private void fetchDataFromRealtimeDatabase() {
+        if (userId != null) {
             mDatabase.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -184,7 +222,7 @@ public class SettingsHome extends Fragment {
                         editor.apply();
 
                         updateUI(name, email, status);
-                        loadProfileImage();
+                        loadProfileImage(); // Load image
                     }
                 }
 
@@ -204,10 +242,35 @@ public class SettingsHome extends Fragment {
     }
 
     private void loadProfileImage() {
-        String imagePath = sharedPreferences.getString(userId + "_image_path", "");
-        if (!imagePath.isEmpty()) {
+        if (shouldLoadLocalImage()) {
+            loadLocalProfileImage();
+        } else {
+            loadProfileImageFromFirestore();
+        }
+    }
+
+    private boolean shouldLoadLocalImage() {
+        return sharedPreferences.getBoolean(userId + "_has_local_image", false);
+    }
+
+    private void loadLocalProfileImage() {
+        File localFile = new File(getContext().getFilesDir(), userId + "_profile.jpg");
+        if (localFile.exists()) {
             Glide.with(this)
-                    .load(imagePath)
+                    .load(localFile)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_doctorcubes_white)
+                    .into(profileImage);
+        } else {
+            loadProfileImageFromFirestore();
+        }
+    }
+
+    private void loadProfileImageFromFirestore() {
+        String imageUrl = sharedPreferences.getString(userId + "_profile_image_url", "");
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Glide.with(this)
+                    .load(imageUrl)
                     .circleCrop()
                     .placeholder(R.drawable.ic_doctorcubes_white)
                     .into(profileImage);
@@ -218,6 +281,7 @@ public class SettingsHome extends Fragment {
                     .into(profileImage);
         }
     }
+
 
     private void safeNavigate(int actionId) {
         try {
@@ -231,3 +295,4 @@ public class SettingsHome extends Fragment {
         }
     }
 }
+

@@ -1,10 +1,12 @@
 package com.android.doctorcube.study.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +18,9 @@ import com.android.doctorcube.R;
 import com.android.doctorcube.StudyMaterialFragment;
 import com.android.doctorcube.study.fragment.adapter.NotesAdapter;
 import com.android.doctorcube.study.fragment.models.NoteItem;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,10 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
     private List<NoteItem> notesList;
     private List<NoteItem> originalNotesList;
     private TextView emptyView;
+    private FirebaseFirestore db;
+    private boolean isDataLoaded = false;
+    private String pendingSearchQuery = null;
+    private static final String TAG = "NotesFragment";
 
     @Nullable
     @Override
@@ -36,55 +45,114 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
         recyclerView = view.findViewById(R.id.recyclerView);
         emptyView = view.findViewById(R.id.emptyView);
 
+        Log.d(TAG, "onCreateView: RecyclerView found: " + (recyclerView != null));
+        Log.d(TAG, "onCreateView: EmptyView found: " + (emptyView != null));
+
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        // Initialize data
-        originalNotesList = getNotesList();
-        notesList = new ArrayList<>(originalNotesList);
-
-        // Set up adapter
+        notesList = new ArrayList<>();
+        originalNotesList = new ArrayList<>();
         adapter = new NotesAdapter(requireContext(), notesList);
         recyclerView.setAdapter(adapter);
 
-        // Update empty state initially
-        updateEmptyState();
+        Log.d(TAG, "onCreateView: Adapter set with initial size: " + adapter.getItemCount());
+
+        db = FirebaseFirestore.getInstance();
+
+        fetchNotesFromFirestore();
 
         return view;
     }
 
-    private List<NoteItem> getNotesList() {
-        List<NoteItem> notes = new ArrayList<>();
-        notes.add(new NoteItem("Mathematics", "Calculus notes", "Dr. Smith", "15 MB",
-                "https://drive.google.com/uc?export=download&id=1TQwa6iLSPJyyvmimugZ4Nizc7qjc0psw",
-                "Math", "March 10, 2025", 50));
-        notes.add(new NoteItem("Physics", "Mechanics fundamentals", "Prof. Johnson", "12 MB",
-                "https://drive.google.com/file/d/1aitdpqtldgIGTxmk72LI13J_HhruV5qN/view?usp=sharing",
-                "Physics", "March 12, 2025", 45));
-        notes.add(new NoteItem("Chemistry", "Organic Chemistry Basics", "Dr. Anderson", "8 MB",
-                "https://drive.google.com/uc?export=download&id=1QWERTYUIOPLKJHGFDSA",
-                "Chemistry", "March 14, 2025", 30));
-        notes.add(new NoteItem("Biology", "Human Anatomy Overview", "Prof. Green", "20 MB",
-                "https://drive.google.com/uc?export=download&id=1BIOLOGYPDF123XYZ",
-                "Biology", "March 15, 2025", 60));
-        notes.add(new NoteItem("Computer Science", "Data Structures & Algorithms", "Dr. Lee", "25 MB",
-                "https://drive.google.com/uc?export=download&id=1CSALGO987654321",
-                "CS", "March 16, 2025", 80));
-        notes.add(new NoteItem("History", "World War II Summary", "Dr. Carter", "10 MB",
-                "https://drive.google.com/uc?export=download&id=1HISTORYWWII9876",
-                "History", "March 17, 2025", 35));
-        return notes;
+    private void fetchNotesFromFirestore() {
+        if (getContext() == null) {
+            Log.w(TAG, "fetchNotesFromFirestore: Context is null, aborting");
+            return;
+        }
+
+        emptyView.setText("Loading notes...");
+        emptyView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        Log.d(TAG, "fetchNotesFromFirestore: Initial visibility - RecyclerView: GONE, EmptyView: VISIBLE");
+
+        db.collection("notes")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (!isAdded() || getContext() == null) {
+                        Log.w(TAG, "fetchNotesFromFirestore: Fragment not attached, aborting");
+                        return;
+                    }
+
+                    if (task.isSuccessful()) {
+                        List<NoteItem> fetchedNotes = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String title = document.getString("title");
+                            String notesUrl = document.getString("notesUrl");
+                            Log.d(TAG, "fetchNotesFromFirestore: Fetched - Title: " + title + ", URL: " + notesUrl);
+                            if (title != null && notesUrl != null) {
+                                fetchedNotes.add(new NoteItem(title, notesUrl));
+                            }
+                        }
+                        Log.d(TAG, "fetchNotesFromFirestore: Total fetched notes: " + fetchedNotes.size());
+                        updateAdapterAndFinishLoading(fetchedNotes);
+                    } else {
+                        Log.e(TAG, "fetchNotesFromFirestore: Error fetching notes: ", task.getException());
+                        Toast.makeText(getContext(), "Error fetching notes: " + task.getException(), Toast.LENGTH_LONG).show();
+                        emptyView.setText("Failed to load notes");
+                        emptyView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        isDataLoaded = true;
+                    }
+                });
+    }
+
+    private void updateAdapterAndFinishLoading(List<NoteItem> fetchedNotes) {
+        if (!isAdded() || getContext() == null) {
+            Log.w(TAG, "updateAdapterAndFinishLoading: Fragment not attached, aborting");
+            return;
+        }
+
+        notesList.clear();
+        notesList.addAll(fetchedNotes);
+        originalNotesList.clear();
+        originalNotesList.addAll(fetchedNotes);
+
+        Log.d(TAG, "updateAdapterAndFinishLoading: Notes list size before adapter update: " + notesList.size());
+        adapter.updateData(notesList);
+        Log.d(TAG, "updateAdapterAndFinishLoading: Adapter item count after updateData: " + adapter.getItemCount());
+
+        isDataLoaded = true;
+
+        if (!fetchedNotes.isEmpty()) {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+            Log.d(TAG, "updateAdapterAndFinishLoading: RecyclerView visible with " + adapter.getItemCount() + " items");
+        } else {
+            updateEmptyState("", true);
+        }
+
+        if (pendingSearchQuery != null && !pendingSearchQuery.isEmpty()) {
+            Log.d(TAG, "updateAdapterAndFinishLoading: Applying pending search: " + pendingSearchQuery);
+            performSearch(pendingSearchQuery);
+            pendingSearchQuery = null;
+        }
     }
 
     @Override
     public void performSearch(String query) {
+        if (!isAdded() || getContext() == null) return;
+
+        if (!isDataLoaded) {
+            pendingSearchQuery = query;
+            return;
+        }
+
         List<NoteItem> filteredList = new ArrayList<>();
         query = query.toLowerCase();
 
         for (NoteItem note : originalNotesList) {
             if (note.getTitle().toLowerCase().contains(query) ||
-                    note.getDescription().toLowerCase().contains(query) ||
-                    note.getAuthor().toLowerCase().contains(query) ||
-                    note.getCategory().toLowerCase().contains(query)) {
+                    note.getUrl().toLowerCase().contains(query)) {
                 filteredList.add(note);
             }
         }
@@ -95,11 +163,10 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
 
     @Override
     public void resetSearch() {
-        adapter.updateData(originalNotesList);
-        updateEmptyState("", false);
-    }
+        if (!isAdded() || getContext() == null) return;
 
-    private void updateEmptyState() {
+        pendingSearchQuery = null;
+        adapter.updateData(originalNotesList);
         updateEmptyState("", adapter.getItemCount() == 0);
     }
 
@@ -112,9 +179,11 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
             } else {
                 emptyView.setText("No notes available");
             }
+            Log.d(TAG, "updateEmptyState: Showing empty view - Text: " + emptyView.getText());
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
+            Log.d(TAG, "updateEmptyState: Showing RecyclerView - Item count: " + adapter.getItemCount());
         }
     }
 }

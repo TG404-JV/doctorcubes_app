@@ -1,41 +1,19 @@
 package com.android.doctorcube;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
-
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -45,10 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PdfViewerActivity extends AppCompatActivity {
 
@@ -60,7 +34,7 @@ public class PdfViewerActivity extends AppCompatActivity {
     private ImageButton backButton;
 
     private String pdfTitle;
-    private String pdfFilePath;
+    private String pdfUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,27 +53,22 @@ public class PdfViewerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             pdfTitle = intent.getStringExtra("pdfTitle");
-            pdfFilePath = intent.getStringExtra("pdfFilePath");
-            // You can also get other extras if needed
-            String pdfDescription = intent.getStringExtra("pdfDescription");
-            String pdfAuthor = intent.getStringExtra("pdfAuthor");
-            String pdfSize = intent.getStringExtra("pdfSize");
-            String pdfCategory = intent.getStringExtra("pdfCategory");
-            String pdfLastModified = intent.getStringExtra("pdfLastModified");
-            int pdfTotalPages = intent.getIntExtra("pdfTotalPages", 0);
+            pdfUrl = intent.getStringExtra("pdfFilePath");
         }
 
         // Set title
         if (pdfTitle != null) {
             titleTextView.setText(pdfTitle);
+        } else {
+            titleTextView.setText("PDF Viewer");
         }
 
         // Set back button click listener
         backButton.setOnClickListener(v -> finish());
 
         // Load PDF
-        if (pdfFilePath != null && !pdfFilePath.isEmpty()) {
-            loadPdfFromUrl(pdfFilePath);
+        if (pdfUrl != null && !pdfUrl.isEmpty()) {
+            loadPdfFromUrl(pdfUrl);
         } else {
             Toast.makeText(this, "PDF URL is invalid", Toast.LENGTH_SHORT).show();
             finish();
@@ -129,17 +98,15 @@ public class PdfViewerActivity extends AppCompatActivity {
                 .enableAnnotationRendering(false)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10)
-                .onLoad(nbPages -> {
-                    showLoading(false);
-                })
+                .onLoad(nbPages -> showLoading(false))
                 .onError(t -> {
                     showLoading(false);
                     Toast.makeText(PdfViewerActivity.this, "Error loading PDF: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    finish();
                 })
                 .load();
     }
 
-    // AsyncTask to download PDF file
     private class DownloadPdfTask extends AsyncTask<String, Integer, Boolean> {
         private File outputFile;
         private Exception exception;
@@ -177,7 +144,7 @@ public class PdfViewerActivity extends AppCompatActivity {
                 int fileLength = connection.getContentLength();
 
                 // Download the file
-                input = connection.getInputStream();
+                input = new BufferedInputStream(connection.getInputStream());
                 output = new FileOutputStream(outputFile);
 
                 byte[] data = new byte[4096];
@@ -186,11 +153,9 @@ public class PdfViewerActivity extends AppCompatActivity {
 
                 while ((count = input.read(data)) != -1) {
                     total += count;
-
                     if (fileLength > 0) {
                         publishProgress((int) (total * 100 / fileLength));
                     }
-
                     output.write(data, 0, count);
                 }
 
@@ -205,7 +170,6 @@ public class PdfViewerActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     // Ignore
                 }
-
                 if (connection != null) connection.disconnect();
             }
         }
@@ -213,7 +177,6 @@ public class PdfViewerActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-
             if (values.length > 0) {
                 int progress = values[0];
                 loadingTextView.setText("Downloading PDF... " + progress + "%");
@@ -229,6 +192,7 @@ public class PdfViewerActivity extends AppCompatActivity {
                 showLoading(false);
                 String errorMessage = exception != null ? exception.getMessage() : "Unknown error";
                 Toast.makeText(PdfViewerActivity.this, "Failed to download PDF: " + errorMessage, Toast.LENGTH_LONG).show();
+                finish();
             }
         }
     }
@@ -236,8 +200,13 @@ public class PdfViewerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Clean up temporary files - optional
-        // Consider keeping this file if you want to avoid re-downloading
-        // when the user returns to this activity
+        // Optional: Clean up temporary files
+        File cacheDir = getCacheDir();
+        File[] files = cacheDir.listFiles((dir, name) -> name.startsWith("temp_pdf_"));
+        if (files != null) {
+            for (File file : files) {
+                file.delete();
+            }
+        }
     }
 }

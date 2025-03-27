@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +37,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,10 +50,11 @@ public class FragmentEditDetails extends Fragment {
 
     private static final int GALLERY_REQUEST_CODE = 1001;
     private static final String PREFS_NAME = "UserProfilePrefs";
+    private static final String TAG = "EditDetailsFragment";
 
     // Firebase
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private FirebaseFirestore mFirestore;
 
     // Views
     private ImageView profileImageView;
@@ -66,7 +64,8 @@ public class FragmentEditDetails extends Fragment {
     private ProgressBar progressBar;
     private CardView profileCard;
     private AppCompatImageButton backButton;
-    private Toolbar fragmentToolbar; // Added for fragment-specific toolbar
+    private Toolbar fragmentToolbar;
+    private NavController navController;
 
     // User data
     private String userId;
@@ -75,7 +74,7 @@ public class FragmentEditDetails extends Fragment {
     private SharedPreferences sharedPreferences;
     private boolean isImageChanged = false;
     private boolean isEditing = false;
-    private NavController navController;
+    private String firestoreImageUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,11 +82,11 @@ public class FragmentEditDetails extends Fragment {
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             userId = currentUser.getUid();
         }
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
         // Initialize SharedPreferences
         sharedPreferences = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -108,7 +107,6 @@ public class FragmentEditDetails extends Fragment {
     }
 
     private void initViews(View view) {
-        // Initialize Fragment's Toolbar
         fragmentToolbar = view.findViewById(R.id.toolbar);
         if (fragmentToolbar != null) {
             fragmentToolbar.setNavigationOnClickListener(v -> navigateToHome());
@@ -128,14 +126,7 @@ public class FragmentEditDetails extends Fragment {
         backButton = view.findViewById(R.id.backButton);
 
         // Set initial state of EditTexts to uneditable
-        emailEditText.setFocusable(false);
-        fullNameEditText.setFocusable(false);
-        phoneEditText.setFocusable(false);
-        emailEditText.setFocusableInTouchMode(false);
-        fullNameEditText.setFocusableInTouchMode(false);
-        phoneEditText.setFocusableInTouchMode(false);
-
-        // Set initial button text
+        setEditTextNonEditable();
         saveButton.setText("Edit Details");
 
         // Set listeners
@@ -179,6 +170,12 @@ public class FragmentEditDetails extends Fragment {
     };
 
     private void enableEditing() {
+        setEditTextEditable();
+        saveButton.setText("Save Changes");
+        isEditing = true;
+    }
+
+    private void setEditTextEditable() {
         emailEditText.setFocusableInTouchMode(true);
         fullNameEditText.setFocusableInTouchMode(true);
         phoneEditText.setFocusableInTouchMode(true);
@@ -186,8 +183,15 @@ public class FragmentEditDetails extends Fragment {
         fullNameEditText.setFocusable(true);
         phoneEditText.setFocusable(true);
         emailEditText.requestFocus();
-        saveButton.setText("Save Changes");
-        isEditing = true;
+    }
+
+    private void setEditTextNonEditable() {
+        emailEditText.setFocusable(false);
+        fullNameEditText.setFocusable(false);
+        phoneEditText.setFocusable(false);
+        emailEditText.setFocusableInTouchMode(false);
+        fullNameEditText.setFocusableInTouchMode(false);
+        phoneEditText.setFocusableInTouchMode(false);
     }
 
     private void loadUserData() {
@@ -195,6 +199,7 @@ public class FragmentEditDetails extends Fragment {
         String email = sharedPreferences.getString(userId + "_email", "");
         String fullName = sharedPreferences.getString(userId + "_fullName", "");
         String phone = sharedPreferences.getString(userId + "_phone", "");
+        firestoreImageUrl = sharedPreferences.getString(userId + "_profile_image_url", "");
         boolean hasLocalData = !email.isEmpty() || !fullName.isEmpty() || !phone.isEmpty();
 
         File localFile = new File(getContext().getFilesDir(), userId + "_profile.jpg");
@@ -202,6 +207,12 @@ public class FragmentEditDetails extends Fragment {
             localImagePath = localFile.getAbsolutePath();
             Glide.with(this)
                     .load(localFile)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_doctorcubes_white)
+                    .into(profileImageView);
+        } else if (!firestoreImageUrl.isEmpty()) {
+            Glide.with(this)
+                    .load(firestoreImageUrl)
                     .circleCrop()
                     .placeholder(R.drawable.ic_doctorcubes_white)
                     .into(profileImageView);
@@ -213,38 +224,47 @@ public class FragmentEditDetails extends Fragment {
             phoneEditText.setText(phone);
             showLoading(false);
         } else {
-            fetchUserDataFromFirebase();
+            fetchUserDataFromFirestore();
         }
     }
 
-    private void fetchUserDataFromFirebase() {
-        mDatabase.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String email = dataSnapshot.child("email").getValue(String.class);
-                    String fullName = dataSnapshot.child("fullName").getValue(String.class);
-                    String phone = dataSnapshot.child("phone").getValue(String.class);
-                    emailEditText.setText(email);
-                    fullNameEditText.setText(fullName);
-                    phoneEditText.setText(phone);
+    private void fetchUserDataFromFirestore() {
+        mFirestore.collection("Users").document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String email = documentSnapshot.getString("email");
+                        String fullName = documentSnapshot.getString("fullName");
+                        String phone = documentSnapshot.getString("phone");
+                        firestoreImageUrl = documentSnapshot.getString("imageUrl");
 
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(userId + "_email", email);
-                    editor.putString(userId + "_fullName", fullName);
-                    editor.putString(userId + "_phone", phone);
-                    editor.apply();
-                }
-                showLoading(false);
-            }
+                        emailEditText.setText(email);
+                        fullNameEditText.setText(fullName);
+                        phoneEditText.setText(phone);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                showLoading(false);
-                Toast.makeText(getContext(), "Failed to load profile: " + databaseError.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+                        if (firestoreImageUrl != null && !firestoreImageUrl.isEmpty()) {
+                            Glide.with(this)
+                                    .load(firestoreImageUrl)
+                                    .circleCrop()
+                                    .placeholder(R.drawable.ic_doctorcubes_white)
+                                    .into(profileImageView);
+                        }
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(userId + "_email", email);
+                        editor.putString(userId + "_fullName", fullName);
+                        editor.putString(userId + "_phone", phone);
+                        editor.putString(userId + "_profile_image_url", firestoreImageUrl);
+                        editor.apply();
+                    }
+                    showLoading(false);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Firestore error loading user data", e);
+                    showLoading(false);
+                    Toast.makeText(getContext(), "Failed to load profile: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void selectImage() {
@@ -263,6 +283,7 @@ public class FragmentEditDetails extends Fragment {
                 profileImageView.setImageBitmap(bitmap);
                 saveImageToLocalStorage(bitmap);
             } catch (IOException e) {
+                Log.e(TAG, "Error loading image", e);
                 e.printStackTrace();
                 Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
             }
@@ -314,35 +335,37 @@ public class FragmentEditDetails extends Fragment {
         editor.putString(userId + "_phone", phone);
         editor.apply();
 
+        // Update Firestore
         Map<String, Object> updates = new HashMap<>();
         updates.put("email", email);
         updates.put("fullName", fullName);
         updates.put("phone", phone);
 
         updateUserData(updates);
+
         isEditing = false;
         saveButton.setText("Edit Details");
         setEditTextNonEditable();
     }
 
-    private void setEditTextNonEditable() {
-        emailEditText.setFocusable(false);
-        fullNameEditText.setFocusable(false);
-        phoneEditText.setFocusable(false);
-        emailEditText.setFocusableInTouchMode(false);
-        fullNameEditText.setFocusableInTouchMode(false);
-        phoneEditText.setFocusableInTouchMode(false);
-    }
 
     private void updateUserData(Map<String, Object> updates) {
-        mDatabase.child(userId).updateChildren(updates)
+        mFirestore.collection("Users").document(userId)
+                .update(updates)
                 .addOnSuccessListener(aVoid -> {
                     showLoading(false);
                     Toast.makeText(getContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                    if (isImageChanged && localImagePath != null) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean(userId + "_has_local_image", true);
+                        editor.apply();
+                    }
+                    isImageChanged = false;
                 })
                 .addOnFailureListener(e -> {
+                    Log.e(TAG, "Firestore error updating user data", e);
                     showLoading(false);
-                    Toast.makeText(getContext(), "Failed to update online profile, but saved locally: " + e.getMessage(),
+                    Toast.makeText(getContext(), "Failed to update profile: " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 });
     }
@@ -389,12 +412,14 @@ public class FragmentEditDetails extends Fragment {
                                             Toast.LENGTH_SHORT).show();
                                 })
                                 .addOnFailureListener(e -> {
+                                    Log.e(TAG, "Failed to update password", e);
                                     showLoading(false);
                                     Toast.makeText(getContext(), "Failed to update password: " + e.getMessage(),
                                             Toast.LENGTH_SHORT).show();
                                 });
                     })
                     .addOnFailureListener(e -> {
+                        Log.e(TAG, "Incorrect password", e);
                         showLoading(false);
                         Toast.makeText(getContext(), "Current password is incorrect",
                                 Toast.LENGTH_SHORT).show();
@@ -456,3 +481,4 @@ public class FragmentEditDetails extends Fragment {
         }
     }
 }
+

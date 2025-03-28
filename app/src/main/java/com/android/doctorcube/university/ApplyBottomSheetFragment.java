@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,11 +51,17 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
     private FirebaseFirestore firestore;
     private University university;
 
+    private String offer;
+
     // Array of countries for the dropdown
     private final String[] countries = {"USA", "Canada", "UK", "Germany", "France", "Australia", "India", "China", "Brazil", "Japan"};
 
     public ApplyBottomSheetFragment(University university) {
         this.university = university;
+    }
+
+    public ApplyBottomSheetFragment() {
+        // Required empty public constructor
     }
 
     @Nullable
@@ -80,14 +87,23 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
         cityEditText = view.findViewById(R.id.cityEditText);
         neetScoreEditText = view.findViewById(R.id.neetScore);
         countrySpinner = view.findViewById(R.id.countrySpinner);
-        neetScoreGroup = view.findViewById(R.id.neetScoreGroup); // Fixed ID typo
-        passportGroup = view.findViewById(R.id.passportGroup);   // Fixed ID typo
-        neetScoreYes = view.findViewById(R.id.neetScoreYes);     // Fixed ID typo
-        neetScoreNo = view.findViewById(R.id.neetScoreNo);       // Fixed ID typo
-        passportYes = view.findViewById(R.id.passportYes);       // Fixed ID typo
+        neetScoreGroup = view.findViewById(R.id.neetScoreGroup);
+        passportGroup = view.findViewById(R.id.passportGroup);
+        neetScoreYes = view.findViewById(R.id.neetScoreYes);
+        neetScoreNo = view.findViewById(R.id.neetScoreNo);
+        passportYes = view.findViewById(R.id.passportYes);
         passportNo = view.findViewById(R.id.passportNo);
         neetScoreLayout = view.findViewById(R.id.neetScoreLayout);
         submitButton = view.findViewById(R.id.submitButton);
+
+        if (getArguments() != null) {
+            offer = getArguments().getString("event_title", "");
+        }
+
+        if (!TextUtils.isEmpty(offer)) {
+            TextView t1 = view.findViewById(R.id.PersonlizedTxt);
+            t1.setText(offer);
+        }
 
         // Initialize Encrypted SharedPreferences
         try {
@@ -148,7 +164,7 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
 
         submitButton.setOnClickListener(v -> {
             if (validateInputs()) {
-                saveUserDetails(v);
+                checkAndSaveUserDetails(v);
             }
         });
     }
@@ -201,7 +217,33 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
         return true;
     }
 
-    private void saveUserDetails(View view) {
+    private void checkAndSaveUserDetails(View view) {
+        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "anonymous";
+        String email = emailEditText.getText().toString().trim();
+
+        firestore.collection("app_submissions")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null && !task.getResult().isEmpty()) {
+                            // User data exists, show message
+                            Toast.makeText(getContext(), "You have already submitted an application with this email.", Toast.LENGTH_SHORT).show();
+                            dismiss(); // Dismiss the dialog
+                        } else {
+                            // User data does not exist, proceed to save
+                            saveUserDetails();
+                        }
+                    } else {
+                        // Handle error
+                        Toast.makeText(getContext(), "Error checking for existing application.", Toast.LENGTH_SHORT).show();
+                        Log.e("Firestore", "Error checking for existing application: ", task.getException());
+                    }
+                });
+    }
+
+    private void saveUserDetails() {
         String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "anonymous";
         String name = nameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
@@ -225,13 +267,15 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
         formData.put("hasNeetScore", hasNeetScore);
         formData.put("neetScore", hasNeetScore ? neetScore : "N/A");
         formData.put("hasPassport", hasPassport);
-        formData.put("universityName", university.getName());
-        formData.put("universityCountry", university.getCountry()); // Added university country
-        formData.put("courseName", university.getCourseName());
+        if (university != null) {
+            formData.put("universityName", university.getName());
+            formData.put("universityCountry", university.getCountry()); // Added university country
+            formData.put("courseName", university.getCourseName());
+        }
         formData.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
 
-        // Save to Firestore
-        firestore.collection("applications")
+        // Save to Firestorm
+        firestore.collection("app_submissions")
                 .document() // Auto-generate document ID
                 .set(formData)
                 .addOnSuccessListener(aVoid -> {

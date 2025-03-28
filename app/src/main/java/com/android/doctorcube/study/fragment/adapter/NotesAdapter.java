@@ -23,14 +23,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     private Context context;
     private List<NoteItem> notesList;
     private static final String TAG = "NotesAdapter";
-    private OnItemClickListener itemClickListener; // Add this listener
 
-    // Add this interface
-    public interface OnItemClickListener {
-        void onItemClick(NoteItem item);
-    }
-
-    public NotesAdapter(Context context, List<NoteItem> notesList) { // Add listener to constructor
+    public NotesAdapter(Context context, List<NoteItem> notesList) {
         this.context = context;
         this.notesList = new ArrayList<>(notesList);
         Log.d(TAG, "Constructor: Initial list size: " + this.notesList.size());
@@ -47,10 +41,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         NoteItem note = notesList.get(position);
         holder.title.setText(note.getTitle());
-        holder.categoryTextView.setText(note.getCategory());
-        holder.detailTextView.setText(note.getDetail());
         holder.descriptionTextView.setText(note.getDescription());
-        holder.timestampTextView.setText(note.getTimestamp());
+        holder.timestampTextView.setText("Last Updated: " + note.getTimestamp());
+        holder.pageCount.setText("Pages: " + note.getPageCount());
+        holder.fileSize.setText("Size: " + note.getFileSize());
 
         Log.d(TAG, "onBindViewHolder: Binding position " + position + " - Title: " + note.getTitle());
 
@@ -74,24 +68,22 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         if (newNotesList == null) {
             this.notesList = new ArrayList<>();
         } else {
-            this.notesList = new ArrayList<>(newNotesList); // Replace with a new copy
+            this.notesList = new ArrayList<>(newNotesList);
         }
         Log.d(TAG, "updateData: After update - List size: " + notesList.size());
         notifyDataSetChanged();
     }
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder {
-        TextView title,descriptionTextView,categoryTextView,detailTextView,timestampTextView;
+        TextView title, descriptionTextView, timestampTextView, pageCount, fileSize;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.titleTextView);
-            descriptionTextView=itemView.findViewById(R.id.descriptionTextView);
-            categoryTextView=itemView.findViewById(R.id.categoryTextView);
-            detailTextView = itemView.findViewById(R.id.detailTextView);
+            title = itemView.findViewById(R.id.documentTitleTextView);
+            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             timestampTextView = itemView.findViewById(R.id.timestampTextView);
-
-
+            pageCount = itemView.findViewById(R.id.pageCountTextView);
+            fileSize = itemView.findViewById(R.id.fileSizeTextView);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.android.doctorcube.university.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -117,12 +119,15 @@ public class UniversityAdapter extends RecyclerView.Adapter<UniversityAdapter.Un
         holder.btnApply.setOnClickListener(v -> {
             FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
             ApplyBottomSheetFragment bottomSheet = new ApplyBottomSheetFragment(university);
+            Bundle args = new Bundle();
+            args.putString("event_title", university.getName());
             bottomSheet.show(fragmentManager, "ApplyBottomSheet");
         });
 
         // Brochure Button (keeping as placeholder)
         holder.btnBrochure.setOnClickListener(v -> {
             // Implement brochure download logic here
+            Toast.makeText(v.getContext(), "Brochure Added Soon For" + university.getName(), Toast.LENGTH_SHORT).show();
         });
     }
 

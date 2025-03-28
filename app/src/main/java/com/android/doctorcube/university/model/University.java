@@ -43,9 +43,14 @@ public class University {
         this.scholarshipInfo = scholarshipInfo;
     }
 
+    public University()
+    {
+
+    }
+
     // Getters
     public String getId() { return id; }
-    public String getName() { return name; }
+    public  String getName() { return name; }
     public String getLocation() { return location; }
     public String getCountry() { return country; }
     public String getCourseName() { return courseName; }

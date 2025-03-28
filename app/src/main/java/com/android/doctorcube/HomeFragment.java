@@ -34,6 +34,7 @@ import com.android.doctorcube.home.data.FeatureData;
 import com.android.doctorcube.home.data.Testimonial;
 import com.android.doctorcube.home.model.Event;
 import com.android.doctorcube.home.model.Feature;
+import com.android.doctorcube.university.ApplyBottomSheetFragment;
 import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -42,6 +43,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureClickListener , EventAdapter.OnItemClickListener {
 
@@ -122,14 +124,19 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
 
     @Override
     public void onItemClick(int position, Event event) {
-        // Handle the click event here
-        String message = "Clicked on: " + event.getTitle() + " at position " + position;
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        // Get the FragmentManager from the context
+        FragmentManager fragmentManager = ((AppCompatActivity) requireContext()).getSupportFragmentManager();
 
-        // You can add more actions here, like starting a new activity:
-        // Intent intent = new Intent(this, DetailActivity.class);
-        // intent.putExtra("event_title", event.getTitle());
-        // startActivity(intent);
+        // Pass data using a Bundle or constructor
+        Bundle args = new Bundle();
+        args.putString("event_title", event.getTitle());
+
+        // Create an instance of the BottomSheetDialogFragment
+        ApplyBottomSheetFragment bottomSheet = new ApplyBottomSheetFragment();
+        bottomSheet.setArguments(args);
+
+        // Show the BottomSheetDialogFragment
+        bottomSheet.show(fragmentManager, "ApplyBottomSheet");
     }
 
     private void setupFeaturesRecyclerView(View view) {

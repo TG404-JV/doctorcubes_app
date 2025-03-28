@@ -2,14 +2,17 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pdfNoteCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
+    android:clickable="true"
+    android:focusable="true"
     app:cardBackgroundColor="@color/card_background"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
-    app:cardPreventCornerOverlap="true">
+    app:rippleColor="@color/ripple_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,24 +20,33 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/titleTextView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Item Title"
-            android:textColor="@color/text_primary_color"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
 
-        <TextView
-            android:id="@+id/descriptionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Detailed description of the item goes here."
-            android:textColor="@color/text_secondary_color"
-            android:textSize="14sp"
-            android:layout_marginBottom="12dp"/>
+            <ImageView
+                android:id="@+id/pdfIconImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_pdf"
+                android:contentDescription="PDF File Icon"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:id="@+id/documentTitleTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Advanced Mathematics Lecture Notes"
+                android:textColor="@color/text_primary_color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,47 +55,68 @@
             android:layout_marginTop="8dp">
 
             <TextView
-                android:id="@+id/categoryTextView"
-                android:layout_width="0dp"
+                android:id="@+id/pageCountTextView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Category"
-                android:textColor="@color/text_tertiary_color"
-                android:textSize="12sp"/>
+                android:text="Pages: 45"
+                android:drawableRight="@drawable/ic_page"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/button_accent"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_secondary_color"/>
 
             <TextView
-                android:id="@+id/detailTextView"
+                android:id="@+id/fileSizeTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Additional Info"
-                android:textColor="@color/text_secondary_color"
-                android:textSize="14sp"
-                android:gravity="end"/>
+                android:text="Size: 2.3 MB"
+                android:gravity="end"
+                android:drawableEnd="@drawable/ic_file_size"
+                android:drawableTint="@color/button_accent"
+                android:drawablePadding="8dp"
+                android:textColor="@color/text_secondary_color"/>
+
+
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="details"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/divider_color"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginVertical="12dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/timestampTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="March 27, 2025"
-                android:textColor="@color/text_tertiary_color"
-                android:textSize="12sp"/>
+                android:text="Last Updated: Mar 27, 2025"
+                android:drawablePadding="8dp"
+                android:textColor="@color/text_tertiary_color"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
 
+
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

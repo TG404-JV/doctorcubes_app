@@ -1,5 +1,7 @@
 package com.android.doctorcube.study.fragment;
 
+import static java.lang.String.format;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,21 +95,21 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
                             String notesUrl = document.getString("notesUrl");
                             String category = document.getString("category");
                             String author = document.getString("author");
-                            String detail = document.getString("pages");
-                            String size = document.getString("size");
+                            String pageCount = document.getString("pages");
+                            String fileSize = document.getString("size");
                             String description = document.getString("description");
 
                             // Fetching the timestamp as a Timestamp object
                             Timestamp timestampObj = document.getTimestamp("timestamp");
                             String timestamp = "";
                             if (timestampObj != null) {
-                                timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                                timestamp = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
                                         .format(timestampObj.toDate());
                             }
 
                             Log.d(TAG, "fetchNotesFromFirestore: Fetched - Title: " + title + ", URL: " + notesUrl);
                             if (title != null && notesUrl != null) {
-                                fetchedNotes.add(new NoteItem(title, notesUrl, category, author + "\n" + detail + "\n" + size, timestamp, description));
+                                fetchedNotes.add(new NoteItem(title, notesUrl, category, author, pageCount, fileSize, timestamp, description));
                             }
                         }
                         Log.d(TAG, "fetchNotesFromFirestore: Total fetched notes: " + fetchedNotes.size());

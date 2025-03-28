@@ -18,12 +18,15 @@ import com.android.doctorcube.R;
 import com.android.doctorcube.StudyMaterialFragment;
 import com.android.doctorcube.study.fragment.adapter.NotesAdapter;
 import com.android.doctorcube.study.fragment.models.NoteItem;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class NotesFragment extends Fragment implements StudyMaterialFragment.SearchableFragment {
 
@@ -86,11 +89,25 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
                     if (task.isSuccessful()) {
                         List<NoteItem> fetchedNotes = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            String title = document.getString("title");
+                            String title = document.getString("notesName");
                             String notesUrl = document.getString("notesUrl");
+                            String category = document.getString("category");
+                            String author = document.getString("author");
+                            String detail = document.getString("pages");
+                            String size = document.getString("size");
+                            String description = document.getString("description");
+
+                            // Fetching the timestamp as a Timestamp object
+                            Timestamp timestampObj = document.getTimestamp("timestamp");
+                            String timestamp = "";
+                            if (timestampObj != null) {
+                                timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                                        .format(timestampObj.toDate());
+                            }
+
                             Log.d(TAG, "fetchNotesFromFirestore: Fetched - Title: " + title + ", URL: " + notesUrl);
                             if (title != null && notesUrl != null) {
-                                fetchedNotes.add(new NoteItem(title, notesUrl));
+                                fetchedNotes.add(new NoteItem(title, notesUrl, category, author + "\n" + detail + "\n" + size, timestamp, description));
                             }
                         }
                         Log.d(TAG, "fetchNotesFromFirestore: Total fetched notes: " + fetchedNotes.size());

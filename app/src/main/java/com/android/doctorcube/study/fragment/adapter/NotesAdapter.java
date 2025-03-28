@@ -23,10 +23,16 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     private Context context;
     private List<NoteItem> notesList;
     private static final String TAG = "NotesAdapter";
+    private OnItemClickListener itemClickListener; // Add this listener
 
-    public NotesAdapter(Context context, List<NoteItem> notesList) {
+    // Add this interface
+    public interface OnItemClickListener {
+        void onItemClick(NoteItem item);
+    }
+
+    public NotesAdapter(Context context, List<NoteItem> notesList) { // Add listener to constructor
         this.context = context;
-        this.notesList = new ArrayList<>(notesList); // Create a new copy to avoid reference issues
+        this.notesList = new ArrayList<>(notesList);
         Log.d(TAG, "Constructor: Initial list size: " + this.notesList.size());
     }
 
@@ -41,7 +47,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         NoteItem note = notesList.get(position);
         holder.title.setText(note.getTitle());
-        holder.url.setText(note.getUrl());
+        holder.categoryTextView.setText(note.getCategory());
+        holder.detailTextView.setText(note.getDetail());
+        holder.descriptionTextView.setText(note.getDescription());
+        holder.timestampTextView.setText(note.getTimestamp());
+
         Log.d(TAG, "onBindViewHolder: Binding position " + position + " - Title: " + note.getTitle());
 
         holder.itemView.setOnClickListener(v -> {
@@ -71,13 +81,17 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     }
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView url;
+        TextView title,descriptionTextView,categoryTextView,detailTextView,timestampTextView;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.noteTitle);
-            url = itemView.findViewById(R.id.noteUrl);
+            title = itemView.findViewById(R.id.titleTextView);
+            descriptionTextView=itemView.findViewById(R.id.descriptionTextView);
+            categoryTextView=itemView.findViewById(R.id.categoryTextView);
+            detailTextView = itemView.findViewById(R.id.detailTextView);
+            timestampTextView = itemView.findViewById(R.id.timestampTextView);
+
+
         }
     }
 }

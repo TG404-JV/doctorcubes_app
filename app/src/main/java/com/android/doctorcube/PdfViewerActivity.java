@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,6 +41,9 @@ public class PdfViewerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf_viewer);
+
+        // Disable screenshots and screen recording
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         // Initialize views
         pdfView = findViewById(R.id.pdfView);
@@ -143,7 +147,6 @@ public class PdfViewerActivity extends AppCompatActivity {
 
                 int fileLength = connection.getContentLength();
 
-                // Download the file
                 input = new BufferedInputStream(connection.getInputStream());
                 output = new FileOutputStream(outputFile);
 
@@ -200,7 +203,6 @@ public class PdfViewerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Optional: Clean up temporary files
         File cacheDir = getCacheDir();
         File[] files = cacheDir.listFiles((dir, name) -> name.startsWith("temp_pdf_"));
         if (files != null) {

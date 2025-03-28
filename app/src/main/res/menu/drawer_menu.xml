@@ -2,30 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/account">
         <menu>
-
-
             <item
-                android:id="@+id/nav_students"
-                android:icon="@drawable/icon_support"
+                android:id="@+id/nav_home"
+                android:icon="@drawable/ic_home"
                 android:title="Home" />
-
             <item
                 android:id="@+id/nav_add_new"
-                android:icon="@drawable/icon_support"
-                android:title="Add a New" />
-
+                android:icon="@drawable/ic_add_user"
+                android:title="Add New" />
             <item
                 android:id="@+id/nav_import_excel"
                 android:icon="@drawable/icon_support"
-                android:title="import data from xl" />
-
+                android:title="Import Data" />
             <item
                 android:id="@+id/nav_export_excel"
-                android:icon="@drawable/ic_whats_app"
-                android:title="Export data from xl" />
-
+                android:icon="@drawable/ic_excel_file"
+                android:title="Export Data" />
             <item
-                android:id="@+id/UploadStudyMaterial"
+                android:id="@+id/nav_upload_study_material"
                 android:icon="@drawable/ic_studymaterial"
                 android:title="Upload Study Material" />
         </menu>

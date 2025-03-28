@@ -165,7 +165,8 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_students) {
+
+        if (id == R.id.nav_home) {
             loadFragment(new FragmentAdminHome());
         } else if (id == R.id.nav_add_new) {
             // Fetch role from SharedPreferences
@@ -179,11 +180,12 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
                 Toast.makeText(AdminActivity.this, "Only Super Admins can add new users.", Toast.LENGTH_SHORT).show();
             }
 
-        } else if (id == R.id.nav_import_excel) {
+        }
+        else if (id == R.id.nav_import_excel) {
             loadFragment(new FragmentImportXLData());
         } else if (id == R.id.nav_export_excel) {
             loadFragment(new FragmentExportXLData());
-        } else if (id == R.id.UploadStudyMaterial) {
+        } else if (id == R.id.nav_upload_study_material) {
             loadFragment(new FragmentUploadStudyMaterial());
         }
         drawerLayout.closeDrawer(GravityCompat.START);

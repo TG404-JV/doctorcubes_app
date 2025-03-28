@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class UniversitiesActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private String countryFilter;
     private String selectedFilter = "None";
+    private ImageButton backBtn; // Declare backBtn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class UniversitiesActivity extends AppCompatActivity {
         filterSpinner = findViewById(R.id.filter_spinner);
         appBarLayout = findViewById(R.id.appBarLayout);
         progressBar = findViewById(R.id.progressBar);
+        backBtn = findViewById(R.id.backBtn); // Initialize backBtn
 
         // Setup Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -93,6 +96,7 @@ public class UniversitiesActivity extends AppCompatActivity {
         setupSearch();
         setupFilterButton();
         setupClearFilters();
+        setupBackButton(); // Setup back button listener
     }
 
     private void setupRecyclerView() {
@@ -160,6 +164,16 @@ public class UniversitiesActivity extends AppCompatActivity {
             filterSpinner.setVisibility(View.GONE);
         });
     }
+
+    private void setupBackButton() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Call onBackPressed() to navigate back
+            }
+        });
+    }
+
 
     private void filterByCountryAsync() {
         new FilterByCountryTask().execute();

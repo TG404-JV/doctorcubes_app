@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -26,15 +27,14 @@ import androidx.security.crypto.MasterKeys;
 import com.android.doctorcube.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
-import com.google.firebase.firestore.DocumentReference; // Import DocumentReference
-import com.google.firebase.firestore.FieldValue; // Import FieldValue
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class CollectUserDetailsFragment extends Fragment {
@@ -47,10 +47,10 @@ public class CollectUserDetailsFragment extends Fragment {
     private Button submitButton;
     private NavController navController;
     private SharedPreferences sharedPreferences;
-    private FirebaseFirestore firestoreDB; // Use Firestore
+    private FirebaseFirestore firestoreDB;
     private FirebaseAuth mAuth;
+    private ImageView backButton;
 
-    // Array of countries for the dropdown
     private final String[] countries = {"USA", "Canada", "UK", "Germany", "France", "Australia", "India", "China", "Brazil", "Japan"};
     private String userId;
     private String userFullName;
@@ -66,14 +66,10 @@ public class CollectUserDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-        firestoreDB = FirebaseFirestore.getInstance(); // Initialize Firestore
-
-        // Initialize NavController
+        firestoreDB = FirebaseFirestore.getInstance();
         navController = Navigation.findNavController(view);
 
-        // Initialize UI elements
         nameEditText = view.findViewById(R.id.nameEditText);
         emailEditText = view.findViewById(R.id.emailEditText);
         phoneEditText = view.findViewById(R.id.phoneEditText);
@@ -89,8 +85,8 @@ public class CollectUserDetailsFragment extends Fragment {
         passportNo = view.findViewById(R.id.passportNo);
         neetScoreLayout = view.findViewById(R.id.neetScoreLayout);
         submitButton = view.findViewById(R.id.submitButton);
+        backButton = view.findViewById(R.id.backButton);
 
-        // Initialize Encrypted SharedPreferences
         try {
             String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
             sharedPreferences = EncryptedSharedPreferences.create(
@@ -105,10 +101,8 @@ public class CollectUserDetailsFragment extends Fragment {
             Toast.makeText(requireContext(), "Error initializing preferences", Toast.LENGTH_SHORT).show();
         }
 
-        // Set up country spinner
         setUpCountrySpinner();
 
-        // Get data from bundle
         Bundle bundle = getArguments();
         if (bundle != null) {
             userId = bundle.getString("userId");
@@ -116,7 +110,6 @@ public class CollectUserDetailsFragment extends Fragment {
             userEmail = bundle.getString("email");
             userPhone = bundle.getString("phone");
 
-            // Pre-fill the form and disable editing, except for phone number
             if (TextUtils.isEmpty(nameEditText.getText())) {
                 nameEditText.setText(userFullName);
                 nameEditText.setEnabled(false);
@@ -127,22 +120,19 @@ public class CollectUserDetailsFragment extends Fragment {
             }
             if (TextUtils.isEmpty(phoneEditText.getText())) {
                 phoneEditText.setText(userPhone);
-                // phoneEditText.setEnabled(true);  // Keep phone number editable
             }
             emailEditText.setEnabled(false);
             nameEditText.setEnabled(false);
-
         }
 
-        // Set up listeners
-        setUpListeners();
+        // Check for existing data before setting up listeners
+        checkExistingData();
     }
 
     private void setUpCountrySpinner() {
-        // Use ArrayAdapter to populate the AutoCompleteTextView
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, countries);
         countrySpinner.setAdapter(adapter);
-        countrySpinner.setThreshold(1); // Minimum characters to show suggestions
+        countrySpinner.setThreshold(1);
     }
 
     private void setUpListeners() {
@@ -158,6 +148,10 @@ public class CollectUserDetailsFragment extends Fragment {
             if (validateInputs()) {
                 saveUserDetails(v);
             }
+        });
+
+        backButton.setOnClickListener(v -> {
+            navController.popBackStack();
         });
     }
 
@@ -221,7 +215,6 @@ public class CollectUserDetailsFragment extends Fragment {
         boolean hasNeetScore = neetScoreYes.isChecked();
         boolean hasPassport = passportYes.isChecked();
 
-        // Use a Map to store the data for Firestore
         Map<String, Object> userData = new HashMap<>();
         userData.put("name", name);
         userData.put("email", email);
@@ -234,22 +227,19 @@ public class CollectUserDetailsFragment extends Fragment {
             userData.put("neetScore", neetScore);
         }
         userData.put("hasPassport", hasPassport);
-        userData.put("userId", userId); // Include the user ID
-        userData.put("timestamp", FieldValue.serverTimestamp()); // Add a timestamp
+        userData.put("userId", userId);
+        userData.put("timestamp", FieldValue.serverTimestamp());
 
-        // Firestore: Use "app_submissions" as the collection
         firestoreDB.collection("app_submissions")
-                .add(userData) // Use .add() to generate a unique ID
+                .add(userData)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getContext(), "Thank you! Our team will connect with you soon.", Toast.LENGTH_SHORT).show();
                     Log.d("Firestore", "Document saved successfully with ID: " + documentReference.getId());
 
-                    // Set application submitted to true
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isApplicationSubmitted", true);
                     editor.apply();
 
-                    // Navigate to next screen
                     Navigation.findNavController(view).navigate(R.id.action_collectUserDetailsFragment_to_mainActivity2);
                 })
                 .addOnFailureListener(e -> {
@@ -257,5 +247,29 @@ public class CollectUserDetailsFragment extends Fragment {
                     Log.e("Firestore", "Error saving data", e);
                 });
     }
-}
 
+    private void checkExistingData() {
+        firestoreDB.collection("app_submissions")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (!querySnapshot.isEmpty()) {
+                            // User data exists, navigate to MainActivity
+                            Log.d("Firestore", "User data found, navigating to MainActivity");
+                            Toast.makeText(requireContext(), "Welcome Back!", Toast.LENGTH_SHORT).show();
+                            Navigation.findNavController(getView()).navigate(R.id.action_collectUserDetailsFragment_to_mainActivity2);
+                        } else {
+                            // User data does not exist, set up listeners
+                            Log.d("Firestore", "User data not found, setting up listeners");
+                            setUpListeners();
+                        }
+                    } else {
+                        Log.e("Firestore", "Error checking for existing data: ", task.getException());
+                        Toast.makeText(requireContext(), "Error checking your data. Please try again.", Toast.LENGTH_SHORT).show();
+                        setUpListeners(); //still set up listeners to allow user to submit data
+                    }
+                });
+    }
+}

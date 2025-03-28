@@ -27,6 +27,8 @@ public class TestimonialsSliderAdapter extends RecyclerView.Adapter<Testimonials
     @Override
     public TestimonialViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_testimonial_slide, parent, false);
+
+
         return new TestimonialViewHolder(view);
     }
 
@@ -42,9 +44,18 @@ public class TestimonialsSliderAdapter extends RecyclerView.Adapter<Testimonials
         holder.ratingBar.setRating(testimonial.getRating());
     }
 
+    /**
+     * Returns the total number of items in the testimonial list.
+     *
+     * @return The number of testimonials.
+     */
     @Override
     public int getItemCount() {
         return testimonials.size();
+    }
+
+    public List<Testimonial> getTestimonials() {
+        return testimonials;
     }
 
     static class TestimonialViewHolder extends RecyclerView.ViewHolder {

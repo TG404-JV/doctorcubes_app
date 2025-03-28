@@ -18,7 +18,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/bg_home_header"
                 android:paddingBottom="8dp">
@@ -78,14 +78,24 @@
                                 app:tint="@color/icon_tint_secondary" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Search Results RecyclerView (Dropdown) -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/search_results_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@android:color/white"
+                        android:elevation="4dp"
+                        android:maxHeight="200dp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <!-- Category Buttons -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="40dp"
+                    android:layout_below="@id/searchHeader"
                     android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
@@ -200,6 +210,7 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </RelativeLayout>
+
             <!-- Upcoming Events Section -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -238,15 +249,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
             </LinearLayout>
 
             <!-- Invite Friends Banner -->
             <include layout="@layout/item_invite" />
-
-
 
             <!-- Countries to Study MBBS Abroad Section -->
             <LinearLayout
@@ -271,11 +278,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
-                    layout="@layout/item_country_list"/>
-
+                    layout="@layout/item_country_list" />
             </LinearLayout>
 
-            <!-- 3. Top Universities Section -->
+            <!-- Top Universities Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -303,7 +309,7 @@
                 android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <!-- 4. Our Services Section with RecyclerView -->
+            <!-- Our Services Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -331,7 +337,7 @@
                 android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <!-- 5. Testimonials Section -->
+            <!-- Testimonials Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -356,10 +362,8 @@
                 android:layout_height="220dp"
                 android:layout_marginBottom="16dp" />
 
-            <!-- 6. Contact Us Section -->
-            <include layout="@layout/item_contact"/>
+            <!-- Contact Us Section -->
+            <include layout="@layout/item_contact" />
         </LinearLayout>
     </ScrollView>
-
-
 </RelativeLayout>

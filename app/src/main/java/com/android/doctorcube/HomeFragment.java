@@ -1,5 +1,6 @@
 package com.android.doctorcube;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +39,6 @@ import com.android.doctorcube.home.model.Feature;
 import com.android.doctorcube.university.ApplyBottomSheetFragment;
 import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityData;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -45,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureClickListener , EventAdapter.OnItemClickListener {
+public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureClickListener, EventAdapter.OnItemClickListener {
 
     private RecyclerView featuresRecyclerView;
     private FeaturesAdapter featuresAdapter;
@@ -59,7 +60,10 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
 
     // Search bar components
     private EditText searchEditText;
-    private List<University> fullUniversityList; // Store the full list for filtering
+    private List<University> fullUniversityList;
+    private RecyclerView searchResultsRecyclerView;
+    private SearchResultsAdapter searchResultsAdapter;
+    private List<SearchItem> fullSearchList;
 
     // Category buttons
     private MaterialCardView studyButton, examButton, universityButton;
@@ -70,11 +74,9 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     // Invite Friends button
     private MaterialButton inviteButton;
 
-
     private RecyclerView recyclerView;
     private EventAdapter adapter;
-    private List<Event> eventList; // Expects List<Event>, not List<EventAdapter>
-    // Bottom Navigation
+    private List<Event> eventList;
 
     @Nullable
     @Override
@@ -83,13 +85,13 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
 
         // Initialize UI components
         searchEditText = view.findViewById(R.id.searchEditText);
-        studyButton = view.findViewById(R.id.studyButton); // Add IDs to MaterialCardView in XML
+        searchResultsRecyclerView = view.findViewById(R.id.search_results_recycler_view);
+        studyButton = view.findViewById(R.id.studyButton);
         examButton = view.findViewById(R.id.examButton);
         universityButton = view.findViewById(R.id.universityButton);
-        seeAllEventsButton = view.findViewById(R.id.see_all_events); // Add ID to "SEE ALL" TextView in XML
-        inviteButton = view.findViewById(R.id.invite_button); // Add ID to "INVITE" Button in XML
+        seeAllEventsButton = view.findViewById(R.id.see_all_events);
+        inviteButton = view.findViewById(R.id.invite_button);
         recyclerView = view.findViewById(R.id.recyclerView);
-
 
         setupToolbar();
         setUpComingEvents();
@@ -105,37 +107,25 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         return view;
     }
 
-
-    private void setUpComingEvents()
-    {
+    private void setUpComingEvents() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        // Prepare data
         eventList = new ArrayList<>();
-        eventList.add(new Event(R.drawable.ic_offer_1, "10\nJUNE", "International Band", "London, UK", "+20 Going"));
-        eventList.add(new Event(R.drawable.ic_offer_2, "10\nJUNE", "Jo Malone", "Radius Gal", "+21 Going"));
-        eventList.add(new Event(R.drawable.ic_offer_3, "10\nJUNE", "Jo Malone", "Radius Gal", "+21 Going"));
+        eventList.add(new Event(R.drawable.ic_offer_1, "GET", "International Band", "London, UK", "+20 Going"));
+        eventList.add(new Event(R.drawable.ic_offer_2, "GET", "Jo Malone", "Radius Gal", "+21 Going"));
+        eventList.add(new Event(R.drawable.ic_offer_3, "GET", "Jo Malone", "Radius Gal", "+21 Going"));
 
-        // Set adapter
         adapter = new EventAdapter(eventList, this);
         recyclerView.setAdapter(adapter);
     }
 
-
     @Override
     public void onItemClick(int position, Event event) {
-        // Get the FragmentManager from the context
         FragmentManager fragmentManager = ((AppCompatActivity) requireContext()).getSupportFragmentManager();
-
-        // Pass data using a Bundle or constructor
         Bundle args = new Bundle();
         args.putString("event_title", event.getTitle());
-
-        // Create an instance of the BottomSheetDialogFragment
         ApplyBottomSheetFragment bottomSheet = new ApplyBottomSheetFragment();
         bottomSheet.setArguments(args);
-
-        // Show the BottomSheetDialogFragment
         bottomSheet.show(fragmentManager, "ApplyBottomSheet");
     }
 
@@ -145,7 +135,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             Toast.makeText(getActivity(), "Features RecyclerView not found", Toast.LENGTH_SHORT).show();
             return;
         }
-
         featuresRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         List<Feature> features = FeatureData.getInstance().getFeatures(requireContext());
         featuresAdapter = new FeaturesAdapter(features, this);
@@ -158,9 +147,8 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             Toast.makeText(getActivity(), "Universities RecyclerView not found", Toast.LENGTH_SHORT).show();
             return;
         }
-
         universitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        fullUniversityList = UniversityData.getUniversities(); // Store full list
+        fullUniversityList = UniversityData.getUniversities();
         if (getContext() != null) {
             universityListAdapter = new UniversityListAdapter(getContext(), new ArrayList<>(fullUniversityList));
             universitiesRecyclerView.setAdapter(universityListAdapter);
@@ -221,33 +209,116 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         if (uzbekistanLayout != null) uzbekistanLayout.setOnClickListener(v -> openUniversitiesActivity("Uzbekistan"));
     }
 
-    // In HomeFragment.java
     private void setupCommunicationButtons(View view) {
         CommunicationUtils commUtils = new CommunicationUtils(getActivity());
         commUtils.setupCommunicationButtons(view);
     }
-    // In HomeFragment.java
+
     private void setupSearchBar() {
-        SearchUtils<University> searchUtils = new SearchUtils<>(
+        fullSearchList = new ArrayList<>();
+
+        // Add Universities
+        for (int i = 0; i < fullUniversityList.size(); i++) {
+            University uni = fullUniversityList.get(i);
+            fullSearchList.add(new SearchItem(
+                    uni.getName() + ", " + uni.getCountry(),
+                    "University",
+                    uni,
+                    i
+            ));
+        }
+
+        // Add Events
+        for (int i = 0; i < eventList.size(); i++) {
+            Event event = eventList.get(i);
+            fullSearchList.add(new SearchItem(
+                    event.getTitle() + ", " + event.getLocation(),
+                    "Event",
+                    event,
+                    i
+            ));
+        }
+
+        // Add Features
+        List<Feature> features = FeatureData.getInstance().getFeatures(requireContext());
+        for (int i = 0; i < features.size(); i++) {
+            Feature feature = features.get(i);
+            fullSearchList.add(new SearchItem(
+                    feature.getTitle(),
+                    "Feature",
+                    feature,
+                    i
+            ));
+        }
+
+        // Add Testimonials
+        List<Testimonial> testimonials = testimonialsAdapter.getTestimonials();
+        for (int i = 0; i < testimonials.size(); i++) {
+            Testimonial testimonial = testimonials.get(i);
+            fullSearchList.add(new SearchItem(
+                    testimonial.getName() + " - " + testimonial.getUniversity(),
+                    "Testimonial",
+                    testimonial,
+                    i
+            ));
+        }
+
+        SearchUtils<SearchItem> searchUtils = new SearchUtils<>(
                 getActivity(),
                 searchEditText,
-                fullUniversityList,
-                new SearchUtils.SearchCallback<University>() {
+                fullSearchList,
+                new SearchUtils.SearchCallback<SearchItem>() {
                     @Override
-                    public void onSearchResults(List<University> filteredList) {
-                        if (universityListAdapter != null) {
-                            universityListAdapter.updateData(filteredList);
+                    public void onSearchResults(List<SearchItem> filteredList) {
+                        if (searchResultsAdapter == null) {
+                            searchResultsAdapter = new SearchResultsAdapter(filteredList, item -> navigateToSection(item));
+                            searchResultsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            searchResultsRecyclerView.setAdapter(searchResultsAdapter);
+                        } else {
+                            searchResultsAdapter.updateData(filteredList);
                         }
+                        searchResultsRecyclerView.setVisibility(filteredList.isEmpty() ? View.GONE : View.VISIBLE);
                     }
 
                     @Override
-                    public String getSearchText(University university) {
-                        // Define what to search in University objects
-                        return university.getName() + " " + university.getCountry();
+                    public String getSearchText(SearchItem item) {
+                        return item.getTitle();
                     }
                 }
         );
         searchUtils.setupSearchBar();
+
+        searchEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus && searchEditText.getText().toString().isEmpty()) {
+                searchResultsRecyclerView.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void navigateToSection(SearchItem item) {
+        switch (item.getType()) {
+            case "University":
+                University university = (University) item.getData();
+                openUniversitiesActivity(university.getCountry());
+                break;
+            case "Event":
+                recyclerView.smoothScrollToPosition(item.getSectionPosition());
+                break;
+            case "Feature":
+                featuresRecyclerView.smoothScrollToPosition(item.getSectionPosition());
+                break;
+            case "Testimonial":
+                testimonialsViewPager.setCurrentItem(item.getSectionPosition(), true);
+                break;
+            default:
+                Toast.makeText(getContext(), "Unknown item type", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        searchEditText.clearFocus();
+        searchResultsRecyclerView.setVisibility(View.GONE);
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
     }
 
     private void setupCategoryButtons() {
@@ -255,8 +326,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
 
         if (studyButton != null) {
             studyButton.setOnClickListener(v -> {
-
-                // Create and load StudyFragment
                 StudyMaterialFragment studyFragment = new StudyMaterialFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_container, studyFragment)
@@ -268,75 +337,32 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
                         )
                         .addToBackStack(null)
                         .commit();
-
-                // Update toolbar title
                 ((MainActivity) requireActivity()).getToolbar().setTitle("Study");
-                // Update bubble navigation to deselect all (optional, since this is a sub-section)
                 ((MainActivity) requireActivity()).getBubbleNavigation().setCurrentActiveItem(1);
             });
         }
 
         if (examButton != null) {
             examButton.setOnClickListener(v -> {
-                Toast.makeText(getActivity(), "Comming Soon", Toast.LENGTH_SHORT).show();
-
-                /*// Create and load ExamFragment
-                ExamFragment examFragment = new ExamFragment();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frame_container, examFragment)
-                        .setCustomAnimations(
-                                R.anim.fragment_fade_enter,
-                                R.anim.fragment_fade_exit,
-                                R.anim.fragment_fade_enter,
-                                R.anim.fragment_fade_exit
-                        )
-                        .addToBackStack(null)
-                        .commit();
-
-                // Update toolbar title
-                ((MainActivity) requireActivity()).getToolbar().setTitle("Exams");
-                ((MainActivity) requireActivity()).getBubbleNavigation().setCurrentActiveItem(-1);*/
+                Toast.makeText(getActivity(), "Coming Soon", Toast.LENGTH_SHORT).show();
             });
         }
 
         if (universityButton != null) {
-            universityButton.setOnClickListener(v -> {
-
-              /*  // Create and load UniversityFragment
-                UniversityFragment universityFragment = new UniversityFragment();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frame_container, universityFragment)
-                        .setCustomAnimations(
-                                R.anim.fragment_fade_enter,
-                                R.anim.fragment_fade_exit,
-                                R.anim.fragment_fade_enter,
-                                R.anim.fragment_fade_exit
-                        )
-                        .addToBackStack(null)
-                        .commit();
-
-                // Update toolbar title
-                ((MainActivity) requireActivity()).getToolbar().setTitle("Universities");
-                ((MainActivity) requireActivity()).getBubbleNavigation().setCurrentActiveItem(-1);*/
-
-                openUniversitiesActivity("All");
-
-            });
+            universityButton.setOnClickListener(v -> openUniversitiesActivity("All"));
         }
-    }    private void setupEventListeners() {
+    }
+
+    private void setupEventListeners() {
         if (seeAllEventsButton != null) {
             seeAllEventsButton.setOnClickListener(v -> {
                 Toast.makeText(getActivity(), "See All Events Clicked", Toast.LENGTH_SHORT).show();
-                // Navigate to an EventsActivity or Fragment
-              /*  Intent intent = new Intent(getActivity(), EventsActivity.class);
-                startActivity(intent);*/
             });
         }
 
         if (inviteButton != null) {
             inviteButton.setOnClickListener(v -> {
                 Toast.makeText(getActivity(), "Invite Friends Clicked", Toast.LENGTH_SHORT).show();
-                // Implement invite functionality (e.g., share intent)
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, "Join me on DoctorCube to explore study abroad opportunities! Get $20 for a ticket: [Your Referral Link]");
@@ -344,7 +370,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             });
         }
     }
-
 
     private void openUniversitiesActivity(String country) {
         if (getActivity() != null) {
@@ -409,7 +434,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     public void onResume() {
         super.onResume();
         startTestimonialsAutoSlide();
-
     }
 
     @Override
@@ -426,6 +450,85 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         if (sliderHandler != null) {
             sliderHandler.removeCallbacks(testimonialsSliderRunnable);
             sliderHandler = null;
+        }
+    }
+
+    // SearchItem class
+    public static class SearchItem {
+        private String title;
+        private String type;
+        private Object data;
+        private int sectionPosition;
+
+        public SearchItem(String title, String type, Object data, int sectionPosition) {
+            this.title = title;
+            this.type = type;
+            this.data = data;
+            this.sectionPosition = sectionPosition;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public Object getData() {
+            return data;
+        }
+
+        public int getSectionPosition() {
+            return sectionPosition;
+        }
+    }
+
+    class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.ViewHolder> {
+        private List<SearchItem> searchItems;
+        private final OnItemClickListener listener;
+
+        public SearchResultsAdapter(List<SearchItem> searchItems, OnItemClickListener listener) {
+            this.searchItems = searchItems;
+            this.listener = listener;
+        }
+
+        public void updateData(List<SearchItem> newItems) {
+            this.searchItems = newItems;
+            notifyDataSetChanged();
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(android.R.layout.simple_list_item_1, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            SearchItem item = searchItems.get(position);
+            holder.textView.setText(item.getTitle());
+            holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
+        }
+
+        @Override
+        public int getItemCount() {
+            return searchItems.size();
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            TextView textView;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+                textView = itemView.findViewById(android.R.id.text1);
+            }
+        }
+
+        interface OnItemClickListener {
+            void onItemClick(SearchItem item);
         }
     }
 }

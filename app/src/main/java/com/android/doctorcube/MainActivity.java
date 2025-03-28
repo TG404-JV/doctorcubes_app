@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up Toolbar functionality
         setupToolbar();
 
-        app_title=findViewById(R.id.app_title);
+        app_title = findViewById(R.id.app_title);
         app_title.setText("DoctorCubes");
 
         // Initialize Bubble Navigation
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.frame_container);
 
         if (currentFragment instanceof HomeFragment) {
-            finish();
+            finishAffinity(); // Use finishAffinity() to close the app
         } else {
             super.onBackPressed();
             updateNavigationSelection();

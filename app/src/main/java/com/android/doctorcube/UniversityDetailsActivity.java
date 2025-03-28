@@ -2,15 +2,20 @@ package com.android.doctorcube;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
 
+import com.android.doctorcube.university.ApplyBottomSheetFragment;
+import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityDetailsData;
 
 public class UniversityDetailsActivity extends AppCompatActivity {
@@ -18,8 +23,8 @@ public class UniversityDetailsActivity extends AppCompatActivity {
     // Views
     private ImageView universityImageView;
     private TextView locationTextView, descriptionTextView, establishedTextView,
-            rankingTextView, addressTextView, phoneTextView, emailTextView;
-
+            rankingTextView, addressTextView, phoneTextView, emailTextView, admissionRequirementsTextView; // Added TextView for admission requirements
+private AppCompatButton admissionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +47,7 @@ public class UniversityDetailsActivity extends AppCompatActivity {
             String universityName = intent.getStringExtra("UNIVERSITY_NAME");
             if (universityName != null) {
                 // Fetch university details from UniversityDetailsData
-                UniversityDetailsData.UniversityDetail detail = UniversityDetailsData.getUniversityDetail(universityName);
+                UniversityDetailsData.UniversityDetail detail = UniversityDetailsData.getUniversityDetails(universityName);
                 if (detail != null) {
                     // Set university data to views
                     setUniversityData(universityName, detail);
@@ -52,6 +57,18 @@ public class UniversityDetailsActivity extends AppCompatActivity {
                 }
             }
         }
+
+        admissionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                University university = new University();
+                FragmentManager fragmentManager = (getSupportFragmentManager());
+                ApplyBottomSheetFragment bottomSheet = new ApplyBottomSheetFragment(university);
+                Bundle args = new Bundle();
+                args.putString("event_title", university.getName());
+                bottomSheet.show(fragmentManager, "ApplyBottomSheet");
+            }
+        });
     }
 
     private void initializeViews() {
@@ -63,6 +80,8 @@ public class UniversityDetailsActivity extends AppCompatActivity {
         addressTextView = findViewById(R.id.university_address);
         phoneTextView = findViewById(R.id.university_phone);
         emailTextView = findViewById(R.id.university_email);
+        admissionRequirementsTextView = findViewById(R.id.admission_requirements); // Initialize the new TextView
+        admissionButton = findViewById(R.id.apply_button);
     }
 
     private void setUniversityData(String universityName, UniversityDetailsData.UniversityDetail detail) {
@@ -78,6 +97,7 @@ public class UniversityDetailsActivity extends AppCompatActivity {
         addressTextView.setText(detail.getAddress());
         phoneTextView.setText(detail.getPhone());
         emailTextView.setText(detail.getEmail());
+        admissionRequirementsTextView.setText(detail.getAdmissionRequirements()); // Set the admission requirements
     }
 
     private void setFallbackData(String universityName) {
@@ -90,5 +110,7 @@ public class UniversityDetailsActivity extends AppCompatActivity {
         addressTextView.setText("N/A");
         phoneTextView.setText("N/A");
         emailTextView.setText("N/A");
+        admissionRequirementsTextView.setText("N/A"); // Set N/A for fallback
     }
 }
+

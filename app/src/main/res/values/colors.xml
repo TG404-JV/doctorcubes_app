@@ -5,7 +5,7 @@
     <color name="primary_light_color">#4FC3F7</color>   <!-- Lighter blue for highlights and subtleties -->
 
     <!-- Accent Colors -->
-    <color name="accent_dark_color">#F57C00</color>     <!-- Darker orange for pressed states -->
+    <color name="accent_dark_color">#FF880E</color>     <!-- Darker orange for pressed states -->
     <color name="accent_light_color">#FFCC80</color>    <!-- Lighter orange for subtle accents -->
 
     <!-- Background Colors -->
@@ -164,5 +164,10 @@
     <color name="ripple_effect">#33FFFFFF</color>
     <color name="background_light">#F4F6F9</color>
 
+    <!-- ask user button color -->
+    <color name="button_default_color">#FFFFFF</color>
+    <color name="button_pressed_color">#FFA54F</color>
+    <color name="button_disabled_color">#FFD1A0</color>
+    <color name="button_stroke_color">#FF880E</color>
 
 </resources>

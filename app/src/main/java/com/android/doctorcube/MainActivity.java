@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
         }
         setSupportActionBar(toolbar);
 
+        findViewById(R.id.app_logo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new SettingsFragment() ,true);
+            }
+        });
+
         // Initialize call button
         callButton = toolbar.findViewById(R.id.call_button);
         if (callButton == null) {
@@ -55,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         bubbleNavigation.setCurrentActiveItem(0);
 
         // Load the home fragment by default
-        loadFragment(new HomeFragment(), false);
+        loadFragment(new HomeFragment(), true);
 
         // Handle navigation selection
         bubbleNavigation.setNavigationChangeListener(new BubbleNavigationChangeListener() {

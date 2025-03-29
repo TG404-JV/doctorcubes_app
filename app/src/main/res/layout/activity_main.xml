@@ -22,15 +22,14 @@
             android:layout_height="wrap_content">
 
             <!-- App Logo with Gradient Background -->
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/app_logo"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/circular_background"
-                android:padding="8dp"
-                android:src="@drawable/ic_doctorcubes_black"
+                app:srcCompat="@drawable/logo_doctorcubes"
                 android:layout_centerVertical="true"
-                app:tint="@color/white" />
+                android:scaleType="fitCenter"/>
 
             <!-- App Title with Improved Typography -->
             <TextView

@@ -66,6 +66,12 @@
         <action
             android:id="@+id/action_createAccountFragment2_to_loginFragment2"
             app:destination="@id/loginFragment2" />
+        <action
+            android:id="@+id/action_createAccountFragment2_to_mainActivity2"
+            app:destination="@id/mainActivity2" />
+        <action
+            android:id="@+id/action_createAccountFragment2_to_adminActivity2"
+            app:destination="@id/adminActivity2" />
     </fragment>
     <fragment
         android:id="@+id/collectUserDetailsFragment"

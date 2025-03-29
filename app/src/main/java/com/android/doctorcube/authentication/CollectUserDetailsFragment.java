@@ -30,8 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.QuerySnapshot;
-
+import com.google.firebase.firestore.SetOptions; // Import SetOptions
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
@@ -125,8 +124,7 @@ public class CollectUserDetailsFragment extends Fragment {
             nameEditText.setEnabled(false);
         }
 
-        // Check for existing data before setting up listeners
-        checkExistingData();
+        setUpListeners();
     }
 
     private void setUpCountrySpinner() {
@@ -146,7 +144,7 @@ public class CollectUserDetailsFragment extends Fragment {
 
         submitButton.setOnClickListener(v -> {
             if (validateInputs()) {
-                saveUserDetails(v);
+                updateAndSaveUserDetails(v);
             }
         });
 
@@ -204,7 +202,7 @@ public class CollectUserDetailsFragment extends Fragment {
         return true;
     }
 
-    private void saveUserDetails(View view) {
+    private void updateAndSaveUserDetails(View view) {
         String name = nameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
         String phone = phoneEditText.getText().toString().trim();
@@ -230,11 +228,30 @@ public class CollectUserDetailsFragment extends Fragment {
         userData.put("userId", userId);
         userData.put("timestamp", FieldValue.serverTimestamp());
 
+        // Update User data in "Users" collection
+        firestoreDB.collection("app_submissions").document(userId)
+                .set(userData, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Firestore", "User data updated successfully in Users collection");
+                    //save data to app_submissions
+                    saveApplicationData(userData, view);
+
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Failed to update user data. Please try again.", Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error updating user data: " + e.getMessage());
+                });
+
+
+
+    }
+
+    private void saveApplicationData(Map<String, Object> userData, View view){
         firestoreDB.collection("app_submissions")
                 .add(userData)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getContext(), "Thank you! Our team will connect with you soon.", Toast.LENGTH_SHORT).show();
-                    Log.d("Firestore", "Document saved successfully with ID: " + documentReference.getId());
+                    Log.d("Firestore", "Document saved successfully in app_submissions with ID: " + documentReference.getId());
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isApplicationSubmitted", true);
@@ -244,32 +261,7 @@ public class CollectUserDetailsFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "There was an error submitting your form. Please try again.", Toast.LENGTH_SHORT).show();
-                    Log.e("Firestore", "Error saving data", e);
-                });
-    }
-
-    private void checkExistingData() {
-        firestoreDB.collection("app_submissions")
-                .whereEqualTo("userId", userId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (!querySnapshot.isEmpty()) {
-                            // User data exists, navigate to MainActivity
-                            Log.d("Firestore", "User data found, navigating to MainActivity");
-                            Toast.makeText(requireContext(), "Welcome Back!", Toast.LENGTH_SHORT).show();
-                            Navigation.findNavController(getView()).navigate(R.id.action_collectUserDetailsFragment_to_mainActivity2);
-                        } else {
-                            // User data does not exist, set up listeners
-                            Log.d("Firestore", "User data not found, setting up listeners");
-                            setUpListeners();
-                        }
-                    } else {
-                        Log.e("Firestore", "Error checking for existing data: ", task.getException());
-                        Toast.makeText(requireContext(), "Error checking your data. Please try again.", Toast.LENGTH_SHORT).show();
-                        setUpListeners(); //still set up listeners to allow user to submit data
-                    }
+                    Log.e("Firestore", "Error saving application data", e);
                 });
     }
 }

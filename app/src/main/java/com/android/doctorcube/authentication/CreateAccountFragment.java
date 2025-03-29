@@ -1,6 +1,7 @@
 package com.android.doctorcube.authentication;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -55,7 +56,9 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
+import com.google.firebase.firestore.QuerySnapshot; // Import QuerySnapshot
 import com.google.firebase.firestore.SetOptions; // Import SetOptions
 
 import java.io.IOException;
@@ -85,6 +88,10 @@ public class CreateAccountFragment extends Fragment {
 
     private static final int RC_SIGN_IN = 9001;
     private static final String USER_COLLECTION = "Users"; // Firestore collection name
+    private static final String APP_SUBMISSIONS_COLLECTION = "app_submissions";  // Firestore collection for app submissions
+    private static final String PREFS_NAME = "DoctorCubePrefs";  // Consistent SharedPreferences name
+    private static final String KEY_USER_ROLE = "user_role"; // Consistent key for user role
+    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
 
     public CreateAccountFragment() {
         // Required empty public constructor
@@ -129,12 +136,13 @@ public class CreateAccountFragment extends Fragment {
         try {
             String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
             sharedPreferences = EncryptedSharedPreferences.create(
-                    "user_prefs", masterKeyAlias, requireContext(),
+                    PREFS_NAME, masterKeyAlias, requireContext(),  // Use the consistent PREFS_NAME
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
             Toast.makeText(requireContext(), "Error initializing preferences", Toast.LENGTH_SHORT).show();
+            sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE); // Fallback
         }
 
         // Configure Google Sign-In
@@ -282,7 +290,7 @@ public class CreateAccountFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         createAccountButton.setEnabled(false);
         createAccountButton.setAlpha(0.5f);
-        sendOtp("+1" + phone); // Assuming US country code; use CountryCodePicker for dynamic codes
+        sendOtp("+91" + phone); // Assuming US country code; use CountryCodePicker for dynamic codes
     }
 
     private boolean isValidPassword(String password) {
@@ -373,7 +381,7 @@ public class CreateAccountFragment extends Fragment {
                 String phone = phoneEditText.getText().toString().trim();
 
                 saveUserDetails(user.getUid(), fullName, email, phone, "user"); // Hardcoded role
-                saveUserLoginStatus("user");
+                saveUserLoginStatus("user"); // Save user role
                 otpVerificationDialog.setVisibility(View.GONE);
 
                 Bundle bundle = new Bundle();
@@ -458,15 +466,57 @@ public class CreateAccountFragment extends Fragment {
                 String email = account.getEmail();
                 String phone = "N/A";
 
-                saveUserDetails(user.getUid(), fullName, email, phone, "user"); // Hardcoded role
-                saveUserLoginStatus("user");
+                // Check if the user exists in Firestore
+                firestoreDB.collection(USER_COLLECTION).document(user.getUid()).get()
+                        .addOnCompleteListener(firestoreTask -> {
+                            if (firestoreTask.isSuccessful()) {
+                                DocumentSnapshot document = firestoreTask.getResult();
+                                if (document.exists()) {
+                                    // User exists, check if data exists in app_submissions
+                                    firestoreDB.collection(APP_SUBMISSIONS_COLLECTION)
+                                            .whereEqualTo("userId", user.getUid())
+                                            .get()
+                                            .addOnCompleteListener(appSubmissionTask -> {
+                                                if (appSubmissionTask.isSuccessful()) {
+                                                    QuerySnapshot appSubmissionSnapshot = appSubmissionTask.getResult();
+                                                    if (!appSubmissionSnapshot.isEmpty()) {
+                                                        saveUserLoginStatus("user");
+                                                        navController.navigate(R.id.action_createAccountFragment2_to_mainActivity2); //added
+                                                    } else {
+                                                        // User data does not exist in app_submissions, go to CollectUserDetails
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putString("userId", user.getUid());
+                                                        bundle.putString("fullName", fullName);
+                                                        bundle.putString("email", email);
+                                                        bundle.putString("phone", phone);
+                                                        navController.navigate(R.id.collectUserDetailsFragment, bundle);
+                                                    }
+                                                } else {
+                                                    Log.e("CreateAccountFragment", "Error checking app_submissions", appSubmissionTask.getException());
+                                                    Toast.makeText(requireContext(), "Error checking application data.", Toast.LENGTH_SHORT).show();
+                                                    navController.navigate(R.id.action_createAccountFragment2_to_mainActivity2); // Go to main
+                                                }
+                                            });
+                                } else {
+                                    // User does not exist in Users collection, create a new user
+                                    saveUserDetails(user.getUid(), fullName, email, phone, "user");
+                                    saveUserLoginStatus("user"); //save role
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("userId", user.getUid());
+                                    bundle.putString("fullName", fullName);
+                                    bundle.putString("email", email);
+                                    bundle.putString("phone", phone);
+                                    navController.navigate(R.id.collectUserDetailsFragment, bundle);
+                                }
+                            } else {
+                                // Error checking for existing user
+                                Log.e("CreateAccountFragment", "Error checking for existing user", firestoreTask.getException());
+                                Toast.makeText(requireContext(), "Error checking user data: " + firestoreTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                // Consider navigating to a safe activity here, e.g., a default landing page
+                                navController.navigate(R.id.action_createAccountFragment2_to_mainActivity2);
+                            }
+                        });
 
-                Bundle bundle = new Bundle();
-                bundle.putString("userId", user.getUid());
-                bundle.putString("fullName", fullName);
-                bundle.putString("email", email);
-                bundle.putString("phone", phone);
-                navController.navigate(R.id.collectUserDetailsFragment, bundle);
             } else {
                 Log.e("CreateAccountFragment", "Firebase authentication failed", task.getException());
                 Toast.makeText(requireContext(), "Google Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -496,8 +546,8 @@ public class CreateAccountFragment extends Fragment {
 
     private void saveUserLoginStatus(String role) {
         sharedPreferences.edit()
-                .putBoolean("isLoggedIn", true)
-                .putString("userType", role)
+                .putBoolean(KEY_IS_LOGGED_IN, true)
+                .putString(KEY_USER_ROLE, role)
                 .apply();
     }
 

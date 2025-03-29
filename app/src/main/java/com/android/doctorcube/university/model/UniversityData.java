@@ -83,7 +83,7 @@ public class UniversityData {
         // Kazakhstan (8 Universities)
         universities.add(new University("kz001", "Kazakh National Medical University", "Almaty", "Kazakhstan",
                 "MBBS", "Bachelor", "5 years", "A", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_kazakhstan,
+                R.drawable.icon_university, R.drawable.logo_west_kazakshthan_marat_university, R.drawable.flag_kazakhstan,
                 "medical", "Top 1000", "Scholarships up to 50% available"));
         universities.add(new University("kz002", "Astana Medical University", "Nur-Sultan", "Kazakhstan",
                 "General Medicine", "Bachelor", "5 years", "A+", "Feb-25, Oct-25", "English", "Public",

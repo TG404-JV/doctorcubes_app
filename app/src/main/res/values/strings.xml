@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">DoctorCubes</string>
 
+
     <!-- General strings -->
     <string name="welcome">Welcome to Global Education Hub</string>
     <string name="explore">Explore Opportunities</string>
@@ -9,7 +10,6 @@
     <string name="learn_more">Learn More</string>
     <string name="contact_us">Contact Us</string>
     <string name="loading">Loading…</string>
-    4
 
     <!-- Advertisement Section -->
     <string name="study_abroad_made_easy">Study Abroad Made Easy!</string>
@@ -46,16 +46,12 @@
     <!-- Service Features -->
     <string name="top_university_listings">Top University Listings</string>
     <string name="top_university_listings_desc">Access information about over 5000+ top universities worldwide</string>
-
     <string name="scholarship_assistance">Scholarship Assistance</string>
     <string name="scholarship_assistance_desc">Find and apply for scholarships matching your profile</string>
-
     <string name="visa_admission_guidance">Visa &amp; Admission Guidance</string>
     <string name="visa_admission_guidance_desc">Step-by-step guidance for visa and admission processes</string>
-
     <string name="application_tracking">Application Tracking</string>
     <string name="application_tracking_desc">Track all your university applications in one place</string>
-
     <string name="student_support">24/7 Student Support</string>
     <string name="student_support_desc">Get assistance anytime from our expert counselors</string>
 
@@ -67,9 +63,6 @@
     <string name="download_brochure">Download Brochure</string>
     <string name="create_account">Create Account</string>
     <string name="login">Login</string>
-
-
-    <!-- App Name -->
 
     <!-- General UI Strings -->
     <string name="search_universities_courses">Search universities, courses…</string>
@@ -204,4 +197,65 @@
     <string name="footer_text">© 2024 DoctorCubes | Connecting Medical Professionals Globally</string>
     <string name="airplane_description">Flying Airplane Icon</string>
     <string name="logo_description">DoctorCubes Logo</string>
+
+
+
+        <string name="privacy_policy_title">Privacy Policy</string>
+        <string name="privacy_policy_description">At DoctorCube, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application. Please read this policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.</string>
+        <string name="information_we_collect_title">Information We Collect</string>
+        <string name="information_we_collect_intro">We may collect the following information to help with your medical education abroad:</string>
+        <string name="personal_information_title">Personal Information</string>
+        <string name="personal_information_details">
+        <ul>
+            <li>Personal identifiers (name, email, phone number)</li>
+            <li>Medical university application details</li>
+            <li>Academic qualifications including NEET scores</li>
+            <li>Visa status and passport information</li>
+        </ul>
+    </string>
+
+
+        <string name="usage_data_title">Usage Data</string>
+        <string name="usage_data_details">We may also collect non-personal information automatically when you use our website or services. This information may include:\n
+        -Device information (e.g., IP address, browser type, operating system)\n
+        -Log information (e.g., date and time of access, pages viewed, interactions)\n
+        -Cookies and similar technologies.</string>
+        <string name="how_we_use_your_information_title">How We Use Your Information</string>
+        <string name="how_we_use_your_information_content">We use the information we collect for the following purposes:\n
+        -To assist with your medical university applications\n
+        -To provide personalized counseling and support\n
+        -To communicate updates and important information</string>
+        <string name="information_sharing_title">Information Sharing</string>
+        <string name="information_sharing_content">We may share your information with the following:\n
+        -Partner Universities: We share your application information with universities abroad to facilitate the admissions process.\n
+        -Service Providers: We may engage third-party service providers to assist us with various functions, such as:  Visa processing, Travel arrangements, IT support\n
+        -Legal Compliance: We may disclose your information if required by law or to comply with a legal process.</string>
+        <string name="data_security_title">Data Security</string>
+        <string name="data_security_content">We take reasonable measures to protect your personal information from unauthorized access, use, or disclosure. However, please note that no data transmission or storage system is completely secure, and we cannot guarantee absolute security.</string>
+        <string name="your_rights_title">Your Rights</string>
+        <string name="your_rights_content">You have the right to:\n
+        -Access your personal information\n
+        -Request correction of inaccurate information\n
+        -Request deletion of your personal information\n
+        -Object to the processing of your personal information\n
+        -Withdraw your consent at any time</string>
+        <string name="data_retention_title">Data Retention</string>
+        <string name="data_retention_content">We will retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.</string>
+        <string name="changes_to_policy_title">Changes to This Privacy Policy</string>
+        <string name="changes_to_policy_content">We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the updated policy on our website. Your continued use of our services after the effective date of the revised policy constitutes your acceptance of the updated terms.</string>
+        <string name="contact_us_title">Contact Us</string>
+        <string name="contact_us_details">If you have any questions or concerns about this Privacy Policy, please contact us at:\n
+        Email: support@doctorcube.com\n
+        Phone: +91-123-456-7890</string>
+
+
+    <!--CONTACT INFO -->
+    <string name="whatsapp_number">+917517036564</string>
+    <string name="email_address">doctorscube71@gmail.com</string>
+
+    <!-- Social Media Links -->
+    <string name="youtube_link">https://youtube.com/@travelcubes9053</string>
+    <string name="instagram_link">https://www.instagram.com/travelcubes_mbbs_education</string>
+    <string name="twitter_link">https://x.com/doctors_cube?s=11</string>
+
 </resources>

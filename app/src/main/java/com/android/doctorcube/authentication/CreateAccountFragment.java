@@ -22,6 +22,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -86,6 +87,8 @@ public class CreateAccountFragment extends Fragment {
     private CardView otpVerificationDialog;
     private ProgressBar progressBar;
 
+    private ImageButton backButton;
+
     private static final int RC_SIGN_IN = 9001;
     private static final String USER_COLLECTION = "Users"; // Firestore collection name
     private static final String APP_SUBMISSIONS_COLLECTION = "app_submissions";  // Firestore collection for app submissions
@@ -131,6 +134,9 @@ public class CreateAccountFragment extends Fragment {
         resendOtpText = view.findViewById(R.id.resendOtpText);
         passwordStrengthText = view.findViewById(R.id.passwordStrengthText);
         progressBar = view.findViewById(R.id.progressBar);
+        backButton = view.findViewById(R.id.backButton); // Initialize backButton
+
+
 
         // Initialize Encrypted SharedPreferences
         try {
@@ -175,6 +181,7 @@ public class CreateAccountFragment extends Fragment {
         verifyOtpButton.setOnClickListener(v -> verifyOtp());
         cancelOtpButton.setOnClickListener(v -> otpVerificationDialog.setVisibility(View.GONE));
         resendOtpText.setOnClickListener(v -> resendOtp());
+        backButton.setOnClickListener(v -> navController.navigate(R.id.action_createAccountFragment2_to_loginFragment2));
 
         // Handle back press
         view.setFocusableInTouchMode(true);

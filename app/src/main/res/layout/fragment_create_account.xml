@@ -5,21 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
+    style="@style/Theme.AppCompat.DayNight.NoActionBar"
     tools:context=".authentication.CreateAccountFragment">
 
     <!-- Background Wave Image -->
-    <ImageView
-        android:id="@+id/backgroundWaveImage"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/bg_wave_blue"
-        android:alpha="0.6"
-        android:contentDescription="Background Design"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageView
+            android:id="@+id/backgroundWaveImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_wave_blue"
+            android:alpha="0.6"
+            android:contentDescription="Background Design" />
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back Button"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
     <!-- Main Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"

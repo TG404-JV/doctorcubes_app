@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton; // Import ImageButton
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,13 +62,11 @@ public class LoginFragment extends Fragment {
     private static final String USER_COLLECTION = "Users";
     private boolean isSuperAdmin = false;
 
-    private TextInputEditText emailField,passwordField;
+    private TextInputEditText emailField, passwordField;
     private MaterialButton loginButton;
-
     private TextView forgotPasswordText;
-
-
     private MaterialCardView googleSignInButton;
+    private ImageButton backButton; // Declare backButton
 
     @Nullable
     @Override
@@ -84,6 +83,7 @@ public class LoginFragment extends Fragment {
         loginButton = view.findViewById(R.id.loginButton);
         forgotPasswordText = view.findViewById(R.id.forgotPasswordText);
         googleSignInButton = view.findViewById(R.id.googleSignInButton);
+        backButton = view.findViewById(R.id.backButton); // Initialize backButton
 
         // Initialize Encrypted SharedPreferences
         try {
@@ -144,6 +144,12 @@ public class LoginFragment extends Fragment {
         // Navigate to CreateAccountFragment
         view.findViewById(R.id.createAccountText).setOnClickListener(v ->
                 navController.navigate(R.id.createAccountFragment2));
+
+        // Handle back button click
+        backButton.setOnClickListener(v -> {
+            // Navigate to the GetStartedFragment
+            navController.navigate(R.id.fragmentAskUser);
+        });
 
         // Check intent destination
         String destination = requireActivity().getIntent().getStringExtra("destination");

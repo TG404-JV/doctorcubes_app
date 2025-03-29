@@ -14,8 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.doctorcube.R;
+import com.android.doctorcube.SocialActions;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class FragmentAbout extends Fragment {
 
@@ -72,9 +79,15 @@ public class FragmentAbout extends Fragment {
         MaterialButton whatsappButton = view.findViewById(R.id.btnWhatsApp);
         MaterialButton callButton = view.findViewById(R.id.btnCall);
 
-        emailButton.setOnClickListener(v -> openEmailApp());
-        whatsappButton.setOnClickListener(v -> openWhatsApp());
-        callButton.setOnClickListener(v -> openDialer());
+        SocialActions openMedia=new SocialActions();
+
+        emailButton.setOnClickListener(v -> openMedia.openEmailApp(requireActivity()));
+        whatsappButton.setOnClickListener(v -> openMedia.openWhatsApp(requireActivity()));
+        callButton.setOnClickListener(v -> openMedia.openDialer(requireActivity()));
+        view.findViewById(R.id.btnInstagram).setOnClickListener(v ->openMedia.openInstagram(requireActivity()));
+        view.findViewById(R.id.btnTwitter).setOnClickListener(v ->openMedia.openTwitter(requireActivity()));
+        view.findViewById(R.id.btnYoutube).setOnClickListener(v ->openMedia.openYouTube(requireActivity()));
+
 
         return view;
     }
@@ -106,26 +119,7 @@ public class FragmentAbout extends Fragment {
         }
     }
 
-    private void openEmailApp() {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:support@doctorcube.com"));
-        startActivity(Intent.createChooser(intent, "Send Email"));
-    }
 
-    private void openWhatsApp() {
-        String phoneNumber = "+1234567890";
-        String url = "https://api.whatsapp.com/send?phone=" + phoneNumber;
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        startActivity(intent);
-    }
-
-    private void openDialer() {
-        String phoneNumber = "+1234567890";
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + phoneNumber));
-        startActivity(intent);
-    }
 
     @Override
     public void onDestroyView() {

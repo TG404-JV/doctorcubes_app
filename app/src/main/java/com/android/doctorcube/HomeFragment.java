@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ import com.android.doctorcube.home.model.Feature;
 import com.android.doctorcube.university.ApplyBottomSheetFragment;
 import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityData;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -383,23 +385,60 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     public void onFeatureClick(Feature feature) {
         if (getActivity() == null) return;
 
+        String title = "";
+        String description = "";
         switch (feature.getId()) {
-            case Feature.TYPE_UNIVERSITY_LISTINGS:
-                Toast.makeText(getActivity(), "University Listings Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case Feature.TYPE_SCHOLARSHIP:
-                Toast.makeText(getActivity(), "Scholarship Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case Feature.TYPE_VISA_ADMISSION:
-                Toast.makeText(getActivity(), "Visa & Admission Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case Feature.TYPE_TRACKING:
-                Toast.makeText(getActivity(), "Application Tracking Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case Feature.TYPE_SUPPORT:
-                Toast.makeText(getActivity(), "Support Selected", Toast.LENGTH_SHORT).show();
-                break;
-        }
+            case Feature.TYPE_UNIVERSITY_LISTINGS -> {
+                title = "University Listings";
+                description = "Explore a curated selection of top universities worldwide, detailed program information, including curriculum, faculty, and research opportunities.  Access admission requirements, application deadlines, and contact information.  Find the perfect university for your academic journey and career aspirations.";
+            }
+            case Feature.TYPE_SCHOLARSHIP -> {
+                title = "Scholarships";
+                description = "Discover a wide range of scholarship opportunities, including merit-based, need-based, and program-specific scholarships.  Detailed information on eligibility criteria, application procedures, deadlines, required documents, and funding details.  Get the financial support you need to pursue your education without financial burden.";
+            }
+            case Feature.TYPE_VISA_ADMISSION -> {
+                title = "Visa & Admission";
+                description = "Access comprehensive guidance on visa requirements, application procedures, necessary documentation, interview preparation, and admission guidelines for various countries.  Navigate the complexities of international student admissions with ease, ensuring a smooth transition to your chosen university.";
+            }
+            case Feature.TYPE_TRACKING -> {
+                title = "Application Tracking";
+                description = "Monitor the progress of your applications in real-time, receive timely updates on application status, manage your submissions efficiently, and stay informed throughout the application process.  Track deadlines, receive notifications, and communicate directly with admissions offices.";
+            }
+            case Feature.TYPE_SUPPORT -> {
+                title = "Support";
+                description = "Connect with our dedicated support team for personalized assistance, expert guidance, and prompt answers to your queries.  We provide comprehensive support throughout your journey, from initial inquiries to post-arrival assistance.  Get help with application process, visa assistance, accommodation, and more.";
+            }
+            default -> {
+
+            }
+        };
+
+        // Show Bottom Sheet
+        showFeatureBottomSheet(title, description);
+    }
+
+    private void showFeatureBottomSheet(String title, String description) {
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.feature_details_bottom_sheet, null);
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        // Get references to views in the Bottom Sheet layout
+        TextView titleTextView = bottomSheetView.findViewById(R.id.titleTextView);
+        TextView descriptionTextView = bottomSheetView.findViewById(R.id.descriptionTextView);
+        Button closeButton = bottomSheetView.findViewById(R.id.closeButton); // Add a close button in your layout
+
+        // Set the title and description
+        titleTextView.setText(title);
+        descriptionTextView.setText(description);
+
+        // Set a click listener for the close button
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+        bottomSheetDialog.show();
     }
 
     private void setupToolbar() {

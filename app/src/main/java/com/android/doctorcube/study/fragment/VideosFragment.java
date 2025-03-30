@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.doctorcube.BuildConfig;
 import com.android.doctorcube.R;
 import com.android.doctorcube.StudyMaterialFragment;
 import com.android.doctorcube.study.fragment.adapter.VideosAdapter;
@@ -44,7 +45,7 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
 
     private static final String TAG = "VideosFragment";
     private static final String VIDEOS_COLLECTION = "videos";
-    private static final String YOUTUBE_API_KEY = "AIzaSyB7xC-rgEft4YaAxxoULLDyQo_tmv_gliI"; // Replace with your key
+    private static final String YOUTUBE_API_KEY = BuildConfig.YOUTUBE_API_KEY; // Replace with your key
     private static final String YOUTUBE_VIDEO_URL = "https://www.googleapis.com/youtube/v3/videos";
 
     private RecyclerView recyclerView;
@@ -81,6 +82,8 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
         okHttpClient = new OkHttpClient();
 
         fetchVideosFromFirestore();
+        Log.d(TAG, "YouTube API Key: " + BuildConfig.YOUTUBE_API_KEY);
+
 
         return view;
     }

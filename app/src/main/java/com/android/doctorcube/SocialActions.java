@@ -24,12 +24,14 @@ public class SocialActions {
         }
     }
 
-    public void openDialer(Context context) {
+    public void makeDirectCall(Context context) {
         String phoneNumber = context.getString(R.string.whatsapp_number);
-        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:" + phoneNumber));
         try {
             context.startActivity(intent);
+        } catch (SecurityException e) {
+            Toast.makeText(context, "Call permission not granted", Toast.LENGTH_SHORT).show();
         } catch (ActivityNotFoundException e) {
             Toast.makeText(context, "Dialer not available", Toast.LENGTH_SHORT).show();
         }

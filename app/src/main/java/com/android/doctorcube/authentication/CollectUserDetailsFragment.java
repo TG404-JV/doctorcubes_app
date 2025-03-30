@@ -25,12 +25,13 @@ import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
 import com.android.doctorcube.R;
+import com.android.doctorcube.database.FirestoreHelper;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.SetOptions; // Import SetOptions
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
@@ -55,6 +56,22 @@ public class CollectUserDetailsFragment extends Fragment {
     private String userFullName;
     private String userEmail;
     private String userPhone;
+
+    // Declare an instance of the new utility class
+    private FirestoreHelper firestoreHelper;
+
+    // Add a boolean to track if it's a BottomSheet
+    private boolean isBottomSheet = false;
+
+    public CollectUserDetailsFragment() {
+        // Required empty public constructor
+    }
+
+    // Constructor to indicate when the fragment is used as a BottomSheet
+    public CollectUserDetailsFragment(boolean isBottomSheet) {
+        this.isBottomSheet = isBottomSheet;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -124,6 +141,9 @@ public class CollectUserDetailsFragment extends Fragment {
             nameEditText.setEnabled(false);
         }
 
+        // Initialize the FirestoreHelper
+        firestoreHelper = new FirestoreHelper(requireContext());
+
         setUpListeners();
     }
 
@@ -144,7 +164,8 @@ public class CollectUserDetailsFragment extends Fragment {
 
         submitButton.setOnClickListener(v -> {
             if (validateInputs()) {
-                updateAndSaveUserDetails(v);
+                // Call the saveUserData method in FirestoreHelper
+                firestoreHelper.saveUserData(getUserData(), userId, v, sharedPreferences, navController, isBottomSheet);
             }
         });
 
@@ -202,7 +223,7 @@ public class CollectUserDetailsFragment extends Fragment {
         return true;
     }
 
-    private void updateAndSaveUserDetails(View view) {
+    private Map<String, Object> getUserData() {
         String name = nameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
         String phone = phoneEditText.getText().toString().trim();
@@ -227,41 +248,8 @@ public class CollectUserDetailsFragment extends Fragment {
         userData.put("hasPassport", hasPassport);
         userData.put("userId", userId);
         userData.put("timestamp", FieldValue.serverTimestamp());
-
-        // Update User data in "Users" collection
-        firestoreDB.collection("app_submissions").document(userId)
-                .set(userData, SetOptions.merge())
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("Firestore", "User data updated successfully in Users collection");
-                    //save data to app_submissions
-                    saveApplicationData(userData, view);
-
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Failed to update user data. Please try again.", Toast.LENGTH_SHORT).show();
-                    Log.e("Firestore", "Error updating user data: " + e.getMessage());
-                });
-
-
-
+        return userData;
     }
 
-    private void saveApplicationData(Map<String, Object> userData, View view){
-        firestoreDB.collection("app_submissions")
-                .add(userData)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(getContext(), "Thank you! Our team will connect with you soon.", Toast.LENGTH_SHORT).show();
-                    Log.d("Firestore", "Document saved successfully in app_submissions with ID: " + documentReference.getId());
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("isApplicationSubmitted", true);
-                    editor.apply();
-
-                    Navigation.findNavController(view).navigate(R.id.action_collectUserDetailsFragment_to_mainActivity2);
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "There was an error submitting your form. Please try again.", Toast.LENGTH_SHORT).show();
-                    Log.e("Firestore", "Error saving application data", e);
-                });
-    }
 }
+

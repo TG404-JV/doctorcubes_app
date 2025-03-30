@@ -83,7 +83,7 @@ public class FragmentAbout extends Fragment {
 
         emailButton.setOnClickListener(v -> openMedia.openEmailApp(requireActivity()));
         whatsappButton.setOnClickListener(v -> openMedia.openWhatsApp(requireActivity()));
-        callButton.setOnClickListener(v -> openMedia.openDialer(requireActivity()));
+        callButton.setOnClickListener(v -> openMedia.makeDirectCall(requireActivity()));
         view.findViewById(R.id.btnInstagram).setOnClickListener(v ->openMedia.openInstagram(requireActivity()));
         view.findViewById(R.id.btnTwitter).setOnClickListener(v ->openMedia.openTwitter(requireActivity()));
         view.findViewById(R.id.btnYoutube).setOnClickListener(v ->openMedia.openYouTube(requireActivity()));

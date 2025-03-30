@@ -96,9 +96,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupToolbar() {
         // Call button click
         callButton.setOnClickListener(v -> {
-            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:9876543210")); // Replace with your support number
-            startActivity(callIntent);
+           SocialActions openMedia = new SocialActions();
+           openMedia.makeDirectCall(this);
         });
     }
 

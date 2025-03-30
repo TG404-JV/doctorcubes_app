@@ -4,25 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="#014E8B">
 
 
 
-    <!-- Image -->
-    <ImageView
-        android:id="@+id/mask_image"
+    <!-- Image Slider ViewPager -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintBottom_toTopOf="@id/indicator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    
+
+    <!-- Dot Indicator for ViewPager -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginBottom="10dp"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="2dp"
+        app:layout_constraintBottom_toTopOf="@id/heading_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
+
+    <!-- Caption for current image -->
+    <TextView
+        android:id="@+id/image_caption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_get_strated_mask"
-        android:scaleType="centerInside"
-        android:adjustViewBounds="true"
-        android:contentDescription="Decorative mask image"
-        android:layout_marginTop="16dp"
-        app:layout_constraintWidth_percent="0.8"
-    app:layout_constraintBottom_toTopOf="@id/heading_text"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintVertical_bias="0.3" />
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:text=""
+        android:fontFamily="sans-serif-light"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:textColor="#4A4A4A"
+        android:gravity="center"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintBottom_toTopOf="@id/indicator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Heading -->
     <TextView
@@ -36,13 +68,13 @@
         android:fontFamily="sans-serif-medium"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="#212121"
-    android:lineSpacingExtra="4dp"
-    android:gravity="center"
-    app:layout_constraintWidth_percent="0.9"
-    app:layout_constraintBottom_toTopOf="@id/subheading_text"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+        android:textColor="@color/white"
+        android:lineSpacingExtra="4dp"
+        android:gravity="center"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintBottom_toTopOf="@id/subheading_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Subheading (Optional) -->
     <TextView
@@ -55,12 +87,12 @@
         android:text="Start your journey today!"
         android:fontFamily="sans-serif"
         android:textSize="16sp"
-        android:textColor="#616161"
-    android:gravity="center"
-    app:layout_constraintWidth_percent="0.9"
-    app:layout_constraintBottom_toTopOf="@id/button_container"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+        android:textColor="@color/secondary_background"
+        android:gravity="center"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintBottom_toTopOf="@id/button_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Button Container -->
     <LinearLayout
@@ -86,8 +118,8 @@
             android:drawableEnd="@drawable/ic_arrow_forward"
             android:drawableTint="@color/white"
             android:drawablePadding="8dp"
-            android:background="@drawable/login_gradient_background"
-        app:rippleColor="#80FFFFFF" />
+            android:background="@drawable/button_background"
+            app:rippleColor="#80FFFFFF" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

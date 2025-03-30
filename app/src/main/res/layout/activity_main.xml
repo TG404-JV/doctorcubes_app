@@ -98,12 +98,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_active="true"
-                app:bt_colorActive="?attr/colorPrimary"
-                app:bt_colorInactive="?attr/colorOnSurfaceVariant"
                 app:bt_icon="@drawable/ic_home"
                 app:bt_padding="8dp"
-                app:bt_shape="@drawable/transition_background_drawable"
-                app:bt_title="Home"
                 app:bt_titleSize="12sp" />
 
             <com.gauravk.bubblenavigation.BubbleToggleView
@@ -111,12 +107,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_active="false"
-                app:bt_colorActive="?attr/colorSecondary"
-                app:bt_colorInactive="?attr/colorOnSurfaceVariant"
                 app:bt_icon="@drawable/ic_notes"
                 app:bt_padding="8dp"
-                app:bt_shape="@drawable/transition_background_drawable"
-                app:bt_title="Study"
                 app:bt_titleSize="12sp" />
 
             <com.gauravk.bubblenavigation.BubbleToggleView
@@ -124,12 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_active="false"
-                app:bt_colorActive="?attr/colorPrimaryVariant"
-                app:bt_colorInactive="?attr/colorOnSurfaceVariant"
                 app:bt_icon="@drawable/ic_setting"
                 app:bt_padding="8dp"
-                app:bt_shape="@drawable/transition_background_drawable"
-                app:bt_title="Settings"
                 app:bt_titleSize="12sp" />
         </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
     </com.google.android.material.card.MaterialCardView>

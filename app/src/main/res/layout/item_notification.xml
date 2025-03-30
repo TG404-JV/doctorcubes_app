@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="12dp"
-    android:background="@color/white">
+    android:background="@color/background_color">
 
-    <!-- Category Indicator -->
     <View
         android:id="@+id/view_category_indicator"
         android:layout_width="4dp"
@@ -17,8 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Notification Content Container -->
     <LinearLayout
+        android:id="@+id/notification_content_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -27,35 +25,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Notification Title -->
         <TextView
             android:id="@+id/text_notification_title"
+            style="@style/NotificationTitleTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_primary_color"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:layout_marginBottom="4dp"
-            tools:text="University Application Deadline" />
+            android:text="University Application Deadline" />
 
-        <!-- Notification Message -->
         <TextView
             android:id="@+id/text_notification_message"
+            style="@style/NotificationMessageTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_secondary_color"
-            android:textSize="14sp"
             android:layout_marginBottom="8dp"
-            tools:text="Your application to Oxford University is due in 3 days" />
+            android:text="Your application to Oxford University is due in 3 days" />
 
-        <!-- Notification Time -->
         <TextView
             android:id="@+id/text_notification_time"
+            style="@style/NotificationTimeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_tertiary_color"
-            android:textSize="12sp"
-            tools:text="2 hours ago" />
+            android:text="2 hours ago" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

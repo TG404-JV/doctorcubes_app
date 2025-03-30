@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,25 +26,21 @@
 
             <TextView
                 android:id="@+id/dateText"
+                style="@style/EventDateTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
                 android:layout_margin="8dp"
-                android:background="@android:color/holo_red_light"
-                android:padding="4dp"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:text="Date" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/eventTitle"
+            style="@style/EventTitleTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="Event Title" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,11 +55,11 @@
 
             <TextView
                 android:id="@+id/locationText"
+                style="@style/EventLocationTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp" />
+                android:text="Location" />
         </LinearLayout>
 
         <LinearLayout
@@ -80,11 +75,11 @@
 
             <TextView
                 android:id="@+id/attendeesText"
+                style="@style/EventAttendeesTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp" />
+                android:text="# Attendees" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

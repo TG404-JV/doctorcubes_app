@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,16 +19,14 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_back"
-            android:tint="@color/text_on_primary" />
-
+            app:tint="@color/background_color" />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="My Profile"
-            android:textColor="@color/text_on_primary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="My Profile"
+            android:textColor="@color/background_color"
+        style="@style/ToolbarTitleStyle"  />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -67,8 +64,7 @@
                         android:padding="2dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_doctor"
-                        app:shapeAppearance="@drawable/circular_background"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:shapeAppearance="@style/ShapeAppearanceOverlay.Circle"  app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,8 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Tap to change profile photo"
-                        android:textColor="@color/text_secondary_color"
-                        android:textSize="14sp"
+                        style="@style/CaptionTextStyle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/profileImageView" />
@@ -97,15 +92,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fullNameLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    style="@style/MedicalTextInputStyle"  android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Full Name"
-                    app:boxStrokeColor="@color/input_focus"
-                    app:hintTextColor="@color/primary_color"
-                    app:startIconDrawable="@drawable/ic_add_user"
-                    app:startIconTint="@color/icon_tint_primary">
+                    android:hint="Full Name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/fullNameEditText"
@@ -118,15 +108,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    style="@style/MedicalTextInputStyle"  android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Email"
-                    app:boxStrokeColor="@color/input_focus"
-                    app:hintTextColor="@color/primary_color"
-                    app:startIconDrawable="@drawable/ic_email"
-                    app:startIconTint="@color/icon_tint_primary">
+                    android:hint="Email">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailEditText"
@@ -139,15 +124,10 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/phoneLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    style="@style/MedicalTextInputStyle"  android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Phone Number"
-                    app:boxStrokeColor="@color/input_focus"
-                    app:hintTextColor="@color/primary_color"
-                    app:startIconDrawable="@drawable/ic_call"
-                    app:startIconTint="@color/icon_tint_primary">
+                    android:hint="Phone Number">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneEditText"
@@ -158,28 +138,21 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/changePasswordButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="match_parent"
+                    style="@style/MedicalSecondaryButton"  android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginBottom="24dp"
                     android:text="Change Password"
-                    android:textColor="@color/primary_color"
-                    app:cornerRadius="8dp"
                     app:icon="@drawable/ic_lock"
-                    app:iconGravity="textStart"
-                    app:iconTint="@color/primary_color"
-                    app:strokeColor="@color/button_outline" />
+                    app:iconGravity="textStart" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/saveButton"
+                    style="@style/MedicalPrimaryButton"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:backgroundTint="@color/button_primary"
-                    android:text="Save Changes"
-                    android:textColor="@color/button_text_primary"
-                    app:cornerRadius="8dp" />
+                    android:text="Save Changes" />
 
             </LinearLayout>
 

@@ -3,18 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
+    style="@style/MedicalSectionContainer"
     android:background="@color/card_background">
 
     <TextView
+        style="@style/MedicalSectionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Content"
-        android:textColor="@color/text_primary_color"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:paddingBottom="16dp" />
+        android:text="Add Content" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,11 +22,9 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/MedicalTextInputStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hintTextColor="@color/hint_color"
-                app:boxStrokeColor="@color/input_outline"
-                app:boxStrokeWidthFocused="2dp">
+                android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/titleEditText"
                     android:layout_width="match_parent"
@@ -41,13 +35,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/MedicalTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:visibility="visible"
-                app:hintTextColor="@color/hint_color"
-                app:boxStrokeColor="@color/input_outline"
-                app:boxStrokeWidthFocused="2dp">
+                android:layout_marginTop="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/authorEditText"
                     android:layout_width="match_parent"
@@ -58,13 +49,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/MedicalTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:visibility="visible"
-                app:hintTextColor="@color/hint_color"
-                app:boxStrokeColor="@color/input_outline"
-                app:boxStrokeWidthFocused="2dp">
+                android:layout_marginTop="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sizeEditText"
                     android:layout_width="match_parent"
@@ -76,13 +64,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/MedicalTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:visibility="visible"
-                app:hintTextColor="@color/hint_color"
-                app:boxStrokeColor="@color/input_outline"
-                app:boxStrokeWidthFocused="2dp">
+                android:layout_marginTop="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/pagesEditText"
                     android:layout_width="match_parent"
@@ -94,13 +79,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/MedicalTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:visibility="visible"
-                app:hintTextColor="@color/hint_color"
-                app:boxStrokeColor="@color/input_outline"
-                app:boxStrokeWidthFocused="2dp">
+                android:layout_marginTop="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/categoryEditText"
                     android:layout_width="match_parent"
@@ -111,13 +93,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/MedicalTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:visibility="visible"
-                app:hintTextColor="@color/hint_color"
-                app:boxStrokeColor="@color/input_outline"
-                app:boxStrokeWidthFocused="2dp">
+                android:layout_marginTop="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/descriptionEditText"
                     android:layout_width="match_parent"
@@ -126,16 +105,14 @@
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color"
                     android:inputType="textMultiLine"
-                    android:maxLines="4"/>
+                    android:maxLines="4" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/MedicalTextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:hintTextColor="@color/hint_color"
-                app:boxStrokeColor="@color/input_outline"
-                app:boxStrokeWidthFocused="2dp">
+                android:layout_marginTop="8dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/urlEditText"
                     android:layout_width="match_parent"
@@ -153,34 +130,29 @@
 
                 <RadioButton
                     android:id="@+id/videoRadioButton"
+                    style="@style/MedicalCheckboxStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Video"
-                    android:textColor="@color/text_primary_color"
-                    android:buttonTint="@color/checkbox_tint"
                     android:checked="true" />
 
                 <RadioButton
                     android:id="@+id/notesRadioButton"
+                    style="@style/MedicalCheckboxStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Notes"
-                    android:textColor="@color/text_primary_color"
-                    android:buttonTint="@color/checkbox_tint" />
+                    android:text="Notes" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/actionButton"
+                style="@style/MedicalPrimaryButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Upload"
-                android:textColor="@color/button_text_primary"
-                app:backgroundTint="@color/button_primary"
-                app:rippleColor="@color/button_primary_pressed"
-                app:cornerRadius="8dp" />
+                android:text="Upload" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressBar"
@@ -189,7 +161,6 @@
                 android:layout_gravity="center"
                 android:visibility="gone"
                 app:indicatorColor="@color/progress_primary" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

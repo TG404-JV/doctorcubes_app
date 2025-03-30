@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Toolbar with elevation and proper styling -->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
@@ -31,14 +29,12 @@
                     android:id="@+id/tvToolbarTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="Frequently Asked Questions"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    style="@style/ToolbarTitleStyle"  />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- RecyclerView for FAQ items -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFAQ"
             android:layout_width="0dp"
@@ -53,7 +49,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
-        <!-- Empty state view with WhatsApp contact option -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/emptyStateLayout"
             android:layout_width="0dp"
@@ -85,10 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="No FAQs Available"
-                android:textColor="@color/text_primary_color"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/SectionTitleText"  app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivEmptyState" />
 
@@ -99,9 +91,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="Couldn't find what you're looking for? Contact us directly for assistance."
-                android:textColor="@color/text_secondary_color"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/BodyText"  app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvEmptyTitle"
                 app:layout_constraintWidth_percent="0.8" />
@@ -123,11 +113,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvEmptySubtitle"
-                app:layout_constraintWidth_percent="0.8" />
-
+                app:layout_constraintWidth_percent="0.8"
+                style="@style/MedicalButton" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Loading Progress Indicator -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"

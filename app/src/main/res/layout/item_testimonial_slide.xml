@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
     app:cardBackgroundColor="@color/card_background"
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp">
@@ -15,27 +13,20 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Quote Icon -->
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_quote"
             app:tint="@color/primary_color" />
 
-        <!-- Testimonial Text -->
         <TextView
             android:id="@+id/testimonial_text"
+            style="@style/TestimonialTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:lineSpacingExtra="4dp"
-            android:padding="8dp"
-            android:textColor="@color/text_primary_color"
-            android:textSize="14sp"
-            android:textStyle="italic"
-            tools:text="DoctorCubes made my dream of studying medicine abroad come true. Their guidance throughout the application process was invaluable." />
+            android:text="DoctorCubes made my dream of studying medicine abroad come true. Their guidance throughout the application process was invaluable." />
 
         <View
             android:layout_width="80dp"
@@ -45,14 +36,12 @@
             android:layout_marginBottom="16dp"
             android:background="@color/divider_color" />
 
-        <!-- Profile Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <!-- Student Avatar with Flag Badge -->
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -78,7 +67,6 @@
                     tools:src="@drawable/flag_russia" />
             </FrameLayout>
 
-            <!-- Name and Additional Info -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,33 +75,27 @@
 
                 <TextView
                     android:id="@+id/testimonial_name"
+                    style="@style/TestimonialNameTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_primary_color"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:text="John Smith" />
+                    android:text="John Smith" />
 
                 <TextView
                     android:id="@+id/testimonial_university"
+                    style="@style/TestimonialUniversityTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:textColor="@color/accent_color"
-                    android:textSize="13sp"
-                    tools:text="Sechenov University" />
+                    android:text="Sechenov University" />
 
                 <TextView
                     android:id="@+id/testimonial_batch"
+                    style="@style/TestimonialBatchTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_secondary_color"
-                    android:textSize="12sp"
-                    tools:text="Batch 2023" />
+                    android:text="Batch 2023" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Rating Stars -->
         <RatingBar
             android:id="@+id/testimonial_rating"
             style="?android:attr/ratingBarStyleSmall"

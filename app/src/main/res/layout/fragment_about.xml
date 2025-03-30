@@ -65,39 +65,37 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="16dp"
-                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/OutlinedBox">  <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_card_background"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/ivLogo"
                         android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:contentDescription="DoctorCube Logo"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_doctorcubes_black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/gradient_card_background"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="24dp">
-
-                        <ImageView
-                            android:id="@+id/ivLogo"
-                            android:layout_width="match_parent"
-                            android:layout_height="160dp"
-                            android:contentDescription="DoctorCube Logo"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_doctorcubes_black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Your Pathway to Global Education"
-                            android:textColor="@color/text_primary_color"
-                            android:textSize="16sp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Your Pathway to Global Education"
+                        android:textColor="@color/text_primary_color"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Enhanced About Us Card -->
@@ -217,32 +215,18 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvWhatWeOfferTitle" />
 
-                        <!-- University Applications Card -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardUniversity"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            style="@style/ServiceCard"
                             android:layout_marginTop="20dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="2dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/dividerWhatWeOffer">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="16dp">
+                                style="@style/ServiceCardLinearLayout">
 
                                 <ImageView
                                     android:id="@+id/ivUniversityIcon"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:background="@drawable/circle_background"
-                                    android:contentDescription="University Applications"
-                                    android:padding="10dp"
+                                    style="@style/ServiceCardImageView"
                                     android:src="@drawable/icon_university" />
 
                                 <LinearLayout
@@ -253,52 +237,28 @@
 
                                     <TextView
                                         android:id="@+id/tvUniversityTitle"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="University Applications"
-                                        android:textColor="@color/text_primary_color"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
+                                        style="@style/ServiceCardTitle"
+                                        android:text="University Applications" />
 
                                     <TextView
                                         android:id="@+id/tvUniversityDesc"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:lineSpacingExtra="2dp"
-                                        android:text="Streamlined application process to top universities worldwide with personalized guidance."
-                                        android:textColor="@color/text_secondary_color" />
+                                        style="@style/ServiceCardDescription"
+                                        android:text="Streamlined application process to top universities worldwide with personalized guidance." />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <!-- Scholarships Card -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardScholarship"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="2dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/ServiceCard"
                             app:layout_constraintTop_toBottomOf="@id/cardUniversity">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="16dp">
+                                style="@style/ServiceCardLinearLayout">
 
                                 <ImageView
                                     android:id="@+id/ivScholarshipIcon"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:background="@drawable/circle_background"
-                                    android:contentDescription="Scholarships"
-                                    android:padding="10dp"
+                                    style="@style/ServiceCardImageView"
                                     android:src="@drawable/icon_scholarship" />
 
                                 <LinearLayout
@@ -309,52 +269,28 @@
 
                                     <TextView
                                         android:id="@+id/tvScholarshipTitle"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="Scholarships"
-                                        android:textColor="@color/text_primary_color"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
+                                        style="@style/ServiceCardTitle"
+                                        android:text="Scholarships" />
 
                                     <TextView
                                         android:id="@+id/tvScholarshipDesc"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:lineSpacingExtra="2dp"
-                                        android:text="Access to exclusive scholarship opportunities and assistance with applications."
-                                        android:textColor="@color/text_secondary_color" />
+                                        style="@style/ServiceCardDescription"
+                                        android:text="Access to exclusive scholarship opportunities and assistance with applications." />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <!-- Visa Support Card -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardVisa"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="2dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/ServiceCard"
                             app:layout_constraintTop_toBottomOf="@id/cardScholarship">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="16dp">
+                                style="@style/ServiceCardLinearLayout">
 
                                 <ImageView
                                     android:id="@+id/ivVisaIcon"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:background="@drawable/circle_background"
-                                    android:contentDescription="Visa Support"
-                                    android:padding="10dp"
+                                    style="@style/ServiceCardImageView"
                                     android:src="@drawable/icon_visa" />
 
                                 <LinearLayout
@@ -365,52 +301,28 @@
 
                                     <TextView
                                         android:id="@+id/tvVisaTitle"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="Visa Support"
-                                        android:textColor="@color/text_primary_color"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
+                                        style="@style/ServiceCardTitle"
+                                        android:text="Visa Support" />
 
                                     <TextView
                                         android:id="@+id/tvVisaDesc"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:lineSpacingExtra="2dp"
-                                        android:text="Expert guidance through student visa procedures for different countries."
-                                        android:textColor="@color/text_secondary_color" />
+                                        style="@style/ServiceCardDescription"
+                                        android:text="Expert guidance through student visa procedures for different countries." />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <!-- Application Tracking Card -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardTracking"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="2dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/ServiceCard"
                             app:layout_constraintTop_toBottomOf="@id/cardVisa">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="16dp">
+                                style="@style/ServiceCardLinearLayout">
 
                                 <ImageView
                                     android:id="@+id/ivTrackingIcon"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:background="@drawable/circle_background"
-                                    android:contentDescription="Application Tracking"
-                                    android:padding="10dp"
+                                    style="@style/ServiceCardImageView"
                                     android:src="@drawable/ic_location"
                                     app:tint="@color/primary_color" />
 
@@ -422,52 +334,28 @@
 
                                     <TextView
                                         android:id="@+id/tvTrackingTitle"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="Application Tracking"
-                                        android:textColor="@color/text_primary_color"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
+                                        style="@style/ServiceCardTitle"
+                                        android:text="Application Tracking" />
 
                                     <TextView
                                         android:id="@+id/tvTrackingDesc"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:lineSpacingExtra="2dp"
-                                        android:text="Real-time tracking of all your applications in one convenient dashboard."
-                                        android:textColor="@color/text_secondary_color" />
+                                        style="@style/ServiceCardDescription"
+                                        android:text="Real-time tracking of all your applications in one convenient dashboard." />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <!-- Support Card -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardSupport"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="2dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/ServiceCard"
                             app:layout_constraintTop_toBottomOf="@id/cardTracking">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="16dp">
+                                style="@style/ServiceCardLinearLayout">
 
                                 <ImageView
                                     android:id="@+id/ivSupportIcon"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:background="@drawable/circle_background"
-                                    android:contentDescription="24/7 Support"
-                                    android:padding="10dp"
+                                    style="@style/ServiceCardImageView"
                                     android:src="@drawable/icon_support" />
 
                                 <LinearLayout
@@ -478,22 +366,13 @@
 
                                     <TextView
                                         android:id="@+id/tvSupportTitle"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-medium"
-                                        android:text="24/7 Support"
-                                        android:textColor="@color/text_primary_color"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
+                                        style="@style/ServiceCardTitle"
+                                        android:text="24/7 Support" />
 
                                     <TextView
                                         android:id="@+id/tvSupportDesc"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:lineSpacingExtra="2dp"
-                                        android:text="Round-the-clock assistance from our dedicated support team to address all your queries."
-                                        android:textColor="@color/text_secondary_color" />
+                                        style="@style/ServiceCardDescription"
+                                        android:text="Round-the-clock assistance from our dedicated support team to address all your queries." />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>

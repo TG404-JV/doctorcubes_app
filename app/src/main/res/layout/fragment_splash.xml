@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -26,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:src="@drawable/logo_doctorcubes"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/appname"
@@ -35,9 +34,7 @@
             android:layout_above="@id/slogun"
             android:text="@string/app_name"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="35dp"/>
+            style="@style/SplashTitleTextStyle" />
 
         <TextView
             android:id="@+id/slogun"
@@ -46,10 +43,7 @@
             android:layout_alignParentBottom="true"
             android:text="Make Your Abroad Dream True !"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_marginBottom="50dp"
-            android:textSize="15dp"/>
+            style="@style/SplashSloganTextStyle" />
 
     </RelativeLayout>
 

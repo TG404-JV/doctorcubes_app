@@ -23,9 +23,7 @@
 
             <!-- Header Section -->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                style="@style/MedicalSectionContainer"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7">
 
@@ -50,7 +48,7 @@
                             android:contentDescription="back"
                             android:padding="12dp"
                             android:src="@drawable/ic_back"
-                            app:tint="@color/white" />
+                            app:tint="@color/text_on_primary" />
 
                         <TextView
                             android:id="@+id/country_name_title"
@@ -62,21 +60,20 @@
                             android:maxLines="1"
                             android:padding="16dp"
                             android:text="Universities in USA"
-                            android:textColor="@color/white"
+                            android:textColor="@color/text_on_primary"
                             android:textSize="20sp" />
                     </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>
 
                 <!-- Top Stats Card -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/MedicalCardStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    app:cardBackgroundColor="@color/card_highlight"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="4dp">
+                    app:cardBackgroundColor="@color/card_highlight">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -139,33 +136,31 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <!-- Search Section -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+            style="@style/MedicalCardStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            android:layout_marginBottom="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:background="@drawable/search_background"
+                    android:background="@color/transparent"
                     android:elevation="1dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -179,10 +174,10 @@
 
                     <EditText
                         android:id="@+id/search_university"
+                        style="@style/MedicalTextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:fontFamily="sans-serif"
                         android:hint="Search by name, location, or programs..."
                         android:imeOptions="actionSearch"
                         android:inputType="text"
@@ -196,17 +191,16 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/filterBtn"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/MedicalSecondaryButton"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_marginStart="8dp"
                     android:text="Filter"
-                    android:textColor="@color/primary_color"
                     app:icon="@drawable/ic_filter"
                     app:iconGravity="textStart"
                     app:iconTint="@color/primary_color" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Spinner for Filters -->
         <Spinner
@@ -242,11 +236,8 @@
 
             <LinearLayout
                 android:id="@+id/empty_state_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/MedicalSectionContainer"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="24dp"
                 android:visibility="gone">
 
                 <ImageView
@@ -277,13 +268,11 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/clear_filters_btn"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/MedicalSecondaryButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Clear Filters"
-                    android:textColor="@color/primary_color"
-                    app:strokeColor="@color/primary_color" />
+                    android:text="Clear Filters" />
             </LinearLayout>
         </FrameLayout>
     </androidx.core.widget.NestedScrollView>
@@ -296,5 +285,4 @@
         android:layout_gravity="center"
         android:visibility="gone"
         app:layout_anchorGravity="center" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

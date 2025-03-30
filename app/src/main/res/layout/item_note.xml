@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pdfNoteCard"
     android:layout_width="match_parent"
@@ -29,23 +27,13 @@
 
             <ImageView
                 android:id="@+id/pdfIconImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_pdf"
-                android:contentDescription="PDF File Icon"
+                style="@style/PdfIconImageViewStyle"
                 android:layout_marginEnd="12dp"/>
 
             <TextView
                 android:id="@+id/documentTitleTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Advanced Mathematics Lecture Notes"
-                android:textColor="@color/text_primary_color"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:maxLines="2"
-                android:ellipsize="end"/>
+                style="@style/DocumentTitleTextViewStyle"
+                android:text="Advanced Mathematics Lecture Notes" />
         </LinearLayout>
 
         <LinearLayout
@@ -56,26 +44,13 @@
 
             <TextView
                 android:id="@+id/pageCountTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pages: 45"
-                android:drawableRight="@drawable/ic_page"
-                android:drawablePadding="8dp"
-                android:drawableTint="@color/button_accent"
-                android:gravity="center_vertical"
-                android:textColor="@color/text_secondary_color"/>
+                style="@style/PageCountTextViewStyle"
+                android:text="Pages: 45" />
 
             <TextView
                 android:id="@+id/fileSizeTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Size: 2.3 MB"
-                android:gravity="end"
-                android:drawableEnd="@drawable/ic_file_size"
-                android:drawableTint="@color/button_accent"
-                android:drawablePadding="8dp"
-                android:textColor="@color/text_secondary_color"/>
+                style="@style/FileSizeTextViewStyle"
+                android:text="Size: 2.3 MB" />
 
 
 
@@ -83,8 +58,7 @@
 
         <TextView
             android:id="@+id/descriptionTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/DescriptionTextViewStyle"
             android:text="details"/>
 
         <View
@@ -100,12 +74,8 @@
 
             <TextView
                 android:id="@+id/timestampTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Last Updated: Mar 27, 2025"
-                android:drawablePadding="8dp"
-                android:textColor="@color/text_tertiary_color"/>
+                style="@style/TimestampTextViewStyle"
+                android:text="Last Updated: Mar 27, 2025" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

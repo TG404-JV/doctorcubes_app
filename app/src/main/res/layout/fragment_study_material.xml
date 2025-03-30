@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,75 +6,17 @@
     android:background="@color/background_color"
     tools:context=".StudyMaterialFragment">
 
-    <!-- App Bar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color">
+        android:background="@color/background_color"
+        android:elevation="0dp">
 
-        <!-- Toolbar removed or hidden; rely on MainActivity's Toolbar -->
-        <!-- If you want to keep it for specific cases, uncomment and adjust visibility -->
-        <!--
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"A
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
-            android:visibility="gone"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextColor="@color/text_on_primary">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/backButton"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:contentDescription="Back"
-                        android:src="@drawable/ic_back"
-                        app:tint="@color/text_on_primary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="Study Resources"
-                        android:textColor="@color/text_on_primary"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="36dp"
-                    android:text="Premium Study Materials for Abroad Education"
-                    android:textColor="@color/text_on_primary"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-        -->
-
-        <!-- Improved Search Bar -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/searchCard"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_margin="16dp"
             app:cardBackgroundColor="@color/card_background"
             app:cardCornerRadius="16dp"
@@ -93,7 +34,7 @@
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:layout_margin="12dp"
+                    android:layout_marginEnd="12dp"
                     android:contentDescription="Search icon"
                     android:src="@drawable/ic_search"
                     app:tint="@drawable/icon_tint_selector" />
@@ -104,11 +45,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="Search study materials, universities, courses..."
+                    android:hint="@string/search_hint"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:padding="12dp"
+                    android:paddingVertical="12dp"
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color"
                     android:textSize="16sp" />
@@ -117,7 +58,7 @@
                     android:id="@+id/clearSearchButton"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:layout_margin="12dp"
+                    android:layout_marginStart="12dp"
                     android:contentDescription="Clear search"
                     android:src="@drawable/ic_clear"
                     android:visibility="gone"
@@ -125,7 +66,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Segmented Button Group -->
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/segmentedButtonGroup"
             android:layout_width="match_parent"
@@ -137,36 +77,30 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnNotes"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/SegmentedButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Notes"
-                android:textColor="@color/segmented_text_selector"
+                android:text="notes"
                 app:icon="@drawable/ic_book"
                 app:iconSize="20dp"
                 app:iconGravity="start"
-                app:iconTint="@drawable/icon_tint_selector"
-                app:strokeColor="@color/button_outline"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnVideos"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/SegmentedButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Videos"
-                android:textColor="@color/segmented_text_selector"
+                android:text="videos"
                 app:icon="@drawable/ic_video"
+                app:iconSize="20dp"
                 app:iconGravity="start"
-                app:iconTint="@drawable/icon_tint_selector"
-                app:strokeColor="@color/button_outline"
                 app:cornerRadius="8dp" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- ViewPager2 -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

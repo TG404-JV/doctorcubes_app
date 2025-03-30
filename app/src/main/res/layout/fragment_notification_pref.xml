@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,45 +9,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-       >
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/gradient_toolbar_background"
+            android:gravity="center_vertical">
 
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_back" />
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:gravity="center_vertical"
-          android:background="@drawable/gradient_toolbar_background">
+            <TextView
+                style="@style/ToolbarTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Notification Settings" />
+        </LinearLayout>
 
-          <ImageButton
-              android:id="@+id/backBtn"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:src="@drawable/ic_back"
-              android:layout_marginStart="5dp"
-              android:background="@color/transparent"/>
-          <!-- Header -->
-          <TextView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Notification Settings"
-              android:textSize="24sp"
-              android:layout_marginStart="10dp"
-              android:textColor="@color/white"
-              android:textStyle="bold" />
-      </LinearLayout>
-
-        <!-- Main Settings Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             app:cardBackgroundColor="@color/card_background"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:strokeColor="@color/card_border"
-            app:strokeWidth="1dp"
-            android:layout_marginBottom="16dp">
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,13 +49,12 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Enable/Disable Notifications -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -71,18 +63,18 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/SettingTitleTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Enable Notifications"
-                            android:textColor="@color/text_primary_color"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            style="@style/SettingDescriptionTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Receive updates about applications, deadlines, and more"
-                            android:textColor="@color/text_secondary_color"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -98,26 +90,25 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/divider_color"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/divider_color" />
 
-                <!-- Notification Time Setting -->
                 <TextView
+                    style="@style/SettingTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:text="Notification Time"
-                    android:textColor="@color/text_primary_color"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" />
+                    android:textStyle="bold" />
 
                 <TextView
+                    style="@style/SettingDescriptionTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:text="Set a preferred time to receive notifications"
-                    android:textColor="@color/text_secondary_color"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="16dp" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -128,6 +119,7 @@
                         android:id="@+id/btn_notification_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:text="09:00 AM"
                         android:textColor="@color/button_text_primary"
@@ -135,32 +127,28 @@
                         app:cornerRadius="8dp"
                         app:icon="@drawable/ic_duration"
                         app:iconGravity="textStart"
-                        app:iconTint="@color/button_text_primary"
-                        android:layout_marginEnd="8dp" />
+                        app:iconTint="@color/button_text_primary" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_reset_time"
+                        style="@style/MedicalSecondaryButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Reset"
-                        android:textColor="@color/button_text_secondary"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        app:strokeColor="@color/button_outline"
                         app:cornerRadius="8dp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Category Preferences Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             app:cardBackgroundColor="@color/card_background"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:strokeColor="@color/card_border"
-            app:strokeWidth="1dp"
-            android:layout_marginBottom="16dp">
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -169,35 +157,34 @@
                 android:padding="16dp">
 
                 <TextView
+                    style="@style/SectionTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:text="Notification Categories"
-                    android:textColor="@color/text_primary_color"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="16dp" />
+                    android:textStyle="bold" />
 
-                <!-- University Updates -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
+                    android:orientation="horizontal">
 
                     <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@drawable/rounded_square"
-                        android:backgroundTint="@color/university_icon_bg"
-                        android:layout_marginEnd="12dp" />
+                        android:backgroundTint="@color/university_icon_bg" />
 
                     <TextView
+                        style="@style/BodyText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="University Updates"
-                        android:textColor="@color/text_primary_color"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -210,27 +197,26 @@
                         app:trackTint="@color/switch_track_on" />
                 </LinearLayout>
 
-                <!-- Scholarship Updates -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
+                    android:orientation="horizontal">
 
                     <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@drawable/rounded_square"
-                        android:backgroundTint="@color/scholarship_icon_bg"
-                        android:layout_marginEnd="12dp" />
+                        android:backgroundTint="@color/scholarship_icon_bg" />
 
                     <TextView
+                        style="@style/BodyText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Scholarship Opportunities"
-                        android:textColor="@color/text_primary_color"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -243,27 +229,26 @@
                         app:trackTint="@color/switch_track_on" />
                 </LinearLayout>
 
-                <!-- Visa Updates -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
+                    android:orientation="horizontal">
 
                     <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@drawable/rounded_square"
-                        android:backgroundTint="@color/visa_icon_bg"
-                        android:layout_marginEnd="12dp" />
+                        android:backgroundTint="@color/visa_icon_bg" />
 
                     <TextView
+                        style="@style/BodyText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Visa &amp; Immigration Updates"
-                        android:textColor="@color/text_primary_color"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -276,27 +261,26 @@
                         app:trackTint="@color/switch_track_on" />
                 </LinearLayout>
 
-                <!-- Application Tracking -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
+                    android:orientation="horizontal">
 
                     <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@drawable/rounded_square"
-                        android:backgroundTint="@color/tracking_icon_bg"
-                        android:layout_marginEnd="12dp" />
+                        android:backgroundTint="@color/tracking_icon_bg" />
 
                     <TextView
+                        style="@style/BodyText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Application Status Updates"
-                        android:textColor="@color/text_primary_color"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -309,26 +293,25 @@
                         app:trackTint="@color/switch_track_on" />
                 </LinearLayout>
 
-                <!-- Support Services -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@drawable/rounded_square"
-                        android:backgroundTint="@color/support_icon_bg"
-                        android:layout_marginEnd="12dp" />
+                        android:backgroundTint="@color/support_icon_bg" />
 
                     <TextView
+                        style="@style/BodyText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Events &amp; Webinars"
-                        android:textColor="@color/text_primary_color"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -343,7 +326,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Recent Notifications -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_notifications"
             android:layout_width="match_parent"
@@ -361,20 +343,20 @@
                 android:padding="16dp">
 
                 <TextView
+                    style="@style/SectionTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:text="Recent Notifications"
-                    android:textColor="@color/text_primary_color"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="16dp" />
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_notifications"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/item_notification"
-                    tools:itemCount="3" />
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_notification" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

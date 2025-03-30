@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,17 +15,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- Country Card: Russia -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/country_russia_card"
-                android:layout_marginStart="5dp"
-                android:layout_width="160dp"
-                android:layout_height="220dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="10dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-               >
+                style="@style/CountryCardView"
+                android:layout_marginStart="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -48,21 +40,12 @@
                         android:padding="12dp">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Russia"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            style="@style/CountryNameTextView"
+                            android:text="Russia" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="60+ Universities"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="13sp" />
+                            style="@style/UniversityCountTextView"
+                            android:text="60+ Universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -72,33 +55,19 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/ic_ranking"
-                                app:tint="@android:color/holo_orange_light" />
+                                style="@style/RankingIconImageView" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="sans-serif"
-                                android:text="4.5"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="13sp" />
+                                style="@style/RankingTextView"
+                                android:text="4.5" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Country Card: Georgia -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/country_georgia_card"
-                android:layout_width="160dp"
-                android:layout_height="220dp"
-                android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-               >
+                style="@style/CountryCardView">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -120,21 +89,12 @@
                         android:padding="12dp">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Georgia"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            style="@style/CountryNameTextView"
+                            android:text="Georgia" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="15+ Universities"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="13sp" />
+                            style="@style/UniversityCountTextView"
+                            android:text="15+ Universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -144,33 +104,19 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/ic_ranking"
-                                app:tint="@android:color/holo_orange_light" />
+                                style="@style/RankingIconImageView" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="sans-serif"
-                                android:text="4.3"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="13sp" />
+                                style="@style/RankingTextView"
+                                android:text="4.3" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Country Card: Kazakhstan -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/country_kazakhstan_card"
-                android:layout_width="160dp"
-                android:layout_height="220dp"
-                android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-               >
+                style="@style/CountryCardView">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -192,21 +138,12 @@
                         android:padding="12dp">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Kazakhstan"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            style="@style/CountryNameTextView"
+                            android:text="Kazakhstan" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="20+ Universities"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="13sp" />
+                            style="@style/UniversityCountTextView"
+                            android:text="20+ Universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -216,33 +153,19 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/ic_ranking"
-                                app:tint="@android:color/holo_orange_light" />
+                                style="@style/RankingIconImageView" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="sans-serif"
-                                android:text="4.2"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="13sp" />
+                                style="@style/RankingTextView"
+                                android:text="4.2" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Country Card: Nepal -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/country_nepal_card"
-                android:layout_width="160dp"
-                android:layout_height="220dp"
-                android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-               >
+                style="@style/CountryCardView">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -264,21 +187,12 @@
                         android:padding="12dp">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Nepal"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            style="@style/CountryNameTextView"
+                            android:text="Nepal" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="10+ Universities"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="13sp" />
+                            style="@style/UniversityCountTextView"
+                            android:text="10+ Universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -288,33 +202,19 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/ic_ranking"
-                                app:tint="@android:color/holo_orange_light" />
+                                style="@style/RankingIconImageView" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="sans-serif"
-                                android:text="4.0"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="13sp" />
+                                style="@style/RankingTextView"
+                                android:text="4.0" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Country Card: China -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/country_china_card"
-                android:layout_width="160dp"
-                android:layout_height="220dp"
-                android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-               >
+                style="@style/CountryCardView">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -336,21 +236,12 @@
                         android:padding="12dp">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="China"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            style="@style/CountryNameTextView"
+                            android:text="China" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="45+ Universities"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="13sp" />
+                            style="@style/UniversityCountTextView"
+                            android:text="45+ Universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -360,33 +251,19 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/ic_ranking"
-                                app:tint="@android:color/holo_orange_light" />
+                                style="@style/RankingIconImageView" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="sans-serif"
-                                android:text="4.4"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="13sp" />
+                                style="@style/RankingTextView"
+                                android:text="4.4" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Country Card: Uzbekistan -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/country_uzbekistan_card"
-                android:layout_width="160dp"
-                android:layout_height="220dp"
-                android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="12dp"
-               >
+                style="@style/CountryCardView">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -408,21 +285,12 @@
                         android:padding="12dp">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Uzbekistan"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            style="@style/CountryNameTextView"
+                            android:text="Uzbekistan" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="12+ Universities"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="13sp" />
+                            style="@style/UniversityCountTextView"
+                            android:text="12+ Universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -432,19 +300,11 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/ic_ranking"
-                                app:tint="@android:color/holo_orange_light" />
+                                style="@style/RankingIconImageView" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="sans-serif"
-                                android:text="4.1"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="13sp" />
+                                style="@style/RankingTextView"
+                                android:text="4.1" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

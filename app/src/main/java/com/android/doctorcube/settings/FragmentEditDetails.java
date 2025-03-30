@@ -1,11 +1,13 @@
 package com.android.doctorcube.settings;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -30,8 +33,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.doctorcube.R;
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -208,13 +214,13 @@ public class FragmentEditDetails extends Fragment {
             Glide.with(this)
                     .load(localFile)
                     .circleCrop()
-                    .placeholder(R.drawable.ic_doctorcubes_white)
+                    .placeholder(R.drawable.logo_doctor_cubes_white)
                     .into(profileImageView);
         } else if (!firestoreImageUrl.isEmpty()) {
             Glide.with(this)
                     .load(firestoreImageUrl)
                     .circleCrop()
-                    .placeholder(R.drawable.ic_doctorcubes_white)
+                    .placeholder(R.drawable.logo_doctor_cubes_white)
                     .into(profileImageView);
         }
 
@@ -246,7 +252,7 @@ public class FragmentEditDetails extends Fragment {
                             Glide.with(this)
                                     .load(firestoreImageUrl)
                                     .circleCrop()
-                                    .placeholder(R.drawable.ic_doctorcubes_white)
+                                    .placeholder(R.drawable.logo_doctor_cubes_white)
                                     .into(profileImageView);
                         }
 
@@ -371,35 +377,192 @@ public class FragmentEditDetails extends Fragment {
     }
 
     private void showChangePasswordDialog() {
+        // Inflate the dialog layout
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_change_password, null);
-        EditText currentPasswordEditText = dialogView.findViewById(R.id.currentPasswordEditText);
-        EditText newPasswordEditText = dialogView.findViewById(R.id.newPasswordEditText);
-        EditText confirmPasswordEditText = dialogView.findViewById(R.id.confirmPasswordEditText);
 
+        // Find views
+        TextInputLayout currentPasswordLayout = dialogView.findViewById(R.id.currentPasswordLayout);
+        TextInputLayout newPasswordLayout = dialogView.findViewById(R.id.newPasswordLayout);
+        TextInputLayout confirmPasswordLayout = dialogView.findViewById(R.id.confirmPasswordLayout);
+
+        TextInputEditText currentPasswordEditText = dialogView.findViewById(R.id.currentPasswordEditText);
+        TextInputEditText newPasswordEditText = dialogView.findViewById(R.id.newPasswordEditText);
+        TextInputEditText confirmPasswordEditText = dialogView.findViewById(R.id.confirmPasswordEditText);
+
+        MaterialButton cancelButton = dialogView.findViewById(R.id.cancelButton);
+        MaterialButton changePasswordButton = dialogView.findViewById(R.id.changePasswordButton);
+
+        // Animation views
+        FrameLayout animationContainer = dialogView.findViewById(R.id.animationContainer);
+        LottieAnimationView successAnimationView = dialogView.findViewById(R.id.successAnimationView);
+        LottieAnimationView failureAnimationView = dialogView.findViewById(R.id.failureAnimationView);
+
+        // Create and configure the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Change Password")
-                .setView(dialogView)
-                .setPositiveButton("Update", (dialog, which) -> {
-                    String currentPassword = currentPasswordEditText.getText().toString().trim();
-                    String newPassword = newPasswordEditText.getText().toString().trim();
-                    String confirmPassword = confirmPasswordEditText.getText().toString().trim();
+        builder.setView(dialogView);
 
-                    if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-                        Toast.makeText(getContext(), "All fields are required", Toast.LENGTH_SHORT).show();
-                        return;
+        // Remove title as it's already in the custom layout
+        builder.setTitle(null);
+
+        // Create the dialog
+        final AlertDialog dialog = builder.create();
+
+        // Set up field validation listeners
+        newPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String password = s.toString();
+                if (!password.isEmpty()) {
+                    if (password.length() < 8) {
+                        newPasswordLayout.setError("Password must be at least 8 characters");
+                    } else if (!containsLetterAndDigit(password)) {
+                        newPasswordLayout.setError("Password must contain both letters and numbers");
+                    } else {
+                        newPasswordLayout.setError(null);
                     }
-                    if (!newPassword.equals(confirmPassword)) {
-                        Toast.makeText(getContext(), "New passwords don't match", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    changePassword(currentPassword, newPassword);
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+                } else {
+                    newPasswordLayout.setError(null);
+                }
+            }
+        });
+
+        confirmPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String confirmPassword = s.toString();
+                String newPassword = newPasswordEditText.getText().toString();
+                if (!confirmPassword.isEmpty() && !confirmPassword.equals(newPassword)) {
+                    confirmPasswordLayout.setError("Passwords do not match");
+                } else {
+                    confirmPasswordLayout.setError(null);
+                }
+            }
+        });
+
+        // Set up button click listeners
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+
+        changePasswordButton.setOnClickListener(v -> {
+            // Validate all inputs
+            if (validateInputs(currentPasswordLayout, newPasswordLayout, confirmPasswordLayout)) {
+                // Get the entered passwords
+                String currentPassword = currentPasswordEditText.getText().toString().trim();
+                String newPassword = newPasswordEditText.getText().toString().trim();
+
+                // Disable all inputs during processing
+                setInputsEnabled(false, currentPasswordLayout, newPasswordLayout,
+                        confirmPasswordLayout, cancelButton, changePasswordButton);
+
+                // Call password change method
+                changePassword(currentPassword, newPassword, dialog,
+                        animationContainer, successAnimationView, failureAnimationView,
+                        currentPasswordLayout, newPasswordLayout, confirmPasswordLayout,
+                        cancelButton, changePasswordButton);
+            }
+        });
+
+        // Show the dialog
+        dialog.show();
     }
 
-    private void changePassword(String currentPassword, String newPassword) {
-        showLoading(true);
+    // Helper method to check if a string contains at least one letter and one digit
+    private boolean containsLetterAndDigit(String password) {
+        boolean hasLetter = false;
+        boolean hasDigit = false;
+
+        for (char c : password.toCharArray()) {
+            if (Character.isLetter(c)) {
+                hasLetter = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            }
+
+            if (hasLetter && hasDigit) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Validate all input fields
+    private boolean validateInputs(TextInputLayout currentPasswordLayout,
+                                   TextInputLayout newPasswordLayout,
+                                   TextInputLayout confirmPasswordLayout) {
+        boolean isValid = true;
+
+        // Validate current password
+        if (currentPasswordLayout.getEditText().getText().toString().trim().isEmpty()) {
+            currentPasswordLayout.setError("Please enter your current password");
+            isValid = false;
+        } else {
+            currentPasswordLayout.setError(null);
+        }
+
+        // Validate new password
+        String newPassword = newPasswordLayout.getEditText().getText().toString().trim();
+        if (newPassword.isEmpty()) {
+            newPasswordLayout.setError("Please enter a new password");
+            isValid = false;
+        } else if (newPassword.length() < 8) {
+            newPasswordLayout.setError("Password must be at least 8 characters");
+            isValid = false;
+        } else if (!containsLetterAndDigit(newPassword)) {
+            newPasswordLayout.setError("Password must contain both letters and numbers");
+            isValid = false;
+        } else {
+            newPasswordLayout.setError(null);
+        }
+
+        // Validate password confirmation
+        String confirmPassword = confirmPasswordLayout.getEditText().getText().toString().trim();
+        if (!confirmPassword.equals(newPassword)) {
+            confirmPasswordLayout.setError("Passwords do not match");
+            isValid = false;
+        } else {
+            confirmPasswordLayout.setError(null);
+        }
+
+        return isValid;
+    }
+
+    // Enable or disable all input fields
+    private void setInputsEnabled(boolean enabled, TextInputLayout currentPasswordLayout,
+                                  TextInputLayout newPasswordLayout,
+                                  TextInputLayout confirmPasswordLayout,
+                                  Button cancelButton,
+                                  Button changePasswordButton) {
+        currentPasswordLayout.setEnabled(enabled);
+        newPasswordLayout.setEnabled(enabled);
+        confirmPasswordLayout.setEnabled(enabled);
+        cancelButton.setEnabled(enabled);
+        changePasswordButton.setEnabled(enabled);
+    }
+
+    // Perform the password change operation
+    private void changePassword(String currentPassword, String newPassword, AlertDialog dialog,
+                                FrameLayout animationContainer,
+                                LottieAnimationView successAnimationView,
+                                LottieAnimationView failureAnimationView,
+                                TextInputLayout currentPasswordLayout,
+                                TextInputLayout newPasswordLayout,
+                                TextInputLayout confirmPasswordLayout,
+                                Button cancelButton,
+                                Button changePasswordButton) {
+
+        showLoading(true); // Keep showing overall fragment loading state
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null && user.getEmail() != null) {
             AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPassword);
@@ -407,24 +570,110 @@ public class FragmentEditDetails extends Fragment {
                     .addOnSuccessListener(aVoid -> {
                         user.updatePassword(newPassword)
                                 .addOnSuccessListener(aVoid1 -> {
-                                    showLoading(false);
-                                    Toast.makeText(getContext(), "Password updated successfully",
-                                            Toast.LENGTH_SHORT).show();
+                                    showLoading(false); // Hide overall loading
+                                    // Call success animation method
+                                    showSuccessAnimation(dialog, animationContainer, successAnimationView);
+
                                 })
                                 .addOnFailureListener(e -> {
                                     Log.e(TAG, "Failed to update password", e);
-                                    showLoading(false);
-                                    Toast.makeText(getContext(), "Failed to update password: " + e.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
+                                    showLoading(false); // Hide overall loading
+                                    // Call failure animation method
+                                    showFailureAnimation(dialog, animationContainer, failureAnimationView,
+                                            currentPasswordLayout, newPasswordLayout, confirmPasswordLayout,
+                                            cancelButton, changePasswordButton);
                                 });
                     })
                     .addOnFailureListener(e -> {
                         Log.e(TAG, "Incorrect password", e);
-                        showLoading(false);
+                        showLoading(false); // Hide overall loading
                         Toast.makeText(getContext(), "Current password is incorrect",
                                 Toast.LENGTH_SHORT).show();
+                        // Re-enable inputs on the dialog.
+                        showFailureAnimation(dialog, animationContainer, failureAnimationView,
+                                currentPasswordLayout, newPasswordLayout, confirmPasswordLayout,
+                                cancelButton, changePasswordButton);
                     });
         }
+    }
+
+    // Show success animation and handle completion
+    private void showSuccessAnimation(AlertDialog dialog,
+                                      FrameLayout animationContainer,
+                                      LottieAnimationView successAnimationView) {
+        // Show animation container
+        animationContainer.setVisibility(View.VISIBLE);
+
+        // Show and play success animation
+        successAnimationView.setVisibility(View.VISIBLE);
+        successAnimationView.playAnimation();
+
+        successAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {}
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // Show success dialog after animation completes
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Success")
+                        .setMessage("Your password has been successfully updated.")
+                        .setPositiveButton("OK", (dialogInterface, which) -> dialog.dismiss())
+                        .setCancelable(false)
+                        .show();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {}
+        });
+    }
+
+    // Show failure animation and handle completion
+    private void showFailureAnimation(AlertDialog dialog,
+                                      FrameLayout animationContainer,
+                                      LottieAnimationView failureAnimationView,
+                                      TextInputLayout currentPasswordLayout,
+                                      TextInputLayout newPasswordLayout,
+                                      TextInputLayout confirmPasswordLayout,
+                                      Button cancelButton,
+                                      Button changePasswordButton) {
+        // Show animation container
+        animationContainer.setVisibility(View.VISIBLE);
+
+        // Show and play failure animation
+        failureAnimationView.setVisibility(View.VISIBLE);
+        failureAnimationView.playAnimation();
+
+        failureAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {}
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // Hide animation container
+                animationContainer.setVisibility(View.GONE);
+
+                // Re-enable input fields
+                setInputsEnabled(true, currentPasswordLayout, newPasswordLayout,
+                        confirmPasswordLayout, cancelButton, changePasswordButton);
+
+                // Show error message
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Error")
+                        .setMessage("Failed to update password. Please try again.")
+                        .setPositiveButton("OK", (dialogInterface, which) -> dialogInterface.dismiss())
+                        .show();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {}
+        });
     }
 
     private void showLoading(boolean isLoading) {
@@ -457,8 +706,7 @@ public class FragmentEditDetails extends Fragment {
             if (activity.getSupportActionBar() != null) {
                 activity.getSupportActionBar().show();
             }
-        }
-    }
+        }}
 
     @Override
     public void onDestroyView() {

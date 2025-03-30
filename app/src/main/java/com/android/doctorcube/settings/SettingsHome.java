@@ -1,9 +1,7 @@
 package com.android.doctorcube.settings;
 
-import static android.content.Intent.getIntent;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -122,7 +118,7 @@ public class SettingsHome extends Fragment {
         }
         if (logoutButton != null) {
             logoutButton.setOnClickListener(v -> {
-                mAuth.signOut();
+               // mAuth.signOut();
                 Log.d(TAG, "User logged out");
                 // Add navigation to login screen if needed
             });
@@ -259,7 +255,7 @@ public class SettingsHome extends Fragment {
             Glide.with(this)
                     .load(localFile)
                     .circleCrop()
-                    .placeholder(R.drawable.ic_doctorcubes_white)
+                    .placeholder(R.drawable.logo_doctor_cubes_white)
                     .into(profileImage);
         } else {
             loadProfileImageFromFirestore();
@@ -272,11 +268,11 @@ public class SettingsHome extends Fragment {
             Glide.with(this)
                     .load(imageUrl)
                     .circleCrop()
-                    .placeholder(R.drawable.ic_doctorcubes_white)
+                    .placeholder(R.drawable.logo_doctor_cubes_white)
                     .into(profileImage);
         } else {
             Glide.with(this)
-                    .load(R.drawable.ic_doctorcubes_white)
+                    .load(R.drawable.logo_doctor_cubes_white)
                     .circleCrop()
                     .into(profileImage);
         }

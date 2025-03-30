@@ -25,14 +25,12 @@
             <!-- App Logo with Gradient Background -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/app_logo"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/circular_background"
                 app:shapeAppearanceOverlay="@style/CircleShape"
-                app:srcCompat="@drawable/logo_doctorcubes"
-                android:layout_centerVertical="true"
-                android:scaleType="fitCenter"
-                app:tint="@color/text_on_primary"/>
+                app:srcCompat="@drawable/logo_doctor_cubes_dark"
+                android:layout_centerVertical="true" />
 
             <!-- App Title with Improved Typography -->
             <TextView
@@ -44,7 +42,7 @@
                 android:layout_centerVertical="true"
                 android:letterSpacing="0.02"
                 android:text="DoctorCubes"
-                android:textColor="@color/text_on_primary"
+                android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -59,7 +57,7 @@
                 android:layout_centerVertical="true"
                 android:padding="10dp"
                 android:src="@drawable/ic_call"
-                app:tint="@color/text_on_primary"
+                app:tint="@color/black"
                 android:clickable="true"
                 android:focusable="true"
                 android:contentDescription="Call Support" />

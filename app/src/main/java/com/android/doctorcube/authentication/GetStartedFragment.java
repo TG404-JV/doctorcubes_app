@@ -99,9 +99,12 @@ public class GetStartedFragment extends Fragment {
         slideItems = new ArrayList<>();
 
         // Add your slides (use your own drawable resources)
+        slideItems.add(new SlideItem(R.drawable.slide_img_get_started_1, "Your Gateway to Global Medical Education"));
+        slideItems.add(new SlideItem(R.drawable.slide_img_get_started_2, "Turning Dreams into Doctors"));
+        slideItems.add(new SlideItem(R.drawable.slide_img_get_started_3, "Bridging You to the Best Medical Universities"));
 
-        slideItems.add(new SlideItem(R.drawable.img_get_started_3, ""));
-        slideItems.add(new SlideItem(R.drawable.img_get_started_4, ""));
+
+
 
     }
 

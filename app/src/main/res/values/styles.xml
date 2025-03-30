@@ -22,6 +22,7 @@
     <style name="ToolbarTitleStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="CircleImageView" parent="">
@@ -162,7 +163,7 @@
     <style name="OnboardingTitleTextStyle" parent="">
         <item name="android:textSize">28sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/text_primary_color</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
@@ -201,12 +202,12 @@
     <style name="ProfileNameTextStyle" parent="">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_on_primary</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="ProfileEmailTextStyle" parent="">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/text_on_primary</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:alpha">0.8</item>
     </style>
 
@@ -277,7 +278,7 @@
         <item name="android:layout_width">160dp</item>
         <item name="android:layout_height">220dp</item>
         <item name="android:layout_marginEnd">16dp</item>
-        <item name="cardBackgroundColor">@color/background_color</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
         <item name="cardCornerRadius">12dp</item>
     </style>
 
@@ -359,10 +360,17 @@
     </style>
 
     <style name="InviteFriendsButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@color/primary_light_color</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="backgroundTint">@color/button_accent</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="elevation">4dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="PdfIconImageViewStyle">
@@ -490,5 +498,50 @@
         <item name="cornerRadius">8dp</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
+    <style name="StudyButton" parent="BaseCategoryCard">
+        <item name="cardBackgroundColor">@color/university_icon_bg</item>
+    </style>
+
+    <style name="ExamButton" parent="BaseCategoryCard">
+        <item name="cardBackgroundColor">@color/tracking_icon_bg</item>
+    </style>
+
+    <style name="UniversityButton" parent="BaseCategoryCard">
+        <item name="cardBackgroundColor">@color/scholarship_icon_bg</item>
+    </style>
+    <style name="CategoryButtonLinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="CategoryButtonIcon">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="CategoryButtonText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BaseCategoryCard" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
+    </style>
+
 
 </resources>

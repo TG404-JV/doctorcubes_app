@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:cardBackgroundColor="@color/background_color"
+        app:cardBackgroundColor="@color/card_background"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp">
 
@@ -35,19 +35,20 @@
                     android:layout_marginTop="4dp"
                     android:text="Make His Dream" />
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/invite_button"
                     style="@style/InviteFriendsButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:background="@drawable/button_background"
                     android:text="INVITE" />
             </LinearLayout>
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/ic_doctorcubes_black" />
+                android:background="@drawable/logo_doctor_cubes_dynamic" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

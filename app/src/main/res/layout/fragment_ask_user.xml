@@ -63,9 +63,7 @@
             android:layout_marginHorizontal="32dp"
             android:text="Log In"
             android:textAllCaps="false"
-            android:textSize="25sp"
-            app:cornerRadius="16dp"
-            app:rippleColor="@color/ripple_color" />
+            android:textSize="25sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/createAccountButton"
@@ -75,9 +73,7 @@
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="16dp"
             android:text="Create Account"
-            android:textAllCaps="false"
             android:textSize="16sp"
-            app:cornerRadius="16dp"
             android:textColor="@color/primary_color"
             app:icon="@drawable/ic_arrow_forward"
             app:iconGravity="end" />

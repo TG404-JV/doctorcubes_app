@@ -47,6 +47,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -68,15 +69,18 @@ public class CreateAccountFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String verificationId;
     private Handler handler = new Handler();
+    private OnVerificationStateChangedCallbacks verificationCallbacks;
 
     // UI Elements
     private EditText fullNameEditText, emailEditText, phoneEditText, passwordEditText, confirmPasswordEditText, otpEditText;
     private Button createAccountButton, verifyOtpButton, cancelOtpButton;
     private CheckBox termsCheckbox;
     private TextView termsText, loginText, resendOtpText, passwordStrengthText;
-    private CardView otpVerificationDialog;
     private ProgressBar progressBar;
     private ImageButton backButton;
+
+    // Dialog
+    private AlertDialog otpVerificationDialog;
 
     private static final String USER_COLLECTION = "Users";
     private static final String APP_SUBMISSIONS_COLLECTION = "app_submissions";
@@ -114,14 +118,10 @@ public class CreateAccountFragment extends Fragment {
         termsCheckbox = view.findViewById(R.id.termsCheckbox);
         termsText = view.findViewById(R.id.termsText);
         loginText = view.findViewById(R.id.loginText);
-        otpVerificationDialog = view.findViewById(R.id.otpVerificationDialog);
-        otpEditText = view.findViewById(R.id.otpNumberVerification);
-        verifyOtpButton = view.findViewById(R.id.verifyOtpButton);
-        cancelOtpButton = view.findViewById(R.id.cancelOtpButton);
-        resendOtpText = view.findViewById(R.id.resendOtpText);
-        passwordStrengthText = view.findViewById(R.id.passwordStrengthText);
         progressBar = view.findViewById(R.id.progressBar);
         backButton = view.findViewById(R.id.backButton);
+        passwordStrengthText = view.findViewById(R.id.passwordStrengthText); // Initialize here
+
 
         // Initialize Encrypted SharedPreferences
         try {
@@ -155,21 +155,23 @@ public class CreateAccountFragment extends Fragment {
         createAccountButton.setOnClickListener(v -> registerUser());
         loginText.setOnClickListener(v -> navController.navigate(R.id.action_createAccountFragment2_to_loginFragment2));
         termsText.setOnClickListener(v -> showTermsAndConditions());
-        verifyOtpButton.setOnClickListener(v -> verifyOtp());
-        cancelOtpButton.setOnClickListener(v -> otpVerificationDialog.setVisibility(View.GONE));
-        resendOtpText.setOnClickListener(v -> resendOtp());
-        backButton.setOnClickListener(v -> navController.navigate(R.id.action_createAccountFragment2_to_loginFragment2));
+        backButton.setOnClickListener(v -> {
+            navController.navigate(R.id.action_createAccountFragment2_to_loginFragment2);
+        });
 
         // Handle back press
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                navController.navigate(R.id.action_createAccountFragment2_to_collectUserDetailsFragment);
+                navController.navigate(R.id.action_createAccountFragment2_to_loginFragment2);
                 return true;
             }
             return false;
         });
+
+        // Setup Phone Auth Callbacks
+        setupPhoneAuthCallbacks();
     }
 
     private void setupRealTimeValidation() {
@@ -184,8 +186,13 @@ public class CreateAccountFragment extends Fragment {
                     fullNameEditText.setError(null);
                 }
             }
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         emailEditText.addTextChangedListener(new TextWatcher() {
@@ -197,8 +204,14 @@ public class CreateAccountFragment extends Fragment {
                     emailEditText.setError(null);
                 }
             }
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         phoneEditText.addTextChangedListener(new TextWatcher() {
@@ -210,8 +223,14 @@ public class CreateAccountFragment extends Fragment {
                     phoneEditText.setError(null);
                 }
             }
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         passwordEditText.addTextChangedListener(new TextWatcher() {
@@ -227,8 +246,14 @@ public class CreateAccountFragment extends Fragment {
                     }
                 }
             }
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
     }
 
@@ -299,47 +324,83 @@ public class CreateAccountFragment extends Fragment {
         }
     }
 
+    private void setupPhoneAuthCallbacks() {
+        verificationCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
+                signInWithPhoneAuthCredential(credential);
+            }
+
+            @Override
+            public void onVerificationFailed(@NonNull FirebaseException e) {
+                progressBar.setVisibility(View.GONE);
+                createAccountButton.setEnabled(true);
+                createAccountButton.setAlpha(1.0f);
+                String message;
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    message = "Invalid phone number format";
+                } else if (e instanceof FirebaseTooManyRequestsException) {
+                    message = "Too many attempts, try again later";
+                } else {
+                    message = "Verification failed: " + e.getMessage();
+                }
+                Log.e("CreateAccountFragment", "Phone verification failed", e);
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCodeSent(@NonNull String verId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                progressBar.setVisibility(View.GONE);
+                createAccountButton.setEnabled(true);
+                createAccountButton.setAlpha(1.0f);
+                verificationId = verId;
+                showOtpVerificationDialog();
+                startOtpCountdown();
+            }
+        };
+    }
+
     private void sendOtp(String phoneNumber) {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
                 .setPhoneNumber(phoneNumber)
                 .setTimeout(60L, TimeUnit.SECONDS)
                 .setActivity(requireActivity())
-                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    @Override
-                    public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-                        signInWithPhoneAuthCredential(credential);
-                    }
-
-                    @Override
-                    public void onVerificationFailed(@NonNull FirebaseException e) {
-                        progressBar.setVisibility(View.GONE);
-                        createAccountButton.setEnabled(true);
-                        createAccountButton.setAlpha(1.0f);
-                        String message;
-                        if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                            message = "Invalid phone number format";
-                        } else if (e instanceof FirebaseTooManyRequestsException) {
-                            message = "Too many attempts, try again later";
-                        } else {
-                            message = "Verification failed: " + e.getMessage();
-                        }
-                        Log.e("CreateAccountFragment", "Phone verification failed", e);
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onCodeSent(@NonNull String verId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                        progressBar.setVisibility(View.GONE);
-                        createAccountButton.setEnabled(true);
-                        createAccountButton.setAlpha(1.0f);
-                        verificationId = verId;
-                        otpVerificationDialog.setVisibility(View.VISIBLE);
-                        startOtpCountdown();
-                    }
-                })
+                .setCallbacks(verificationCallbacks)
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
+
+    private void showOtpVerificationDialog() {
+        // Inflate the dialog layout
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.otp_verification_bottom_sheet, null);
+
+        // Initialize the views within the dialog layout
+        otpEditText = dialogView.findViewById(R.id.otpNumberVerification);
+        verifyOtpButton = dialogView.findViewById(R.id.verifyOtpButton);
+        cancelOtpButton = dialogView.findViewById(R.id.cancelOtpButton);
+        resendOtpText = dialogView.findViewById(R.id.resendOtpText);
+        passwordStrengthText = dialogView.findViewById(R.id.passwordStrengthText); // Initialize here too
+
+        // Build the dialog
+        otpVerificationDialog = new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .setCancelable(false) // Prevent dismissing by touching outside
+                .create();
+
+        // Set the button click listeners
+        verifyOtpButton.setOnClickListener(v -> {
+            verifyOtp();
+        });
+        cancelOtpButton.setOnClickListener(v -> {
+            otpVerificationDialog.dismiss();
+        });
+        resendOtpText.setOnClickListener(v -> {
+            resendOtp();
+        });
+
+        otpVerificationDialog.show();
+    }
+
 
     private void verifyOtp() {
         String otp = otpEditText.getText().toString().trim();
@@ -366,7 +427,7 @@ public class CreateAccountFragment extends Fragment {
 
                 saveUserDetails(user.getUid(), fullName, email, phone, "user");
                 saveUserLoginStatus("user");
-                otpVerificationDialog.setVisibility(View.GONE);
+                otpVerificationDialog.dismiss();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("userId", user.getUid());

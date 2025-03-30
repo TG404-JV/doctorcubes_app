@@ -84,7 +84,7 @@
                         android:layout_height="160dp"
                         android:contentDescription="DoctorCube Logo"
                         android:scaleType="centerInside"
-                        android:src="@drawable/ic_doctorcubes_black" />
+                        android:src="@drawable/logo_doctor_cubes_dynamic" />
 
                     <TextView
                         android:layout_width="wrap_content"

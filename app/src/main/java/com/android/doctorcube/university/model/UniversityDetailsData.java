@@ -75,6 +75,24 @@ public class UniversityDetailsData {
 
     static {
         // Russia (10 Universities)
+        universityDetailsMap.put("Southern Federal University (Rostov)", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Rostov-on-Don, Russia",
+                "Southern Federal University (SFedU), formerly known as *Rostov State University, is one of Russia’s most prestigious higher education institutions. Established in **1915, SFedU is located in **Rostov-on-Don, a major educational, cultural, and industrial hub in southern Russia. The university is accredited by the **Ministry of Science and Higher Education of the Russian Federation* and is widely recognized for its *strong research output, high-quality education, and global partnerships*.\n\n"
+                        + "SFedU offers a diverse range of *undergraduate, postgraduate, and doctoral programs, covering fields such as **Medicine, Engineering, Information Technology, Natural Sciences, Business, and Social Sciences. The university’s **General Medicine (MBBS) program* follows *international medical education standards, integrating **theoretical knowledge with hands-on clinical training in leading hospitals*.\n\n"
+                        + "SFedU is known for its *state-of-the-art research centers, modern laboratories, medical simulation centers, and digital learning platforms. Medical students receive **clinical training in some of Rostov’s top hospitals and research institutions, working alongside **renowned faculty members and healthcare professionals*.\n\n"
+                        + "As a leading research university, SFedU is actively involved in *scientific innovations and technological advancements* in *biotechnology, artificial intelligence, medical sciences, environmental studies, and engineering. The university has established **international collaborations with top universities, research institutes, and multinational companies, allowing students to participate in **global internships, exchange programs, and cutting-edge research projects*.\n\n"
+                        + "Student life at Southern Federal University is *rich and engaging, with numerous **student organizations, cultural festivals, academic competitions, and sports activities. The university offers **modern dormitories, well-equipped libraries, advanced sports complexes, and career development programs, ensuring a well-rounded educational experience. **Rostov-on-Don, a lively and cosmopolitan city, provides students with a **safe, affordable, and culturally diverse environment* for both academic and personal growth.\n\n"
+                        + "Graduates of SFedU are *highly sought after in various industries, securing positions in **top multinational companies, research institutions, medical centers, and governmental organizations. The university’s emphasis on **innovation, interdisciplinary education, and real-world experience* makes it a *preferred choice for students aiming for professional success*.\n\n"
+                        + "With over *100 years of academic excellence, **Southern Federal University (Rostov)* continues to lead in *higher education, scientific research, and international collaborations, making it one of **Russia’s top universities for aspiring professionals and researchers*.",
+                "1915",
+                "Ranked among Russia’s top federal universities",
+                "Bolshaya Sadovaya St, 105, Rostov-on-Don, Russia",
+                "+7 (863) 218-40-00",
+                "admissions@sfedu.ru",
+                "High school diploma with strong grades in relevant subjects. Entrance exam or interview may be required. Proof of English or Russian language proficiency (TOEFL/IELTS for English programs or TORFL for Russian programs). Minimum GPA of 3.0."
+        ));
+
         universityDetailsMap.put("Sechenov University", new UniversityDetail(
                 R.drawable.flag_china,
                 "Moscow, Russia",

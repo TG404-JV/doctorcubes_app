@@ -3,19 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_color">
+    android:background="@color/background_color">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toTopOf="@id/indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.3"
-
         app:layout_constraintWidth_percent="0.9" />
 
     <com.google.android.material.tabs.TabLayout
@@ -88,20 +87,17 @@
         android:padding="24dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/get_started_button"
             style="@style/MedicalPrimaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
+            android:backgroundTintMode="src_over"
             android:drawableEnd="@drawable/ic_arrow_forward"
             android:drawablePadding="8dp"
             android:drawableTint="@color/white"
-            android:paddingStart="24dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="16dp"
             android:text="Get Started"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:rippleColor="#80FFFFFF" />
     </LinearLayout>

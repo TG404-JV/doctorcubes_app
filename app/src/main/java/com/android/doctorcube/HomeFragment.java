@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -74,7 +75,7 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     private TextView seeAllEventsButton;
 
     // Invite Friends button
-    private MaterialButton inviteButton;
+    private AppCompatButton inviteButton;
 
     private RecyclerView recyclerView;
     private EventAdapter adapter;

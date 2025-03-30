@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary_color"
+        android:background="@drawable/gradient_toolbar_background"
         android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -19,13 +19,13 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_back"
-            app:tint="@color/background_color" />
+            app:tint="@color/white" />
         <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="My Profile"
-            android:textColor="@color/background_color"
+            android:textColor="@color/white"
         style="@style/ToolbarTitleStyle"  />
 
     </androidx.appcompat.widget.Toolbar>

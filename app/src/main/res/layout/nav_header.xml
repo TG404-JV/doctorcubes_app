@@ -13,7 +13,7 @@
 android:layout_width="64dp"
 android:layout_height="64dp"
 android:contentDescription="@string/app_logo"
-android:src="@drawable/ic_doctorcubes_white"
+android:src="@drawable/logo_doctor_cubes_white"
 app:tint="@color/white" />
 
 <TextView

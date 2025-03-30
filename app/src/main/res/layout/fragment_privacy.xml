@@ -112,8 +112,9 @@
                             android:text="Your Privacy Matters"
                             android:textColor="@color/white"
                             android:textSize="24sp"
+                            android:layout_marginStart="16dp"
                             android:fontFamily="sans-serif-medium"
-                            android:layout_margin="16dp"
+                            android:layout_marginBottom="30dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintBottom_toBottomOf="@id/ivHeaderImage" />
 

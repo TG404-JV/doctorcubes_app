@@ -31,4 +31,49 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+
+    <!-- Making Chnages In App -->
+    <!-- Reusable Section Container -->
+    <style name="MedicalSectionContainer" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <!-- Reusable Section Title -->
+    <style name="MedicalSectionTitle" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/primary_dark_color</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">12dp</item>
+    </style>
+
+    <!-- Reusable "See All" Text -->
+    <style name="MedicalSeeAllText" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">See All</item>
+        <item name="android:textColor">@color/text_link</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:visibility">visible</item> <!-- Changed from gone -->
+    </style>
+
+    <!-- Reusable Category Card -->
+    <style name="MedicalCategoryCard" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:minWidth">100dp</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="rippleColor">@color/ripple_color</item>
+    </style>
 </resources>

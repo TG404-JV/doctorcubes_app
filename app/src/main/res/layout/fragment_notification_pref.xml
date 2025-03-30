@@ -11,19 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+       >
+
+
 
       <LinearLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:gravity="center_vertical"
+          android:background="@drawable/gradient_toolbar_background">
 
           <ImageButton
               android:id="@+id/backBtn"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:src="@drawable/ic_back"
-              android:layout_marginEnd="20dp"
-              android:layout_marginTop="5dp"
+              android:layout_marginStart="5dp"
               android:background="@color/transparent"/>
           <!-- Header -->
           <TextView
@@ -31,9 +34,9 @@
               android:layout_height="wrap_content"
               android:text="Notification Settings"
               android:textSize="24sp"
-              android:textColor="@color/text_primary_color"
-              android:textStyle="bold"
-              android:layout_marginBottom="16dp" />
+              android:layout_marginStart="10dp"
+              android:textColor="@color/white"
+              android:textStyle="bold" />
       </LinearLayout>
 
         <!-- Main Settings Card -->

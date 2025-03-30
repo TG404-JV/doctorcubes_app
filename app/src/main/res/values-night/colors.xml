@@ -62,7 +62,6 @@
     <color name="gradient_accent_end">#FF9100</color>
     <color name="gradient_card_start">#262626</color>
     <color name="gradient_card_end">#1A1A1A</color>
-
     <color name="icon_tint_primary">#81D4FA</color>
     <color name="icon_tint_secondary">#B0BEC5</color>
     <color name="icon_tint_accent">#FFAB40</color>
@@ -94,7 +93,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
-
     <color name="notification_unread">#29B6F6</color>
     <color name="notification_urgent">#F44336</color>
+
 </resources>

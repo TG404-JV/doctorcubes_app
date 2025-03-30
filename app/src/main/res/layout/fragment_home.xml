@@ -5,365 +5,303 @@
     android:layout_height="match_parent"
     android:background="@color/background_color">
 
-    <!-- Main ScrollView to contain all content -->
+    <!-- Main ScrollView -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+
+        <!-- Header Section -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@drawable/bg_home_header"
+            android:paddingTop="16dp">
 
-            <RelativeLayout
+        <LinearLayout
+            android:id="@+id/searchHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <!-- Search Bar -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/bg_home_header"
-                android:paddingBottom="8dp">
+                android:layout_height="70dp"
+            style="@style/MedicalCardStyle"
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="12dp"
+            app:strokeColor="@color/input_outline"
+            app:strokeWidth="1.5dp">
 
-                <LinearLayout
-                    android:id="@+id/searchHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <!-- Search Bar -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        app:cardBackgroundColor="@color/card_background"
-                        app:cardCornerRadius="24dp"
-                        app:cardElevation="2dp"
-                        app:strokeColor="@color/input_outline"
-                        app:strokeWidth="1dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:padding="8dp">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="16dp"
-                                android:contentDescription="@string/search_icon_description"
-                                android:src="@android:drawable/ic_menu_search"
-                                app:tint="@color/icon_tint_secondary" />
-
-                            <EditText
-                                android:id="@+id/searchEditText"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:hint="@string/search_hint"
-                                android:textColor="@color/text_primary_color"
-                                android:textColorHint="@color/text_secondary_color"
-                                android:textSize="16sp" />
-
-                            <ImageView
-                                android:id="@+id/filterIcon"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginEnd="16dp"
-                                android:contentDescription="@string/filter_icon_description"
-                                android:src="@android:drawable/ic_menu_slideshow"
-                                app:tint="@color/icon_tint_secondary" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Search Results RecyclerView (Dropdown) -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/search_results_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@android:color/white"
-                        android:elevation="4dp"
-                        android:maxHeight="200dp"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-                <!-- Category Buttons -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/searchHeader"
-                    android:orientation="horizontal"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp">
-
-                    <!-- Study Button -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/studyButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:minWidth="100dp"
-                        app:cardBackgroundColor="@color/university_icon_bg"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp"
-                        app:rippleColor="@color/ripple_color">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:padding="12dp">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginEnd="8dp"
-                                android:src="@android:drawable/ic_menu_myplaces"
-                                app:tint="@color/university_icon_tint" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/study_button_text"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Exam Button -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/examButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:minWidth="100dp"
-                        app:cardBackgroundColor="@color/tracking_icon_bg"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp"
-                        app:rippleColor="@color/ripple_color">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:padding="12dp">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginEnd="8dp"
-                                android:src="@android:drawable/stat_sys_headset"
-                                app:tint="@color/tracking_icon_tint" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/exam_button_text"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- University Button -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/universityButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:minWidth="100dp"
-                        app:cardBackgroundColor="@color/scholarship_icon_bg"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp"
-                        app:rippleColor="@color/ripple_color">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:padding="12dp">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginEnd="8dp"
-                                android:src="@android:drawable/ic_menu_share"
-                                app:tint="@color/scholarship_icon_tint" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/university_button_text"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <!-- Upcoming Events Section -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="8dp">
+                <ImageView
+                    android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:contentDescription="@string/search_icon_description"
+                android:src="@android:drawable/ic_menu_search"
+                app:tint="@color/icon_tint_primary" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Upcoming Events"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@null"
+                    android:hint="@string/search_hint"
+                    android:textColor="@color/text_primary_color"
+                    android:textColorHint="@color/text_tertiary_color"
+                    android:textSize="16sp"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true" />
 
-                    <TextView
-                        android:id="@+id/see_all_events"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SEE ALL"
-                        android:textColor="@android:color/holo_blue_light"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                <ImageView
+                    android:id="@+id/filterIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@string/filter_icon_description"
+                    android:src="@android:drawable/ic_menu_slideshow"
+                    app:tint="@color/icon_tint_primary" />
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <!-- Invite Friends Banner -->
-            <include layout="@layout/item_invite" />
+        <!-- Search Results RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_results_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@color/card_background"
+            android:elevation="4dp"
+            android:maxHeight="240dp"
+        android:visibility="gone" />
+    </LinearLayout>
 
-            <!-- Countries to Study MBBS Abroad Section -->
+    <!-- Category Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchHeader"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp">
+
+        <!-- Study Button -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/studyButton"
+            style="@style/MedicalCategoryCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/university_icon_bg">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_studymaterial"
+                    app:tint="@color/university_icon_tint" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Countries to Study MBBS Abroad"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <include
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="7dp"
-                    layout="@layout/item_country_list" />
+                    android:text="@string/study_button_text"
+                    android:textColor="@color/text_primary_color"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <!-- Top Universities Section -->
+        <!-- Exam Button -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/examButton"
+            style="@style/MedicalCategoryCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/tracking_icon_bg">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_exam"
+                    app:tint="@color/tracking_icon_tint" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Top Medical Universities"
-                    android:textColor="@color/primary_dark_color"
-                    android:textSize="18sp"
+                    android:text="@string/exam_button_text"
+                    android:textColor="@color/text_primary_color"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/universities_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clipToPadding="false"
-                android:nestedScrollingEnabled="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        <!-- University Button -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/universityButton"
+            style="@style/MedicalCategoryCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/scholarship_icon_bg">
 
-            <!-- Our Services Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/icon_university"
+                    app:tint="@color/scholarship_icon_tint" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Our Services"
-                    android:textColor="@color/primary_dark_color"
-                    android:textSize="18sp"
+                    android:text="@string/university_button_text"
+                    android:textColor="@color/text_primary_color"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/features_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clipToPadding="false"
-                android:nestedScrollingEnabled="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-            <!-- Testimonials Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Success Stories"
-                    android:textColor="@color/primary_dark_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/testimonials_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Contact Us Section -->
-            <include layout="@layout/item_contact" />
-        </LinearLayout>
-    </ScrollView>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 </RelativeLayout>
+
+    <!-- Section: Upcoming Events -->
+<LinearLayout
+style="@style/MedicalSectionContainer"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<TextView
+    style="@style/MedicalSectionTitle"
+    android:text="Upcoming Events" />
+
+<TextView
+    android:id="@+id/see_all_events"
+    style="@style/MedicalSeeAllText"
+    android:visibility="gone"
+    android:text="See All" />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    android:orientation="horizontal"
+    android:overScrollMode="never" />
+</LinearLayout>
+
+    <!-- Invite Friends Banner -->
+<include layout="@layout/item_invite" />
+
+    <!-- Section: Countries to Study MBBS Abroad -->
+<LinearLayout
+style="@style/MedicalSectionContainer"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<TextView
+    style="@style/MedicalSectionTitle"
+    android:text="Countries to Study MBBS Abroad" />
+
+<include
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    layout="@layout/item_country_list" />
+</LinearLayout>
+
+    <!-- Section: Top Universities -->
+<LinearLayout
+style="@style/MedicalSectionContainer"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<TextView
+    style="@style/MedicalSectionTitle"
+    android:text="Top Medical Universities" />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/universities_recycler_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+</LinearLayout>
+
+    <!-- Section: Our Services -->
+<LinearLayout
+style="@style/MedicalSectionContainer"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<TextView
+    style="@style/MedicalSectionTitle"
+    android:text="Our Services" />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/features_recycler_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+</LinearLayout>
+
+    <!-- Section: Testimonials -->
+<LinearLayout
+style="@style/MedicalSectionContainer"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<TextView
+    style="@style/MedicalSectionTitle"
+    android:text="Success Stories" />
+
+<androidx.viewpager2.widget.ViewPager2
+    android:id="@+id/testimonials_viewpager"
+    android:layout_width="match_parent"
+    android:layout_height="240dp" />
+</LinearLayout>
+
+    <!-- Contact Us Section -->
+<include layout="@layout/item_contact" />
+    </LinearLayout>
+    </ScrollView>
+    </RelativeLayout>

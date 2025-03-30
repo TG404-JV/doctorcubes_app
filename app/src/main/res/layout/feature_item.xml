@@ -32,7 +32,7 @@
             android:layout_height="60dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/university_icon_bg">
+            style="@style/MedicalPremiumCardStyle">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/feature_icon"

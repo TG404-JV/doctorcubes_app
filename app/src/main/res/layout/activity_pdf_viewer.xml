@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/card_background"
+            android:background="@drawable/gradient_toolbar_background"
             app:layout_scrollFlags="scroll|enterAlways"
             app:titleTextColor="@color/text_primary_color">
 
@@ -32,7 +32,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Back"
-                    android:src="@drawable/ic_back"  app:tint="@color/icon_tint_primary" />
+                    android:src="@drawable/ic_back" />
 
                 <TextView
                     android:id="@+id/titleTextView"
@@ -43,7 +43,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:maxLines="1"
                     android:text="Document Title"
-                    android:textColor="@color/text_primary_color"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:layout_marginStart="8dp"/>
             </LinearLayout>

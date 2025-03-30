@@ -6,16 +6,17 @@
     android:background="@color/background_color"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary_color"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:title="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/gradient_toolbar_background"
+        app:titleTextColor="@color/text_on_primary"
+        app:popupTheme="@style/ThemeOverlay.Material3.Dark">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,9 +28,11 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/circular_background"
+                app:shapeAppearanceOverlay="@style/CircleShape"
                 app:srcCompat="@drawable/logo_doctorcubes"
                 android:layout_centerVertical="true"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                app:tint="@color/text_on_primary"/>
 
             <!-- App Title with Improved Typography -->
             <TextView
@@ -41,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:letterSpacing="0.02"
                 android:text="DoctorCubes"
-                android:textColor="@color/background_color"
+                android:textColor="@color/text_on_primary"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -56,27 +59,28 @@
                 android:layout_centerVertical="true"
                 android:padding="10dp"
                 android:src="@drawable/ic_call"
-                app:tint="@color/primary_color"
+                app:tint="@color/text_on_primary"
                 android:clickable="true"
                 android:focusable="true"
                 android:contentDescription="Call Support" />
         </RelativeLayout>
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/background_color"
         app:layout_constraintBottom_toTopOf="@id/navigation_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/navigation_background"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white"
+        style="@style/MedicalCardStyle"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +90,7 @@
             android:id="@+id/bubbleNavigation"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@color/nav_background"
+            android:background="?attr/colorSurface"
             android:padding="8dp">
 
             <com.gauravk.bubblenavigation.BubbleToggleView
@@ -94,8 +98,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_active="true"
-                app:bt_colorActive="@color/nav_selected"
-                app:bt_colorInactive="@color/nav_unselected"
+                app:bt_colorActive="?attr/colorPrimary"
+                app:bt_colorInactive="?attr/colorOnSurfaceVariant"
                 app:bt_icon="@drawable/ic_home"
                 app:bt_padding="8dp"
                 app:bt_shape="@drawable/transition_background_drawable"
@@ -107,8 +111,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_active="false"
-                app:bt_colorActive="@color/accent_color"
-                app:bt_colorInactive="@color/nav_unselected"
+                app:bt_colorActive="?attr/colorSecondary"
+                app:bt_colorInactive="?attr/colorOnSurfaceVariant"
                 app:bt_icon="@drawable/ic_notes"
                 app:bt_padding="8dp"
                 app:bt_shape="@drawable/transition_background_drawable"
@@ -120,13 +124,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_active="false"
-                app:bt_colorActive="@color/primary_dark_color"
-                app:bt_colorInactive="@color/nav_unselected"
+                app:bt_colorActive="?attr/colorPrimaryVariant"
+                app:bt_colorInactive="?attr/colorOnSurfaceVariant"
                 app:bt_icon="@drawable/ic_setting"
                 app:bt_padding="8dp"
                 app:bt_shape="@drawable/transition_background_drawable"
                 app:bt_title="Settings"
                 app:bt_titleSize="12sp" />
         </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,4 +76,10 @@
         <item name="cardElevation">2dp</item>
         <item name="rippleColor">@color/ripple_color</item>
     </style>
+
+
+    <style name="ShapeAppearanceOverlay.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

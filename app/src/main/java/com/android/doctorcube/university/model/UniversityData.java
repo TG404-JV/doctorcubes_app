@@ -8,205 +8,1062 @@ public class UniversityData {
     public static List<University> getUniversities() {
         List<University> universities = new ArrayList<>();
 
-        // Russia (10 Universities)
-        universities.add(new University("ru001", "Sechenov University", "Moscow", "Russia",
-                "General Medicine", "Bachelor", "6 years", "A+", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 500", "Scholarships up to 30% available"));
-        universities.add(new University("ru002", "Moscow State University of Medicine and Dentistry", "Moscow", "Russia",
-                "Dentistry", "Bachelor", "6 years", "A", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 500", "Scholarships up to 25% available"));
-        universities.add(new University("ru003", "Kazan Federal University", "Kazan", "Russia",
-                "MBBS", "Bachelor", "6 years", "A", "Mar-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 600", "Scholarships up to 20% available"));
-        universities.add(new University("ru004", "Novosibirsk State Medical University", "Novosibirsk", "Russia",
-                "General Medicine", "Bachelor", "6 years", "B+", "Jan-25, Aug-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 800", "Scholarships up to 15% available"));
-        universities.add(new University("ru005", "Saint Petersburg State Medical University", "Saint Petersburg", "Russia",
-                "Pediatrics", "Bachelor", "6 years", "A", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 700", "Scholarships up to 25% available"));
-        universities.add(new University("ru006", "Volgograd State Medical University", "Volgograd", "Russia",
-                "Pharmacy", "Bachelor", "5 years", "B+", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 1000", "Scholarships up to 20% available"));
-        universities.add(new University("ru007", "Rostov State Medical University", "Rostov-on-Don", "Russia",
-                "General Medicine", "Bachelor", "6 years", "A", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 900", "Scholarships up to 30% available"));
-        universities.add(new University("ru008", "Ural State Medical University", "Yekaterinburg", "Russia",
-                "Dentistry", "Bachelor", "6 years", "B+", "Jan-25, Aug-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 1200", "Scholarships up to 15% available"));
-        universities.add(new University("ru009", "Bashkir State Medical University", "Ufa", "Russia",
-                "MBBS", "Bachelor", "6 years", "A", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 800", "Scholarships up to 25% available"));
-        universities.add(new University("ru010", "Omsk State Medical University", "Omsk", "Russia",
-                "General Medicine", "Bachelor", "6 years", "B+", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_russia,
-                "medical", "Top 1500", "Scholarships up to 20% available"));
 
-        // Georgia (7 Universities)
-        universities.add(new University("ge001", "Tbilisi State Medical University", "Tbilisi", "Georgia",
-                "MD", "Bachelor", "6 years", "A", "Mar-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_georgia,
-                "medical", "Top 500", "Scholarships up to 25% available"));
-        universities.add(new University("ge002", "Batumi Shota Rustaveli State University", "Batumi", "Georgia",
-                "MBBS", "Bachelor", "6 years", "A", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_georgia,
-                "medical", "Top 700", "Scholarships up to 20% available"));
-        universities.add(new University("ge003", "David Tvildiani Medical University", "Tbilisi", "Georgia",
-                "General Medicine", "Bachelor", "6 years", "A+", "Mar-25, Oct-25", "English", "Private",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_georgia,
-                "medical", "Top 600", "Scholarships up to 30% available"));
-        universities.add(new University("ge004", "Caucasus International University", "Tbilisi", "Georgia",
-                "Dentistry", "Bachelor", "6 years", "B+", "Jan-25, Aug-25", "English", "Private",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_georgia,
-                "medical", "Top 1000", "Scholarships up to 15% available"));
-        universities.add(new University("ge005", "Georgian National University SEU", "Tbilisi", "Georgia",
-                "MBBS", "Bachelor", "6 years", "A", "Feb-25, Sep-25", "English", "Private",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_georgia,
-                "medical", "Top 800", "Scholarships up to 25% available"));
-        universities.add(new University("ge006", "Akaki Tsereteli State University", "Kutaisi", "Georgia",
-                "General Medicine", "Bachelor", "6 years", "B+", "Mar-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_georgia,
-                "medical", "Top 1200", "Scholarships up to 20% available"));
-        universities.add(new University("ge007", "Ivane Javakhishvili Tbilisi State University", "Tbilisi", "Georgia",
-                "Pharmacy", "Bachelor", "5 years", "A", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_georgia,
-                "medical", "Top 400", "Scholarships up to 30% available"));
+// Russia Universities
 
-        // Kazakhstan (8 Universities)
-        universities.add(new University("kz001", "Kazakh National Medical University", "Almaty", "Kazakhstan",
-                "MBBS", "Bachelor", "5 years", "A", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.logo_west_kazakshthan_marat_university, R.drawable.flag_kazakhstan,
-                "medical", "Top 1000", "Scholarships up to 50% available"));
-        universities.add(new University("kz002", "Astana Medical University", "Nur-Sultan", "Kazakhstan",
-                "General Medicine", "Bachelor", "5 years", "A+", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_kazakhstan,
-                "medical", "Top 800", "Scholarships up to 40% available"));
-        universities.add(new University("kz003", "Semey State Medical University", "Semey", "Kazakhstan",
-                "Dentistry", "Bachelor", "5 years", "B+", "Jan-25, Aug-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_kazakhstan,
-                "medical", "Top 1200", "Scholarships up to 30% available"));
-        universities.add(new University("kz004", "Karaganda State Medical University", "Karaganda", "Kazakhstan",
-                "MBBS", "Bachelor", "5 years", "A", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_kazakhstan,
-                "medical", "Top 900", "Scholarships up to 35% available"));
-        universities.add(new University("kz005", "South Kazakhstan Medical Academy", "Shymkent", "Kazakhstan",
-                "Pharmacy", "Bachelor", "5 years", "B+", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_kazakhstan,
-                "medical", "Top 1500", "Scholarships up to 25% available"));
-        universities.add(new University("kz006", "West Kazakhstan Marat Ospanov Medical University", "Aktobe", "Kazakhstan",
-                "General Medicine", "Bachelor", "5 years", "A", "Jan-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_kazakhstan,
-                "medical", "Top 1100", "Scholarships up to 30% available"));
-        universities.add(new University("kz007", "Al-Farabi Kazakh National University", "Almaty", "Kazakhstan",
-                "Pediatrics", "Bachelor", "5 years", "A+", "Mar-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_kazakhstan,
-                "medical", "Top 600", "Scholarships up to 40% available"));
-        universities.add(new University("kz008", "Kokshetau State University", "Kokshetau", "Kazakhstan",
-                "MBBS", "Bachelor", "5 years", "B+", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_kazakhstan,
-                "medical", "Top 2000", "Scholarships up to 20% available"));
+        // Kemerovo State Medical University
+        universities.add(new University(
+                "ru011",
+                "Kemerovo State Medical University",
+                "Kemerovo",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "B+", 
+                "September",
+                "English/Russian",
+                "Public",
+                R.drawable.img_kemerovo_state_medical_university,
+                0, 
+                R.drawable.flag_russia,
+                "Medical",
+                "Top 600", 
+                "Available" 
+        ));
 
-        // Nepal (6 Universities)
-        universities.add(new University("np001", "Kathmandu Medical College", "Kathmandu", "Nepal",
-                "MBBS", "Bachelor", "5.5 years", "A", "Jan-25, Aug-25", "English", "Private",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_nepal,
-                "medical", "Top 1500", "Scholarships up to 20% available"));
-        universities.add(new University("np002", "B.P. Koirala Institute of Health Sciences", "Dharan", "Nepal",
-                "General Medicine", "Bachelor", "5.5 years", "A+", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_nepal,
-                "medical", "Top 1000", "Scholarships up to 25% available"));
-        universities.add(new University("np003", "Tribhuvan University Institute of Medicine", "Kathmandu", "Nepal",
-                "MBBS", "Bachelor", "5.5 years", "A", "Mar-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_nepal,
-                "medical", "Top 800", "Scholarships up to 30% available"));
-        universities.add(new University("np004", "Nepal Medical College", "Kathmandu", "Nepal",
-                "Dentistry", "Bachelor", "5.5 years", "B+", "Jan-25, Aug-25", "English", "Private",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_nepal,
-                "medical", "Top 2000", "Scholarships up to 15% available"));
-        universities.add(new University("np005", "Manipal College of Medical Sciences", "Pokhara", "Nepal",
-                "MBBS", "Bachelor", "5.5 years", "A", "Feb-25, Sep-25", "English", "Private",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_nepal,
-                "medical", "Top 1200", "Scholarships up to 25% available"));
-        universities.add(new University("np006", "Patan Academy of Health Sciences", "Lalitpur", "Nepal",
-                "General Medicine", "Bachelor", "5.5 years", "A+", "Mar-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_nepal,
-                "medical", "Top 900", "Scholarships up to 20% available"));
+        // Orel State University
+        universities.add(new University(
+                "ru012",
+                "Orel State University",
+                "Oryol",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "B", 
+                "September",
+                "English/Russian",
+                "Public",
+                R.drawable.img_orelstateuniversity,
+                0, 
+                R.drawable.flag_russia,
+                "Medical",
+                "Good", 
+                "Check website" 
+        ));
 
-        // China (10 Universities)
-        universities.add(new University("ch001", "Peking University", "Beijing", "China",
-                "MBBS", "Bachelor", "5 years", "A+", "Mar-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 100", "Scholarships up to 40% available"));
-        universities.add(new University("ch002", "Fudan University", "Shanghai", "China",
-                "MBBS", "Bachelor", "6 years", "A+", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 50", "Scholarships up to 50% available"));
-        universities.add(new University("ch003", "Zhejiang University", "Hangzhou", "China",
-                "General Medicine", "Bachelor", "6 years", "A", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 200", "Scholarships up to 35% available"));
-        universities.add(new University("ch004", "Shanghai Jiao Tong University", "Shanghai", "China",
-                "Dentistry", "Bachelor", "6 years", "A+", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 150", "Scholarships up to 40% available"));
-        universities.add(new University("ch005", "Sun Yat-sen University", "Guangzhou", "China",
-                "MBBS", "Bachelor", "6 years", "A", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 300", "Scholarships up to 30% available"));
-        universities.add(new University("ch006", "Nanjing Medical University", "Nanjing", "China",
-                "Pharmacy", "Bachelor", "5 years", "A", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 400", "Scholarships up to 25% available"));
-        universities.add(new University("ch007", "Tongji University", "Shanghai", "China",
-                "General Medicine", "Bachelor", "6 years", "A+", "Jan-25, Aug-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 250", "Scholarships up to 35% available"));
-        universities.add(new University("ch008", "China Medical University", "Shenyang", "China",
-                "MBBS", "Bachelor", "6 years", "A", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 500", "Scholarships up to 30% available"));
-        universities.add(new University("ch009", "Huazhong University of Science and Technology", "Wuhan", "China",
-                "Pediatrics", "Bachelor", "6 years", "A+", "Mar-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 200", "Scholarships up to 40% available"));
-        universities.add(new University("ch010", "Sichuan University", "Chengdu", "China",
-                "Dentistry", "Bachelor", "6 years", "A", "Feb-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_china,
-                "medical", "Top 350", "Scholarships up to 35% available"));
+        // Omsk State Medical University
+        universities.add(new University(
+                "ru013",
+                "Omsk State Medical University",
+                "Omsk",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "A-", 
+                "September",
+                "English/Russian",
+                "Public",
+                R.drawable.img_omsk_medicaluniver,
+                0, 
+                R.drawable.flag_russia,
+                "Medical",
+                "Top 800", 
+                "Limited" 
+        ));
 
-        // Uzbekistan (6 Universities)
-        universities.add(new University("uz001", "Samarkand State Medical Institute", "Samarkand", "Uzbekistan",
-                "General Medicine", "Bachelor", "6 years", "B+", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_uzbekistan,
-                "medical", "Top 2000", "Scholarships up to 30% available"));
-        universities.add(new University("uz002", "Tashkent Medical Academy", "Tashkent", "Uzbekistan",
-                "MBBS", "Bachelor", "6 years", "A", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_uzbekistan,
-                "medical", "Top 1500", "Scholarships up to 35% available"));
-        universities.add(new University("uz003", "Bukhara State Medical Institute", "Bukhara", "Uzbekistan",
-                "Dentistry", "Bachelor", "6 years", "B+", "Jan-25, Aug-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_uzbekistan,
-                "medical", "Top 2500", "Scholarships up to 25% available"));
-        universities.add(new University("uz004", "Andijan State Medical Institute", "Andijan", "Uzbekistan",
-                "General Medicine", "Bachelor", "6 years", "A", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_uzbekistan,
-                "medical", "Top 1800", "Scholarships up to 30% available"));
-        universities.add(new University("uz005", "Fergana State University Medical Faculty", "Fergana", "Uzbekistan",
-                "MBBS", "Bachelor", "6 years", "B+", "Mar-25, Sep-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_uzbekistan,
-                "medical", "Top 2200", "Scholarships up to 20% available"));
-        universities.add(new University("uz006", "Urgench Branch of Tashkent Medical Academy", "Urgench", "Uzbekistan",
-                "Pharmacy", "Bachelor", "5 years", "A", "Feb-25, Oct-25", "English", "Public",
-                R.drawable.icon_university, R.drawable.icon_university, R.drawable.flag_uzbekistan,
-                "medical", "Top 2000", "Scholarships up to 25% available"));
+        // Kabardino-Balkarian State University
+        universities.add(new University(
+                "ru014",
+                "Kabardino-Balkarian State University",
+                "Nalchik",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "C+", 
+                "September",
+                "English/Russian",
+                "Public",
+                R.drawable.img_kabardino_balkarianstateuniversity,
+                0, 
+                R.drawable.flag_russia,
+                "Medical",
+                "Average", 
+                "Not specified" 
+        ));
+
+        // Chechen State University
+        universities.add(new University(
+                "ru015",
+                "Chechen State University",
+                "Grozny",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "B",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_chechen_stateuniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Ranked", 
+                "Available"
+        ));
+
+        // Krasnoyarsk State Medical University
+        universities.add(new University(
+                "ru016",
+                "Krasnoyarsk State Medical University",
+                "Krasnoyarsk",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "A-",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_krasnoyarsk_statemedical_university,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Top 700", 
+                "Yes"
+        ));
+
+        // Ulyanovsk State University
+        universities.add(new University(
+                "ru017",
+                "Ulyanovsk State University",
+                "Ulyanovsk",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "C+",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_ulyanovsk_statemedicaluniverrsity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Below Average", 
+                "No"
+        ));
+
+        // Ural State Medical University
+        universities.add(new University(
+                "ru018",
+                "Ural State Medical University",
+                "Yekaterinburg",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "A",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_ural_statemedical_university,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Top 500", 
+                "Check details"
+        ));
+
+        // Altai State Medical University
+        universities.add(new University(
+                "ru019",
+                "Altai State Medical University",
+                "Barnaul",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "B+",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_altai_statemedicaluniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Good", 
+                "Available"
+        ));
+
+        // Syktyvkar State University
+        universities.add(new University(
+                "ru020",
+                "Syktyvkar State University",
+                "Syktyvkar",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "C",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_syktyvkar_statemedicaluniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Average", 
+                "Check website"
+        ));
+
+        // Northwestern State Medical University named after I.I. Mechnikov
+        universities.add(new University(
+                "ru021",
+                "Northwestern State Medical University named after I.I. Mechnikov",
+                "Saint Petersburg",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "A",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_northwestern_statemedicaluniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Top 300", 
+                "Yes, inquire"
+        ));
+
+        // Siberian State Medical University
+        universities.add(new University(
+                "ru022",
+                "Siberian State Medical University",
+                "Tomsk",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "B+",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_siberrian_statemedicaluniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Well-Ranked", 
+                "Limited"
+        ));
+
+        // Kazan State Medical University
+        universities.add(new University(
+                "ru023",
+                "Kazan State Medical University",
+                "Kazan",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "A",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_kazan_statemedical_university,
+                R.drawable.logo_west_kazakshthan_marat_university,
+                R.drawable.flag_russia,
+                "Medical",
+                "Top 400", 
+                "Available"
+        ));
+
+        // Tula State University
+        universities.add(new University(
+                "ru024",
+                "Tula State University",
+                "Tula",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "C+",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_tula_stateuniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Average", 
+                "Not specified"
+        ));
+
+        // Khanty-Mansiysk State University
+
+        // Replace The Banner image with the correct image
+        universities.add(new University(
+                "ru025",
+                "Khanty-Mansiysk State University",
+                "Khanty-Mansiysk",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "B-",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_ural_statemedical_university,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Below Average", 
+                "No"
+        ));
+
+        // Ingush State University
+        universities.add(new University(
+                "ru026",
+                "Ingush State University",
+                "Magas",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "C",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_ingush_statemedicaluniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Low", 
+                "None"
+        ));
+
+        // Petrozavodsk State University
+        universities.add(new University(
+                "ru027",
+                "Petrozavodsk State University",
+                "Petrozavodsk",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "B",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_petrozavodsk_statemedicaluniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Good", 
+                "Check details"
+        ));
+
+        // Rostov State Medical University
+        universities.add(new University(
+                "ru028",
+                "Rostov State Medical University",
+                "Rostov-on-Don",
+                "Russia",
+                "General Medicine (MBBS)",
+                "MD (Equivalent to MBBS)",
+                "6 years",
+                "A-",
+                "September",
+                "Russian/English",
+                "Public",
+                R.drawable.img_rostov_statemedicaluniversity,
+                0,
+                R.drawable.flag_russia,
+                "Medical",
+                "Top 550", 
+                "Yes"
+        ));
+
+
+
+        // Uzbekistan Universities
+        universities.add(new University(
+                "uz001",
+                "Tashkent State Medical University",
+                "Tashkent",
+                "Uzbekistan",
+                "General Medicine (MBBS)",
+                "MD",
+                "7 years",
+                "A", 
+                "September",
+                "Uzbek/Russian/English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_uzbekistan,
+                "Medical",
+                "Top 500", 
+                "Available"
+        ));
+
+        universities.add(new University(
+                "uz002",
+                "Zermed State Medical University",
+                "Tashkent",
+                "Uzbekistan",
+                "General Medicine (MBBS)",
+                "MD",
+                "7 years",
+                "B+",
+                "September",
+                "Uzbek/Russian/English",
+                "Private", 
+                0,
+                0,
+                R.drawable.flag_uzbekistan,
+                "Medical",
+                "Top 700",
+                "Check Website"
+        ));
+
+        universities.add(new University(
+                "uz003",
+                "Samarkand State Medical University",
+                "Samarkand",
+                "Uzbekistan",
+                "General Medicine (MBBS)",
+                "MD",
+                "7 years",
+                "A-",
+                "September",
+                "Uzbek/Russian/English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_uzbekistan,
+                "Medical",
+                "Top 600",
+                "Available"
+        ));
+
+        universities.add(new University(
+                "uz004",
+                "Bukhara State Medical University",
+                "Bukhara",
+                "Uzbekistan",
+                "General Medicine (MBBS)",
+                "MD",
+                "7 years",
+                "B",
+                "September",
+                "Uzbek/Russian/English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_uzbekistan,
+                "Medical",
+                "Good",
+                "Check Details"
+        ));
+
+        universities.add(new University(
+                "uz005",
+                "Tashkent Medical Academy Chirchiq Branch",
+                "Chirchiq",
+                "Uzbekistan",
+                "General Medicine (MBBS)",
+                "MD",
+                "7 years",
+                "C+",
+                "September",
+                "Uzbek/Russian/English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_uzbekistan,
+                "Medical",
+                "Average",
+                "N/A"
+        ));
+
+
+
+        // Georgia Universities
+        universities.add(new University(
+                "ge001",
+                "Geomedi Medical University",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "B+", 
+                "September",
+                "English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Good", 
+                "Available" 
+        ));
+
+        universities.add(new University(
+                "ge002",
+                "Alte University",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "B", 
+                "September",
+                "English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Average", 
+                "Check Website" 
+        ));
+
+        universities.add(new University(
+                "ge003",
+                "Tbilisi State Medical University",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "A-", 
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Very Good", 
+                "Limited" 
+        ));
+
+        universities.add(new University(
+                "ge004",
+                "SEU Georgia",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "C+", 
+                "September",
+                "English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Fair", 
+                "Not specified" 
+        ));
+
+        universities.add(new University(
+                "ge005",
+                "University of Georgia Tbilisi",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "B",
+                "September",
+                "English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Good", 
+                "Available"
+        ));
+
+        universities.add(new University(
+                "ge006",
+                "Batumi Shota Rustaveli State University",
+                "Batumi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "B-", 
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Average", 
+                "Check Website"
+        ));
+
+        universities.add(new University(
+                "ge007",
+                "East European University",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "C+", 
+                "September",
+                "English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Fair", 
+                "Not specified"
+        ));
+
+        universities.add(new University(
+                "ge008",
+                "Georgian American University",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "B",
+                "September",
+                "English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Good", 
+                "Available"
+        ));
+
+        universities.add(new University(
+                "ge009",
+                "Ilia State University",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "A-", 
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Very Good", 
+                "Limited"
+        ));
+
+        universities.add(new University(
+                "ge010",
+                "New Vision University",
+                "Tbilisi",
+                "Georgia",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "A", 
+                "September",
+                "English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_georgia,
+                "Medical",
+                "Excellent", 
+                "Yes, inquire" 
+        ));
+
+// China Universities
+        universities.add(new University(
+                "cn001",
+                "Tianjin Medical University",
+                "Tianjin",
+                "China",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "A",
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_china,
+                "Medical",
+                "Top 400",
+                "Available"
+        ));
+
+        universities.add(new University(
+                "cn002",
+                "Zhejiang University",
+                "Hangzhou",
+                "China",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "A+",
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_china,
+                "Medical",
+                "Top 200",
+                "Merit-based"
+        ));
+
+        universities.add(new University(
+                "cn003",
+                "Jilin University",
+                "Changchun",
+                "China",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "A-",
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_china,
+                "Medical",
+                "Top 600",
+                "Check website"
+        ));
+
+        universities.add(new University(
+                "cn004",
+                "Shihezi University",
+                "Shihezi",
+                "China",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "B+",
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_china,
+                "Medical",
+                "Good",
+                "Inquire"
+        ));
+
+        universities.add(new University(
+                "cn005",
+                "Wuhan University",
+                "Wuhan",
+                "China",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "A",
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_china,
+                "Medical",
+                "Top 300",
+                "Available"
+        ));
+
+        universities.add(new University(
+                "cn006",
+                "Fudan University",
+                "Shanghai",
+                "China",
+                "General Medicine (MBBS)",
+                "MD",
+                "6 years",
+                "A++",
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_china,
+                "Medical",
+                "Top 100",
+                "Highly competitive"
+        ));
+
+
+        // Kazakhstan Universities
+
+        universities.add(new University(
+                "kz001",
+                "Kazakh Russian Medical University",
+                "Almaty",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "B+",
+                "September",
+                "Russian/English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Good",
+                "Available"
+        ));
+
+        universities.add(new University(
+                "kz002",
+                "West Kazakhstan Marat Ospanov State Medical University",
+                "Aktobe",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "B",
+                "September",
+                "Kazakh/Russian",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Average",
+                "Check website"
+        ));
+
+        universities.add(new University(
+                "kz003",
+                "South Kazakhstan State Medical Academy",
+                "Shymkent",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "A-",
+                "September",
+                "Kazakh/Russian",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Very Good",
+                "Limited"
+        ));
+
+        universities.add(new University(
+                "kz004",
+                "Semey State Medical University",
+                "Semey",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "B",
+                "September",
+                "Kazakh/Russian/English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Good",
+                "Available"
+        ));
+
+        universities.add(new University(
+                "kz005",
+                "Astana Medical University",
+                "Astana",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "A",
+                "September",
+                "Kazakh/Russian/English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Excellent",
+                "Yes"
+        ));
+
+        universities.add(new University(
+                "kz006",
+                "Kokshetau State University",
+                "Kokshetau",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "C+",
+                "September",
+                "Kazakh/Russian",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Fair",
+                "Check details"
+        ));
+
+        universities.add(new University(
+                "kz007",
+                "Karaganda State Medical University",
+                "Karaganda",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "A-",
+                "September",
+                "Kazakh/Russian/English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Very Good",
+                "Available"
+        ));
+
+        universities.add(new University(
+                "kz008",
+                "North Kazakhstan State University",
+                "Petropavl",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "C",
+                "September",
+                "Kazakh/Russian",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Average",
+                "N/A"
+        ));
+
+        universities.add(new University(
+                "kz009",
+                "Al-Farabi Kazakh National University",
+                "Almaty",
+                "Kazakhstan",
+                "General Medicine (MBBS)",
+                "MD",
+                "5 years",
+                "A",
+                "September",
+                "Kazakh/Russian/English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_kazakhstan,
+                "Medical",
+                "Top 500",
+                "Competitive"
+        ));
+
+
+        //Nepal Universities
+        universities.add(new University(
+                "np001",
+                "Kathmandu University",
+                "Kathmandu",
+                "Nepal",
+                "General Medicine (MBBS)",
+                "MBBS",
+                "5.5 years",
+                "A",
+                "September",
+                "English",
+                "Private",
+                0,
+                0,
+                R.drawable.flag_nepal,
+                "Medical",
+                "Good",
+                "Available"
+        ));
+
+        universities.add(new University(
+                "np002",
+                "Tribhuvan University",
+                "Kathmandu",
+                "Nepal",
+                "General Medicine (MBBS)",
+                "MBBS",
+                "5.5 years",
+                "B+",
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_nepal,
+                "Medical",
+                "Average",
+                "Check Website"
+        ));
+
+        universities.add(new University(
+                "np003",
+                "Institute of Medicine",
+                "Kathmandu",
+                "Nepal",
+                "General Medicine (MBBS)",
+                "MBBS",
+                "5.5 years",
+                "A-",
+                "September",
+                "English",
+                "Public",
+                0,
+                0,
+                R.drawable.flag_nepal,
+                "Medical",
+                "Very Good",
+                "Limited"
+        ));
+
+
 
         return universities;
     }

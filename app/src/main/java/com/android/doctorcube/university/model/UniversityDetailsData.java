@@ -74,304 +74,733 @@ public class UniversityDetailsData {
     private static final Map<String, UniversityDetail> universityDetailsMap = new HashMap<>();
 
     static {
-        // Russia (10 Universities)
-        universityDetailsMap.put("Southern Federal University (Rostov)", new UniversityDetail(
+
+
+        // russia
+        universityDetailsMap.put("Kemerovo State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Kemerovo, Russia",
+                "Kemerovo State University (KemSU) is a leading institution in Siberia, offering a wide range of programs from humanities to sciences. Established in 1974, KemSU is known for its strong research focus and academic excellence. The university provides students with a comprehensive education, fostering critical thinking and innovation.\n\n" +
+                        "KemSU's campus is equipped with modern facilities, including well-equipped laboratories, libraries, and research centers. Students benefit from experienced faculty and opportunities for research and practical training. The university also promotes cultural and extracurricular activities, enriching the student experience.\n\n" +
+                        "Located in Kemerovo, the university offers a vibrant student life with access to various cultural and recreational activities. Graduates of KemSU are well-prepared for careers in diverse fields, contributing to regional and national development.",
+                "1974",
+                "Leading university in Siberia",
+                "Krasnaya St, 6, Kemerovo, Russia",
+                "+7 (3842) 58-70-00",
+                "rector@kemsu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Kemerovo State Medical University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Kemerovo, Russia",
+                "Nestled in the heart of Siberia, *Kemerovo State Medical University* (KSMU) is a gem for aspiring doctors. Founded in 1955, this public institution has been shaping skilled medical professionals for decades. Known for its warm, supportive community and rigorous academic standards, KSMU offers a *General Medicine (MBBS) program* that blends cutting-edge science with real-world clinical practice. The six-year journey here is accredited by Russia’s *Ministry of Science and Higher Education* and recognized globally, making it a fantastic choice for students dreaming of a medical career.\n\n" +
+                        "At KSMU, you’ll dive into a curriculum that balances *in-depth theoretical learning* with *hands-on training in top Kemerovo hospitals*. Imagine working alongside experienced doctors, mastering diagnostics, and treating patients in a vibrant clinical setting. The university boasts *modern simulation labs, advanced research facilities, and a faculty of passionate educators* who guide you every step of the way. It’s not just about books here—KSMU prepares you to save lives.\n\n" +
+                        "Life in Kemerovo is cozy yet lively, with affordable living and a tight-knit student community. The university offers *comfortable dormitories, well-stocked libraries, and even sports facilities* to keep you balanced. Whether you’re exploring Siberia’s stunning landscapes or bonding with classmates over a warm meal, KSMU feels like a home away from home.\n\n" +
+                        "Graduates from KSMU step into the world with confidence, landing roles in *hospitals, research centers, and healthcare organizations* across Russia and beyond. With its *A-grade reputation* and focus on practical skills, Kemerovo State Medical University is a launchpad for your medical dreams.",
+                "1955",
+                "A-grade medical institution in Russia",
+                "Voroshilova St, 22A, Kemerovo, Russia",
+                "+7 (3842) 39-65-00",
+                "ksmu@kemgmu.ru",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Russian language proficiency (TORFL) or preparatory language course available."
+        ));
+
+        universityDetailsMap.put("Orel State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Orel, Russia",
+                "Orel State University named after I.S. Turgenev is a comprehensive university offering a wide array of programs. Established in 1931, it has grown into a significant educational and research center in the Central Federal District of Russia. The university is known for its strong academic traditions and commitment to innovation.\n\n" +
+                        "OSU provides students with a well-rounded education, combining theoretical knowledge with practical skills. The university boasts modern facilities, including laboratories, libraries, and sports complexes. Students benefit from the expertise of experienced faculty and have opportunities for research and internships.\n\n" +
+                        "The university's location in Orel offers a rich cultural and historical environment. Students can enjoy a vibrant student life with access to various cultural events and recreational activities. Graduates of OSU are well-prepared for diverse career paths.",
+                "1931",
+                "Significant educational and research center",
+                "Komsomolskaya St, 95, Orel, Russia",
+                "+7 (4862) 41-66-66",
+                "rector@oreluniver.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Omsk State Medical University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Omsk, Russia",
+                "Omsk State Medical University is a leading medical institution in Siberia, renowned for its high-quality medical education and research. Founded in 1920, it has a long history of training skilled medical professionals. The university is committed to providing students with a comprehensive medical education.\n\n" +
+                        "OSMU offers a range of medical programs, including General Medicine, Dentistry, and Pharmacy. Students benefit from modern facilities, including simulation centers and clinical hospitals. The university's faculty comprises experienced doctors and researchers, providing students with valuable practical experience.\n\n" +
+                        "Located in Omsk, the university offers a vibrant student life with access to various cultural and recreational activities. Graduates of OSMU are highly regarded and find employment in hospitals and healthcare organizations across Russia and beyond.",
+                "1920",
+                "Leading medical institution in Siberia",
+                "Lenina St, 12, Omsk, Russia",
+                "+7 (3812) 23-02-92",
+                "rector@omsk-osma.ru",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Russian language proficiency (TORFL) or preparatory language course available."
+        ));
+
+        universityDetailsMap.put("Kabardino-Balkarian State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Nalchik, Russia",
+                "Kabardino-Balkarian State University named after H.M. Berbekov is a multidisciplinary university offering a wide range of academic programs. Established in 1957, it has become a major educational and research center in the North Caucasus region. The university is known for its diverse academic offerings and commitment to quality education.\n\n" +
+                        "KBSU provides students with a comprehensive education, combining theoretical knowledge with practical skills. The university boasts modern facilities, including laboratories, libraries, and research centers. Students benefit from experienced faculty and have opportunities for research and internships.\n\n" +
+                        "Located in Nalchik, the university offers a unique cultural environment with access to the natural beauty of the Caucasus Mountains. Students can enjoy a vibrant student life with access to various cultural and recreational activities. Graduates of KBSU are well-prepared for diverse career paths.",
+                "1957",
+                "Major educational and research center",
+                "Chernyshevsky St, 173, Nalchik, Russia",
+                "+7 (8662) 42-37-88",
+                "rector@kbsu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Maikop State Technological University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Maikop, Russia",
+                "Maikop State Technological University (MSTU) is a leading technological university in the Republic of Adygea. Established in 1993, it has grown into a significant educational and research center. The university is known for its strong focus on technology, engineering, and applied sciences.\n\n" +
+                        "MSTU provides students with a high-quality education, combining theoretical knowledge with practical skills. The university boasts modern facilities, including laboratories, workshops, and research centers. Students benefit from experienced faculty and have opportunities for internships and industrial collaborations.\n\n" +
+                        "Located in Maikop, the university offers a unique blend of technological education and cultural experiences. Students can enjoy a vibrant student life with access to various cultural and recreational activities. Graduates of MSTU are well-prepared for careers in technology, engineering, and related fields.",
+                "1993",
+                "Leading technological university",
+                "Pervomayskaya St, 144, Maikop, Russia",
+                "+7 (8772) 52-30-22",
+                "rector@mkgtu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Yaroslavl State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Yaroslavl, Russia",
+                "Yaroslavl State University, named after P.G. Demidov, is one of the oldest universities in Russia, with its history dating back to 1803. It offers a wide range of programs in humanities, natural sciences, and economics. The university is known for its strong academic traditions and commitment to providing students with a comprehensive education.\n\n" +
+                        "The university has modern facilities, including well-equipped laboratories, libraries, and computer centers. Students benefit from experienced faculty and have opportunities for research and practical training. Yaroslavl State University also promotes cultural and extracurricular activities, contributing to a vibrant student life.\n\n" +
+                        "Located in Yaroslavl, a historic city on the Volga River, the university provides a rich cultural environment. Graduates of Yaroslavl State University are well-prepared for careers in various fields, both in Russia and internationally.",
+                "1918 (successor to Demidov Lyceum, founded in 1803)",
+                "One of the oldest universities in Russia",
+                "Sovetskaya St, 14, Yaroslavl, Russia",
+                "+7 (4852) 72-87-02",
+                "rector@uniyar.ac.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Chechen State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Grozny, Russia",
+                "Chechen State University is a major institution of higher education in the Chechen Republic. Founded in 1938, it offers a wide range of programs in various fields, including humanities, natural sciences, and medicine. The university plays a crucial role in the educational and cultural development of the region.\n\n" +
+                        "The university provides students with a comprehensive education, combining theoretical knowledge with practical skills. It has modern facilities, including laboratories, libraries, and computer centers. Chechen State University is committed to fostering a supportive and inclusive learning environment.\n\n" +
+                        "Located in Grozny, the capital of the Chechen Republic, the university offers a unique cultural experience. Graduates of Chechen State University contribute to the social and economic development of the region and beyond.",
+                "1938",
+                "Major institution in the Chechen Republic",
+                "Sheripova St, 32, Grozny, Russia",
+                "+7 (8712) 29-41-46",
+                "rector@chesu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Krasnoyarsk State Medical University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Krasnoyarsk, Russia",
+                "Krasnoyarsk State Medical University named after Professor V.F. Voyno-Yasenetsky is a leading medical university in Siberia. Established in 1942, it has a long history of training highly qualified medical professionals. The university is known for its strong emphasis on clinical practice and research.\n\n" +
+                        "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Dentistry. Students benefit from modern facilities, including simulation centers and clinical hospitals. The faculty comprises experienced doctors and researchers who provide students with valuable practical experience.\n\n" +
+                        "Located in Krasnoyarsk, a major city in Siberia, the university offers a vibrant student life with access to various cultural and recreational activities. Graduates of Krasnoyarsk State Medical University are highly regarded and find employment in healthcare institutions across Russia and internationally.",
+                "1942",
+                "Leading medical university in Siberia",
+                "Partizana Zheleznyaka St, 1, Krasnoyarsk, Russia",
+                "+7 (391) 220-13-24",
+                "rector@krasgmu.ru",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Russian language proficiency (TORFL) or preparatory language course available."
+        ));
+
+        universityDetailsMap.put("Ulyanovsk State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Ulyanovsk, Russia",
+                "Ulyanovsk State University is a comprehensive university offering a wide range of programs in various fields, including humanities, natural sciences, and engineering. Founded in 1988, it has quickly grown into a major educational and research center in the Volga region.\n\n" +
+                        "The university provides students with a modern education, combining theoretical knowledge with practical skills. It has well-equipped facilities, including laboratories, libraries, and technology parks. Ulyanovsk State University is committed to innovation and research, fostering a dynamic learning environment.\n\n" +
+                        "Located in Ulyanovsk, a city with a rich historical and cultural heritage, the university offers a vibrant student life. Graduates of Ulyanovsk State University are well-prepared for careers in diverse fields, contributing to the development of the region and the country.",
+                "1988",
+                "Major educational and research center in the Volga region",
+                "Nakhimova St, 12, Ulyanovsk, Russia",
+                "+7 (8422) 37-01-66",
+                "rector@ulsu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Ural State Medical University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Yekaterinburg, Russia",
+                "Ural State Medical University is one of the oldest medical schools in Russia, with its history dating back to 1930. It is a leading center for medical education, research, and clinical practice. The university is known for its strong academic traditions and commitment to training highly qualified medical professionals.\n\n" +
+                        "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Dentistry. Students have access to modern facilities, including simulation centers and university clinics. The faculty comprises experienced doctors and researchers who provide students with comprehensive theoretical and practical training.\n\n" +
+                        "Located in Yekaterinburg, a major city in the Ural region, the university offers a vibrant student life with numerous cultural and recreational opportunities. Graduates of Ural State Medical University are highly valued and work in healthcare institutions across Russia and internationally.",
+                "1930",
+                "One of the oldest medical schools in Russia",
+                "Repina St, 3, Yekaterinburg, Russia",
+                "+7 (343) 214-70-37",
+                "rector@usmu.ru",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Russian language proficiency (TORFL) or preparatory language course available."
+        ));
+
+        universityDetailsMap.put("Altai State Medical University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Barnaul, Russia",
+                "Altai State Medical University is a leading medical university in the Altai Krai region. Established in 1954, it has a strong reputation for providing high-quality medical education and training. The university is committed to preparing students for successful careers in healthcare.\n\n" +
+                        "The university offers various medical programs, including General Medicine, Pediatrics, and Pharmacy. Students benefit from modern facilities, including laboratories, simulation centers, and clinical bases. The faculty comprises experienced medical professionals and researchers dedicated to student success.\n\n" +
+                        "Located in Barnaul, the capital of the Altai Krai, the university offers a supportive learning environment with access to the region's natural beauty and cultural attractions. Graduates of Altai State Medical University are well-prepared to meet the healthcare needs of the community and beyond.",
+                "1954",
+                "Leading medical university in the Altai Krai",
+                "Lenina St, 40, Barnaul, Russia",
+                "+7 (3852) 56-68-80",
+                "rector@agmu.ru",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Russian language proficiency (TORFL) or preparatory language course available."
+        ));
+
+        universityDetailsMap.put("Syktyvkar State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Syktyvkar, Russia",
+                "Syktyvkar State University named after Pitirim Sorokin is a major institution of higher education in the Komi Republic. Founded in 1972, it offers a wide range of programs in various fields, including humanities, natural sciences, and engineering. The university plays a key role in the educational, research, and cultural life of the region.\n\n" +
+                        "The university provides students with a comprehensive education, combining theoretical knowledge with practical skills. It has modern facilities, including laboratories, libraries, and computer centers. Syktyvkar State University is committed to fostering a supportive and inclusive learning environment.\n\n" +
+                        "Located in Syktyvkar, the capital of the Komi Republic, the university offers a unique cultural experience in a region known for its rich natural resources and traditions. Graduates of Syktyvkar State University contribute to the social and economic development of the region and beyond.",
+                "1972",
+                "Major institution in the Komi Republic",
+                "Oktyabrsky Ave, 55, Syktyvkar, Russia",
+                "+7 (8212) 21-55-00",
+                "rector@syktsu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Northwestern State Medical University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Saint Petersburg, Russia",
+                "Northwestern State Medical University named after I.I. Mechnikov is one of the oldest and most prestigious medical universities in Russia. Established in 2011 through the merger of two older institutions, it continues a long tradition of excellence in medical education, research, and clinical practice.\n\n" +
+                        "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Dentistry. Students benefit from state-of-the-art facilities, including advanced simulation centers and university hospitals. The faculty comprises renowned doctors and researchers who provide students with exceptional training.\n\n" +
+                        "Located in Saint Petersburg, a major center of culture and science, the university offers a rich and vibrant environment for students. Graduates of Northwestern State Medical University are highly respected and pursue successful careers in healthcare in Russia and worldwide.",
+                "2011 (merger of older institutions)",
+                "One of the oldest and most prestigious medical universities in Russia",
+                "Kirochnaya St, 41, Saint Petersburg, Russia",
+                "+7 (812) 543-11-11",
+                "rector@szgmu.ru",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Russian language proficiency (TORFL) or preparatory language course available."
+        ));
+
+        universityDetailsMap.put("Siberian State Medical University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Tomsk, Russia",
+                "Siberian State Medical University is one of the oldest medical schools in Siberia, founded in 1878. It is a leading center for medical education, research, and clinical practice. The university is known for its strong emphasis on clinical training and preparing highly qualified medical professionals.\n\n" +
+                        "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Pharmacy. Students have access to modern facilities, including simulation centers and university hospitals. The faculty comprises experienced doctors and researchers who provide students with comprehensive theoretical and practical training.\n\n" +
+                        "Located in Tomsk, one of the oldest cities in Siberia, the university offers a rich cultural and academic environment. Graduates of Siberian State Medical University are highly valued and work in healthcare institutions across Russia and internationally.",
+                "1878",
+                "One of the oldest medical schools in Siberia",
+                "Moskovsky Trakt, 2, Tomsk, Russia",
+                "+7 (3822) 90-11-01",
+                "rector@ssmu.ru",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Russian language proficiency (TORFL) or preparatory language course available."
+        ));
+
+        universityDetailsMap.put("Kazan State Medical University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Kazan, Russia",
+                "Kazan State Medical University is a leading medical university in Russia, with a history dating back to 1814. It is a renowned center for medical education, research, and clinical practice. The university is committed to providing students with a high-quality medical education and preparing them for successful careers in healthcare.\n\n" +
+                        "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Dentistry. Students have access to modern facilities, including simulation centers and university clinics. The faculty comprises experienced doctors and researchers who are dedicated to teaching and mentoring students.\n\n" +
+                        "Located in Kazan, a vibrant city with a rich cultural and historical heritage, the university offers a dynamic and supportive learning environment. Graduates of Kazan State Medical University are highly respected and work in healthcare institutions throughout Russia and worldwide.",
+                "1814",
+                "Leading medical university in Russia",
+                "Butlerova St, 49, Kazan, Russia",
+                "+7 (843) 236-00-92",
+                "rector@kazangmu.ru",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Russian language proficiency (TORFL) or preparatory language course available."
+        ));
+
+        universityDetailsMap.put("Tula State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Tula, Russia",
+                "Tula State University is a major institution of higher education in the Tula region. Founded in 1930, it offers a wide range of programs in various fields, including engineering, natural sciences, humanities, and economics. The university is committed to providing students with a comprehensive education and preparing them for successful careers.\n\n" +
+                        "The university has modern facilities, including well-equipped laboratories, libraries, and computer centers. Students benefit from experienced faculty and have opportunities for research and practical training. Tula State University also promotes cultural and extracurricular activities, contributing to a vibrant student life.\n\n" +
+                        "Located in Tula, a city with a rich industrial and cultural heritage, the university provides a dynamic and supportive learning environment. Graduates of Tula State University are well-prepared for careers in various fields, contributing to the development of the region and the country.",
+                "1930",
+                "Major institution in the Tula region",
+                "Lenina Ave, 92, Tula, Russia",
+                "+7 (4872) 33-25-70",
+                "rector@tsu.tula.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Khanty-Mansiysk State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Khanty-Mansiysk, Russia",
+                "Khanty-Mansiysk State University is a leading institution of higher education in the Khanty-Mansi Autonomous Okrug – Yugra. Founded in 1993, it offers a wide range of programs in various fields, including humanities, natural sciences, and technology. The university is committed to providing students with a high-quality education and fostering research and innovation.\n\n" +
+                        "The university has modern facilities, including well-equipped laboratories, libraries, and computer centers. Students benefit from experienced faculty and have opportunities for research and practical training. Khanty-Mansiysk State University also promotes cultural and extracurricular activities, contributing to a vibrant student life.\n\n" +
+                        "Located in Khanty-Mansiysk, the capital of the region, the university offers a unique cultural and natural environment. Graduates of Khanty-Mansiysk State University are well-prepared for careers in various fields, contributing to the development of the region and beyond.",
+                "1993",
+                "Leading institution in the Khanty-Mansi Autonomous Okrug – Yugra",
+                "Mira St, 15, Khanty-Mansiysk, Russia",
+                "+7 (3467) 35-71-00",
+                "rector@hmgu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Ingush State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Magas, Russia",
+                "Ingush State University is a major institution of higher education in the Republic of Ingushetia. Founded in 1994, it offers a range of programs in various fields, including humanities, natural sciences, and economics. The university plays an important role in the educational and cultural development of the region.\n\n" +
+                        "The university provides students with a comprehensive education, combining theoretical knowledge with practical skills. It has modern facilities, including laboratories, libraries, and computer centers. Ingush State University is committed to fostering a supportive and inclusive learning environment.\n\n" +
+                        "Located in Magas, the capital of the Republic of Ingushetia, the university offers a unique cultural experience. Graduates of Ingush State University contribute to the social and economic development of the region.",
+                "1994",
+                "Major institution in the Republic of Ingushetia",
+                "Gagarina St, 21, Magas, Russia",
+                "+7 (8734) 55-14-40",
+                "rector@ingsu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Petrozavodsk State University", new UniversityDetail(
+                R.drawable.flag_russia,
+                "Petrozavodsk, Russia",
+                "Petrozavodsk State University is a leading university in the Republic of Karelia. Founded in 1940, it offers a wide range of programs in various fields, including humanities, natural sciences, engineering, and medicine. The university is known for its strong academic traditions and commitment to providing students with a high-quality education.\n\n" +
+                        "The university has modern facilities, including well-equipped laboratories, libraries, and computer centers. Students benefit from experienced faculty and have opportunities for research and practical training. Petrozavodsk State University also promotes cultural and extracurricular activities, contributing to a vibrant student life.\n\n" +
+                        "Located in Petrozavodsk, the capital of the Republic of Karelia, the university offers a unique cultural and natural environment. Graduates of Petrozavodsk State University are well-prepared for careers in various fields, contributing to the development of the region and beyond.",
+                "1940",
+                "Leading university in the Republic of Karelia",
+                "Lenina Ave, 33, Petrozavodsk, Russia",
+                "+7 (8142) 71-10-01",
+                "rector@petrsu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
+        ));
+
+        universityDetailsMap.put("Rostov State University", new UniversityDetail(
                 R.drawable.flag_russia,
                 "Rostov-on-Don, Russia",
-                "Southern Federal University (SFedU), formerly known as *Rostov State University, is one of Russia’s most prestigious higher education institutions. Established in **1915, SFedU is located in **Rostov-on-Don, a major educational, cultural, and industrial hub in southern Russia. The university is accredited by the **Ministry of Science and Higher Education of the Russian Federation* and is widely recognized for its *strong research output, high-quality education, and global partnerships*.\n\n"
-                        + "SFedU offers a diverse range of *undergraduate, postgraduate, and doctoral programs, covering fields such as **Medicine, Engineering, Information Technology, Natural Sciences, Business, and Social Sciences. The university’s **General Medicine (MBBS) program* follows *international medical education standards, integrating **theoretical knowledge with hands-on clinical training in leading hospitals*.\n\n"
-                        + "SFedU is known for its *state-of-the-art research centers, modern laboratories, medical simulation centers, and digital learning platforms. Medical students receive **clinical training in some of Rostov’s top hospitals and research institutions, working alongside **renowned faculty members and healthcare professionals*.\n\n"
-                        + "As a leading research university, SFedU is actively involved in *scientific innovations and technological advancements* in *biotechnology, artificial intelligence, medical sciences, environmental studies, and engineering. The university has established **international collaborations with top universities, research institutes, and multinational companies, allowing students to participate in **global internships, exchange programs, and cutting-edge research projects*.\n\n"
-                        + "Student life at Southern Federal University is *rich and engaging, with numerous **student organizations, cultural festivals, academic competitions, and sports activities. The university offers **modern dormitories, well-equipped libraries, advanced sports complexes, and career development programs, ensuring a well-rounded educational experience. **Rostov-on-Don, a lively and cosmopolitan city, provides students with a **safe, affordable, and culturally diverse environment* for both academic and personal growth.\n\n"
-                        + "Graduates of SFedU are *highly sought after in various industries, securing positions in **top multinational companies, research institutions, medical centers, and governmental organizations. The university’s emphasis on **innovation, interdisciplinary education, and real-world experience* makes it a *preferred choice for students aiming for professional success*.\n\n"
-                        + "With over *100 years of academic excellence, **Southern Federal University (Rostov)* continues to lead in *higher education, scientific research, and international collaborations, making it one of **Russia’s top universities for aspiring professionals and researchers*.",
+                "Rostov State University, now known as Southern Federal University, is one of the largest and leading universities in Southern Russia. Founded in 1915, it offers a wide range of programs in various fields, including humanities, natural sciences, engineering, and medicine. The university is a major center for education, research, and innovation.\n\n" +
+                        "The university has modern facilities, including well-equipped laboratories, libraries, and research centers. Students benefit from experienced faculty and have opportunities for research and practical training. Southern Federal University is committed to providing a high-quality education and fostering a dynamic learning environment.\n\n" +
+                        "Located in Rostov-on-Don, a major city in Southern Russia, the university offers a vibrant student life with numerous cultural and recreational opportunities. Graduates of Southern Federal University are highly valued and pursue successful careers in various fields, contributing to the development of the region and the country.",
                 "1915",
-                "Ranked among Russia’s top federal universities",
-                "Bolshaya Sadovaya St, 105, Rostov-on-Don, Russia",
-                "+7 (863) 218-40-00",
-                "admissions@sfedu.ru",
-                "High school diploma with strong grades in relevant subjects. Entrance exam or interview may be required. Proof of English or Russian language proficiency (TOEFL/IELTS for English programs or TORFL for Russian programs). Minimum GPA of 3.0."
+                "One of the largest and leading universities in Southern Russia",
+                "Bolshaya Sadovaya St, 105/42, Rostov-on-Don, Russia",
+                "+7 (863) 218-19-99",
+                "rector@sfedu.ru",
+                "High school diploma. Entrance exams vary by program. Russian language proficiency or completion of a preparatory course."
         ));
 
-        universityDetailsMap.put("Sechenov University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Moscow, Russia",
-                "Sechenov University, established in 1758, is a leading medical institution in Russia and globally recognized for its extensive research, clinical practice, and academic excellence.  It offers a 6-year General Medicine program in English, emphasizing a holistic approach to healthcare and consistently ranks within the top 500 universities worldwide.  The university is known for its strong faculty, state-of-the-art facilities, and a commitment to innovation in medical education.",
-                "1758",
-                "Top 500",
-                "Trubetskaya St, 8, Moscow, Russia",
-                "+7 (495) 609-1400",
-                "admissions@sechenov.edu",
-                "High school diploma with strong grades in Biology, Chemistry, and English.  Entrance exam or interview may be required.  Proof of English proficiency (TOEFL/IELTS).  Minimum GPA of 3.0."
-        ));
-        universityDetailsMap.put("Moscow State University of Medicine and Dentistry", new UniversityDetail(
-                R.drawable.flag_china,
-                "Moscow, Russia",
-                "Moscow State University of Medicine and Dentistry (MSMSU) is one of the oldest and most respected dental schools in Russia.  Founded in 1922, MSMSU provides a 5-year Dentistry program in English, focusing on advanced dental techniques, oral healthcare management, and maxillofacial surgery.  The university is equipped with modern clinics and laboratories, ensuring students receive practical, hands-on training.  MSMSU is also recognized for its contributions to dental research and its strong international collaborations, and is ranked in the top 500 globally.",
-                "1922",
-                "Top 500",
-                "Delegatskaya St, 20/1, Moscow, Russia",
-                "+7 (495) 681-3747",
-                "admissions@msmsu.edu",
-                "High school diploma with a focus on science subjects.  Successful completion of entrance exams.  English language proficiency test (IELTS/TOEFL).  GPA of 3.2 or higher."
-        ));
-        universityDetailsMap.put("Kazan Federal University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Kazan, Russia",
-                "Kazan Federal University (KFU), established in 1804, is one of Russia's oldest universities, with a rich history of academic excellence.  KFU offers a 6-year MBBS program in English, providing students with a comprehensive medical education.  The university is known for its strong emphasis on research, innovation, and a multidisciplinary approach to learning. KFU is globally recognized and is ranked within the top 600 universities.",
-                "1804",
-                "Top 600",
-                "Kremlyovskaya St, 18, Kazan, Russia",
-                "+7 (843) 233-7100",
-                "admissions@kfu.edu",
-                "Completed secondary education with qualifying grades.  Passage of university entrance examinations.  Evidence of English language skills (TOEFL/IELTS).  GPA of 3.1."
-        ));
-        universityDetailsMap.put("Novosibirsk State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Novosibirsk, Russia",
-                "Novosibirsk State Medical University (NSMU), founded in 1935, is a leading medical university in Siberia. NSMU offers a 6-year General Medicine program in English, focusing on training highly qualified doctors. The university has a strong clinical base, modern facilities, and is actively involved in medical research. NSMU is ranked within the top 800 universities globally.",
-                "1935",
-                "Top 800",
-                "Krasny Prospekt, 52, Novosibirsk, Russia",
-                "+7 (383) 222-3200",
-                "admissions@nsmu.edu",
-                "High school certificate with good grades in sciences.  Successful interview performance.  IELTS or TOEFL score.  GPA of 3.0."
-        ));
-        universityDetailsMap.put("Saint Petersburg State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Saint Petersburg, Russia",
-                "Saint Petersburg State Medical University (SPbSMU), established in 1897, is one of the oldest and most prestigious medical schools in Russia.  SPbSMU is particularly renowned for its pediatrics program and offers a 6-year English-taught MD program.  The university is committed to providing high-quality medical education, fostering research, and contributing to the advancement of medical science.  SPbSMU is ranked within the top 700 universities worldwide.",
-                "1897",
-                "Top 700",
-                "Litovskaya St, 2, Saint Petersburg, Russia",
-                "+7 (812) 295-0600",
-                "admissions@spbsmu.edu",
-                "Secondary school diploma with specialization in sciences.  University entrance test.  TOEFL/IELTS scores.  GPA of 3.3."
-        ));
-        universityDetailsMap.put("Volgograd State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Volgograd, Russia",
-                "Volgograd State Medical University (VSMU), founded in 1935, is a prominent center for medical education and research in Southern Russia. VSMU offers a 5-year Pharmacy program in English, focusing on training specialists in the field of pharmacy. The university is known for its strong academic programs, clinical facilities, and contributions to pharmaceutical research. VSMU is ranked within the top 1000 universities.",
-                "1935",
-                "Top 1000",
-                "Pavshikh Bortsov Sq, 1, Volgograd, Russia",
-                "+7 (8442) 38-5050",
-                "admissions@volgmu.edu",
-                "High school diploma with chemistry and biology.  Entrance exam.  Proof of English language proficiency.  GPA of 3.0."
-        ));
-        universityDetailsMap.put("Rostov State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Rostov-on-Don, Russia",
-                "Rostov State Medical University (RosSMU), established in 1930, is a major medical education and research center in Southern Russia. RosSMU offers a 6-year General Medicine program in English, providing students with a comprehensive medical education. The university is known for its clinical training, research activities, and contributions to healthcare in the region. RosSMU is ranked within the top 900 universities globally.",
-                "1930",
-                "Top 900",
-                "Nakhichevansky Ln, 29, Rostov-on-Don, Russia",
-                "+7 (863) 250-4200",
-                "admissions@rostgmu.edu",
-                "Secondary education certificate.  Entrance examination.  IELTS or equivalent.  GPA of 3.1."
-        ));
-        universityDetailsMap.put("Ural State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Yekaterinburg, Russia",
-                "Ural State Medical University (USMU), founded in 1930, is one of the oldest medical schools in the Ural region. USMU offers a 5-year Dentistry program in English, focusing on training qualified dentists. The university is known for its strong clinical base, modern facilities, and commitment to advancing dental education and research. USMU is ranked within the top 1200 universities.",
-                "1930",
-                "Top 1200",
-                "Repina St, 3, Yekaterinburg, Russia",
-                "+7 (343) 214-8700",
-                "admissions@usmu.edu",
-                "High school diploma with relevant science courses.  Entrance test.  TOEFL/IELTS score.  GPA of 3.2."
-        ));
-        universityDetailsMap.put("Bashkir State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Ufa, Russia",
-                "Bashkir State Medical University (BSMU), established in 1932, is a leading medical university in the Republic of Bashkortostan. BSMU offers a 6-year MBBS program in English, providing students with a comprehensive medical education. The university is known for its strong academic programs, clinical training, and research activities. BSMU is ranked within the top 800 universities globally.",
-                "1932",
-                "Top 800",
-                "Lenina St, 3, Ufa, Russia",
-                "+7 (347) 273-6100",
-                "admissions@bsmu.edu",
-                "Secondary school certificate with biology and chemistry.  Entrance exam.  English language proficiency.  GPA of 3.0."
-        ));
-        universityDetailsMap.put("Omsk State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Omsk, Russia",
-                "Omsk State Medical University (OSMU), founded in 1920, is a prominent medical university in Siberia. OSMU offers a 6-year General Medicine program in English, focusing on training physicians. The university is known for its clinical training, research, and contributions to medical science. Omsk State Medical University is ranked within the top 1500.",
+        // Uzbekistan Universities
+
+        universityDetailsMap.put("Tashkent State Medical University", new UniversityDetail(
+                R.drawable.flag_uzbekistan,
+                "Tashkent, Uzbekistan",
+                "Tashkent State Medical University is one of the oldest and most prestigious medical universities in Uzbekistan. Established in 1920, it has a long history of training highly qualified medical professionals. The university is known for its strong academic programs, clinical training, and research activities.\n\n" +
+                        "The university offers a wide range of medical programs, including General Medicine, Pediatrics, Dentistry, and Pharmacy. Students have access to modern facilities, including simulation centers, university clinics, and research laboratories. The faculty comprises experienced doctors and researchers who are dedicated to providing students with a comprehensive medical education.\n\n" +
+                        "Located in Tashkent, the capital of Uzbekistan, the university offers a vibrant cultural and academic environment. Graduates of Tashkent State Medical University are highly respected and work in healthcare institutions across Uzbekistan and internationally.",
                 "1920",
-                "Top 1500",
-                "Lenina St, 12, Omsk, Russia",
-                "+7 (3812) 23-3200",
-                "admissions@omskmed.edu",
-                "High school diploma.  Entrance test in major subjects.  IELTS or equivalent.  GPA of 2.9."
+                "One of the oldest and most prestigious medical universities in Uzbekistan",
+                "Farabi St, 2, Tashkent, Uzbekistan",
+                "+998 (71) 214-62-78",
+                "info@tsmu.uz",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Uzbek or Russian language."
         ));
 
-        // Georgia (7 Universities)
-        universityDetailsMap.put("Tbilisi State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Tbilisi, Georgia",
-                "Tbilisi State Medical University (TSMU), with a history dating back to 1918, is a leading medical university in Georgia, providing European-standard medical education. TSMU offers a 6-year MD program in English, attracting international students. The university is known for its strong academic programs, experienced faculty, and modern facilities. TSMU is ranked within the top 500 universities globally.",
-                "1918",
-                "Top 500",
-                "Vazha-Pshavela Ave, 33, Tbilisi, Georgia",
-                "+995 (32) 254-2450",
-                "admissions@tsmu.edu",
-                "Secondary education certificate.  Pass the university's entrance exams.  Provide evidence of English language proficiency.  Minimum GPA of 3.0."
+        universityDetailsMap.put("Zermed State Medical University", new UniversityDetail(
+                R.drawable.flag_uzbekistan,
+                "Tashkent, Uzbekistan",
+                "Unfortunately, I couldn't find specific details for a university named \"Zermed State Medical University\" in Uzbekistan. It's possible that the name is slightly different or that it's a newer institution with limited publicly available information. If you can provide an alternate name or more details, I may be able to find the information you need.\n\nHowever, I can provide you with information about other medical universities in Uzbekistan.",
+                "N/A",
+                "N/A",
+                "N/A",
+                "N/A",
+                "N/A",
+                "N/A"
         ));
-        universityDetailsMap.put("Batumi Shota Rustaveli State University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Batumi, Georgia",
-                "Batumi Shota Rustaveli State University (BSU), established in 1935, is a public university located in Batumi, Georgia. BSU offers a 6-year MBBS program in English, providing students with a comprehensive medical education. The university is known for its beautiful coastal location, diverse academic programs, and commitment to providing quality education. BSU is ranked within the top 700 universities.",
-                "1935",
-                "Top 700",
-                "Ninoshvili St, 35, Batumi, Georgia",
-                "+995 (422) 27-1780",
-                "admissions@bsu.edu",
-                "High school diploma or equivalent.  Satisfactory results in entrance examinations.  Proof of English language proficiency (IELTS/TOEFL).  GPA of 3.0 or higher."
-        ));
-        universityDetailsMap.put("David Tvildiani Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Tbilisi, Georgia",
-                "David Tvildiani Medical University (DTMU), founded in 1989, is a private higher education institution focused on medical education. DTMU offers a 6-year General Medicine program in English, emphasizing a problem-based learning approach. The university is known for its innovative teaching methods, modern facilities, and commitment to preparing competent medical professionals. DTMU is ranked within the top 600.",
-                "1989",
-                "Top 600",
-                "Lublin St, 2a, Tbilisi, Georgia",
-                "+995 (32) 251-6898",
-                "admissions@dtmu.edu",
-                "Completed secondary education.  Successful completion of the university’s admission test.  Evidence of English language competence.  GPA of 3.2."
-        ));
-        universityDetailsMap.put("Caucasus International University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Tbilisi, Georgia",
-                "Caucasus International University (CIU), established in 1995, is a private university in Tbilisi, Georgia. CIU offers a 5-year Dentistry program in English, focusing on training skilled dentists. The university is known for its modern facilities, international collaborations, and commitment to providing quality dental education. CIU is ranked within the top 1000 universities.",
-                "1995",
-                "Top 1000",
-                "Chargali St, 73, Tbilisi, Georgia",
-                "+995 (32) 261-1298",
-                "admissions@ciu.edu",
-                "High school diploma.  Pass the university's entrance exams.  Provide evidence of English language proficiency.  Minimum GPA of 3.0."
-        ));
-        universityDetailsMap.put("Georgian National University SEU", new UniversityDetail(
-                R.drawable.flag_china,
-                "Tbilisi, Georgia",
-                "Georgian National University SEU, founded in 2001, is a private university in Tbilisi, Georgia. SEU offers a 6-year MBBS program in English, focusing on training future doctors. The university is known for its modern campus, student-centered approach, and commitment to academic excellence. SEU is ranked within the top 800 universities.",
-                "2001",
-                "Top 800",
-                "Tsinandali St, 9, Tbilisi, Georgia",
-                "+995 (32) 290-0000",
-                "admissions@seu.edu",
-                "Secondary education certificate.  Successful completion of the university’s admission test.  Evidence of English language competence.  GPA of 3.0."
-        ));
-        universityDetailsMap.put("Akaki Tsereteli State University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Kutaisi, Georgia",
-                "Akaki Tsereteli State University (ATSU), established in 1930, is a public university located in Kutaisi, Georgia. ATSU offers a 6-year General Medicine program in English. The university is one of the oldest educational institutions in Georgia. ATSU is ranked within the top 1200 universities.",
+
+
+        universityDetailsMap.put("Samarkand State Medical University", new UniversityDetail(
+                R.drawable.flag_uzbekistan,
+                "Samarkand, Uzbekistan",
+                "Samarkand State Medical University is one of the leading medical universities in Uzbekistan. Founded in 1930, it has a long history of training qualified medical professionals. The university is known for its strong clinical training, research activities, and contribution to the healthcare system of Uzbekistan.\n\n" +
+                        "The university offers a wide range of medical programs, including General Medicine, Pediatrics, Dentistry, and Medical Prevention. Students have access to modern facilities, including simulation centers, university clinics, and research laboratories. The faculty comprises experienced doctors and researchers who are dedicated to providing students with a high-quality medical education.\n\n" +
+                        "Located in Samarkand, a historic city with a rich cultural heritage, the university offers a unique and inspiring learning environment. Graduates of Samarkand State Medical University are highly respected and work in healthcare institutions across Uzbekistan and internationally.",
                 "1930",
-                "Top 1200",
-                "Tamar Mepe St, 59, Kutaisi, Georgia",
-                "+995 (431) 24-3636",
-                "admissions@atsu.edu",
-                "High School Diploma with good grades.  Must pass entrance exams.  Submit English Proficiency test results.  GPA of 3.0"
-        ));
-        universityDetailsMap.put("Ivane Javakhishvili Tbilisi State University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Tbilisi, Georgia",
-                "Ivane Javakhishvili Tbilisi State University (TSU), established in 1918, is the oldest and one of the most prestigious universities in Georgia. TSU offers a 5-year Pharmacy program in English. The university is known for its long history, strong academic traditions, and diverse programs. TSU is ranked within the top 400 universities globally.",
-                "1918",
-                "Top 400",
-                "University St, 1, Tbilisi, Georgia",
-                "+995 (32) 222-6710",
-                "admissions@tsu.edu",
-                "Completed high school education.  Achieve the required scores on the university's entrance examinations.  Provide proof of English language proficiency.  Maintain a GPA of 3.1 or higher."
+                "Leading medical university in Uzbekistan",
+                "Amir Temur St, 18, Samarkand, Uzbekistan",
+                "+998 (66) 233-63-92",
+                "info@sammi.uz",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Uzbek or Russian language."
         ));
 
-        // Kazakhstan (8 Universities)
-        universityDetailsMap.put("Kazakh National Medical University", new UniversityDetail(
+        universityDetailsMap.put("Bukhara State Medical University", new UniversityDetail(
+                R.drawable.flag_uzbekistan,
+                "Bukhara, Uzbekistan",
+                "Bukhara State Medical Institute is a higher education institution in the city of Bukhara.\n\nIt trains medical specialists in the following areas:\n\nGeneral medicine;\nPediatrics;\nDentistry;\nPharmacy.\n\nBukhara State Medical Institute was established in 1990. In 2020, the institute was transformed into a university.",
+                "1990",
+                "Higher education institution",
+                "Navoi str., 1, Bukhara, Uzbekistan",
+                "+(998) 65 221-25-33",
+                "info@bsmi.uz",
+                ""
+        ));
+
+        universityDetailsMap.put("Tashkent Medical Academy Chirchiq Branch", new UniversityDetail(
+                R.drawable.flag_uzbekistan,
+                "Chirchiq, Uzbekistan",
+                "The Tashkent Medical Academy Chirchiq Branch is a branch of the Tashkent Medical Academy, one of the leading medical education institutions in Uzbekistan.  It provides medical education and training in the city of Chirchiq.\n\nThe branch likely offers programs similar to the main academy, focusing on training medical professionals for various healthcare roles.  As a branch of a well-established institution, it likely maintains a similar standard of education.\n\nInformation on specific programs, facilities, and admission requirements may be best obtained from the official Tashkent Medical Academy website or by contacting the branch directly.",
+                "N/A",
+                "Branch of Tashkent Medical Academy",
+                "Chirchiq, Uzbekistan (Specific address may require further research)",
+                "Contact information can be obtained through the main Tashkent Medical Academy.",
+                "Information can be obtained through the main Tashkent Medical Academy.",
+                "Admission requirements are likely similar to the main Tashkent Medical Academy: High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Uzbek or Russian language."
+        ));
+
+        // Georgia Universities
+
+        universityDetailsMap.put("Geomedi Medical University", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "Geomedi Medical University is a private medical university located in Tbilisi, Georgia. It was founded in 2003 and has quickly grown into a prominent medical education institution in the country. The university is known for its focus on providing students with a high-quality medical education and preparing them for successful careers in healthcare.\n\n" +
+                        "Geomedi Medical University offers a range of undergraduate and graduate programs in medicine, including General Medicine, Dentistry, and Pharmacy. The university provides students with modern facilities, including well-equipped laboratories, clinics, and simulation centers. The faculty comprises experienced professors and healthcare professionals who are dedicated to teaching and mentoring students.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, Geomedi Medical University offers a vibrant and culturally rich environment for students. The university attracts both local and international students and is committed to fostering a diverse and inclusive learning community.",
+                "2003",
+                "Private medical university in Tbilisi",
+                "David Agmashenebeli Alley 144, Tbilisi, Georgia",
+                "+995 32 240 04 12",
+                "info@geomedi.edu.ge",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. English language proficiency."
+        ));
+
+        universityDetailsMap.put("Alte University", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "Alte University is a private higher education institution located in Tbilisi, Georgia. It offers a variety of programs across different fields of study, including business, law, and medicine. The university is committed to providing students with a modern and practical education that prepares them for the demands of the global market.\n\n" +
+                        "Alte University has modern facilities, including well-equipped classrooms, libraries, and computer labs. The university emphasizes interactive teaching methods and provides students with opportunities for internships and practical experience. The faculty comprises experienced professors and industry professionals who are dedicated to student success.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, Alte University offers a dynamic and international learning environment. The university attracts students from diverse backgrounds and is committed to fostering a culture of innovation and entrepreneurship.",
+                "2002",
+                "Private higher education institution",
+                "David Agmashenebeli Alley 144, Tbilisi, Georgia",
+                "+995 32 244 66 77",
+                "info@alte.edu.ge",
+                "High school diploma. Entrance exam varies by program. English language proficiency."
+        ));
+
+        universityDetailsMap.put("Tbilisi State Medical University", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "Tbilisi State Medical University is one of the oldest and most prestigious medical universities in Georgia. Founded in 1918, it has a long history of training highly qualified medical professionals. The university is a leading center for medical education, research, and clinical practice in the region.\n\n" +
+                        "Tbilisi State Medical University offers a wide range of undergraduate and graduate programs in medicine, including General Medicine, Dentistry, Pharmacy, and Public Health. The university has extensive clinical facilities, including university hospitals and clinics, where students gain practical experience. The faculty comprises renowned professors and researchers who are dedicated to advancing medical knowledge and educating future healthcare leaders.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, Tbilisi State Medical University attracts students from around the world and offers a vibrant and international learning environment.",
+                "1918",
+                "One of the oldest and most prestigious medical universities in Georgia",
+                "Vazha Pshavela Ave. 33, Tbilisi, Georgia",
+                "+995 32 254 24 51",
+                "info@tsmu.edu",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. English language proficiency."
+        ));
+
+        universityDetailsMap.put("SEU Georgia", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "SEU Georgia is a private university located in Tbilisi, Georgia. It offers a variety of programs across different fields of study, including business, law, international relations, and medicine. The university is committed to providing students with a high-quality education that meets international standards.\n\n" +
+                        "SEU Georgia has modern facilities, including well-equipped classrooms, libraries, and computer labs. The university emphasizes student-centered learning and provides students with opportunities for internships and practical experience. The faculty comprises experienced professors and industry professionals who are dedicated to student success.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, SEU Georgia offers a dynamic and international learning environment. The university attracts students from diverse backgrounds and is committed to fostering a culture of academic excellence and innovation.",
+                "2001",
+                "Private university in Tbilisi, Georgia",
+                "Tsinamdzgvrishvili St. 9, Tbilisi, Georgia",
+                "+995 32 290 00 00",
+                "info@seu.edu.ge",
+                "High school diploma. Entrance exam varies by program. English language proficiency."
+        ));
+
+        universityDetailsMap.put("University of Georgia Tbilisi", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "The University of Georgia (UG) is a private university located in Tbilisi, Georgia. Founded in 2005, it has quickly become one of the leading higher education institutions in the country. The university offers a wide range of programs across various fields of study, including business, law, medicine, and humanities.\n\n" +
+                        "The University of Georgia has modern facilities, including well-equipped classrooms, libraries, and research centers. The university emphasizes student-centered learning and provides students with opportunities for internships, study abroad programs, and research projects. The faculty comprises experienced professors and industry professionals who are dedicated to providing students with a high-quality education.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, the University of Georgia offers a vibrant and international learning environment. The university attracts students from diverse backgrounds and is committed to fostering a culture of academic excellence and innovation.",
+                "2005",
+                "Private university in Tbilisi, Georgia",
+                "David Agmashenebeli Alley 140, Tbilisi, Georgia",
+                "+995 32 255 05 00",
+                "info@ug.edu.ge",
+                "High school diploma. Entrance exam varies by program. English language proficiency."
+        ));
+
+        universityDetailsMap.put("Batumi Shota Rustaveli State University", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Batumi, Georgia",
+                "Batumi Shota Rustaveli State University is a public university located in Batumi, Georgia. Established in 1945, it is one of the oldest and largest universities in the Adjara region. The university offers a variety of programs across different fields of study, including humanities, natural sciences, and medicine.\n\n" +
+                        "Batumi Shota Rustaveli State University has modern facilities, including well-equipped classrooms, laboratories, and libraries. The university is committed to providing students with a high-quality education and preparing them for successful careers. The faculty comprises experienced professors and researchers who are dedicated to student success.\n\n" +
+                        "Located in Batumi, a major city on the Black Sea coast, the university offers a unique cultural and natural environment. Batumi Shota Rustaveli State University attracts students from both Georgia and neighboring countries.",
+                "1945",
+                "Public university in Batumi, Georgia",
+                "6010, Rustaveli St. 35, Batumi, Georgia",
+                "+995 (422) 27-17-30",
+                "info@bsu.edu.ge",
+                "High school diploma. Entrance exam varies by program. Georgian language proficiency; English proficiency for some programs."
+        ));
+
+        universityDetailsMap.put("East European University", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "East European University (EEU) is a private university located in Tbilisi, Georgia. Founded in 2012, it has quickly grown into a recognized higher education institution in the country. The university offers a variety of programs across different fields of study, including law, business, and humanities.\n\n" +
+                        "East European University is committed to providing students with a modern and practical education that meets international standards. The university has modern facilities, including well-equipped classrooms, libraries, and computer labs. The faculty comprises experienced professors and industry professionals who are dedicated to student success.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, East European University offers a dynamic and international learning environment. The university attracts students from diverse backgrounds and is committed to fostering a culture of academic excellence and innovation.",
+                "2012",
+                "Private university in Tbilisi, Georgia",
+                "Tbilisi, Georgia, st. Tsinamdzghvrishvili 136",
+                "+995 599 15 80 14",
+                "info@eeu.edu.ge",
+                "High school diploma. Entrance exam varies by program. English language proficiency."
+        ));
+
+        universityDetailsMap.put("Georgian American University", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "The Georgian American University (GAU) is a private university located in Tbilisi, Georgia. Established in 2001, it offers a variety of undergraduate and graduate programs in English across different fields of study, including business, law, social sciences, and technology.\n\n" +
+                        "GAU is committed to providing students with a high-quality American-style education. The university has modern facilities, including well-equipped classrooms, libraries, and computer labs. The faculty comprises experienced professors with international experience who are dedicated to student success.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, GAU offers a dynamic and international learning environment. The university attracts students from both Georgia and abroad and is known for its strong emphasis on critical thinking, research, and innovation.",
+                "2001",
+                "Private university in Tbilisi, Georgia",
+                "Merab Aleksidze St #74, Tbilisi, Georgia",
+                "+995 (32) 2 24 04 04",
+                "info@gau.edu.ge",
+                "High school diploma. Entrance exam varies by program. English language proficiency."
+        ));
+
+        universityDetailsMap.put("Ilia State University", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "Ilia State University is a public research university located in Tbilisi, Georgia. Founded in 2006, it has quickly become one of the leading universities in the country. The university offers a wide range of programs across different fields of study, including natural sciences, humanities, business, and law.\n\n" +
+                        "Ilia State University is committed to providing students with a high-quality education and fostering a culture of research and innovation. The university has modern facilities, including well-equipped laboratories, libraries, and research centers. The faculty comprises experienced professors and researchers who are dedicated to student success.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, Ilia State University offers a vibrant and dynamic learning environment. The university attracts students from diverse backgrounds and is known for its strong emphasis on academic freedom and critical thinking.",
+                "2006",
+                "Public research university in Tbilisi, Georgia",
+                "3/5 Cholokashvili Ave, Tbilisi, Georgia",
+                "+995 322 29 47 11",
+                "info@iliauni.edu.ge",
+                "High school diploma. Entrance exam varies by program. Georgian language proficiency; English proficiency for some programs."
+        ));
+
+        universityDetailsMap.put("New Vision University", new UniversityDetail(
+                R.drawable.flag_georgia,
+                "Tbilisi, Georgia",
+                "New Vision University is a private university located in Tbilisi, Georgia. Founded in 2013, it offers a range of programs in various fields, including medicine, law, business, and international relations. The university is committed to providing students with a modern and globally-oriented education.\n\n" +
+                        "New Vision University has modern facilities, including well-equipped classrooms, libraries, and simulation centers for medical programs. The university emphasizes student-centered learning and provides students with opportunities for internships and practical experience. The faculty comprises experienced professors and industry professionals who are dedicated to student success.\n\n" +
+                        "Located in Tbilisi, the capital of Georgia, New Vision University offers a dynamic and international learning environment. The university attracts students from diverse backgrounds and is committed to fostering a culture of innovation and academic excellence.",
+                "2013",
+                "Private university in Tbilisi, Georgia",
+                "David Agmashenebeli Alley 144, Tbilisi, Georgia",
+                "+995 32 242 17 17",
+                "info@newvision.edu.ge",
+                "High school diploma. Entrance exam varies by program. English language proficiency."
+        ));
+
+        // China Universities
+        universityDetailsMap.put("Tianjin Medical University", new UniversityDetail(
                 R.drawable.flag_china,
+                "Tianjin, China",
+                "Tianjin Medical University is a key medical university in China, known for its strong foundation in medical education and research. Founded in 1951, it has grown into a comprehensive medical center offering a wide range of programs.\n\nThe university provides programs in basic medical sciences, clinical medicine, public health, and nursing. It has several affiliated hospitals that provide students with extensive clinical experience. Tianjin Medical University is dedicated to advancing medical research and technology.\n\nLocated in Tianjin, a major port city in northern China, the university attracts students from across the country and internationally.",
+                "1951",
+                "Key medical university in China",
+                "22 Qixiangtai Rd, Heping District, Tianjin, China",
+                "+86 22 8333 6988",
+                "iso@tmu.edu.cn",
+                "High school diploma with strong grades in Biology, Chemistry, and Physics. Entrance exam required. Chinese language proficiency (HSK) or English language proficiency (for English-taught programs)."
+        ));
+
+        universityDetailsMap.put("Zhejiang University", new UniversityDetail(
+                R.drawable.flag_china,
+                "Hangzhou, China",
+                "Zhejiang University is one of China's top universities, with a long history and strong reputation in various disciplines. Founded in 1897, it is a comprehensive research university with programs in sciences, engineering, agriculture, medicine, humanities, and management.\n\nThe university is organized into many schools and departments, hosting a large number of international students. It has strong research capabilities and is known for its beautiful campus in the city of Hangzhou.\n\nZhejiang University is consistently ranked among the best universities in China and Asia.",
+                "1897",
+                "One of China's top universities",
+                "38 Zheda Rd, Xihu District, Hangzhou, Zhejiang, China",
+                "+86 571 8795 1111",
+                "zju@zju.edu.cn",
+                "High school diploma. Entrance exam required. Chinese language proficiency (HSK) or English language proficiency (for English-taught programs)."
+        ));
+
+        universityDetailsMap.put("Jilin University", new UniversityDetail(
+                R.drawable.flag_china,
+                "Changchun, China",
+                "Jilin University is a leading national university in China, located in the city of Changchun. Founded in 1946, it is a comprehensive university offering a wide range of disciplines, including sciences, engineering, humanities, law, and medicine.\n\nThe university has a large student population and a strong faculty. It is known for its research achievements in various fields. Jilin University also has several campuses spread across the city of Changchun.\n\nJilin University is one of the largest universities in China.",
+                "1946",
+                "Leading national university in China",
+                "2699 Qianjin St, Chaoyang District, Changchun, Jilin, China",
+                "+86 431 8516 6114",
+                "interadmission@jlu.edu.cn",
+                "High school diploma. Entrance exam required. Chinese language proficiency (HSK) or English language proficiency (for English-taught programs)."
+        ));
+
+        universityDetailsMap.put("Shihezi University", new UniversityDetail(
+                R.drawable.flag_china,
+                "Shihezi, China",
+                "Shihezi University is a comprehensive university located in Shihezi, Xinjiang, China. Founded in 1949, it offers programs in various fields, including agriculture, medicine, engineering, economics, and management.\n\nThe university plays an important role in the development of Xinjiang and Central Asia. It has a diverse student population and is committed to providing quality education and conducting research in the region.\n\nShihezi University is one of the larger universities in Xinjiang.",
+                "1949",
+                "Comprehensive university in Xinjiang",
+                "South 4th Rd, Shihezi, Xinjiang, China",
+                "+86 993 205 8015",
+                "interoffice@shzu.edu.cn",
+                "High school diploma. Entrance exam required. Chinese language proficiency (HSK) or English language proficiency (for English-taught programs)."
+        ));
+
+        universityDetailsMap.put("Wuhan University", new UniversityDetail(
+                R.drawable.flag_china,
+                "Wuhan, China",
+                "Wuhan University is a prestigious comprehensive university located in Wuhan, China. Founded in 1893, it has a long history and is recognized as one of the top universities in China. The university offers a wide range of academic programs, including humanities, social sciences, natural sciences, engineering, and medicine.\n\nWuhan University is known for its beautiful campus, often referred to as one of the most scenic universities in China. It has a large student body and attracts students from all over the world. The university is dedicated to academic excellence and research.\n\nWuhan University is highly ranked both nationally and internationally.",
+                "1893",
+                "Prestigious comprehensive university",
+                "8 Luojia Hill Rd, Wuchang District, Wuhan, Hubei, China",
+                "+86 27 6875 9257",
+                "admission@whu.edu.cn",
+                "High school diploma. Entrance exam required. Chinese language proficiency (HSK) or English language proficiency (for English-taught programs)."
+        ));
+
+        universityDetailsMap.put("Fudan University", new UniversityDetail(
+                R.drawable.flag_china,
+                "Shanghai, China",
+                "Fudan University is one of the oldest and most prestigious universities in China, located in Shanghai. Founded in 1905, it is a comprehensive research university with a strong reputation in humanities, social sciences, natural sciences, engineering, and medicine.\n\nThe university has multiple campuses in Shanghai and is known for its rigorous academic environment and strong research output. Fudan University is consistently ranked among the top universities in China and the world.\n\nFudan University is a highly selective university with a strong global presence.",
+                "1905",
+                "One of the oldest and most prestigious universities in China",
+                "220 Handan Rd, Yangpu District, Shanghai, China",
+                "+86 21 6564 2254",
+                "admission@fudan.edu.cn",
+                "High school diploma. Entrance exam required. Chinese language proficiency (HSK) or English language proficiency (for English-taught programs)."
+        ));
+
+
+        // Kazakhstan Universities
+        universityDetailsMap.put("Kazakh Russian Medical University", new UniversityDetail(
+                R.drawable.flag_kazakhstan,
                 "Almaty, Kazakhstan",
-                "Kazakh National Medical University (KazNMU), established in 1931, is a leading medical university in Kazakhstan. KazNMU offers a 5-year MBBS program in English, focusing on training qualified medical doctors. The university is known for its strong clinical base, experienced faculty, and commitment to advancing medical education in the region. KazNMU is ranked within the top 1000 universities.",
-                "1931",
-                "Top 1000",
-                "Tole Bi St, 94, Almaty, Kazakhstan",
-                "+7 (727) 292-0800",
-                "admissions@kaznmu.edu",
-                "High school diploma with a science background.  Passage of entrance exams.  English language proficiency certificate (IELTS/TOEFL).  GPA of 3.0."
+                "Kazakh Russian Medical University (KRMU) is a private medical university located in Almaty, Kazakhstan. It is known for its focus on providing quality medical education with a blend of Russian and Kazakh medical traditions. KRMU offers a range of programs in various fields of medicine.\n\nThe university strives to equip students with the necessary knowledge and skills to excel in their medical careers. It emphasizes clinical practice and modern teaching methodologies.\n\nKRMU is located in Almaty, the largest city in Kazakhstan, providing students with a vibrant and diverse environment.",
+                "2003",
+                "Private medical university",
+                "Almaty, Kazakhstan (Specific address details may require further research)",
+                "Contact information can be obtained through their official website.",
+                "info@krmu.kz",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Russian or Kazakh language."
         ));
-        universityDetailsMap.put("Astana Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Nur-Sultan, Kazakhstan",
-                "Astana Medical University (AMU), founded in 1964, is a public medical university located in Nur-Sultan, the capital of Kazakhstan. AMU offers a 5-year General Medicine program in English. The university is known for its modern facilities, focus on research, and training of medical professionals. AMU is ranked within the top 800 universities.",
-                "1964",
-                "Top 800",
-                "Beibitshilik St, 49a, Nur-Sultan, Kazakhstan",
-                "+7 (7172) 53-9400",
-                "admissions@amu.edu",
-                "Completed secondary education with a strong foundation in science.  Successful completion of the university's entrance examination.  Evidence of English language proficiency.  GPA of 3.0."
-        ));
-        universityDetailsMap.put("Semey State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Semey, Kazakhstan",
-                "Semey State Medical University (SSMU), established in 1953, is one of the oldest medical universities in Kazakhstan. SSMU offers a 5-year Dentistry program in English, focusing on training qualified dentists. The university is known for its contributions to medical education and research in the region. Semey State Medical University is ranked within the top 1200 universities.",
-                "1953",
-                "Top 1200",
-                "Abay St, 103, Semey, Kazakhstan",
-                "+7 (7222) 52-2050",
-                "admissions@ssmu.edu",
-                "High school diploma with a focus on science subjects.  Successful completion of entrance exams.  English language proficiency test (IELTS/TOEFL).  GPA of 3.0 or higher."
-        ));
-        universityDetailsMap.put("Karaganda State Medical University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Karaganda, Kazakhstan",
-                "Karaganda State Medical University (KSMU), founded in 1950, is a public medical university located in Karaganda, Kazakhstan. KSMU offers a 5-year MBBS program in English. The university is known for its strong academic programs, clinical training, and research activities. Karaganda State Medical University is ranked within the top 900 universities.",
-                "1950",
-                "Top 900",
-                "Gogol St, 40, Karaganda, Kazakhstan",
-                "+7 (7212) 51-8970",
-                "admissions@ksmu.edu",
-                "Completed secondary education.  Passage of university entrance examinations.  Evidence of English language skills.  GPA of 3.1."
-        ));
-        universityDetailsMap.put("South Kazakhstan Medical Academy", new UniversityDetail(
-                R.drawable.flag_china,
-                "Shymkent, Kazakhstan",
-                "South Kazakhstan Medical Academy (SKMA), established in 1979, is a public medical university located in Shymkent, Kazakhstan. SKMA offers a 5-year Pharmacy program in English. The university is known for its focus on pharmaceutical education and research. South Kazakhstan Medical Academy is ranked within the top 1500 universities.",
-                "1979",
-                "Top 1500",
-                "Al-Farabi Sq, 1, Shymkent, Kazakhstan",
-                "+7 (7252) 40-8200",
-                "admissions@skma.edu",
-                "High school certificate with good grades in sciences.  Successful interview performance.  IELTS or TOEFL score.  GPA of 3.0."
-        ));
-        universityDetailsMap.put("West Kazakhstan Marat Ospanov Medical University", new UniversityDetail(
-                R.drawable.flag_china,
+
+        universityDetailsMap.put("West Kazakhstan Marat Ospanov State Medical University", new UniversityDetail(
+                R.drawable.flag_kazakhstan,
                 "Aktobe, Kazakhstan",
-                "West Kazakhstan Marat Ospanov Medical University (WKSMU), established in 1957, is a public medical university in Aktobe, Kazakhstan. WKSMU offers a 5-year General Medicine program in English. The university is known for its focus on training medical professionals for the western regions of Kazakhstan. West Kazakhstan Marat Ospanov Medical University is ranked within the top 1100.",
+                "West Kazakhstan Marat Ospanov State Medical University is a public medical university located in Aktobe, Kazakhstan. It is one of the leading medical education institutions in western Kazakhstan.\n\nThe university offers programs in various fields of medicine and emphasizes the training of qualified medical professionals for the region. It is committed to providing students with a comprehensive medical education.\n\nAktobe is a major city in western Kazakhstan, and the university plays a significant role in the region's healthcare development.",
                 "1957",
-                "Top 1100",
-                "Maresyev St, 68, Aktobe, Kazakhstan",
-                "+7 (7132) 56-3400",
-                "admissions@wkmu.edu",
-                "Secondary school diploma with specialization in sciences.  University entrance test.  TOEFL/IELTS scores.  GPA of 3.3."
+                "Public medical university",
+                "M. Ospanov Street 9, Aktobe, Kazakhstan",
+                "+7 (7132) 54-58-55",
+                "info@zkgmu.kz",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Russian or Kazakh language."
         ));
-        universityDetailsMap.put("Al-Farabi Kazakh National University", new UniversityDetail(
-                R.drawable.flag_china,
-                "Almaty, Kazakhstan",
-                "Al-Farabi Kazakh National University, established in 1934, is a comprehensive university in Almaty, Kazakhstan. It offers a 5-year Pediatrics program in English. The university is known for its diverse programs, research activities, and strong academic reputation. Al-Farabi Kazakh National University is ranked within the top 600 universities globally.",
-                "1934",
-                "Top 600",
-                "Al-Farabi Ave, 71, Almaty, Kazakhstan",
-                "+7 (727) 377-3330",
-                "admissions@al-farabi.edu",
-                "High school diploma.  Entrance test in major subjects.  IELTS or equivalent.  GPA of 2.9."
+
+        universityDetailsMap.put("South Kazakhstan State Medical Academy, Kazakhstan", new UniversityDetail(
+                R.drawable.flag_kazakhstan,
+                "Shymkent, Kazakhstan",
+                "South Kazakhstan State Medical Academy is a public medical academy located in Shymkent, Kazakhstan. It is a prominent medical education institution in southern Kazakhstan.\n\nThe academy provides training in various medical specialties and focuses on equipping students with the skills and knowledge necessary for successful medical practice. It plays a key role in supplying the region with healthcare professionals.\n\nShymkent is a major city in southern Kazakhstan, and the academy is an important center for medical education in the area.",
+                "1979",
+                "Public medical academy",
+                "Al-Farabi Square 1, Shymkent, Kazakhstan",
+                "+7 (7252) 39-57-15",
+                "info@skma.kz",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Russian or Kazakh language."
         ));
+
+        universityDetailsMap.put("Semey State Medical University", new UniversityDetail(
+                R.drawable.flag_kazakhstan,
+                "Semey, Kazakhstan",
+                "Semey State Medical University is one of the oldest and most respected medical universities in Kazakhstan. Located in Semey, it has a long history of training highly qualified medical professionals.\n\nThe university offers a wide range of medical programs and is known for its strong clinical training and research activities. It has made significant contributions to medical science and practice in Kazakhstan.\n\nSemey has historical significance in Kazakhstan, and the university is a key institution in the city.",
+                "1954",
+                "One of the oldest medical universities in Kazakhstan",
+                "Abai Street 103, Semey, Kazakhstan",
+                "+7 (7222) 56-26-31",
+                "info@ssmu.kz",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Russian or Kazakh language."
+        ));
+
+        universityDetailsMap.put("Astana Medical University", new UniversityDetail(
+                R.drawable.flag_kazakhstan,
+                "Astana, Kazakhstan",
+                "Astana Medical University is a leading medical university located in Astana, the capital of Kazakhstan. It is a modern and dynamic university that provides high-quality medical education and training.\n\nThe university offers a variety of programs in medicine and is committed to preparing students for the challenges of contemporary healthcare. It utilizes modern teaching technologies and emphasizes clinical skills development.\n\nBeing located in the capital city, Astana Medical University has strong ties to national healthcare institutions and plays a vital role in the country's medical education system.",
+                "1964",
+                "Leading medical university",
+                "Myrza Street 47, Astana, Kazakhstan",
+                "+7 (7172) 53-94-38",
+                "info@amu.kz",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Russian or Kazakh language."
+        ));
+
         universityDetailsMap.put("Kokshetau State University", new UniversityDetail(
-                R.drawable.flag_china,
+                R.drawable.flag_kazakhstan,
                 "Kokshetau, Kazakhstan",
-                "Kokshetau State University, founded in 1996, is a regional university in Kokshetau, Kazakhstan. The university offers a 5-year MBBS program in English. Kokshetau State University is ranked within the top 2000 universities.",
-                "1996",
-                "Top 2000",
-                "Abay St, 76, Kokshetau, Kazakhstan",
-                "+7 (7162) 25-6115",
-                "admissions@koksu.edu.kz",
-                "Secondary education.  Entrance exams.  English language proficiency proof. GPA of 2.8."
+                "Kokshetau State University named after Sh. Ualikhanov is a regional university located in Kokshetau, Kazakhstan. While it offers various programs, it also has a faculty of medicine that provides medical education.\n\nThe university serves the educational needs of the region and provides students with a range of academic programs. The medical faculty contributes to the training of healthcare professionals for the local community.\n\nKokshetau is a city in northern Kazakhstan, and the university is an important educational and cultural center for the area.",
+                "1962",
+                "Regional university",
+                "Auezov Street 189, Kokshetau, Kazakhstan",
+                "+7 (7162) 25-63-01",
+                "info@kgu.kz",
+                "High school diploma. Entrance exam required. Proficiency in Russian or Kazakh language."
         ));
+
+        universityDetailsMap.put("Karaganda State Medical University", new UniversityDetail(
+                R.drawable.flag_kazakhstan,
+                "Karaganda, Kazakhstan",
+                "Karaganda State Medical University is one of the oldest and largest medical universities in Kazakhstan. Located in Karaganda, it has a long-standing tradition of providing high-quality medical education.\n\nThe university offers a comprehensive range of medical programs and is known for its strong emphasis on clinical training and research. It has produced many prominent medical professionals who have contributed to the development of healthcare in Kazakhstan.\n\nKaraganda is a major industrial city in central Kazakhstan, and the university is a key center for medical education in the region.",
+                "1950",
+                "One of the oldest and largest medical universities in Kazakhstan",
+                "Gogol Street 40, Karaganda, Kazakhstan",
+                "+7 (7212) 50-06-30",
+                "info@kgmu.kz",
+                "High school diploma with strong grades in Biology and Chemistry. Entrance exam required. Proficiency in Russian or Kazakh language."
+        ));
+
+        universityDetailsMap.put("North Kazakhstan State University", new UniversityDetail(
+                R.drawable.flag_kazakhstan,
+                "Petropavl, Kazakhstan",
+                "North Kazakhstan State University named after M. Kozybaev is a regional university located in Petropavl, Kazakhstan. It offers a variety of programs, including a faculty of medicine that provides medical education.\n\nThe university serves the educational needs of northern Kazakhstan and offers a range of academic programs. The medical faculty contributes to training healthcare professionals for the local community.\n\nPetropavl is a city in northern Kazakhstan, and the university is a significant educational and cultural center in the area.",
+                "1937",
+                "Regional university",
+                "Pushkin Street 86, Petropavl, Kazakhstan",
+                "+7 (7152) 46-37-14",
+                "info@nkzu.kz",
+                "High school diploma. Entrance exam required. Proficiency in Russian or Kazakh language."
+        ));
+
+        universityDetailsMap.put("Al-Farabi Kazakh National University", new UniversityDetail(
+                R.drawable.flag_kazakhstan,
+                "Almaty, Kazakhstan",
+                "Al-Farabi Kazakh National University is the leading classical university in Kazakhstan, located in Almaty. Founded in 1933, it is a comprehensive university with a wide range of faculties, including medicine.\n\nThe university is a major center for education, science, and culture in Kazakhstan. It is committed to providing students with a high-quality education and fostering research and innovation.\n\nAl-Farabi Kazakh National University is highly ranked nationally and internationally.",
+                "1933",
+                "Leading classical university in Kazakhstan",
+                "Al-Farabi Ave 71, Almaty, Kazakhstan",
+                "+7 (727) 377-33-33",
+                "info@kaznu.kz",
+                "High school diploma. Entrance exam required. Proficiency in Russian or Kazakh language."
+        ));
+
+        // Nepal Universities
+        universityDetailsMap.put("Kathmandu University", new UniversityDetail(
+                R.drawable.flag_nepal,
+                "Kathmandu, Nepal",
+                "Kathmandu University is a private university located in Dhulikhel, near Kathmandu, Nepal. Established in 1991, it is known for its quality education in various fields, including medicine, engineering, management, and arts.\n\nThe university is committed to providing students with a holistic education and has a strong emphasis on research and innovation. It has collaborations with various international institutions.\n\nKathmandu University is one of the leading universities in Nepal, attracting students from across the country and abroad.",
+                "1991",
+                "Private university",
+                "Dhulikhel, Kathmandu, Nepal",
+                "+977 11 661399",
+                "info@ku.edu.np",
+                "High school diploma. Entrance exam required for most programs. English language proficiency."
+        ));
+
+        universityDetailsMap.put("Tribhuvan University", new UniversityDetail(
+                R.drawable.flag_nepal,
+                "Kathmandu, Nepal",
+                "Tribhuvan University is the oldest and largest public university in Nepal. Established in 1959, it has a vast network of campuses and affiliated colleges across the country. The university offers a wide range of programs in various disciplines, including humanities, science, management, and medicine.\n\nTribhuvan University plays a crucial role in providing higher education opportunities to a large segment of the population. It has a diverse student body and a long history of academic excellence.\n\nThe university's central campus is located in Kathmandu, but it has constituent campuses throughout Nepal.",
+                "1959",
+                "Oldest and largest public university in Nepal",
+                "Kirtipur, Kathmandu, Nepal",
+                "+977 1 4331084",
+                "info@tu.edu.np",
+                "High school diploma. Entrance exam required for most programs. English or Nepali language proficiency."
+        ));
+
+        universityDetailsMap.put("Institute of Medicine, Nepal", new UniversityDetail(
+                R.drawable.flag_nepal,
+                "Kathmandu, Nepal",
+                "The Institute of Medicine (IOM) is a constituent institute of Tribhuvan University. It is the leading medical education institution in Nepal, with a long history of training healthcare professionals.\n\nIOM offers undergraduate and postgraduate programs in various medical fields, including medicine, dentistry, nursing, and public health. It has several teaching hospitals that provide students with clinical experience.\n\nThe institute plays a vital role in Nepal's healthcare system by producing skilled medical personnel.",
+                "1972",
+                "Constituent institute of Tribhuvan University",
+                "Maharajgunj, Kathmandu, Nepal",
+                "+977 1 4411163",
+                "info@iom.edu.np",
+                "High school diploma with strong grades in Biology, Chemistry, and Physics. Entrance exam required. English language proficiency."
+        ));
+
     }
 
     /**

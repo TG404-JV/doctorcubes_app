@@ -1,45 +1,27 @@
 {
   "project_info": {
-    "project_number": "94710265310",
-    "firebase_url": "https://test-d3e8c-default-rtdb.firebaseio.com",
-    "project_id": "test-d3e8c",
-    "storage_bucket": "test-d3e8c.firebasestorage.app"
+    "project_number": "150491308507",
+    "firebase_url": "https://doctorcubes-b4935-default-rtdb.firebaseio.com",
+    "project_id": "doctorcubes-b4935",
+    "storage_bucket": "doctorcubes-b4935.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:94710265310:android:6080e4f922e4a9ae72194f",
+        "mobilesdk_app_id": "1:150491308507:android:5ade03435171150669c7fe",
         "android_client_info": {
           "package_name": "com.android.doctorcube"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "94710265310-qestm7cl1nana3kar8a1n5t6lfpg96pn.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.android.doctorcube",
-            "certificate_hash": "bdd2fa25498a38eae7f46cfb9baac6d916847cf1"
-          }
-        },
-        {
-          "client_id": "94710265310-f5avta1rpbbbe9veqi00fn07ofs6p7dh.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDYvMDYgax5guRdMrrSqemM-jGCmIFYv1I"
+          "current_key": "AIzaSyDp3wJbH-LobxuivJOpAd3kWMNpCGykgYc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "94710265310-f5avta1rpbbbe9veqi00fn07ofs6p7dh.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

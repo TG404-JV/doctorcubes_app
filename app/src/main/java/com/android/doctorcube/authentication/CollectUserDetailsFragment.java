@@ -1,5 +1,6 @@
 package com.android.doctorcube.authentication;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,10 +29,10 @@ import com.android.doctorcube.R;
 import com.android.doctorcube.database.FirestoreHelper;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
@@ -56,6 +57,7 @@ public class CollectUserDetailsFragment extends Fragment {
     private String userFullName;
     private String userEmail;
     private String userPhone;
+    private String userRole; // To store the user's role
 
     // Declare an instance of the new utility class
     private FirestoreHelper firestoreHelper;
@@ -119,32 +121,27 @@ public class CollectUserDetailsFragment extends Fragment {
 
         setUpCountrySpinner();
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            userId = bundle.getString("userId");
-            userFullName = bundle.getString("fullName");
-            userEmail = bundle.getString("email");
-            userPhone = bundle.getString("phone");
-
-            if (TextUtils.isEmpty(nameEditText.getText())) {
-                nameEditText.setText(userFullName);
-                nameEditText.setEnabled(false);
-            }
-            if (TextUtils.isEmpty(emailEditText.getText())) {
-                emailEditText.setText(userEmail);
-                emailEditText.setEnabled(false);
-            }
-            if (TextUtils.isEmpty(phoneEditText.getText())) {
-                phoneEditText.setText(userPhone);
-            }
-            emailEditText.setEnabled(false);
-            nameEditText.setEnabled(false);
-        }
-
         // Initialize the FirestoreHelper
         firestoreHelper = new FirestoreHelper(requireContext());
 
+        // Get the current user.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            userId = currentUser.getUid();  //get user id
+            userEmail = currentUser.getEmail();
+            userPhone = currentUser.getPhoneNumber();
+            //you can get other user info.
+        } else {
+            //if the user is not logged in, navigate to login.
+            Toast.makeText(requireContext(), "Please Login", Toast.LENGTH_SHORT).show();
+            navController.navigate(R.id.loginFragment2);
+            return;
+        }
+
         setUpListeners();
+        //pre-fill
+        emailEditText.setText(userEmail);
+        phoneEditText.setText(userPhone);
     }
 
     private void setUpCountrySpinner() {
@@ -164,14 +161,56 @@ public class CollectUserDetailsFragment extends Fragment {
 
         submitButton.setOnClickListener(v -> {
             if (validateInputs()) {
-                // Call the saveUserData method in FirestoreHelper
-                firestoreHelper.saveUserData(getUserData(), userId, v, sharedPreferences, navController, isBottomSheet);
+                // Get user data
+                Map<String, Object> userData = getUserData();
+
+                // Ensure userId is not null before using it.
+                if (userId != null && !userId.isEmpty()) {
+                    // Save user data to the "Users" collection
+                    saveUserDataToUsersCollection(userData);
+
+                    // Call the saveUserData method in FirestoreHelper to save to "app_submissions"
+                    firestoreHelper.saveUserData(userData, userId, v, sharedPreferences, navController, isBottomSheet);
+                } else {
+                    Log.e("CollectUserDetailsFragment", "userId is null or empty when submitButton is clicked.");
+                    Toast.makeText(getContext(), "Missing user information. Please sign in again.", Toast.LENGTH_SHORT).show();
+                    //  Consider navigating the user back to the login screen
+                    //  navController.navigate(R.id.loginFragment); // Replace with your login fragment ID
+                }
             }
         });
 
         backButton.setOnClickListener(v -> {
             navController.popBackStack();
         });
+    }
+
+    private void saveUserDataToUsersCollection(Map<String, Object> userData) {
+        //  Set the user's role.
+        userData.put("role", userRole);
+
+        if (userId != null && !userId.isEmpty()) {
+            firestoreDB.collection("Users").document(userId)
+                    .set(userData, SetOptions.merge()) // Use SetOptions.merge() to update or create
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("CollectUserDetails", "User data (role, name, email, phone) saved to Users collection for user: " + userId);
+                        // Save to shared preferences
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("user_role", userRole);
+                        editor.putString("user_name", (String) userData.get("name"));
+                        editor.putString("user_email", (String) userData.get("email"));
+                        editor.putString("user_phone", (String) userData.get("phone"));
+                        editor.apply();
+
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("CollectUserDetails", "Error saving user data to Users collection: " + e.getMessage());
+                        Toast.makeText(getContext(), "Failed to save user data. Please try again.", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Log.e("CollectUserDetailsFragment", "userId is null or empty in saveUserDataToUsersCollection.");
+            Toast.makeText(getContext(), "Missing user information.  Please sign in again.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean validateInputs() {
@@ -250,6 +289,5 @@ public class CollectUserDetailsFragment extends Fragment {
         userData.put("timestamp", FieldValue.serverTimestamp());
         return userData;
     }
-
 }
 

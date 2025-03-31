@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/login_gradient_background">
 
-
-
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
@@ -85,6 +83,7 @@
                     android:textAlignment="center" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/accountInputLayout"
                     style="@style/MedicalTextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -93,16 +92,28 @@
                     app:startIconTint="@color/icon_tint_primary">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/emailEditText"
+                        android:id="@+id/accountEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/enter_email"
+                        android:hint="Email or Phone Number"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/text_primary_color"
                         android:textColorHint="@color/hint_color" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Get OTP Button - Only visible for phone authentication -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/getOtpButton"
+                    style="@style/MedicalSecondaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Get OTP"
+                    android:visibility="gone"
+                    app:cornerRadius="12dp" />
+
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordInputLayout"
                     style="@style/MedicalTextInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,6 +158,18 @@
                     app:elevation="4dp"
                     app:rippleColor="@color/button_primary_pressed" />
 
+                <TextView
+                    android:id="@+id/resendOtpText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:padding="4dp"
+                    android:text="Resend OTP"
+                    android:textColor="@color/hint_color"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -177,33 +200,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/googleSignInButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginEnd="16dp"
-                        app:cardBackgroundColor="@color/card_background"
-                        app:cardCornerRadius="24dp"
-                        app:strokeColor="@color/card_border"
-                        app:strokeWidth="1dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@string/sign_in_with_google"
-                            android:src="@drawable/ic_google" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -226,6 +222,4 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </ScrollView>

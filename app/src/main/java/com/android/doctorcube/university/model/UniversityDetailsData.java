@@ -78,7 +78,7 @@ public class UniversityDetailsData {
 
         // russia
         universityDetailsMap.put("Kemerovo State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_kemerovo_state_medical_university,
                 "Kemerovo, Russia",
                 "Kemerovo State University (KemSU) is a leading institution in Siberia, offering a wide range of programs from humanities to sciences. Established in 1974, KemSU is known for its strong research focus and academic excellence. The university provides students with a comprehensive education, fostering critical thinking and innovation.\n\n" +
                         "KemSU's campus is equipped with modern facilities, including well-equipped laboratories, libraries, and research centers. Students benefit from experienced faculty and opportunities for research and practical training. The university also promotes cultural and extracurricular activities, enriching the student experience.\n\n" +
@@ -92,7 +92,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Kemerovo State Medical University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_orelstateuniversity,
                 "Kemerovo, Russia",
                 "Nestled in the heart of Siberia, *Kemerovo State Medical University* (KSMU) is a gem for aspiring doctors. Founded in 1955, this public institution has been shaping skilled medical professionals for decades. Known for its warm, supportive community and rigorous academic standards, KSMU offers a *General Medicine (MBBS) program* that blends cutting-edge science with real-world clinical practice. The six-year journey here is accredited by Russia’s *Ministry of Science and Higher Education* and recognized globally, making it a fantastic choice for students dreaming of a medical career.\n\n" +
                         "At KSMU, you’ll dive into a curriculum that balances *in-depth theoretical learning* with *hands-on training in top Kemerovo hospitals*. Imagine working alongside experienced doctors, mastering diagnostics, and treating patients in a vibrant clinical setting. The university boasts *modern simulation labs, advanced research facilities, and a faculty of passionate educators* who guide you every step of the way. It’s not just about books here—KSMU prepares you to save lives.\n\n" +
@@ -107,7 +107,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Orel State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_orelstateuniversity,
                 "Orel, Russia",
                 "Orel State University named after I.S. Turgenev is a comprehensive university offering a wide array of programs. Established in 1931, it has grown into a significant educational and research center in the Central Federal District of Russia. The university is known for its strong academic traditions and commitment to innovation.\n\n" +
                         "OSU provides students with a well-rounded education, combining theoretical knowledge with practical skills. The university boasts modern facilities, including laboratories, libraries, and sports complexes. Students benefit from the expertise of experienced faculty and have opportunities for research and internships.\n\n" +
@@ -121,7 +121,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Omsk State Medical University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_omsk_medicaluniver,
                 "Omsk, Russia",
                 "Omsk State Medical University is a leading medical institution in Siberia, renowned for its high-quality medical education and research. Founded in 1920, it has a long history of training skilled medical professionals. The university is committed to providing students with a comprehensive medical education.\n\n" +
                         "OSMU offers a range of medical programs, including General Medicine, Dentistry, and Pharmacy. Students benefit from modern facilities, including simulation centers and clinical hospitals. The university's faculty comprises experienced doctors and researchers, providing students with valuable practical experience.\n\n" +
@@ -135,7 +135,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Kabardino-Balkarian State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_kabardino_balkarianstateuniversity,
                 "Nalchik, Russia",
                 "Kabardino-Balkarian State University named after H.M. Berbekov is a multidisciplinary university offering a wide range of academic programs. Established in 1957, it has become a major educational and research center in the North Caucasus region. The university is known for its diverse academic offerings and commitment to quality education.\n\n" +
                         "KBSU provides students with a comprehensive education, combining theoretical knowledge with practical skills. The university boasts modern facilities, including laboratories, libraries, and research centers. Students benefit from experienced faculty and have opportunities for research and internships.\n\n" +
@@ -149,7 +149,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Maikop State Technological University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_chechen_stateuniversity,
                 "Maikop, Russia",
                 "Maikop State Technological University (MSTU) is a leading technological university in the Republic of Adygea. Established in 1993, it has grown into a significant educational and research center. The university is known for its strong focus on technology, engineering, and applied sciences.\n\n" +
                         "MSTU provides students with a high-quality education, combining theoretical knowledge with practical skills. The university boasts modern facilities, including laboratories, workshops, and research centers. Students benefit from experienced faculty and have opportunities for internships and industrial collaborations.\n\n" +
@@ -163,7 +163,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Yaroslavl State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_yaroslaval_statemedicaluniversity,
                 "Yaroslavl, Russia",
                 "Yaroslavl State University, named after P.G. Demidov, is one of the oldest universities in Russia, with its history dating back to 1803. It offers a wide range of programs in humanities, natural sciences, and economics. The university is known for its strong academic traditions and commitment to providing students with a comprehensive education.\n\n" +
                         "The university has modern facilities, including well-equipped laboratories, libraries, and computer centers. Students benefit from experienced faculty and have opportunities for research and practical training. Yaroslavl State University also promotes cultural and extracurricular activities, contributing to a vibrant student life.\n\n" +
@@ -177,7 +177,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Chechen State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_chechen_stateuniversity,
                 "Grozny, Russia",
                 "Chechen State University is a major institution of higher education in the Chechen Republic. Founded in 1938, it offers a wide range of programs in various fields, including humanities, natural sciences, and medicine. The university plays a crucial role in the educational and cultural development of the region.\n\n" +
                         "The university provides students with a comprehensive education, combining theoretical knowledge with practical skills. It has modern facilities, including laboratories, libraries, and computer centers. Chechen State University is committed to fostering a supportive and inclusive learning environment.\n\n" +
@@ -191,7 +191,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Krasnoyarsk State Medical University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_krasnoyarsk_statemedical_university,
                 "Krasnoyarsk, Russia",
                 "Krasnoyarsk State Medical University named after Professor V.F. Voyno-Yasenetsky is a leading medical university in Siberia. Established in 1942, it has a long history of training highly qualified medical professionals. The university is known for its strong emphasis on clinical practice and research.\n\n" +
                         "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Dentistry. Students benefit from modern facilities, including simulation centers and clinical hospitals. The faculty comprises experienced doctors and researchers who provide students with valuable practical experience.\n\n" +
@@ -205,7 +205,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Ulyanovsk State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_ulyanovsk_statemedicaluniverrsity,
                 "Ulyanovsk, Russia",
                 "Ulyanovsk State University is a comprehensive university offering a wide range of programs in various fields, including humanities, natural sciences, and engineering. Founded in 1988, it has quickly grown into a major educational and research center in the Volga region.\n\n" +
                         "The university provides students with a modern education, combining theoretical knowledge with practical skills. It has well-equipped facilities, including laboratories, libraries, and technology parks. Ulyanovsk State University is committed to innovation and research, fostering a dynamic learning environment.\n\n" +
@@ -219,7 +219,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Ural State Medical University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_ural_statemedical_university,
                 "Yekaterinburg, Russia",
                 "Ural State Medical University is one of the oldest medical schools in Russia, with its history dating back to 1930. It is a leading center for medical education, research, and clinical practice. The university is known for its strong academic traditions and commitment to training highly qualified medical professionals.\n\n" +
                         "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Dentistry. Students have access to modern facilities, including simulation centers and university clinics. The faculty comprises experienced doctors and researchers who provide students with comprehensive theoretical and practical training.\n\n" +
@@ -233,7 +233,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Altai State Medical University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_altai_statemedicaluniversity,
                 "Barnaul, Russia",
                 "Altai State Medical University is a leading medical university in the Altai Krai region. Established in 1954, it has a strong reputation for providing high-quality medical education and training. The university is committed to preparing students for successful careers in healthcare.\n\n" +
                         "The university offers various medical programs, including General Medicine, Pediatrics, and Pharmacy. Students benefit from modern facilities, including laboratories, simulation centers, and clinical bases. The faculty comprises experienced medical professionals and researchers dedicated to student success.\n\n" +
@@ -247,7 +247,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Syktyvkar State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_syktyvkar_statemedicaluniversity,
                 "Syktyvkar, Russia",
                 "Syktyvkar State University named after Pitirim Sorokin is a major institution of higher education in the Komi Republic. Founded in 1972, it offers a wide range of programs in various fields, including humanities, natural sciences, and engineering. The university plays a key role in the educational, research, and cultural life of the region.\n\n" +
                         "The university provides students with a comprehensive education, combining theoretical knowledge with practical skills. It has modern facilities, including laboratories, libraries, and computer centers. Syktyvkar State University is committed to fostering a supportive and inclusive learning environment.\n\n" +
@@ -261,7 +261,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Northwestern State Medical University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_northwestern_statemedicaluniversity,
                 "Saint Petersburg, Russia",
                 "Northwestern State Medical University named after I.I. Mechnikov is one of the oldest and most prestigious medical universities in Russia. Established in 2011 through the merger of two older institutions, it continues a long tradition of excellence in medical education, research, and clinical practice.\n\n" +
                         "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Dentistry. Students benefit from state-of-the-art facilities, including advanced simulation centers and university hospitals. The faculty comprises renowned doctors and researchers who provide students with exceptional training.\n\n" +
@@ -275,7 +275,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Siberian State Medical University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_siberrian_statemedicaluniversity,
                 "Tomsk, Russia",
                 "Siberian State Medical University is one of the oldest medical schools in Siberia, founded in 1878. It is a leading center for medical education, research, and clinical practice. The university is known for its strong emphasis on clinical training and preparing highly qualified medical professionals.\n\n" +
                         "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Pharmacy. Students have access to modern facilities, including simulation centers and university hospitals. The faculty comprises experienced doctors and researchers who provide students with comprehensive theoretical and practical training.\n\n" +
@@ -289,7 +289,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Kazan State Medical University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_kazan_statemedical_university,
                 "Kazan, Russia",
                 "Kazan State Medical University is a leading medical university in Russia, with a history dating back to 1814. It is a renowned center for medical education, research, and clinical practice. The university is committed to providing students with a high-quality medical education and preparing them for successful careers in healthcare.\n\n" +
                         "The university offers a wide range of medical programs, including General Medicine, Pediatrics, and Dentistry. Students have access to modern facilities, including simulation centers and university clinics. The faculty comprises experienced doctors and researchers who are dedicated to teaching and mentoring students.\n\n" +
@@ -303,7 +303,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Tula State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_tula_stateuniversity,
                 "Tula, Russia",
                 "Tula State University is a major institution of higher education in the Tula region. Founded in 1930, it offers a wide range of programs in various fields, including engineering, natural sciences, humanities, and economics. The university is committed to providing students with a comprehensive education and preparing them for successful careers.\n\n" +
                         "The university has modern facilities, including well-equipped laboratories, libraries, and computer centers. Students benefit from experienced faculty and have opportunities for research and practical training. Tula State University also promotes cultural and extracurricular activities, contributing to a vibrant student life.\n\n" +
@@ -317,7 +317,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Khanty-Mansiysk State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_kanti_mansiykuniversity,
                 "Khanty-Mansiysk, Russia",
                 "Khanty-Mansiysk State University is a leading institution of higher education in the Khanty-Mansi Autonomous Okrug – Yugra. Founded in 1993, it offers a wide range of programs in various fields, including humanities, natural sciences, and technology. The university is committed to providing students with a high-quality education and fostering research and innovation.\n\n" +
                         "The university has modern facilities, including well-equipped laboratories, libraries, and computer centers. Students benefit from experienced faculty and have opportunities for research and practical training. Khanty-Mansiysk State University also promotes cultural and extracurricular activities, contributing to a vibrant student life.\n\n" +
@@ -331,7 +331,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Ingush State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_ingush_statemedicaluniversity,
                 "Magas, Russia",
                 "Ingush State University is a major institution of higher education in the Republic of Ingushetia. Founded in 1994, it offers a range of programs in various fields, including humanities, natural sciences, and economics. The university plays an important role in the educational and cultural development of the region.\n\n" +
                         "The university provides students with a comprehensive education, combining theoretical knowledge with practical skills. It has modern facilities, including laboratories, libraries, and computer centers. Ingush State University is committed to fostering a supportive and inclusive learning environment.\n\n" +
@@ -345,7 +345,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Petrozavodsk State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_petrozavodsk_statemedicaluniversity,
                 "Petrozavodsk, Russia",
                 "Petrozavodsk State University is a leading university in the Republic of Karelia. Founded in 1940, it offers a wide range of programs in various fields, including humanities, natural sciences, engineering, and medicine. The university is known for its strong academic traditions and commitment to providing students with a high-quality education.\n\n" +
                         "The university has modern facilities, including well-equipped laboratories, libraries, and computer centers. Students benefit from experienced faculty and have opportunities for research and practical training. Petrozavodsk State University also promotes cultural and extracurricular activities, contributing to a vibrant student life.\n\n" +
@@ -359,7 +359,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Rostov State University", new UniversityDetail(
-                R.drawable.flag_russia,
+                R.drawable.img_rostov_statemedicaluniversity,
                 "Rostov-on-Don, Russia",
                 "Rostov State University, now known as Southern Federal University, is one of the largest and leading universities in Southern Russia. Founded in 1915, it offers a wide range of programs in various fields, including humanities, natural sciences, engineering, and medicine. The university is a major center for education, research, and innovation.\n\n" +
                         "The university has modern facilities, including well-equipped laboratories, libraries, and research centers. Students benefit from experienced faculty and have opportunities for research and practical training. Southern Federal University is committed to providing a high-quality education and fostering a dynamic learning environment.\n\n" +

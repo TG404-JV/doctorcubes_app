@@ -440,7 +440,7 @@
                         android:textColor="@color/text_primary_color"
                         tools:text="• Minimum GPA of 3.5\n• SAT score of 1300 or higher\n• Two letters of recommendation\n• Personal statement\n• Completed application form" />
 
-                    <androidx.appcompat.widget.AppCompatButton
+                    <com.google.android.material.button.MaterialButton
                         style="@style/MedicalPrimaryButton"
                         android:id="@+id/apply_button"
                         android:layout_width="match_parent"

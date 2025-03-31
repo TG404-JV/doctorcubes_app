@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import com.android.doctorcube.university.ApplyBottomSheetFragment;
 import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityDetailsData;
+import com.google.android.material.button.MaterialButton;
 
 public class UniversityDetailsActivity extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class UniversityDetailsActivity extends AppCompatActivity {
     private ImageView universityImageView;
     private TextView locationTextView, descriptionTextView, establishedTextView,
             rankingTextView, addressTextView, phoneTextView, emailTextView, admissionRequirementsTextView; // Added TextView for admission requirements
-private AppCompatButton admissionButton;
+private MaterialButton admissionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

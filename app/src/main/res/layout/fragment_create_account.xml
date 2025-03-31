@@ -26,7 +26,7 @@
                android:scaleType="fitXY"
                android:src="@drawable/bg_wave_blue"
                android:alpha="0.6"
-               android:contentDescription="Background Design" />
+               android:contentDescription="@string/background_design" />
 
            <ImageButton
                android:id="@+id/backButton"
@@ -35,7 +35,7 @@
                android:src="@drawable/ic_back"
                android:padding="16dp"
                android:background="?attr/selectableItemBackgroundBorderless"
-               android:contentDescription="Back Button"
+               android:contentDescription="@string/back_button"
                android:layout_alignParentStart="true"
                android:layout_alignParentTop="true"
                app:tint="@color/background_color" />  </RelativeLayout>
@@ -82,18 +82,18 @@
                        android:src="@mipmap/ic_launcher_round"
                        android:padding="16dp"
                        app:shapeAppearance="@style/ShapeAppearanceOverlay.Circle"  android:layout_marginBottom="16dp"
-                       android:contentDescription="DoctorCube Logo" />
+                       android:contentDescription="@string/app_logo" />
 
                    <TextView
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:text="Create Your Account"
+                       android:text="@string/create_your_account"
                        style="@style/SectionTitleText"  android:textAlignment="center" />
 
                    <TextView
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:text="Fill the details below to get started."
+                       android:text="@string/fill_details"
                        style="@style/BodyText"  android:textAlignment="center"
                        android:layout_marginTop="8dp"
                        android:layout_marginBottom="16dp" />
@@ -107,7 +107,7 @@
                        android:id="@+id/fullNameEditText"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:hint="Full Name"
+                       android:hint="@string/full_name"
                        android:inputType="textPersonName"
                        android:imeOptions="actionNext"
                        android:drawableStart="@drawable/ic_profile"
@@ -127,7 +127,7 @@
                        android:id="@+id/emailEditText"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:hint="Email Address"
+                       android:hint="@string/enter_email"
                        android:inputType="textEmailAddress"
                        android:imeOptions="actionNext"
                        android:drawableStart="@drawable/ic_email"
@@ -147,7 +147,7 @@
                        android:id="@+id/phoneEditText"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:hint="Mobile No"
+                       android:hint="@string/phone_number"
                        android:inputType="phone"
                        android:imeOptions="actionNext"
                        android:drawableStart="@drawable/ic_call"
@@ -155,7 +155,7 @@
                        android:drawablePadding="12dp"
                        android:minHeight="56dp"
                        android:textColor="@color/text_primary_color"
-                       android:contentDescription="Mobile Number" />
+                       android:contentDescription="@string/phone_number" />
                    </com.google.android.material.textfield.TextInputLayout>
 
                    <com.google.android.material.textfield.TextInputLayout
@@ -168,7 +168,7 @@
                        android:id="@+id/passwordEditText"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:hint="Password"
+                       android:hint="@string/password"
                        android:inputType="textPassword"
                        android:imeOptions="actionNext"
                        android:drawableStart="@drawable/ic_lock"
@@ -176,21 +176,21 @@
                        android:drawablePadding="12dp"
                        android:minHeight="56dp"
                        android:textColor="@color/text_primary_color"
-                       android:contentDescription="Password" />
+                       android:contentDescription="@string/password" />
                    </com.google.android.material.textfield.TextInputLayout>
 
                    <TextView
                        android:id="@+id/passwordStrengthText"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:text="Password Strength"
+                       android:text="@string/password_strength"
                        android:textSize="12sp"
                        style="@style/BodyText"  android:layout_marginTop="4dp" />
 
                    <TextView
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:text="Password must be 8-14 chars with uppercase, lowercase, number, and special char"
+                       android:text="@string/password_must_be_8_14_chars_with_uppercase_lowercase_number_and_special_char"
                        android:textSize="12sp"
                        android:textColor="@color/text_tertiary_color"
                        android:layout_marginTop="4dp"
@@ -207,7 +207,7 @@
                        android:id="@+id/confirmPasswordEditText"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:hint="Confirm Password"
+                       android:hint="@string/confirm_password"
                        android:inputType="textPassword"
                        android:imeOptions="actionDone"
                        android:drawableStart="@drawable/ic_lock_check"
@@ -215,7 +215,7 @@
                        android:drawablePadding="12dp"
                        android:minHeight="56dp"
                        android:textColor="@color/text_primary_color"
-                       android:contentDescription="Confirm Password" />
+                       android:contentDescription="@string/confirm_password" />
                    </com.google.android.material.textfield.TextInputLayout>
 
                    <LinearLayout
@@ -230,19 +230,19 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:buttonTint="@color/checkbox_tint"
-                           android:contentDescription="Agree to Terms" />
+                           android:contentDescription="@string/agree_to_terms" />
 
                        <TextView
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:text="I agree to the "
+                           android:text="@string/i_agree_to_the"
                            style="@style/BodyText"  android:textSize="14sp" />
 
                        <TextView
                            android:id="@+id/termsText"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:text="Terms and Conditions"
+                           android:text="@string/terms_and_conditions"
                            android:textSize="14sp"
                            android:textColor="@color/text_link"
                            android:textStyle="bold" />
@@ -252,7 +252,7 @@
                        android:id="@+id/createAccountButton"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:text="Create Account"
+                       android:text="@string/create_account"
                        android:layout_marginTop="24dp"
                        app:cornerRadius="12dp"
                        android:textSize="16sp"
@@ -267,14 +267,14 @@
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Already have an account? "
+                       android:text="@string/already_have_an_account"
                        style="@style/BodyText"  android:textSize="15sp" />
 
                    <TextView
                        android:id="@+id/loginText"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Login"
+                       android:text="@string/login"
                        android:textSize="15sp"
                        android:textColor="@color/primary_color"
                        android:textStyle="bold"

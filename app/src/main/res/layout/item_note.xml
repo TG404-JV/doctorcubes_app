@@ -33,7 +33,7 @@
             <TextView
                 android:id="@+id/documentTitleTextView"
                 style="@style/DocumentTitleTextViewStyle"
-                android:text="Advanced Mathematics Lecture Notes" />
+                android:text="@string/medical_education" />
         </LinearLayout>
 
         <LinearLayout
@@ -45,12 +45,12 @@
             <TextView
                 android:id="@+id/pageCountTextView"
                 style="@style/PageCountTextViewStyle"
-                android:text="Pages: 45" />
+                android:text="@string/pages_45" />
 
             <TextView
                 android:id="@+id/fileSizeTextView"
                 style="@style/FileSizeTextViewStyle"
-                android:text="Size: 2.3 MB" />
+                android:text="@string/size_2_3_mb" />
 
 
 
@@ -59,7 +59,7 @@
         <TextView
             android:id="@+id/descriptionTextView"
             style="@style/DescriptionTextViewStyle"
-            android:text="details"/>
+            android:text="@string/details"/>
 
         <View
             android:layout_width="match_parent"
@@ -75,7 +75,7 @@
             <TextView
                 android:id="@+id/timestampTextView"
                 style="@style/TimestampTextViewStyle"
-                android:text="Last Updated: Mar 27, 2025" />
+                android:text="@string/last_updated_mar_27_2025" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

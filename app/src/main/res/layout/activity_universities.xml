@@ -45,7 +45,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="back"
+                            android:contentDescription="@string/back_disc"
                             android:padding="12dp"
                             android:src="@drawable/ic_back"
                             app:tint="@color/text_on_primary" />
@@ -59,7 +59,7 @@
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
                             android:padding="16dp"
-                            android:text="Universities in USA"
+                            android:text="@string/country_university"
                             android:textColor="@color/text_on_primary"
                             android:textSize="20sp" />
                     </LinearLayout>
@@ -92,7 +92,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="542"
+                                android:text="@string/country_count"
                                 android:textColor="@color/text_highlight"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
@@ -101,7 +101,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
-                                android:text="Universities"
+                                android:text="@string/universities"
                                 android:textColor="@color/text_secondary_color"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -123,7 +123,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="86"
+                                android:text="@string/rank_count"
                                 android:textColor="@color/text_highlight"
                                 android:textSize="24sp" />
 
@@ -131,7 +131,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif"
-                                android:text="Top 100 Ranked"
+                                android:text="@string/out_of_rank"
                                 android:textColor="@color/text_secondary_color"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="Search by name, location, or programs..."
+                        android:hint="@string/search_hint_txt"
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:paddingStart="8dp"
@@ -252,7 +252,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:text="No universities found"
+                    android:text="@string/no_universities"
                     android:textColor="@color/text_secondary_color"
                     android:textSize="18sp" />
 
@@ -262,7 +262,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:text="Try adjusting your search filters or browse all universities"
+                    android:text="@string/browse_universities"
                     android:textColor="@color/text_tertiary_color"
                     android:textSize="16sp" />
 
@@ -272,7 +272,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Clear Filters" />
+                    android:text="@string/clear_filters" />
             </LinearLayout>
         </FrameLayout>
     </androidx.core.widget.NestedScrollView>

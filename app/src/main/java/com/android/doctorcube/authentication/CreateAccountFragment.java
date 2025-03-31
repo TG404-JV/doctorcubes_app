@@ -320,7 +320,7 @@ public class CreateAccountFragment extends Fragment {
             passwordStrengthText.setTextColor(Color.GREEN);
         } else {
             passwordStrengthText.setText("Medium");
-            passwordStrengthText.setTextColor(Color.YELLOW);
+            passwordStrengthText.setTextColor(Color.BLUE);
         }
     }
 

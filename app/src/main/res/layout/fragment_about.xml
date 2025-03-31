@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:text="About Us"
+                    android:text="@string/about_us"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -82,7 +82,7 @@
                         android:id="@+id/ivLogo"
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
-                        android:contentDescription="DoctorCube Logo"
+                        android:contentDescription="@string/doctorcube_logo"
                         android:scaleType="centerInside"
                         android:src="@drawable/logo_doctor_cubes_dynamic" />
 
@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Your Pathway to Global Education"
+                        android:text="@string/doctor_cubes_slogun"
                         android:textColor="@color/text_primary_color"
                         android:textSize="16sp"
                         android:textStyle="italic" />
@@ -124,7 +124,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Our Mission"
+                            android:text="@string/our_mission"
                             android:textColor="@color/primary_color"
                             android:textSize="22sp"
                             android:textStyle="bold"
@@ -147,7 +147,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:lineSpacingExtra="4dp"
-                            android:text="At DoctorCube, our mission is to simplify the international education journey for students worldwide. We're dedicated to providing a seamless platform that guides students through university applications, scholarships, and visa processes with clarity and expertise."
+                            android:text="@string/doctor_cubes_mission_text"
                             android:textColor="@color/text_secondary_color"
                             android:textSize="15sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -161,7 +161,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="32dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Who We Are"
+                            android:text="@string/who_we_are"
                             android:textColor="@color/primary_color"
                             android:textSize="22sp"
                             android:textStyle="bold"
@@ -184,7 +184,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:lineSpacingExtra="4dp"
-                            android:text="Founded in 2020, DoctorCube began with a team of education consultants who recognized the challenges international students face. Today, we've helped thousands of students from over 50 countries achieve their education dreams through personalized guidance and technological innovation."
+                            android:text="@string/doctor_cubes_history"
                             android:textColor="@color/text_secondary_color"
                             android:textSize="15sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +198,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="32dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="What We Offer"
+                            android:text="@string/what_we_offer"
                             android:textColor="@color/primary_color"
                             android:textSize="22sp"
                             android:textStyle="bold"
@@ -238,12 +238,12 @@
                                     <TextView
                                         android:id="@+id/tvUniversityTitle"
                                         style="@style/ServiceCardTitle"
-                                        android:text="University Applications" />
+                                        android:text="@string/doctor_cubes_feature_1" />
 
                                     <TextView
                                         android:id="@+id/tvUniversityDesc"
                                         style="@style/ServiceCardDescription"
-                                        android:text="Streamlined application process to top universities worldwide with personalized guidance." />
+                                        android:text="@string/doctor_cubes_feature_1_inner_text" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -270,12 +270,12 @@
                                     <TextView
                                         android:id="@+id/tvScholarshipTitle"
                                         style="@style/ServiceCardTitle"
-                                        android:text="Scholarships" />
+                                        android:text="@string/doctor_cubes_feature_2" />
 
                                     <TextView
                                         android:id="@+id/tvScholarshipDesc"
                                         style="@style/ServiceCardDescription"
-                                        android:text="Access to exclusive scholarship opportunities and assistance with applications." />
+                                        android:text="@string/doctor_cubes_feature_2_inner_text" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -302,12 +302,12 @@
                                     <TextView
                                         android:id="@+id/tvVisaTitle"
                                         style="@style/ServiceCardTitle"
-                                        android:text="Visa Support" />
+                                        android:text="@string/doctor_cubes_feature_3" />
 
                                     <TextView
                                         android:id="@+id/tvVisaDesc"
                                         style="@style/ServiceCardDescription"
-                                        android:text="Expert guidance through student visa procedures for different countries." />
+                                        android:text="@string/doctor_cubes_feature_3_inner_text" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -335,12 +335,12 @@
                                     <TextView
                                         android:id="@+id/tvTrackingTitle"
                                         style="@style/ServiceCardTitle"
-                                        android:text="Application Tracking" />
+                                        android:text="@string/doctor_cubes_feature_4" />
 
                                     <TextView
                                         android:id="@+id/tvTrackingDesc"
                                         style="@style/ServiceCardDescription"
-                                        android:text="Real-time tracking of all your applications in one convenient dashboard." />
+                                        android:text="@string/doctor_cubes_feature_4_inner_text" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -367,12 +367,12 @@
                                     <TextView
                                         android:id="@+id/tvSupportTitle"
                                         style="@style/ServiceCardTitle"
-                                        android:text="24/7 Support" />
+                                        android:text="@string/doctor_cubes_feature_5" />
 
                                     <TextView
                                         android:id="@+id/tvSupportDesc"
                                         style="@style/ServiceCardDescription"
-                                        android:text="Round-the-clock assistance from our dedicated support team to address all your queries." />
+                                        android:text="@string/doctor_cubes_feature_5_inner_text" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -384,7 +384,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="32dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Our Values"
+                            android:text="@string/our_values"
                             android:textColor="@color/primary_color"
                             android:textSize="22sp"
                             android:textStyle="bold"
@@ -418,7 +418,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:contentDescription="Excellence"
+                                    android:contentDescription="@string/excellence"
                                     android:src="@drawable/ic_check_circle"
                                     app:tint="@color/primary_color" />
 
@@ -426,7 +426,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="12dp"
-                                    android:text="Excellence: We strive for excellence in every interaction and service we provide."
+                                    android:text="@string/excellence_detail"
                                     android:textColor="@color/text_secondary_color"
                                     android:textSize="15sp" />
                             </LinearLayout>
@@ -440,7 +440,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:contentDescription="Integrity"
+                                    android:contentDescription="@string/integrity"
                                     android:src="@drawable/ic_check_circle"
                                     app:tint="@color/primary_color" />
 
@@ -448,7 +448,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="12dp"
-                                    android:text="Integrity: We operate with transparency and honesty in all our dealings."
+                                    android:text="@string/integrity_detail"
                                     android:textColor="@color/text_secondary_color"
                                     android:textSize="15sp" />
                             </LinearLayout>
@@ -462,7 +462,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:contentDescription="Innovation"
+                                    android:contentDescription="@string/innovation"
                                     android:src="@drawable/ic_check_circle"
                                     app:tint="@color/primary_color" />
 
@@ -470,7 +470,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="12dp"
-                                    android:text="Innovation: We continuously evolve our platform to meet the changing needs of international students."
+                                    android:text="@string/innovation_detail"
                                     android:textColor="@color/text_secondary_color"
                                     android:textSize="15sp" />
                             </LinearLayout>
@@ -483,7 +483,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:contentDescription="Empathy"
+                                    android:contentDescription="@string/empathy"
                                     android:src="@drawable/ic_check_circle"
                                     app:tint="@color/primary_color" />
 
@@ -491,7 +491,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="12dp"
-                                    android:text="Empathy: We understand the challenges of studying abroad and are committed to making the journey easier."
+                                    android:text="@string/empathy_detail"
                                     android:textColor="@color/text_secondary_color"
                                     android:textSize="15sp" />
                             </LinearLayout>
@@ -524,7 +524,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Our Team"
+                            android:text="@string/our_team"
                             android:textColor="@color/primary_color"
                             android:textSize="22sp"
                             android:textStyle="bold"
@@ -547,7 +547,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:lineSpacingExtra="4dp"
-                            android:text="DoctorCube is powered by a diverse team of education experts, counselors, and technology specialists from around the globe. Our team members bring years of experience in international education and a shared passion for helping students achieve their academic goals."
+                            android:text="@string/about_doctor_cubes_team"
                             android:textColor="@color/text_secondary_color"
                             android:textSize="15sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -582,7 +582,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Get In Touch"
+                            android:text="@string/get_in_touch"
                             android:textColor="@color/primary_color"
                             android:textSize="22sp"
                             android:textStyle="bold"
@@ -605,7 +605,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:lineSpacingExtra="4dp"
-                            android:text="Have questions or need assistance? Our team is ready to help you."
+                            android:text="@string/support_detail"
                             android:textColor="@color/text_secondary_color"
                             android:textSize="15sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -618,7 +618,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:backgroundTint="@color/primary_color"
-                            android:text="Email Us"
+                            android:text="@string/email_us"
                             android:textColor="@color/white"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_email"
@@ -634,7 +634,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:backgroundTint="@color/whatsapp_button_color"
-                            android:text="WhatsApp"
+                            android:text="@string/whatsapp"
                             android:textColor="@color/white"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_whatsapp"
@@ -650,7 +650,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:backgroundTint="@color/call_button_color"
-                            android:text="Call Us"
+                            android:text="@string/call_us"
                             android:textColor="@color/white"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_call"
@@ -666,7 +666,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Follow Us"
+                            android:text="@string/follow_us"
                             android:textColor="@color/primary_color"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -690,7 +690,7 @@
                                 android:layout_height="40dp"
                                 android:layout_margin="8dp"
                                 android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="Instagram"
+                                android:contentDescription="@string/instagram"
                                 android:src="@drawable/ic_instagram" />
 
                             <ImageView
@@ -699,7 +699,7 @@
                                 android:layout_height="40dp"
                                 android:layout_margin="8dp"
                                 android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="Twitter"
+                                android:contentDescription="@string/twitter"
                                 android:src="@drawable/ic_twitter" />
 
                             <ImageView
@@ -708,7 +708,7 @@
                                 android:layout_height="40dp"
                                 android:layout_margin="8dp"
                                 android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="YouTube"
+                                android:contentDescription="@string/youtube"
                                 android:src="@drawable/ic_youtube" />
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>

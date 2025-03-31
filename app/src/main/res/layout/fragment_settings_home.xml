@@ -37,7 +37,8 @@
                         android:layout_height="70dp"
                         android:src="@drawable/logo_doctor_cubes_white"
                         app:civ_border_width="2dp"
-                        app:civ_border_color="@color/white"/>
+                        app:civ_border_color="@color/white"
+                        android:contentDescription="@string/profile_image"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -51,21 +52,21 @@
                             android:id="@+id/user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="John Smith"
+                            android:text="@string/app_name"
                             style="@style/ProfileNameTextStyle"  />
 
                         <TextView
                             android:id="@+id/user_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="john.smith@example.com"
+                            android:text="@string/email_address"
                             style="@style/ProfileEmailTextStyle"  />
 
                         <TextView
                             android:id="@+id/user_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Student • USA Aspirant"
+                            android:text="@string/user_status"
                             style="@style/ProfileStatusTextStyle"  />
                     </LinearLayout>
                 </LinearLayout>
@@ -89,7 +90,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Account Settings"
+                        android:text="@string/account_settings"
                         style="@style/CardTitleTextStyle"  />
 
                     <LinearLayout
@@ -106,13 +107,14 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_manage"
-                            app:tint="@color/icon_tint_primary" />
+                            app:tint="@color/icon_tint_primary"
+                            android:contentDescription="@string/settings_icon"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Edit Profile Details"
+                            android:text="@string/edit_profile_details"
                             style="@style/SettingsItemTextStyle"  />
 
                         <ImageView
@@ -120,7 +122,8 @@
                             android:layout_height="24dp"
                             android:src="@drawable/ic_back"
                             android:rotation="180"
-                            app:tint="@color/icon_tint_secondary" />
+                            app:tint="@color/icon_tint_secondary"
+                            android:contentDescription="@string/arrow_icon"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -137,13 +140,14 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_popup_reminder"
-                            app:tint="@color/icon_tint_primary" />
+                            app:tint="@color/icon_tint_primary"
+                            android:contentDescription="@string/settings_icon"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Notification Preferences"
+                            android:text="@string/notification_preferences"
                             style="@style/SettingsItemTextStyle"  />
 
                         <ImageView
@@ -151,7 +155,8 @@
                             android:layout_height="24dp"
                             android:src="@drawable/ic_back"
                             android:rotation="180"
-                            app:tint="@color/icon_tint_secondary" />
+                            app:tint="@color/icon_tint_secondary"
+                            android:contentDescription="@string/arrow_icon"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -173,7 +178,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Support and Help"
+                        android:text="@string/support_and_help"
                         style="@style/CardTitleTextStyle"  />
 
                     <LinearLayout
@@ -190,13 +195,14 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_info_details"
-                            app:tint="@color/icon_tint_primary" />
+                            app:tint="@color/icon_tint_primary"
+                            android:contentDescription="@string/support_icon"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="About DoctorCubes"
+                            android:text="@string/about_doctorcubes"
                             style="@style/SettingsItemTextStyle"  />
 
                         <ImageView
@@ -204,7 +210,8 @@
                             android:layout_height="24dp"
                             android:src="@drawable/ic_back"
                             android:rotation="180"
-                            app:tint="@color/icon_tint_secondary" />
+                            app:tint="@color/icon_tint_secondary"
+                            android:contentDescription="@string/arrow_icon"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -221,13 +228,14 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_lock_lock"
-                            app:tint="@color/icon_tint_primary" />
+                            app:tint="@color/icon_tint_primary"
+                            android:contentDescription="@string/settings_icon"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Privacy Policy"
+                            android:text="@string/privacy_policy"
                             style="@style/SettingsItemTextStyle"  />
 
                         <ImageView
@@ -235,7 +243,8 @@
                             android:layout_height="24dp"
                             android:src="@drawable/ic_back"
                             android:rotation="180"
-                            app:tint="@color/icon_tint_secondary" />
+                            app:tint="@color/icon_tint_secondary"
+                            android:contentDescription="@string/arrow_icon"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -252,13 +261,14 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_help"
-                            app:tint="@color/icon_tint_primary" />
+                            app:tint="@color/icon_tint_primary"
+                            android:contentDescription="@string/support_icon"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Frequently Asked Questions"
+                            android:text="@string/frequently_asked_questions"
                             style="@style/SettingsItemTextStyle"  />
 
                         <ImageView
@@ -266,7 +276,8 @@
                             android:layout_height="24dp"
                             android:src="@drawable/ic_back"
                             android:rotation="180"
-                            app:tint="@color/icon_tint_secondary" />
+                            app:tint="@color/icon_tint_secondary"
+                            android:contentDescription="@string/arrow_icon"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -283,13 +294,14 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_call"
-                            app:tint="@color/icon_tint_primary" />
+                            app:tint="@color/icon_tint_primary"
+                            android:contentDescription="@string/support_icon"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Contact Support"
+                            android:text="@string/contact_support"
                             style="@style/SettingsItemTextStyle"  />
 
                         <ImageView
@@ -297,7 +309,8 @@
                             android:layout_height="24dp"
                             android:src="@drawable/ic_back"
                             android:rotation="180"
-                            app:tint="@color/icon_tint_secondary" />
+                            app:tint="@color/icon_tint_secondary"
+                            android:contentDescription="@string/arrow_icon"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -327,7 +340,8 @@
                             android:src="@android:drawable/ic_dialog_email"
                             android:background="@drawable/circular_background"
                             android:padding="12dp"
-                            app:tint="@color/white"/>
+                            app:tint="@color/white"
+                            android:contentDescription="@string/consultation_icon"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -338,13 +352,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Need Personalized Help?"
+                                android:text="@string/need_personalized_help"
                                 style="@style/ConsultationTitleTextStyle"  />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Schedule a free consultation with our education experts"
+                                android:text="@string/schedule_free_consultation"
                                 style="@style/ConsultationDescriptionTextStyle"  />
                         </LinearLayout>
                     </LinearLayout>
@@ -353,7 +367,7 @@
                         android:id="@+id/schedule_consultation_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Schedule Consultation"
+                        android:text="@string/schedule_consultation"
                         android:textAllCaps="false"
                         android:textSize="16sp"
                         android:textColor="@color/text_on_primary"
@@ -368,7 +382,7 @@
                 android:id="@+id/logout_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Logout"
+                android:text="@string/logout"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textColor="@color/text_on_primary"
@@ -380,8 +394,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DoctorCubes v2.1.0"
-                style="@style/AppVersionTextStyle"  android:layout_gravity="center_horizontal"
+                android:text="@string/app_version"
+                style="@style/AppVersionTextStyle"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

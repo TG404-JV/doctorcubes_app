@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Profile Setup"
+                    android:text="@string/profile_setup"
                     style="@style/ToolbarTitleStyle"  />
             </RelativeLayout>
 
@@ -50,14 +50,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Complete"
+                    android:text="@string/complete"
                     android:textColor="@color/white"  android:textSize="40sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="your profile"
+                    android:text="@string/your_profile"
                     android:textColor="@color/white"  android:textSize="40sp"
                     android:textStyle="bold" />
 
@@ -66,8 +66,8 @@
                     style="@style/BodyText"  android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="@color/secondary_background"
-                    android:text="Help us personalize your medical education abroad journey"
+                    android:textColor="@color/white"
+                    android:text="@string/data_request_text"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -85,7 +85,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Personal Information"
+                android:text="@string/personal_information"
                 style="@style/SectionTitleText"  android:layout_marginBottom="16dp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -99,7 +99,7 @@
                 android:id="@+id/nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Full Name"
+                android:hint="@string/full_name"
                 android:inputType="textPersonName"
                 android:textColor="@color/text_primary_color"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -115,7 +115,7 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email Address"
+                android:hint="@string/enter_email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/text_primary_color"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -131,7 +131,7 @@
                 android:id="@+id/phoneEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone Number"
+                android:hint="@string/phone_number"
                 android:inputType="phone"
                 android:textColor="@color/text_primary_color"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:hint="Select Your Country"
+                android:hint="@string/study_country"
                 android:textColor="@color/text_primary_color"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -169,7 +169,7 @@
                 android:id="@+id/stateEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="State/Province"
+                android:hint="@string/state_province"
                 android:inputType="text"
                 android:textColor="@color/text_primary_color"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -185,7 +185,7 @@
                 android:id="@+id/cityEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="City"
+                android:hint="@string/city"
                 android:inputType="text"
                 android:textColor="@color/text_primary_color"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -193,13 +193,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Medical Education"
+                android:text="@string/medical_education"
                 style="@style/SectionTitleText"  android:layout_marginBottom="16dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Do you have a NEET Score?"
+                android:text="@string/neet_score"
                 android:textColor="@color/text_primary_color"  android:textSize="16sp"
                 android:layout_marginBottom="8dp" />
 
@@ -214,13 +214,13 @@
                     android:id="@+id/neetScoreYes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Yes"
+                    android:text="@string/yes"
                     android:layout_marginEnd="24dp"
                     android:buttonTint="@color/primary_color" />  <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/neetScoreNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No"
+                android:text="@string/no"
                 android:buttonTint="@color/primary_color" />  </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -234,7 +234,7 @@
                 android:id="@+id/neetScore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Your NEET Score"
+                android:hint="@string/your_neet_score"
                 android:inputType="number"
                 android:textColor="@color/text_primary_color"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -242,7 +242,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Do you have a Passport?"
+                android:text="@string/passport"
                 android:textColor="@color/text_primary_color"  android:textSize="16sp"
                 android:layout_marginBottom="8dp" />
 
@@ -257,20 +257,20 @@
                     android:id="@+id/passportYes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Yes"
+                    android:text="@string/yes"
                     android:layout_marginEnd="24dp"
                     android:buttonTint="@color/primary_color" />  <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/passportNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No"
+                android:text="@string/no"
                 android:buttonTint="@color/primary_color" />  </RadioGroup>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/submitButton"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Submit Details"
+                android:text="@string/submit_details"
                 android:textSize="16sp"
                 app:cornerRadius="8dp"
                 android:layout_marginBottom="16dp"

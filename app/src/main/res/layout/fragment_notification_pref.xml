@@ -24,6 +24,7 @@
                 android:layout_marginStart="10dp"
                 android:background="@color/transparent"
                 android:src="@drawable/ic_back"
+                android:contentDescription="@string/back"
                 app:tint="@color/white" />
 
             <TextView
@@ -31,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="Notification Settings" />
+                android:text="@string/notification_settings" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -67,7 +68,7 @@
                             style="@style/SettingTitleTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Enable Notifications"
+                            android:text="@string/enable_notifications"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -75,7 +76,7 @@
                             style="@style/SettingDescriptionTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Receive updates about applications, deadlines, and more"
+                            android:text="@string/notification_updates_description"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -99,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Notification Time"
+                    android:text="@string/notification_time"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -108,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:text="Set a preferred time to receive notifications"
+                    android:text="@string/set_preferred_time"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -122,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:text="09:00 AM"
+                        android:text="@string/default_notification_time"
                         android:textColor="@color/button_text_primary"
                         app:backgroundTint="@color/button_primary"
                         app:cornerRadius="8dp"
@@ -135,7 +136,7 @@
                         style="@style/MedicalSecondaryButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Reset"
+                        android:text="@string/reset"
                         app:cornerRadius="8dp" />
                 </LinearLayout>
             </LinearLayout>
@@ -162,7 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:text="Notification Categories"
+                    android:text="@string/notification_categories"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -185,7 +186,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="University Updates"
+                        android:text="@string/university_updates"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -217,7 +218,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Scholarship Opportunities"
+                        android:text="@string/scholarship_opportunities"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -249,7 +250,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Visa &amp; Immigration Updates"
+                        android:text="@string/visa_immigration_updates"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -281,7 +282,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Application Status Updates"
+                        android:text="@string/application_status_updates"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -312,7 +313,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Events &amp; Webinars"
+                        android:text="@string/events_webinars"
                         android:textSize="15sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -348,7 +349,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:text="Recent Notifications"
+                    android:text="@string/recent_notifications"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

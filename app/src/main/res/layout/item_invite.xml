@@ -26,14 +26,14 @@
                     style="@style/InviteFriendsTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Invite your friends" />
+                    android:text="@string/invite_your_friends" />
 
                 <TextView
                     style="@style/InviteFriendsDescriptionTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Make His Dream" />
+                    android:text="@string/make_his_dream" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/invite_button"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/button_background"
-                    android:text="INVITE" />
+                    android:text="@string/invite" />
             </LinearLayout>
 
             <ImageView

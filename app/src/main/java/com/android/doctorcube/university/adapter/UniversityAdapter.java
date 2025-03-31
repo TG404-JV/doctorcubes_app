@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.doctorcube.R;
+import com.android.doctorcube.SocialActions;
 import com.android.doctorcube.UniversityDetailsActivity;
 import com.android.doctorcube.university.ApplyBottomSheetFragment;
 import com.android.doctorcube.university.model.University;
@@ -72,6 +73,7 @@ public class UniversityAdapter extends RecyclerView.Adapter<UniversityAdapter.Un
         holder.language.setText(university.getLanguage());
         holder.intake.setText(university.getIntake());
         holder.scholarshipText.setText(university.getScholarshipInfo());
+        SocialActions openSocial = new SocialActions();
 
 
         holder.university_card_container.setOnClickListener(v -> {
@@ -91,27 +93,13 @@ public class UniversityAdapter extends RecyclerView.Adapter<UniversityAdapter.Un
 
         // Call Button - Initiates phone call
         holder.btnCall.setOnClickListener(v -> {
-            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:+1234567890")); // Replace with actual phone number
-            context.startActivity(callIntent);
+            openSocial.makeDirectCall(context);
         });
 
         // WhatsApp Button - Opens WhatsApp with pre-filled message
         holder.btnWhatsapp.setOnClickListener(v -> {
-            try {
-                String phoneNumber = "+1234567890"; // Replace with actual WhatsApp number
-                String message = "Hello, I'm interested in " + university.getName() +
-                        " - " + university.getCourseName();
-                String url = "https://api.whatsapp.com/send?phone=" + phoneNumber +
-                        "&text=" + Uri.encode(message);
-
-                Intent whatsappIntent = new Intent(Intent.ACTION_VIEW);
-                whatsappIntent.setData(Uri.parse(url));
-                context.startActivity(whatsappIntent);
-            } catch (Exception e) {
-                e.printStackTrace();
-                // Handle error - maybe show a toast
-            }
+                String Universityname = university.getName();
+                openSocial.openWhatsApp(context,Universityname);
         });
 
         // Apply Button - Opens Bottom Sheet Dialog

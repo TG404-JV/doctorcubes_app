@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/login_gradient_background">
 
 
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back Button"
+            android:contentDescription="@string/back_button"
             android:padding="16dp"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
             android:layout_width="200dp"
             android:layout_height="120dp"
             android:layout_marginTop="48dp"
-            android:contentDescription="Education Consultancy Logo"
+            android:contentDescription="@string/logo_description"
             android:src="@drawable/logo_doctor_cubes_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Global Education Partner"
+            android:text="@string/slogun"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
                     style="@style/SectionTitleText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Welcome Back"
+                    android:text="@string/welcome_back"
                     android:textAlignment="center" />
 
                 <TextView
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Sign in to access your global education journey"
+                    android:text="@string/sign_in_text"
                     android:textAlignment="center" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -96,7 +96,7 @@
                         android:id="@+id/emailEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Email Address"
+                        android:hint="@string/enter_email"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/text_primary_color"
                         android:textColorHint="@color/hint_color" />
@@ -116,7 +116,7 @@
                         android:id="@+id/passwordEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:inputType="textPassword"
                         android:textColor="@color/text_primary_color"
                         android:textColorHint="@color/hint_color" />
@@ -129,7 +129,7 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="12dp"
                     android:padding="4dp"
-                    android:text="Forgot Password?"
+                    android:text="@string/forgot_password"
                     android:textColor="@color/text_link"
                     android:textSize="14sp" />
 
@@ -140,7 +140,7 @@
                     android:layout_height="56dp"
                     android:layout_marginTop="24dp"
                     android:backgroundTint="@color/button_primary"
-                    android:text="Sign In"
+                    android:text="@string/sign_in"
                     android:textColor="@color/button_text_primary"
                     android:textSize="16sp"
                     app:cornerRadius="12dp"
@@ -165,7 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="OR" />
+                        android:text="@string/or" />
 
                     <View
                         android:layout_width="0dp"
@@ -195,7 +195,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
-                            android:contentDescription="Sign in with Google"
+                            android:contentDescription="@string/sign_in_with_google"
                             android:src="@drawable/ic_google" />
                     </com.google.android.material.card.MaterialCardView>
 
@@ -212,14 +212,14 @@
                         style="@style/BodyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="New to our platform? " />
+                        android:text="@string/new_to_our_platform" />
 
                     <TextView
                         android:id="@+id/createAccountText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-                        android:text="Create Account"
+                        android:text="@string/create_account"
                         android:textColor="@color/text_link"
                         android:textStyle="bold" />
                 </LinearLayout>

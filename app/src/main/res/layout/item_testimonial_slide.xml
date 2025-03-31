@@ -26,7 +26,7 @@
             style="@style/TestimonialTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DoctorCubes made my dream of studying medicine abroad come true. Their guidance throughout the application process was invaluable." />
+            android:text="@string/testimonial" />
 
         <View
             android:layout_width="80dp"
@@ -78,21 +78,21 @@
                     style="@style/TestimonialNameTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="John Smith" />
+                    android:text="@string/tvm_it_solutions" />
 
                 <TextView
                     android:id="@+id/testimonial_university"
                     style="@style/TestimonialUniversityTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sechenov University" />
+                    android:text="@string/sechenov_university" />
 
                 <TextView
                     android:id="@+id/testimonial_batch"
                     style="@style/TestimonialBatchTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Batch 2023" />
+                    android:text="@string/batch_2023" />
             </LinearLayout>
         </LinearLayout>
 
@@ -105,7 +105,7 @@
             android:layout_marginTop="12dp"
             android:isIndicator="true"
             android:numStars="5"
-            android:progressTint="@color/progress_primary"
+            android:progressTint="@color/accent_color"
             android:rating="5"
             android:stepSize="0.5" />
     </LinearLayout>

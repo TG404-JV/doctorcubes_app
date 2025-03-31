@@ -18,7 +18,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="16dp"
-        android:text="No notes available"
+        android:text="@string/no_notes_available"
         style="@style/BodyText"
         android:visibility="gone" />
 

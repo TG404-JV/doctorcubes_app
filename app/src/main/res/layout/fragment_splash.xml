@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="Make Your Abroad Dream True !"
+            android:text="@string/make_your_abroad_dream_true"
             android:layout_centerHorizontal="true"
             style="@style/SplashSloganTextStyle" />
 

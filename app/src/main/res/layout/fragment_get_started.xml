@@ -1,4 +1,5 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,8 +8,8 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toTopOf="@id/indicator"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +46,8 @@
         app:layout_constraintBottom_toTopOf="@id/indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.9" />
+        app:layout_constraintWidth_percent="0.9"
+        android:contentDescription="@string/image_caption_description"/>
 
     <TextView
         android:id="@+id/heading_text"
@@ -57,7 +59,7 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:lineSpacingExtra="4dp"
-        android:text="Make Your Abroad Admission Dream Come True"
+        android:text="@string/onboarding_title"
         app:layout_constraintBottom_toTopOf="@id/subheading_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +74,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:gravity="center"
-        android:text="Start your journey today!"
+        android:text="@string/onboarding_subtitle"
         app:layout_constraintBottom_toTopOf="@id/button_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +98,7 @@
             android:drawableEnd="@drawable/ic_arrow_forward"
             android:drawablePadding="8dp"
             android:drawableTint="@color/white"
-            android:text="Get Started"
+            android:text="@string/get_started"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:rippleColor="#80FFFFFF" />

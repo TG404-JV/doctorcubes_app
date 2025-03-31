@@ -59,7 +59,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_filter"
                 android:scaleType="centerInside"
-                android:contentDescription="filter"
+                android:contentDescription="@string/filter"
                 app:tint="@color/primary_light_color" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Contact Us"
+                android:text="@string/contact_us"
                 style="@style/CardTitleTextStyle"
                 />
 
@@ -64,7 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="Call Now"
+                            android:text="@string/call_us"
                             style="@style/CallButtonStyle"
                             />
                     </LinearLayout>
@@ -101,7 +101,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="Chat on WhatsApp"
+                            android:text="@string/chat_on_whatsapp"
                             style="@style/WhatsappButtonStyle"
                             />
                     </LinearLayout>

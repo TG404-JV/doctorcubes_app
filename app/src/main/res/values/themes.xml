@@ -117,7 +117,6 @@
     <!-- Premium Card Style for Featured Services -->
     <style name="MedicalPremiumCardStyle" parent="MedicalCardStyle">
         <item name="cardBackgroundColor">@color/premium_card_bg</item>
-        <item name="strokeColor">@color/accent_light_color</item>
         <item name="strokeWidth">1dp</item>
     </style>
 

@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="My Profile"
+        android:text="@string/my_profile"
             android:textColor="@color/white"
         style="@style/ToolbarTitleStyle"  />
 
@@ -82,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Tap to change profile photo"
+                        android:text="@string/tap_to_change_profile_photo"
                         style="@style/CaptionTextStyle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +95,7 @@
                     style="@style/MedicalTextInputStyle"  android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Full Name">
+                    android:hint="@string/full_name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/fullNameEditText"
@@ -111,7 +111,7 @@
                     style="@style/MedicalTextInputStyle"  android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Email">
+                    android:hint="@string/enter_email">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailEditText"
@@ -127,7 +127,7 @@
                     style="@style/MedicalTextInputStyle"  android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Phone Number">
+                    android:hint="@string/phone_number">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneEditText"
@@ -143,8 +143,9 @@
                     style="@style/MedicalSecondaryButton"  android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginBottom="24dp"
-                    android:text="Change Password"
+                    android:text="@string/change_password"
                     app:icon="@drawable/ic_lock"
+                    app:iconTint="@color/primary_color"
                     app:iconGravity="textStart" />
 
                 <com.google.android.material.button.MaterialButton
@@ -152,7 +153,7 @@
                     style="@style/MedicalPrimaryButton"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:text="Save Changes" />
+                    android:text="@string/save_changes" />
 
             </LinearLayout>
 

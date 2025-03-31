@@ -10,7 +10,7 @@
         style="@style/MedicalSectionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Content" />
+        android:text="@string/add_content" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                     android:id="@+id/titleEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Video Title"
+                    android:hint="@string/video_title"
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -43,7 +43,7 @@
                     android:id="@+id/authorEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Author"
+                    android:hint="@string/author"
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -57,7 +57,7 @@
                     android:id="@+id/sizeEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Size (e.g., 2.5 MB)"
+                    android:hint="@string/size_e_g_2_5_mb"
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color"
                     android:inputType="text" />
@@ -72,7 +72,7 @@
                     android:id="@+id/pagesEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Number of Pages"
+                    android:hint="@string/number_of_pages"
                     android:inputType="number"
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color" />
@@ -87,7 +87,7 @@
                     android:id="@+id/categoryEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Category (e.g., Math, Physics)"
+                    android:hint="@string/category_e_g_math_physics"
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -101,7 +101,7 @@
                     android:id="@+id/descriptionEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Description (optional)"
+                    android:hint="@string/description_optional"
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color"
                     android:inputType="textMultiLine"
@@ -117,7 +117,7 @@
                     android:id="@+id/urlEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="URL"
+                    android:hint="@string/url"
                     android:textColor="@color/text_primary_color"
                     android:textColorHint="@color/hint_color" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -134,7 +134,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Video"
+                    android:text="@string/video"
                     android:checked="true" />
 
                 <RadioButton
@@ -143,7 +143,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Notes" />
+                    android:text="@string/notes" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -152,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Upload" />
+                android:text="@string/upload" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressBar"

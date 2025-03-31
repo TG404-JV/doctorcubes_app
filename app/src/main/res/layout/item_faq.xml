@@ -17,14 +17,14 @@
             style="@style/QATextView_Question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Question" />
+            android:text="@string/question" />
 
         <TextView
             android:id="@+id/tvAnswer"
             style="@style/QATextView_Answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Answer"
+            android:text="@string/answer"
             android:visibility="gone"
             android:paddingTop="8dp" />
     </LinearLayout>

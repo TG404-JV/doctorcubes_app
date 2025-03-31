@@ -41,11 +41,11 @@
 
                         <TextView
                             style="@style/CountryNameTextView"
-                            android:text="Russia" />
+                            android:text="@string/russia" />
 
                         <TextView
                             style="@style/UniversityCountTextView"
-                            android:text="60+ Universities" />
+                            android:text="@string/_60_universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -90,11 +90,11 @@
 
                         <TextView
                             style="@style/CountryNameTextView"
-                            android:text="Georgia" />
+                            android:text="@string/georgia" />
 
                         <TextView
                             style="@style/UniversityCountTextView"
-                            android:text="15+ Universities" />
+                            android:text="@string/_15_universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -139,11 +139,11 @@
 
                         <TextView
                             style="@style/CountryNameTextView"
-                            android:text="Kazakhstan" />
+                            android:text="@string/kazakhstan" />
 
                         <TextView
                             style="@style/UniversityCountTextView"
-                            android:text="20+ Universities" />
+                            android:text="@string/_20_universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -188,11 +188,11 @@
 
                         <TextView
                             style="@style/CountryNameTextView"
-                            android:text="Nepal" />
+                            android:text="@string/nepal" />
 
                         <TextView
                             style="@style/UniversityCountTextView"
-                            android:text="10+ Universities" />
+                            android:text="@string/_10_universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -237,11 +237,11 @@
 
                         <TextView
                             style="@style/CountryNameTextView"
-                            android:text="China" />
+                            android:text="@string/china" />
 
                         <TextView
                             style="@style/UniversityCountTextView"
-                            android:text="45+ Universities" />
+                            android:text="@string/_45_universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -286,11 +286,11 @@
 
                         <TextView
                             style="@style/CountryNameTextView"
-                            android:text="Uzbekistan" />
+                            android:text="@string/uzbekistan" />
 
                         <TextView
                             style="@style/UniversityCountTextView"
-                            android:text="12+ Universities" />
+                            android:text="@string/_12_universities" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

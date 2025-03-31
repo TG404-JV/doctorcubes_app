@@ -58,7 +58,7 @@
                 android:paddingEnd="12dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
-                android:text="Public"
+                android:text="@string/public_text"
                 android:textColor="@color/text_on_accent"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -69,7 +69,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/circle_outline_bg"
+                android:background="@drawable/rounded_corner_button"
                 android:padding="4dp"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="16dp">
@@ -84,7 +84,7 @@
                     android:id="@+id/country_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Georgia"
+                    android:text="@string/georgia"
                     android:textColor="@color/text_primary_color"
                     android:textSize="12sp"
                     android:layout_marginStart="4dp" />
@@ -102,7 +102,7 @@
                 android:id="@+id/university_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="University of Georgia"
+                android:text="@string/university_of_georgia"
                 android:textColor="@color/text_primary_color"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -111,7 +111,7 @@
                 android:id="@+id/course_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="General Medicine"
+                android:text="@string/mbbs"
                 android:textColor="@color/accent_color"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -133,7 +133,7 @@
                         android:id="@+id/degree_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bachelor"
+                        android:text="@string/bachelor"
                         android:background="@drawable/tag_background"
                         android:padding="6dp"
                         android:textColor="@color/primary_color"
@@ -143,7 +143,7 @@
                         android:id="@+id/field"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="medical"
+                        android:text="@string/medical"
                         android:background="@drawable/tag_background"
                         android:padding="6dp"
                         android:textColor="@color/primary_color"
@@ -153,7 +153,7 @@
                         android:id="@+id/ranking_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Top 500"
+                        android:text="@string/top_500"
                         android:background="@drawable/tag_background"
                         android:padding="6dp"
                         android:textColor="@color/primary_color"
@@ -190,7 +190,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Duration: "
+                            android:text="@string/duration"
                             android:textSize="14sp"
                             android:textColor="@color/text_secondary_color"
                             android:layout_marginStart="4dp" />
@@ -199,7 +199,7 @@
                             android:id="@+id/duration"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5.8 Years"
+                            android:text="@string/course_duration"
                             android:textColor="@color/text_primary_color"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -257,7 +257,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Language: "
+                            android:text="@string/language"
                             android:textSize="14sp"
                             android:textColor="@color/text_secondary_color"
                             android:layout_marginStart="4dp" />

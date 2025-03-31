@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="University Application Deadline" />
+            android:text="@string/university_application_deadline" />
 
         <TextView
             android:id="@+id/text_notification_message"
@@ -39,14 +39,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Your application to Oxford University is due in 3 days" />
+            android:text="@string/notification_desc" />
 
         <TextView
             android:id="@+id/text_notification_time"
             style="@style/NotificationTimeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 hours ago" />
+            android:text="@string/_2_hours_ago" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

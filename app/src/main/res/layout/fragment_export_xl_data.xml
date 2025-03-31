@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,9 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_color">
 
-    <!-- Top App Bar -->
-
-    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +16,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Status Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +33,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Export Status"
+                        android:text="@string/export_status"
                         android:textColor="@color/text_primary_color"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -57,7 +52,7 @@
                         android:drawableStart="@drawable/ic_info"
                         android:drawablePadding="8dp"
                         android:drawableTint="@color/info_color"
-                        android:text="Ready to export 24 medical student applications"
+                        android:text="@string/ready_to_export"
                         android:textColor="@color/text_secondary_color"
                         android:textSize="16sp" />
 
@@ -66,11 +61,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Last export: 03/19/2025 at 15:30"
+                        android:text="@string/last_export"
                         android:textColor="@color/text_tertiary_color"
                         android:textSize="14sp" />
 
-                    <!-- Progress Layout (Added) -->
                     <LinearLayout
                         android:id="@+id/progress_layout"
                         android:layout_width="match_parent"
@@ -89,7 +83,7 @@
                             android:id="@+id/tv_progress_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Exporting... (0/24)"
+                            android:text="@string/exporting"
                             android:textColor="@color/text_primary_color"
                             android:textSize="14sp"
                             android:layout_marginStart="12dp" />
@@ -97,7 +91,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Filters Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,7 +115,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Applied Filters"
+                            android:text="@string/applied_filters"
                             android:textColor="@color/text_primary_color"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -132,7 +125,7 @@
                             style="@style/Widget.MaterialComponents.Button.TextButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Edit"
+                            android:text="@string/edit"
                             android:textColor="@color/button_secondary_text"
                             app:iconTint="@color/button_secondary_text" />
                     </LinearLayout>
@@ -153,7 +146,7 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Program:"
+                            android:text="@string/program"
                             android:textColor="@color/text_secondary_color"
                             android:textStyle="bold" />
 
@@ -162,7 +155,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="MBBS, MD, Medical Research"
+                            android:text="@string/program_value"
                             android:textColor="@color/text_primary_color" />
                     </LinearLayout>
 
@@ -175,7 +168,7 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Country:"
+                            android:text="@string/country"
                             android:textColor="@color/text_secondary_color"
                             android:textStyle="bold" />
 
@@ -184,7 +177,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="USA, UK, Germany, Australia"
+                            android:text="@string/country_value"
                             android:textColor="@color/text_primary_color" />
                     </LinearLayout>
 
@@ -197,7 +190,7 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Status:"
+                            android:text="@string/status"
                             android:textColor="@color/text_secondary_color"
                             android:textStyle="bold" />
 
@@ -206,7 +199,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Applied, Under Review, Accepted"
+                            android:text="@string/status_value"
                             android:textColor="@color/text_primary_color" />
                     </LinearLayout>
 
@@ -219,7 +212,7 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Date Range:"
+                            android:text="@string/date_range"
                             android:textColor="@color/text_secondary_color"
                             android:textStyle="bold" />
 
@@ -228,13 +221,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Jan 1, 2025 - Mar 20, 2025"
+                            android:text="@string/date_value"
                             android:textColor="@color/text_primary_color" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Export Options Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -252,7 +244,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Export Options"
+                        android:text="@string/export_options"
                         android:textColor="@color/text_primary_color"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -276,7 +268,7 @@
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/checkbox_tint"
                             android:checked="true"
-                            android:text="Excel Format (.xlsx)"
+                            android:text="@string/excel_format"
                             android:textColor="@color/text_primary_color"
                             android:paddingVertical="4dp" />
 
@@ -285,7 +277,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/checkbox_tint"
-                            android:text="CSV Format (.csv)"
+                            android:text="@string/csv_format"
                             android:textColor="@color/text_primary_color"
                             android:paddingVertical="4dp" />
 
@@ -294,7 +286,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/checkbox_tint"
-                            android:text="PDF Report (.pdf)"
+                            android:text="@string/pdf_report"
                             android:textColor="@color/text_primary_color"
                             android:paddingVertical="4dp" />
                     </RadioGroup>
@@ -305,7 +297,7 @@
                         android:layout_height="wrap_content"
                         android:buttonTint="@color/checkbox_tint"
                         android:checked="true"
-                        android:text="Include statistics summary"
+                        android:text="@string/include_statistics"
                         android:textColor="@color/text_primary_color"
                         android:paddingVertical="4dp" />
 
@@ -315,20 +307,19 @@
                         android:layout_height="wrap_content"
                         android:buttonTint="@color/checkbox_tint"
                         android:checked="true"
-                        android:text="Include contact information"
+                        android:text="@string/include_contacts"
                         android:textColor="@color/text_primary_color"
                         android:paddingVertical="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Action Buttons -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_export_data"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="Export Data"
+                android:text="@string/export_data"
                 android:textSize="16sp"
                 android:textColor="@color/button_text_primary"
                 android:backgroundTint="@color/button_accent"
@@ -344,7 +335,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="View Previous Exports"
+                android:text="@string/view_previous_exports"
                 android:textSize="16sp"
                 android:textColor="@color/button_secondary_text"
                 app:strokeColor="@color/button_secondary_text"
@@ -357,14 +348,13 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Filter FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="Sort and Filter"
+        android:contentDescription="@string/sort_and_filter"
         android:src="@drawable/ic_filter"
         app:backgroundTint="@color/button_accent"
         app:tint="@color/button_text_primary" />

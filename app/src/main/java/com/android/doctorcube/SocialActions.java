@@ -24,6 +24,20 @@ public class SocialActions {
         }
     }
 
+
+    public void openWhatsApp(Context context ,String message) {
+        String phoneNumber = context.getString(R.string.whatsapp_number);
+        String defaultMessage = "Hello, I would like to know more about your consultancy services for MBBS admissions abroad. Please provide the necessary details. regarding " +message;
+        String url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + Uri.encode(defaultMessage);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void makeDirectCall(Context context) {
         String phoneNumber = context.getString(R.string.whatsapp_number);
         Intent intent = new Intent(Intent.ACTION_CALL);

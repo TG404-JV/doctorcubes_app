@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FragmentImportXLData extends Fragment {
@@ -210,7 +211,7 @@ public class FragmentImportXLData extends Fragment {
         long fileModifiedDate = -1;
         android.database.Cursor cursor = null;
         try {
-            cursor = getContext().getContentResolver().query(uri, new String[]{android.provider.MediaStore.Files.FileColumns.DATE_MODIFIED}, null, null, null);
+            cursor = requireContext().getContentResolver().query(uri, new String[]{android.provider.MediaStore.Files.FileColumns.DATE_MODIFIED}, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
                 int index = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Files.FileColumns.DATE_MODIFIED);
                 fileModifiedDate = cursor.getLong(index);
@@ -298,13 +299,11 @@ public class FragmentImportXLData extends Fragment {
                 "Has NEET Score", "NEET Score", "Has Passport", "Submission Date", "Call Status",
                 "Last Call Date", "Is Interested", "Is Admitted"};
         if (headerRow.getLastCellNum() < expectedHeaders.length) {
-            Log.e(TAG, "Header row has fewer columns than expected.");
             return false;
         }
         for (int i = 0; i < expectedHeaders.length; i++) {
             String header = getCellValue(headerRow, i);
             if (!expectedHeaders[i].equalsIgnoreCase(header.trim())) {
-                Log.e(TAG, "Header mismatch at column " + (i + 1) + ": Expected '" + expectedHeaders[i] + "', got '" + header + "'");
                 return false;
             }
         }
@@ -316,14 +315,12 @@ public class FragmentImportXLData extends Fragment {
         try {
             return row.getCell(cellIndex).toString().trim();
         } catch (Exception e) {
-            Log.e(TAG, "Error getting cell value at column " + (cellIndex + 1) + ": " + e.getMessage());
             return "";
         }
     }
 
     private String parseDate(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) {
-            Log.w(TAG, "Empty date string, using current date as fallback.");
             return dateFormat.format(new Date());
         }
         for (SimpleDateFormat format : excelDateFormats) {
@@ -331,7 +328,6 @@ public class FragmentImportXLData extends Fragment {
                 Date date = format.parse(dateStr);
                 if (date != null) {
                     String formattedDate = dateFormat.format(date);
-                    Log.d(TAG, "Parsed date '" + dateStr + "' to '" + formattedDate + "' using format: " + format.toPattern());
                     return formattedDate;
                 }
             } catch (ParseException ignored) {
@@ -340,10 +336,8 @@ public class FragmentImportXLData extends Fragment {
         }
         // If all parsing fails, check if it's already in ddMMyy format
         if (dateStr.matches("\\d{6}")) {
-            Log.d(TAG, "Assuming '" + dateStr + "' is already in ddMMyy format.");
             return dateStr;
         }
-        Log.w(TAG, "Failed to parse date '" + dateStr + "', using current date as fallback.");
         return dateFormat.format(new Date());
     }
 
@@ -383,7 +377,6 @@ public class FragmentImportXLData extends Fragment {
                     .addOnSuccessListener(aVoid -> {
                         uploadedCount.getAndIncrement();
                         tvProgressStatus.setText("Uploading data... (" + uploadedCount + "/" + total + ")");
-                        Log.d(TAG, "Successfully uploaded student: " + student.getName() + " under xl data");
                         if (uploadedCount.get() == total) {
                             progressLayout.setVisibility(View.GONE);
                             statusTextView.setText("Data upload completed! " + total + " students imported.");
@@ -399,7 +392,6 @@ public class FragmentImportXLData extends Fragment {
                         Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         importDataButton.setEnabled(true);
                         selectExcelButton.setEnabled(true);
-                        Log.e(TAG, "Failed to upload student: " + student.getName() + " - " + e.getMessage());
                     });
         }
     }

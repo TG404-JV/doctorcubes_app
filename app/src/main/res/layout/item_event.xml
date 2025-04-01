@@ -20,9 +20,9 @@
 
             <ImageView
                 android:id="@+id/eventImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/dateText"
@@ -51,7 +51,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces" />
+                android:src="@drawable/icon_university" />
 
             <TextView
                 android:id="@+id/locationText"
@@ -71,7 +71,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces" />
+                android:src="@drawable/ic_add_user" />
 
             <TextView
                 android:id="@+id/attendeesText"

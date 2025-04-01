@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -266,7 +264,6 @@ public class FragmentEditDetails extends Fragment {
                     showLoading(false);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Firestore error loading user data", e);
                     showLoading(false);
                     Toast.makeText(getContext(), "Failed to load profile: " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -289,7 +286,6 @@ public class FragmentEditDetails extends Fragment {
                 profileImageView.setImageBitmap(bitmap);
                 saveImageToLocalStorage(bitmap);
             } catch (IOException e) {
-                Log.e(TAG, "Error loading image", e);
                 e.printStackTrace();
                 Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
             }
@@ -369,7 +365,6 @@ public class FragmentEditDetails extends Fragment {
                     isImageChanged = false;
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Firestore error updating user data", e);
                     showLoading(false);
                     Toast.makeText(getContext(), "Failed to update profile: " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -576,7 +571,6 @@ public class FragmentEditDetails extends Fragment {
 
                                 })
                                 .addOnFailureListener(e -> {
-                                    Log.e(TAG, "Failed to update password", e);
                                     showLoading(false); // Hide overall loading
                                     // Call failure animation method
                                     showFailureAnimation(dialog, animationContainer, failureAnimationView,
@@ -585,7 +579,6 @@ public class FragmentEditDetails extends Fragment {
                                 });
                     })
                     .addOnFailureListener(e -> {
-                        Log.e(TAG, "Incorrect password", e);
                         showLoading(false); // Hide overall loading
                         Toast.makeText(getContext(), "Current password is incorrect",
                                 Toast.LENGTH_SHORT).show();

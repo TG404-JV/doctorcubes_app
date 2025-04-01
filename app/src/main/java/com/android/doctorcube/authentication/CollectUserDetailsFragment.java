@@ -1,10 +1,8 @@
 package com.android.doctorcube.authentication;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +25,7 @@ import androidx.security.crypto.MasterKeys;
 
 import com.android.doctorcube.R;
 import com.android.doctorcube.database.FirestoreHelper;
+import com.android.doctorcube.database.SharedPreferencesManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,7 +53,6 @@ public class CollectUserDetailsFragment extends Fragment {
 
     private final String[] countries = {"USA", "Canada", "UK", "Germany", "France", "Australia", "India", "China", "Brazil", "Japan"};
     private String userId;
-    private String userFullName;
     private String userEmail;
     private String userPhone;
     private String userRole; // To store the user's role
@@ -168,11 +166,9 @@ public class CollectUserDetailsFragment extends Fragment {
                 if (userId != null && !userId.isEmpty()) {
                     // Save user data to the "Users" collection
                     saveUserDataToUsersCollection(userData);
-
                     // Call the saveUserData method in FirestoreHelper to save to "app_submissions"
                     firestoreHelper.saveUserData(userData, userId, v, sharedPreferences, navController, isBottomSheet);
                 } else {
-                    Log.e("CollectUserDetailsFragment", "userId is null or empty when submitButton is clicked.");
                     Toast.makeText(getContext(), "Missing user information. Please sign in again.", Toast.LENGTH_SHORT).show();
                     //  Consider navigating the user back to the login screen
                     //  navController.navigate(R.id.loginFragment); // Replace with your login fragment ID
@@ -193,7 +189,6 @@ public class CollectUserDetailsFragment extends Fragment {
             firestoreDB.collection("Users").document(userId)
                     .set(userData, SetOptions.merge()) // Use SetOptions.merge() to update or create
                     .addOnSuccessListener(aVoid -> {
-                        Log.d("CollectUserDetails", "User data (role, name, email, phone) saved to Users collection for user: " + userId);
                         // Save to shared preferences
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("user_role", userRole);
@@ -204,11 +199,9 @@ public class CollectUserDetailsFragment extends Fragment {
 
                     })
                     .addOnFailureListener(e -> {
-                        Log.e("CollectUserDetails", "Error saving user data to Users collection: " + e.getMessage());
                         Toast.makeText(getContext(), "Failed to save user data. Please try again.", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Log.e("CollectUserDetailsFragment", "userId is null or empty in saveUserDataToUsersCollection.");
             Toast.makeText(getContext(), "Missing user information.  Please sign in again.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -287,6 +280,8 @@ public class CollectUserDetailsFragment extends Fragment {
         userData.put("hasPassport", hasPassport);
         userData.put("userId", userId);
         userData.put("timestamp", FieldValue.serverTimestamp());
+
+
         return userData;
     }
 }

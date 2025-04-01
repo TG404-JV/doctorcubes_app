@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import android.text.TextUtils;
 
-import android.util.Log;
 
 import android.view.LayoutInflater;
 
@@ -474,7 +473,6 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
 
                         Toast.makeText(getContext(), "Error checking for existing application.", Toast.LENGTH_SHORT).show();
 
-                        Log.e("Firestore", "Error checking for existing application: ", task.getException());
 
                     }
 
@@ -650,7 +648,6 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
 
                     } catch (Exception e) {
 
-                        Log.e("Navigation", "Error navigating: " + e.getMessage());
 
                     }
 
@@ -660,7 +657,6 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
 
                     Toast.makeText(getContext(), "Error updating application", Toast.LENGTH_SHORT).show();
 
-                    Log.e("Firestore", "Error updating data", e);
 
                 });
 
@@ -762,7 +758,6 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
 
                     } catch (Exception e) {
 
-                        Log.e("Navigation", "Error navigating: " + e.getMessage());
 
                     }
 
@@ -772,7 +767,6 @@ public class ApplyBottomSheetFragment extends BottomSheetDialogFragment {
 
                     Toast.makeText(getContext(), "Error submitting application", Toast.LENGTH_SHORT).show();
 
-                    Log.e("Firestore", "Error saving data", e);
 
                 });
 

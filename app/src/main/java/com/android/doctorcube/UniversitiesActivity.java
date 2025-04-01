@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -75,7 +73,6 @@ public class UniversitiesActivity extends AppCompatActivity {
 
         // Verify critical components
         if (filterBtn == null || filterSpinner == null) {
-            Log.e("UniversitiesActivity", "Critical UI component is null");
             return;
         }
 
@@ -215,7 +212,6 @@ public class UniversitiesActivity extends AppCompatActivity {
             try {
                 return UniversityData.getUniversities();
             } catch (Exception e) {
-                Log.e("UniversitiesActivity", "Error loading university data", e);
                 return new ArrayList<>();
             }
         }

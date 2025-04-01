@@ -1,6 +1,5 @@
 package com.android.doctorcube.adminpannel;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.view.LayoutInflater;

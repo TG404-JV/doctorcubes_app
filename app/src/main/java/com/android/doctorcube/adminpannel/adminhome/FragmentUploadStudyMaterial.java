@@ -114,7 +114,6 @@ public class FragmentUploadStudyMaterial extends Fragment {
                         }
                         contentAdapter.notifyDataSetChanged();
                     } else {
-                        Log.e("FragmentUpload", "Error fetching content: ", task.getException());
                         Toast.makeText(getContext(), "Error fetching content", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -220,7 +219,6 @@ public class FragmentUploadStudyMaterial extends Fragment {
                             progressBar.setVisibility(View.GONE);
                             actionButton.setEnabled(true);
                             Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            Log.e("FragmentUpload", "Upload failed: ", e);
                         });
             } else {
                 db.collection(collection)
@@ -238,7 +236,6 @@ public class FragmentUploadStudyMaterial extends Fragment {
                             progressBar.setVisibility(View.GONE);
                             actionButton.setEnabled(true);
                             Toast.makeText(getContext(), "Update failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            Log.e("FragmentUpload", "Update failed: ", e);
                         });
             }
         });
@@ -258,7 +255,6 @@ public class FragmentUploadStudyMaterial extends Fragment {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Delete failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.e("FragmentUpload", "Delete failed: ", e);
                 });
     }
 

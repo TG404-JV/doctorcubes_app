@@ -56,7 +56,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         Student student = studentList.get(position);
 
         if (student == null) {
-            Log.e(TAG, "Student at position " + position + " is null");
             return;
         }
 
@@ -134,7 +133,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     private void updateLastCallDate(Student student) {
         String collection = getCollectionName(student);
         if (collection == null || student.getId() == null) {
-            Log.e(TAG, "Collection or Student ID is null");
             return;
         }
         String currentDate = new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(new Date());
@@ -145,7 +143,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     private void updateStudentData(Student student, String field, Object value) {
         String collection = getCollectionName(student);
         if (collection == null || student.getId() == null) {
-            Log.e(TAG, "Collection or Student ID is null");
             return;
         }
 
@@ -155,7 +152,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
     private String getCollectionName(Student student) {
         if (student == null || student.getId() == null) {
-            Log.e(TAG, "Invalid student data or ID");
             return null;
         }
         return student.getCollection(); //changed

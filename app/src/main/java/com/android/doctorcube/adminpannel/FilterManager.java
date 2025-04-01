@@ -233,9 +233,6 @@ public class FilterManager {
         this.searchQuery = searchQuery;
     }
 
-    public boolean isUseCustomDateRange() {
-        return useCustomDateRange;
-    }
 
     public void setUseCustomDateRange(boolean useCustomDateRange) {
         this.useCustomDateRange = useCustomDateRange;

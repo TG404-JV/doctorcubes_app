@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services") // Firebase services
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -18,7 +19,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Load API key from local.properties
+        // Load API key from local.properties securely
         val localProperties = Properties()
         val localPropertiesFile = rootProject.file("local.properties")
         if (localPropertiesFile.exists()) {
@@ -26,12 +27,17 @@ android {
         }
 
         // Define YouTube API Key as BuildConfig variable
-        buildConfigField("String", "YOUTUBE_API_KEY", "\"${localProperties["YOUTUBE_API_KEY"] ?: ""}\"")
+        buildConfigField(
+            "String", "YOUTUBE_API_KEY",
+            "\"${localProperties["YOUTUBE_API_KEY"] ?: ""}\""
+        )
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false // Consider enabling for better performance
+            isMinifyEnabled = true // Enable to shrink & obfuscate code
+            isShrinkResources = true // Removes unused resources
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -53,7 +59,7 @@ android {
     }
 
     buildFeatures {
-        buildConfig = true  // Enable BuildConfig generation
+        buildConfig = true // Enable BuildConfig generation
     }
 }
 
@@ -63,12 +69,14 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
-    // Firebase dependencies
+    // Firebase dependencies (ensure safe versions)
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 
     implementation(libs.recyclerview)
     implementation(libs.firebase.firestore)
@@ -85,7 +93,11 @@ dependencies {
     implementation(libs.android.pdf.viewer)
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.9")
     implementation("androidx.navigation:navigation-ui-ktx:2.8.9")
+
+    // Secure storage & encryption
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
+    // Secure networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.github.bumptech.glide:glide:4.15.1")
@@ -100,8 +112,10 @@ dependencies {
     implementation("com.gauravk.bubblenavigation:bubblenavigation:1.0.7")
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
-    // Notification Tool
+    // Background task security
     implementation("androidx.work:work-runtime:2.10.0")
+
+    // Secure database handling
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
 

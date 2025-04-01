@@ -1,7 +1,6 @@
 package com.android.doctorcube.study.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +81,6 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
         okHttpClient = new OkHttpClient();
 
         fetchVideosFromFirestore();
-        Log.d(TAG, "YouTube API Key: " + BuildConfig.YOUTUBE_API_KEY);
 
 
         return view;
@@ -95,7 +93,6 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (!isAdded() || getContext() == null) {
-                            Log.d(TAG, "Fragment not attached or context is null.");
                             executorService.shutdownNow();
                             return;
                         }
@@ -106,7 +103,6 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                                 emptyView.setText("No videos found.");
                                 emptyView.setVisibility(View.VISIBLE);
                             }
-                            Log.d(TAG, "No documents found in the 'videos' collection.");
                             executorService.shutdownNow();
                             return;
                         }
@@ -115,7 +111,6 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                         final List<Future<?>> futures = new ArrayList<>(); // To track tasks
 
                         for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            Log.d(TAG, "Document ID: " + document.getId());
                             String videoId = document.getString("videoId");
                             if (videoId != null) {
                                 // Use executorService.submit for background tasks
@@ -128,7 +123,6 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                                             }
                                         }
                                     } catch (Exception e) {
-                                        Log.e(TAG, "Error fetching/parsing YouTube data: " + e.getMessage());
                                         // Handle errors, e.g., log, show a toast
                                         if (isAdded() && getContext() != null) {
                                             getActivity().runOnUiThread(() ->
@@ -137,8 +131,6 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                                     }
                                 });
                                 futures.add(future);
-                            } else {
-                                Log.w(TAG, "videoId is null for document: " + document.getId());
                             }
                         }
 
@@ -147,7 +139,6 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                             try {
                                 future.get(); // Wait for each task to complete
                             } catch (Exception e) {
-                                Log.e(TAG, "Error waiting for task: " + e.getMessage(), e);
                                 // Handle the error as needed
                             }
                         }
@@ -165,11 +156,9 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         if (!isAdded() || getContext() == null) {
-                            Log.d(TAG, "Fragment not attached or context is null in outer onFailure.");
                             executorService.shutdownNow();
                             return;
                         }
-                        Log.e(TAG, "Failed to fetch videos: " + e.getMessage(), e);
                         Toast.makeText(getContext(), "Failed to fetch videos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         if (emptyView != null) {
                             emptyView.setText("Failed to load videos. Please check your internet connection.");
@@ -192,7 +181,6 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
             Response response = okHttpClient.newCall(request).execute(); //synchronous call
 
             if (!response.isSuccessful()) {
-                Log.e(TAG, "YouTube API request failed: " + response.code() + " " + response.message());
                 return null;
             }
 
@@ -207,10 +195,7 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                 String description = snippet.getString("description");
                 return new VideoItem(title, videoId, thumbnailUrl, description);
             }
-        } catch (IOException e) {
-            Log.e(TAG, "Error making HTTP request: " + e.getMessage(), e);
-        } catch (Exception e) {
-            Log.e(TAG, "Error parsing JSON response: " + e.getMessage(), e);
+        } catch (Exception ignored) {
         }
         return null;
     }

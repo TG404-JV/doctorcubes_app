@@ -3,7 +3,6 @@ package com.android.doctorcube.adminpannel.adminhome;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +19,12 @@ import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
 import com.android.doctorcube.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult; // Import for AuthResult
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
-import com.google.firebase.firestore.DocumentReference; // Import DocumentReference
+// Import DocumentReference
 import com.google.firebase.firestore.FieldValue;
 
 import java.io.IOException;
@@ -89,8 +86,7 @@ public class FragmentAddNewUser extends Fragment {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
-            Toast.makeText(requireContext(), "Error initializing preferences", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Unable to Store data In Local Storage", Toast.LENGTH_SHORT).show();
         }
 
         // Set up the role dropdown
@@ -153,29 +149,27 @@ public class FragmentAddNewUser extends Fragment {
         }
 
         // Create user in Firebase Authentication
+        // Use AuthResult
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() { // Use AuthResult
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) { // Use AuthResult
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                saveUserDetails(user.getUid(), fullName, email, phone, selectedRole);
-                                // Removed saveUserLoginStatus(role);  // Do not automatically log in.
+                .addOnCompleteListener(task -> { // Use AuthResult
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            saveUserDetails(user.getUid(), fullName, email, phone, selectedRole);
+                            // Removed saveUserLoginStatus(role);  // Do not automatically log in.
 
-                                // Reset fields after successful registration
-                                etUserName.setText("");
-                                etEmail.setText("");
-                                etPhone.setText("");
-                                etPassword.setText("");
-                                etRole.setText("");
-                                selectedRole = null;
+                            // Reset fields after successful registration
+                            etUserName.setText("");
+                            etEmail.setText("");
+                            etPhone.setText("");
+                            etPassword.setText("");
+                            etRole.setText("");
+                            selectedRole = null;
 
-                                Toast.makeText(requireContext(), "Admin Registered Successfully!  Account created.  The user can now log in.", Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            Toast.makeText(requireContext(), "Sign-up Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Admin Registered Successfully!  Account created.  The user can now log in.", Toast.LENGTH_LONG).show();
                         }
+                    } else {
+                        Toast.makeText(requireContext(), "Sign-up Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -191,12 +185,8 @@ public class FragmentAddNewUser extends Fragment {
         firestoreDB.collection("Users").document(userId) // Use Firestore
                 .set(userData)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(requireContext(), "User Data Saved to Firestore!", Toast.LENGTH_SHORT).show();
-                    Log.d("Firestore", "User data saved for user ID: " + userId);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(requireContext(), "Failed to save user data to Firestore.", Toast.LENGTH_SHORT).show();
-                    Log.e("Firestore", "Error saving user data", e);
                 });
     }
 }

@@ -161,10 +161,8 @@ public class FragmentAdminHome extends Fragment {
         adapter.notifyDataSetChanged();
         chipManager.updateChips();
         if (filteredList.isEmpty()) {
-            Log.d(TAG, "Filtered list is empty");
             showNoStudentsPopup();
         } else {
-            Log.d(TAG, "Filtered list size: " + filteredList.size());
         }
     }
 

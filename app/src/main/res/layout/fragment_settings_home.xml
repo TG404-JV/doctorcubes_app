@@ -280,38 +280,6 @@
                             android:contentDescription="@string/arrow_icon"/>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/contact_support_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="12dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/settings_item_background"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_call"
-                            app:tint="@color/icon_tint_primary"
-                            android:contentDescription="@string/support_icon"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/contact_support"
-                            style="@style/SettingsItemTextStyle"  />
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_back"
-                            android:rotation="180"
-                            app:tint="@color/icon_tint_secondary"
-                            android:contentDescription="@string/arrow_icon"/>
-                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -339,8 +307,9 @@
                             android:layout_height="48dp"
                             android:src="@android:drawable/ic_dialog_email"
                             android:background="@drawable/circular_background"
+
                             android:padding="12dp"
-                            app:tint="@color/white"
+                            app:tint="@color/black"
                             android:contentDescription="@string/consultation_icon"/>
 
                         <LinearLayout
@@ -378,20 +347,10 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/logout_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/logout"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:textColor="@color/text_on_primary"
-                android:backgroundTint="@color/button_error"
-                app:cornerRadius="12dp"
-                android:layout_marginTop="8dp"
-                android:paddingVertical="12dp"/>
+
 
             <TextView
+                android:id="@+id/appVersion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_version"

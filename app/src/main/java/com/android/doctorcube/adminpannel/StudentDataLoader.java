@@ -108,7 +108,6 @@ public class StudentDataLoader {
                                         }
 
                                     } catch (Exception e) {
-                                        Log.e(TAG, "Error parsing data: " + e.getMessage(), e);
                                         listener.onDataLoadFailed("Error parsing data: " + e.getMessage());
                                         return;
                                     }
@@ -121,7 +120,6 @@ public class StudentDataLoader {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "Error loading data: " + e.getMessage(), e);
                         listener.onDataLoadFailed("Failed to load data: " + e.getMessage());
                     }
                 });
@@ -154,8 +152,6 @@ public class StudentDataLoader {
         if (registrationDate != null) {
             student.setSubmissionDate(dateFormat.format(registrationDate));
             student.setFirebasePushDate(dateFormat.format(registrationDate));
-        } else {
-            Log.w(TAG, "Registration Date is  null for document: " + document.getId());
         }
         student.setLastCallDate(FirestoreDataHelper.getString(document, "lastCallDate"));
 
@@ -188,8 +184,6 @@ public class StudentDataLoader {
         if (uploadDate != null) {
             student.setSubmissionDate(dateFormat.format(uploadDate));
             student.setFirebasePushDate(dateFormat.format(uploadDate));
-        } else {
-            Log.w(TAG, "Upload Date is null for document: " + document.getId());
         }
         student.setLastCallDate(FirestoreDataHelper.getString(document, "lastCallDate"));
         return student;
@@ -220,8 +214,6 @@ public class StudentDataLoader {
         if (submissionDate != null) {
             student.setSubmissionDate(dateFormat.format(submissionDate));
             student.setFirebasePushDate(dateFormat.format(submissionDate));
-        } else {
-            Log.w(TAG, "Submission Date is null for document: " + document.getId());
         }
         student.setLastCallDate(FirestoreDataHelper.getString(document, "lastCallDate"));
         return student;
@@ -244,8 +236,8 @@ public class StudentDataLoader {
 
         firestoreDB.collection(collection).document(documentId)
                 .update(updates)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Student data updated successfully for document: " + documentId + " in collection " + collection))
-                .addOnFailureListener(e -> Log.e(TAG, "Failed to update student data: " + e.getMessage()));
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Student data updated successfully for document: "))
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to update student data: " ));
     }
 
     /**
@@ -284,7 +276,6 @@ public class StudentDataLoader {
                         return value.toString().trim();
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Error getting string for key " + key + ": " + e.getMessage());
                     return defaultValue;
                 }
             }
@@ -309,7 +300,6 @@ public class StudentDataLoader {
                         return value;
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Error getting boolean for key " + key + ": " + e.getMessage());
                     return defaultValue;
                 }
             }
@@ -334,7 +324,6 @@ public class StudentDataLoader {
                         return value;
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Error getting Long for key " + key + ": " + e.getMessage());
                     return defaultValue;
                 }
             }
@@ -359,7 +348,6 @@ public class StudentDataLoader {
                         return value;
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Error getting Double for key " + key + ": " + e.getMessage());
                     return defaultValue;
                 }
             }
@@ -382,7 +370,6 @@ public class StudentDataLoader {
                         return timestamp.toDate();
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Error getting Timestamp for key " + key + ": " + e.getMessage());
                     return null;
                 }
             }
@@ -409,7 +396,6 @@ public class StudentDataLoader {
                         return dateFormat.parse(dateString);
                     }
                 } catch (ParseException e) {
-                    Log.e(TAG, "Error parsing date for key " + key + ": " + e.getMessage());
                     return defaultValue;
                 }
             }

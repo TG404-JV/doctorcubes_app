@@ -1,10 +1,11 @@
 package com.android.doctorcube.settings;
 
 
+import static java.lang.Package.getPackage;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.android.doctorcube.R;
+import com.android.doctorcube.SocialActions;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +34,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
+
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsHome extends Fragment {
     private static final String TAG = "SettingsHomeFragment";
@@ -70,6 +78,25 @@ public class SettingsHome extends Fragment {
         // Initialize NavController
         navController = Navigation.findNavController(view);
 
+        TextView appVersionTextView = view.findViewById(R.id.appVersion);
+        // Get App Version
+        try {
+            PackageManager packageManager = requireContext().getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(requireContext().getPackageName(), 0);
+            String versionName = packageInfo.versionName;
+
+            // Set version to TextView
+            appVersionTextView.setText("Version: " + versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            appVersionTextView.setText("Version: Unknown");
+        }
+
+        view.findViewById(R.id.schedule_consultation_button).setOnClickListener(v -> {
+            SocialActions openSocialActions = new SocialActions();
+            openSocialActions.openEmailApp(requireContext());
+        });
+
 
         // Initialize views
         initViews(view);
@@ -98,7 +125,6 @@ public class SettingsHome extends Fragment {
         LinearLayout aboutLayout = requireView().findViewById(R.id.about_layout);
         LinearLayout privacyLayout = requireView().findViewById(R.id.privacy_policy_layout);
         LinearLayout faqLayout = requireView().findViewById(R.id.faq_layout);
-        Button logoutButton = requireView().findViewById(R.id.logout_button);
         LinearLayout notificationLayout = requireView().findViewById(R.id.notification_settings_layout);
 
         Button consultationButton = requireView().findViewById(R.id.schedule_consultation_button);
@@ -116,13 +142,7 @@ public class SettingsHome extends Fragment {
         if (faqLayout != null) {
             faqLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_fragmentFAQ));
         }
-        if (logoutButton != null) {
-            logoutButton.setOnClickListener(v -> {
-               // mAuth.signOut();
-                Log.d(TAG, "User logged out");
-                // Add navigation to login screen if needed
-            });
-        }
+
         if (notificationLayout != null) {
             notificationLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_notificationPref));
         }
@@ -189,7 +209,6 @@ public class SettingsHome extends Fragment {
                         }
                     })
                     .addOnFailureListener(e -> {
-                        Log.e(TAG, "Failed to load user data from Firestore: " + e.getMessage());
                         fetchDataFromRealtimeDatabase(); // Fallback to Realtime Database
                     });
         }
@@ -224,7 +243,6 @@ public class SettingsHome extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e(TAG, "Failed to load user data: " + error.getMessage());
                     updateUI("John Smith", "john.smith@example.com", "Student • USA Aspirant"); // Fallback
                 }
             });
@@ -284,10 +302,8 @@ public class SettingsHome extends Fragment {
             if (navController != null && navController.getCurrentDestination() != null) {
                 navController.navigate(actionId);
             } else {
-                Log.e(TAG, "NavController is null or navigation failed");
             }
         } catch (Exception e) {
-            Log.e(TAG, "Navigation failed: " + e.getMessage());
         }
     }
 }

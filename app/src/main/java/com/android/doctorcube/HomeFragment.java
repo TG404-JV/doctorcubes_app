@@ -114,10 +114,10 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         eventList = new ArrayList<>();
-        eventList.add(new Event(R.drawable.ic_offer_1, "GET", "International Band", "London, UK", "+20 Going"));
-        eventList.add(new Event(R.drawable.ic_offer_2, "GET", "Jo Malone", "Radius Gal", "+21 Going"));
-        eventList.add(new Event(R.drawable.ic_offer_3, "GET", "Jo Malone", "Radius Gal", "+21 Going"));
-
+        // For abroad MBBS education consultancy events/offers
+        eventList.add(new Event(R.drawable.img_offer_1, "MBBS", "Study in Russia", "Moscow Medical University", "+45 Students Enrolled"));
+        eventList.add(new Event(R.drawable.img_offer_2, "MBBS", "Study in Japan", "Kharkiv National Medical University", "+38 Students Enrolled"));
+        eventList.add(new Event(R.drawable.img_offer_3, "MBBS", "Study in China", "Jiangsu University", "+52 Students Enrolled"));
         adapter = new EventAdapter(eventList, this);
         recyclerView.setAdapter(adapter);
     }
@@ -168,9 +168,9 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         }
 
         List<Testimonial> testimonials = new ArrayList<>();
-        testimonials.add(new Testimonial(R.drawable.ic_profile, "Ekta Parmar", "The Doctorcubes team has been very cooperative from the start. They were in constant touch with me, they took care of all the essential procedures. I never had to think twice to contact them to worry about anything. The best part was that they arranged the visa in a matter of days. They are extremely responsive during the first few days too.", String.valueOf(R.drawable.flag_russia), "Kemerovo State Medical University", "4th year", 5.0f));
-        testimonials.add(new Testimonial(R.drawable.ic_profile, "Sneha Prakash Navas", "I will be studying one of my favorite subjects abroad. For students considering studying abroad, I highly recommend Doctorcubes. They took care of everything; I didn't have to worry about a thing during this journey. In short, Doctorcubes is 100% trustworthy and reliable.", String.valueOf(R.drawable.flag_russia), "Maykop University", "3rd year", 5.0f));
-        testimonials.add(new Testimonial(R.drawable.ic_profile, "Dipanshu Tripude", "Initially, when I was planning to go abroad for my studies, I thought it would be very hectic. However, I was later thinking if I could do it. I got in touch with Doctorcubes and they took care of the entire process for me from the beginning till the end.", String.valueOf(R.drawable.flag_russia), "Chechen State Medical University", "2nd year", 5.0f));
+        testimonials.add(new Testimonial(R.drawable.img_ektaparmar, "Ekta Parmar", "The Doctorcubes team has been very cooperative from the start. They were in constant touch with me, they took care of all the essential procedures. I never had to think twice to contact them to worry about anything. The best part was that they arranged the visa in a matter of days. They are extremely responsive during the first few days too.", String.valueOf(R.drawable.flag_russia), "Kemerovo State Medical University", "4th year", 5.0f));
+        testimonials.add(new Testimonial(R.drawable.img_sneha, "Sneha Prakash Navas", "I will be studying one of my favorite subjects abroad. For students considering studying abroad, I highly recommend Doctorcubes. They took care of everything; I didn't have to worry about a thing during this journey. In short, Doctorcubes is 100% trustworthy and reliable.", String.valueOf(R.drawable.flag_russia), "Maykop University", "3rd year", 5.0f));
+        testimonials.add(new Testimonial(R.drawable.img_dipanshu, "Dipanshu Tripude", "Initially, when I was planning to go abroad for my studies, I thought it would be very hectic. However, I was later thinking if I could do it. I got in touch with Doctorcubes and they took care of the entire process for me from the beginning till the end.", String.valueOf(R.drawable.flag_russia), "Chechen State Medical University", "2nd year", 5.0f));
 
 
         testimonialsAdapter = new TestimonialsSliderAdapter(testimonials);

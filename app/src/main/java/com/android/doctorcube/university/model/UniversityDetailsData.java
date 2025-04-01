@@ -375,7 +375,7 @@ public class UniversityDetailsData {
         // Uzbekistan Universities
 
         universityDetailsMap.put("Tashkent State Medical University", new UniversityDetail(
-                R.drawable.flag_uzbekistan,
+                R.drawable.img_tashkent_medicalacademy,
                 "Tashkent, Uzbekistan",
                 "Tashkent State Medical University is one of the oldest and most prestigious medical universities in Uzbekistan. Established in 1920, it has a long history of training highly qualified medical professionals. The university is known for its strong academic programs, clinical training, and research activities.\n\n" +
                         "The university offers a wide range of medical programs, including General Medicine, Pediatrics, Dentistry, and Pharmacy. Students have access to modern facilities, including simulation centers, university clinics, and research laboratories. The faculty comprises experienced doctors and researchers who are dedicated to providing students with a comprehensive medical education.\n\n" +
@@ -389,7 +389,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Zermed State Medical University", new UniversityDetail(
-                R.drawable.flag_uzbekistan,
+                R.drawable.img_zhejianguniversity,
                 "Tashkent, Uzbekistan",
                 "Unfortunately, I couldn't find specific details for a university named \"Zermed State Medical University\" in Uzbekistan. It's possible that the name is slightly different or that it's a newer institution with limited publicly available information. If you can provide an alternate name or more details, I may be able to find the information you need.\n\nHowever, I can provide you with information about other medical universities in Uzbekistan.",
                 "N/A",
@@ -402,7 +402,7 @@ public class UniversityDetailsData {
 
 
         universityDetailsMap.put("Samarkand State Medical University", new UniversityDetail(
-                R.drawable.flag_uzbekistan,
+                R.drawable.img_samarkand_statemedicaluniversity,
                 "Samarkand, Uzbekistan",
                 "Samarkand State Medical University is one of the leading medical universities in Uzbekistan. Founded in 1930, it has a long history of training qualified medical professionals. The university is known for its strong clinical training, research activities, and contribution to the healthcare system of Uzbekistan.\n\n" +
                         "The university offers a wide range of medical programs, including General Medicine, Pediatrics, Dentistry, and Medical Prevention. Students have access to modern facilities, including simulation centers, university clinics, and research laboratories. The faculty comprises experienced doctors and researchers who are dedicated to providing students with a high-quality medical education.\n\n" +
@@ -416,7 +416,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Bukhara State Medical University", new UniversityDetail(
-                R.drawable.flag_uzbekistan,
+                R.drawable.img_bukhara_statemedicaluniversity,
                 "Bukhara, Uzbekistan",
                 "Bukhara State Medical Institute is a higher education institution in the city of Bukhara.\n\nIt trains medical specialists in the following areas:\n\nGeneral medicine;\nPediatrics;\nDentistry;\nPharmacy.\n\nBukhara State Medical Institute was established in 1990. In 2020, the institute was transformed into a university.",
                 "1990",
@@ -428,7 +428,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Tashkent Medical Academy Chirchiq Branch", new UniversityDetail(
-                R.drawable.flag_uzbekistan,
+                R.drawable.img_takshet_medicaluniversity_chirchiq_branch,
                 "Chirchiq, Uzbekistan",
                 "The Tashkent Medical Academy Chirchiq Branch is a branch of the Tashkent Medical Academy, one of the leading medical education institutions in Uzbekistan.  It provides medical education and training in the city of Chirchiq.\n\nThe branch likely offers programs similar to the main academy, focusing on training medical professionals for various healthcare roles.  As a branch of a well-established institution, it likely maintains a similar standard of education.\n\nInformation on specific programs, facilities, and admission requirements may be best obtained from the official Tashkent Medical Academy website or by contacting the branch directly.",
                 "N/A",
@@ -442,7 +442,7 @@ public class UniversityDetailsData {
         // Georgia Universities
 
         universityDetailsMap.put("Geomedi Medical University", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_geomedi_medicaluniversity,
                 "Tbilisi, Georgia",
                 "Geomedi Medical University is a private medical university located in Tbilisi, Georgia. It was founded in 2003 and has quickly grown into a prominent medical education institution in the country. The university is known for its focus on providing students with a high-quality medical education and preparing them for successful careers in healthcare.\n\n" +
                         "Geomedi Medical University offers a range of undergraduate and graduate programs in medicine, including General Medicine, Dentistry, and Pharmacy. The university provides students with modern facilities, including well-equipped laboratories, clinics, and simulation centers. The faculty comprises experienced professors and healthcare professionals who are dedicated to teaching and mentoring students.\n\n" +
@@ -456,7 +456,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Alte University", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_alte_university,
                 "Tbilisi, Georgia",
                 "Alte University is a private higher education institution located in Tbilisi, Georgia. It offers a variety of programs across different fields of study, including business, law, and medicine. The university is committed to providing students with a modern and practical education that prepares them for the demands of the global market.\n\n" +
                         "Alte University has modern facilities, including well-equipped classrooms, libraries, and computer labs. The university emphasizes interactive teaching methods and provides students with opportunities for internships and practical experience. The faculty comprises experienced professors and industry professionals who are dedicated to student success.\n\n" +
@@ -470,7 +470,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Tbilisi State Medical University", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_tbilisi_statemedicaluniversity,
                 "Tbilisi, Georgia",
                 "Tbilisi State Medical University is one of the oldest and most prestigious medical universities in Georgia. Founded in 1918, it has a long history of training highly qualified medical professionals. The university is a leading center for medical education, research, and clinical practice in the region.\n\n" +
                         "Tbilisi State Medical University offers a wide range of undergraduate and graduate programs in medicine, including General Medicine, Dentistry, Pharmacy, and Public Health. The university has extensive clinical facilities, including university hospitals and clinics, where students gain practical experience. The faculty comprises renowned professors and researchers who are dedicated to advancing medical knowledge and educating future healthcare leaders.\n\n" +
@@ -484,7 +484,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("SEU Georgia", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_seu_georgia,
                 "Tbilisi, Georgia",
                 "SEU Georgia is a private university located in Tbilisi, Georgia. It offers a variety of programs across different fields of study, including business, law, international relations, and medicine. The university is committed to providing students with a high-quality education that meets international standards.\n\n" +
                         "SEU Georgia has modern facilities, including well-equipped classrooms, libraries, and computer labs. The university emphasizes student-centered learning and provides students with opportunities for internships and practical experience. The faculty comprises experienced professors and industry professionals who are dedicated to student success.\n\n" +
@@ -498,7 +498,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("University of Georgia Tbilisi", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_universityofgeorgia_tbilisi,
                 "Tbilisi, Georgia",
                 "The University of Georgia (UG) is a private university located in Tbilisi, Georgia. Founded in 2005, it has quickly become one of the leading higher education institutions in the country. The university offers a wide range of programs across various fields of study, including business, law, medicine, and humanities.\n\n" +
                         "The University of Georgia has modern facilities, including well-equipped classrooms, libraries, and research centers. The university emphasizes student-centered learning and provides students with opportunities for internships, study abroad programs, and research projects. The faculty comprises experienced professors and industry professionals who are dedicated to providing students with a high-quality education.\n\n" +
@@ -512,7 +512,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Batumi Shota Rustaveli State University", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_batumi_shotastateuniversity,
                 "Batumi, Georgia",
                 "Batumi Shota Rustaveli State University is a public university located in Batumi, Georgia. Established in 1945, it is one of the oldest and largest universities in the Adjara region. The university offers a variety of programs across different fields of study, including humanities, natural sciences, and medicine.\n\n" +
                         "Batumi Shota Rustaveli State University has modern facilities, including well-equipped classrooms, laboratories, and libraries. The university is committed to providing students with a high-quality education and preparing them for successful careers. The faculty comprises experienced professors and researchers who are dedicated to student success.\n\n" +
@@ -526,7 +526,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("East European University", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_easteuropean_university,
                 "Tbilisi, Georgia",
                 "East European University (EEU) is a private university located in Tbilisi, Georgia. Founded in 2012, it has quickly grown into a recognized higher education institution in the country. The university offers a variety of programs across different fields of study, including law, business, and humanities.\n\n" +
                         "East European University is committed to providing students with a modern and practical education that meets international standards. The university has modern facilities, including well-equipped classrooms, libraries, and computer labs. The faculty comprises experienced professors and industry professionals who are dedicated to student success.\n\n" +
@@ -540,7 +540,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Georgian American University", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_georgian_americanuniversity,
                 "Tbilisi, Georgia",
                 "The Georgian American University (GAU) is a private university located in Tbilisi, Georgia. Established in 2001, it offers a variety of undergraduate and graduate programs in English across different fields of study, including business, law, social sciences, and technology.\n\n" +
                         "GAU is committed to providing students with a high-quality American-style education. The university has modern facilities, including well-equipped classrooms, libraries, and computer labs. The faculty comprises experienced professors with international experience who are dedicated to student success.\n\n" +
@@ -554,7 +554,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Ilia State University", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_llia_stateuniversity,
                 "Tbilisi, Georgia",
                 "Ilia State University is a public research university located in Tbilisi, Georgia. Founded in 2006, it has quickly become one of the leading universities in the country. The university offers a wide range of programs across different fields of study, including natural sciences, humanities, business, and law.\n\n" +
                         "Ilia State University is committed to providing students with a high-quality education and fostering a culture of research and innovation. The university has modern facilities, including well-equipped laboratories, libraries, and research centers. The faculty comprises experienced professors and researchers who are dedicated to student success.\n\n" +
@@ -568,7 +568,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("New Vision University", new UniversityDetail(
-                R.drawable.flag_georgia,
+                R.drawable.img_newvision_university,
                 "Tbilisi, Georgia",
                 "New Vision University is a private university located in Tbilisi, Georgia. Founded in 2013, it offers a range of programs in various fields, including medicine, law, business, and international relations. The university is committed to providing students with a modern and globally-oriented education.\n\n" +
                         "New Vision University has modern facilities, including well-equipped classrooms, libraries, and simulation centers for medical programs. The university emphasizes student-centered learning and provides students with opportunities for internships and practical experience. The faculty comprises experienced professors and industry professionals who are dedicated to student success.\n\n" +
@@ -583,7 +583,7 @@ public class UniversityDetailsData {
 
         // China Universities
         universityDetailsMap.put("Tianjin Medical University", new UniversityDetail(
-                R.drawable.flag_china,
+                R.drawable.img_tianjin_medicaluniversity,
                 "Tianjin, China",
                 "Tianjin Medical University is a key medical university in China, known for its strong foundation in medical education and research. Founded in 1951, it has grown into a comprehensive medical center offering a wide range of programs.\n\nThe university provides programs in basic medical sciences, clinical medicine, public health, and nursing. It has several affiliated hospitals that provide students with extensive clinical experience. Tianjin Medical University is dedicated to advancing medical research and technology.\n\nLocated in Tianjin, a major port city in northern China, the university attracts students from across the country and internationally.",
                 "1951",
@@ -595,7 +595,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Zhejiang University", new UniversityDetail(
-                R.drawable.flag_china,
+                R.drawable.img_zhejianguniversity,
                 "Hangzhou, China",
                 "Zhejiang University is one of China's top universities, with a long history and strong reputation in various disciplines. Founded in 1897, it is a comprehensive research university with programs in sciences, engineering, agriculture, medicine, humanities, and management.\n\nThe university is organized into many schools and departments, hosting a large number of international students. It has strong research capabilities and is known for its beautiful campus in the city of Hangzhou.\n\nZhejiang University is consistently ranked among the best universities in China and Asia.",
                 "1897",
@@ -607,7 +607,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Jilin University", new UniversityDetail(
-                R.drawable.flag_china,
+                R.drawable.img_jilin_university,
                 "Changchun, China",
                 "Jilin University is a leading national university in China, located in the city of Changchun. Founded in 1946, it is a comprehensive university offering a wide range of disciplines, including sciences, engineering, humanities, law, and medicine.\n\nThe university has a large student population and a strong faculty. It is known for its research achievements in various fields. Jilin University also has several campuses spread across the city of Changchun.\n\nJilin University is one of the largest universities in China.",
                 "1946",
@@ -619,7 +619,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Shihezi University", new UniversityDetail(
-                R.drawable.flag_china,
+                R.drawable.img_shihezi_university,
                 "Shihezi, China",
                 "Shihezi University is a comprehensive university located in Shihezi, Xinjiang, China. Founded in 1949, it offers programs in various fields, including agriculture, medicine, engineering, economics, and management.\n\nThe university plays an important role in the development of Xinjiang and Central Asia. It has a diverse student population and is committed to providing quality education and conducting research in the region.\n\nShihezi University is one of the larger universities in Xinjiang.",
                 "1949",
@@ -631,7 +631,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Wuhan University", new UniversityDetail(
-                R.drawable.flag_china,
+                R.drawable.img_wuhan_university,
                 "Wuhan, China",
                 "Wuhan University is a prestigious comprehensive university located in Wuhan, China. Founded in 1893, it has a long history and is recognized as one of the top universities in China. The university offers a wide range of academic programs, including humanities, social sciences, natural sciences, engineering, and medicine.\n\nWuhan University is known for its beautiful campus, often referred to as one of the most scenic universities in China. It has a large student body and attracts students from all over the world. The university is dedicated to academic excellence and research.\n\nWuhan University is highly ranked both nationally and internationally.",
                 "1893",
@@ -643,7 +643,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Fudan University", new UniversityDetail(
-                R.drawable.flag_china,
+                R.drawable.img_fudanuniversity,
                 "Shanghai, China",
                 "Fudan University is one of the oldest and most prestigious universities in China, located in Shanghai. Founded in 1905, it is a comprehensive research university with a strong reputation in humanities, social sciences, natural sciences, engineering, and medicine.\n\nThe university has multiple campuses in Shanghai and is known for its rigorous academic environment and strong research output. Fudan University is consistently ranked among the top universities in China and the world.\n\nFudan University is a highly selective university with a strong global presence.",
                 "1905",
@@ -657,7 +657,7 @@ public class UniversityDetailsData {
 
         // Kazakhstan Universities
         universityDetailsMap.put("Kazakh Russian Medical University", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_kazak_russianuniversity,
                 "Almaty, Kazakhstan",
                 "Kazakh Russian Medical University (KRMU) is a private medical university located in Almaty, Kazakhstan. It is known for its focus on providing quality medical education with a blend of Russian and Kazakh medical traditions. KRMU offers a range of programs in various fields of medicine.\n\nThe university strives to equip students with the necessary knowledge and skills to excel in their medical careers. It emphasizes clinical practice and modern teaching methodologies.\n\nKRMU is located in Almaty, the largest city in Kazakhstan, providing students with a vibrant and diverse environment.",
                 "2003",
@@ -669,7 +669,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("West Kazakhstan Marat Ospanov State Medical University", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_westkazak_marat_ospanovstateuniversity,
                 "Aktobe, Kazakhstan",
                 "West Kazakhstan Marat Ospanov State Medical University is a public medical university located in Aktobe, Kazakhstan. It is one of the leading medical education institutions in western Kazakhstan.\n\nThe university offers programs in various fields of medicine and emphasizes the training of qualified medical professionals for the region. It is committed to providing students with a comprehensive medical education.\n\nAktobe is a major city in western Kazakhstan, and the university plays a significant role in the region's healthcare development.",
                 "1957",
@@ -681,7 +681,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("South Kazakhstan State Medical Academy, Kazakhstan", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_southkazak_medicalacademy,
                 "Shymkent, Kazakhstan",
                 "South Kazakhstan State Medical Academy is a public medical academy located in Shymkent, Kazakhstan. It is a prominent medical education institution in southern Kazakhstan.\n\nThe academy provides training in various medical specialties and focuses on equipping students with the skills and knowledge necessary for successful medical practice. It plays a key role in supplying the region with healthcare professionals.\n\nShymkent is a major city in southern Kazakhstan, and the academy is an important center for medical education in the area.",
                 "1979",
@@ -693,7 +693,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Semey State Medical University", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_semey_statemedical_university,
                 "Semey, Kazakhstan",
                 "Semey State Medical University is one of the oldest and most respected medical universities in Kazakhstan. Located in Semey, it has a long history of training highly qualified medical professionals.\n\nThe university offers a wide range of medical programs and is known for its strong clinical training and research activities. It has made significant contributions to medical science and practice in Kazakhstan.\n\nSemey has historical significance in Kazakhstan, and the university is a key institution in the city.",
                 "1954",
@@ -705,7 +705,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Astana Medical University", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_astana_medicaluniversity,
                 "Astana, Kazakhstan",
                 "Astana Medical University is a leading medical university located in Astana, the capital of Kazakhstan. It is a modern and dynamic university that provides high-quality medical education and training.\n\nThe university offers a variety of programs in medicine and is committed to preparing students for the challenges of contemporary healthcare. It utilizes modern teaching technologies and emphasizes clinical skills development.\n\nBeing located in the capital city, Astana Medical University has strong ties to national healthcare institutions and plays a vital role in the country's medical education system.",
                 "1964",
@@ -717,7 +717,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Kokshetau State University", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_kokshetau_stateuniversity,
                 "Kokshetau, Kazakhstan",
                 "Kokshetau State University named after Sh. Ualikhanov is a regional university located in Kokshetau, Kazakhstan. While it offers various programs, it also has a faculty of medicine that provides medical education.\n\nThe university serves the educational needs of the region and provides students with a range of academic programs. The medical faculty contributes to the training of healthcare professionals for the local community.\n\nKokshetau is a city in northern Kazakhstan, and the university is an important educational and cultural center for the area.",
                 "1962",
@@ -729,7 +729,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Karaganda State Medical University", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_karagandastate_medicaluniversity,
                 "Karaganda, Kazakhstan",
                 "Karaganda State Medical University is one of the oldest and largest medical universities in Kazakhstan. Located in Karaganda, it has a long-standing tradition of providing high-quality medical education.\n\nThe university offers a comprehensive range of medical programs and is known for its strong emphasis on clinical training and research. It has produced many prominent medical professionals who have contributed to the development of healthcare in Kazakhstan.\n\nKaraganda is a major industrial city in central Kazakhstan, and the university is a key center for medical education in the region.",
                 "1950",
@@ -741,7 +741,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("North Kazakhstan State University", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_northkazakh_statemedicaluniversity,
                 "Petropavl, Kazakhstan",
                 "North Kazakhstan State University named after M. Kozybaev is a regional university located in Petropavl, Kazakhstan. It offers a variety of programs, including a faculty of medicine that provides medical education.\n\nThe university serves the educational needs of northern Kazakhstan and offers a range of academic programs. The medical faculty contributes to training healthcare professionals for the local community.\n\nPetropavl is a city in northern Kazakhstan, and the university is a significant educational and cultural center in the area.",
                 "1937",
@@ -753,7 +753,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Al-Farabi Kazakh National University", new UniversityDetail(
-                R.drawable.flag_kazakhstan,
+                R.drawable.img_al_farabi_kazakhnationaluniversity,
                 "Almaty, Kazakhstan",
                 "Al-Farabi Kazakh National University is the leading classical university in Kazakhstan, located in Almaty. Founded in 1933, it is a comprehensive university with a wide range of faculties, including medicine.\n\nThe university is a major center for education, science, and culture in Kazakhstan. It is committed to providing students with a high-quality education and fostering research and innovation.\n\nAl-Farabi Kazakh National University is highly ranked nationally and internationally.",
                 "1933",
@@ -766,7 +766,7 @@ public class UniversityDetailsData {
 
         // Nepal Universities
         universityDetailsMap.put("Kathmandu University", new UniversityDetail(
-                R.drawable.flag_nepal,
+                R.drawable.img_kathmandu_university,
                 "Kathmandu, Nepal",
                 "Kathmandu University is a private university located in Dhulikhel, near Kathmandu, Nepal. Established in 1991, it is known for its quality education in various fields, including medicine, engineering, management, and arts.\n\nThe university is committed to providing students with a holistic education and has a strong emphasis on research and innovation. It has collaborations with various international institutions.\n\nKathmandu University is one of the leading universities in Nepal, attracting students from across the country and abroad.",
                 "1991",
@@ -778,7 +778,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Tribhuvan University", new UniversityDetail(
-                R.drawable.flag_nepal,
+                R.drawable.img_tribhuvan_university,
                 "Kathmandu, Nepal",
                 "Tribhuvan University is the oldest and largest public university in Nepal. Established in 1959, it has a vast network of campuses and affiliated colleges across the country. The university offers a wide range of programs in various disciplines, including humanities, science, management, and medicine.\n\nTribhuvan University plays a crucial role in providing higher education opportunities to a large segment of the population. It has a diverse student body and a long history of academic excellence.\n\nThe university's central campus is located in Kathmandu, but it has constituent campuses throughout Nepal.",
                 "1959",
@@ -790,7 +790,7 @@ public class UniversityDetailsData {
         ));
 
         universityDetailsMap.put("Institute of Medicine, Nepal", new UniversityDetail(
-                R.drawable.flag_nepal,
+                R.drawable.img_institue_of_medicine,
                 "Kathmandu, Nepal",
                 "The Institute of Medicine (IOM) is a constituent institute of Tribhuvan University. It is the leading medical education institution in Nepal, with a long history of training healthcare professionals.\n\nIOM offers undergraduate and postgraduate programs in various medical fields, including medicine, dentistry, nursing, and public health. It has several teaching hospitals that provide students with clinical experience.\n\nThe institute plays a vital role in Nepal's healthcare system by producing skilled medical personnel.",
                 "1972",

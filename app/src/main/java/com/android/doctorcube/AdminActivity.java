@@ -25,13 +25,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Source;
+
 
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
-import android.util.Log;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -121,14 +119,11 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
                                 adminNameTextView.setText(name != null ? name : "Admin");
                                 isSuperAdmin = "superadmin".equals(role);
                                 prefs.edit().putString(KEY_USER_ROLE, role).apply();
-                                Log.d(TAG, "User role: " + role);
                             } else {
-                                Log.d(TAG, "No such document");
                                 adminNameTextView.setText("Admin");
                                 isSuperAdmin = false;
                             }
                         } else {
-                            Log.d(TAG, "get failed with ", task.getException());
                             adminNameTextView.setText("Admin");
                             isSuperAdmin = false;
                         }
@@ -157,7 +152,6 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_add_new) {
             String role = prefs.getString(KEY_USER_ROLE, "user");
             isSuperAdmin = "superadmin".equals(role);
-            Log.d(TAG, "Retrieved role from Shared Preferences: " + role);
 
             if (isSuperAdmin) {
                 loadFragment(new FragmentAddNewUser());

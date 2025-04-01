@@ -214,6 +214,25 @@
         </ul>
     </string>
 
+    <string name="terms_and_conditions_createac">Terms and Conditions\n\n
+1. Acceptance of Terms\n
+By creating an account and using our MBBS consultancy application, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use this application.\n\n
+2. Account Registration\n
+You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. You must provide accurate and complete information during registration.\n\n
+3. Service Description\n
+Our application provides information about MBBS programs abroad. We do not guarantee admission to any university or institution. Our consultancy services are informational in nature.\n\n
+4. User Conduct\n
+You agree not to misuse the application, interfere with its operation, or attempt to access areas or features you are not authorized to access. You will not use the application for any illegal or unauthorized purpose.\n\n
+5. Intellectual Property\n
+All content in this application, including text, graphics, logos, and software, is the property of our company and protected by intellectual property laws. You may not reproduce or distribute this content without permission.\n\n
+6. Limitation of Liability\n
+We strive to provide accurate information, but we make no warranties about the completeness or reliability of our content. We will not be liable for any losses or damages arising from your use of the application.\n\n
+7. Modification of Terms\n
+We reserve the right to modify these terms at any time. Continued use of the application after changes constitutes acceptance of the modified terms.\n\n
+8. Governing Law\n
+These terms shall be governed by and construed in accordance with the laws of [Your Country/State], without regard to its conflict of law principles.\n\n
+By clicking \'I Agree\', you acknowledge that you have read and understood these Terms and Conditions and agree to be bound by them.</string>
+
 
         <string name="usage_data_title">Usage Data</string>
         <string name="usage_data_details">We may also collect non-personal information automatically when you use our website or services. This information may include:\n
@@ -552,4 +571,7 @@
     <string name="verify_button_text">Verify</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="otp_verification_image">OTP Verification</string>
+    <string name="loading_notes">Loading notes...</string>
+    <string name="failed_to_load_notes">Failed to load notes</string>
+    <string name="view">view</string>
 </resources>

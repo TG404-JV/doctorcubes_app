@@ -2,7 +2,6 @@ package com.android.doctorcube.study.fragment.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public NotesAdapter(Context context, List<NoteItem> notesList) {
         this.context = context;
         this.notesList = new ArrayList<>(notesList);
-        Log.d(TAG, "Constructor: Initial list size: " + this.notesList.size());
     }
 
     @NonNull
@@ -46,7 +44,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         holder.pageCount.setText("Pages: " + note.getPageCount());
         holder.fileSize.setText("Size: " + note.getFileSize());
 
-        Log.d(TAG, "onBindViewHolder: Binding position " + position + " - Title: " + note.getTitle());
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PdfViewerActivity.class);
@@ -59,18 +56,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     @Override
     public int getItemCount() {
         int size = notesList != null ? notesList.size() : 0;
-        Log.d(TAG, "getItemCount: Returning size: " + size);
         return size;
     }
 
     public void updateData(List<NoteItem> newNotesList) {
-        Log.d(TAG, "updateData: Input list size: " + (newNotesList != null ? newNotesList.size() : 0));
         if (newNotesList == null) {
             this.notesList = new ArrayList<>();
         } else {
             this.notesList = new ArrayList<>(newNotesList);
         }
-        Log.d(TAG, "updateData: After update - List size: " + notesList.size());
         notifyDataSetChanged();
     }
 

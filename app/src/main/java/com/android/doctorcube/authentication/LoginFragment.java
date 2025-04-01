@@ -7,7 +7,6 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,7 +101,6 @@ public class LoginFragment extends Fragment {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
             Toast.makeText(getContext(), "Error initializing secure storage: " + e.getMessage(), Toast.LENGTH_LONG).show();
             sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
@@ -257,7 +255,6 @@ public class LoginFragment extends Fragment {
                             fetchUserData(user.getUid(), navController);
                         }
                     } else {
-                        Log.e("EmailAuth", "Email sign-in failed", task.getException());
                         Toast.makeText(getActivity(), "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -285,7 +282,6 @@ public class LoginFragment extends Fragment {
                             createUserDocument(userId, navController);
                         }
                     } else {
-                        Log.e("LoginFragment", "Error fetching user data", task.getException());
                         Toast.makeText(getActivity(), "Error fetching data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -313,12 +309,10 @@ public class LoginFragment extends Fragment {
                 .document(userId)
                 .set(userData)
                 .addOnSuccessListener(aVoid -> {
-                    Log.d("LoginFragment", "User document created successfully.");
                     saveUserLoginStatus("user");
                     navController.navigate(R.id.collectUserDetailsFragment);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("LoginFragment", "Error creating user document", e);
                     Toast.makeText(getContext(), "Failed to create user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     mAuth.signOut(); // Sign out the user if data creation fails
                 });
@@ -366,7 +360,6 @@ public class LoginFragment extends Fragment {
                         if (task.isSuccessful()) {
                             Toast.makeText(requireContext(), "Password reset email sent. Check your inbox.", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.e("ResetPassword", "Failed to send reset email", task.getException());
                             Toast.makeText(requireContext(), "Failed to send reset email: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -412,14 +405,12 @@ public class LoginFragment extends Fragment {
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
                         // This callback will be invoked instantly when the phone number is verified
                         // automatically with a previously used credential.
-                        Log.d("PhoneAuth", "onVerificationCompleted:" + credential);
                         signInWithPhoneAuthCredential(credential);
                     }
 
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                         // This callback will be invoked when the verification process fails.
-                        Log.e("PhoneAuth", "onVerificationFailed", e);
                         Toast.makeText(getContext(), "Phone verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
@@ -427,7 +418,6 @@ public class LoginFragment extends Fragment {
                     public void onCodeSent(@NonNull String verificationId,
                                            @NonNull PhoneAuthProvider.ForceResendingToken token) {
                         // The SMS verification code has been sent to the user's phone.
-                        Log.d("PhoneAuth", "onCodeSent:" + verificationId);
                         mVerificationId = verificationId;
                         mResendToken = token;  // Save the token for resending
                         startTimer();
@@ -480,7 +470,6 @@ public class LoginFragment extends Fragment {
                             fetchUserData(user.getUid(), Navigation.findNavController(getView()));
                         }
                     } else {
-                        Log.e("PhoneAuth", "Phone sign-in failed", task.getException());
                         Toast.makeText(getContext(), "Invalid OTP.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -495,7 +484,6 @@ public class LoginFragment extends Fragment {
                         NavController navController = Navigation.findNavController(getView());
                         fetchUserData(user.getUid(), navController);
                     } else {
-                        Log.e("PhoneAuth", "Phone sign-in failed", task.getException());
                         Toast.makeText(getContext(), "Phone sign-in failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

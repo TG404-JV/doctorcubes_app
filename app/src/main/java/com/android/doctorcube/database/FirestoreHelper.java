@@ -2,7 +2,6 @@ package com.android.doctorcube.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.navigation.NavController;
@@ -26,7 +25,6 @@ public class FirestoreHelper {
     public void saveUserData(Map<String, Object> userData, String userId, View view,
                              SharedPreferences sharedPreferences, NavController navController, boolean isBottomSheet) {
         if (userId == null || userId.isEmpty()) {
-            Log.e(TAG, "Error: userId is null or empty. Cannot update user data.");
             Toast.makeText(context, "Missing user ID. Please sign in again.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -35,12 +33,10 @@ public class FirestoreHelper {
         firestoreDB.collection(APP_SUBMISSIONS_COLLECTION).document(userId)
                 .set(userData, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
-                    Log.d(TAG, "User data updated successfully in " + APP_SUBMISSIONS_COLLECTION + " collection for user: " + userId);
                     saveApplicationData(userData, userId, view, sharedPreferences, navController, isBottomSheet);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(context, "Failed to update user data. Please try again.", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Error updating user data for user: " + userId, e);
                 });
     }
 
@@ -51,7 +47,6 @@ public class FirestoreHelper {
                 .add(userData)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(context, "Thank you! Our team will connect with you soon.", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Application data saved successfully in " + APP_SUBMISSIONS_COLLECTION + " with ID: " + documentReference.getId() + " for user: " + userId);
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isApplicationSubmitted", true);
@@ -64,7 +59,6 @@ public class FirestoreHelper {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(context, "There was an error submitting your form. Please try again.", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Error saving application data for user: " + userId, e);
                 });
     }
 }

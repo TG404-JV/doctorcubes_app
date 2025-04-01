@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -344,7 +343,6 @@ public class CreateAccountFragment extends Fragment {
                 } else {
                     message = "Verification failed: " + e.getMessage();
                 }
-                Log.e("CreateAccountFragment", "Phone verification failed", e);
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
             }
 
@@ -436,7 +434,6 @@ public class CreateAccountFragment extends Fragment {
                 bundle.putString("phone", phone);
                 navController.navigate(R.id.collectUserDetailsFragment, bundle);
             } else {
-                Log.e("CreateAccountFragment", "Phone sign-in failed", task.getException());
                 Toast.makeText(requireContext(), "OTP Verification Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -483,7 +480,6 @@ public class CreateAccountFragment extends Fragment {
                     Toast.makeText(requireContext(), "User Registered Successfully!", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("CreateAccountFragment", "Failed to save user details to Firestore", e);
                     Toast.makeText(requireContext(), "Failed to save user details.", Toast.LENGTH_SHORT).show();
                 });
     }
@@ -498,7 +494,7 @@ public class CreateAccountFragment extends Fragment {
     private void showTermsAndConditions() {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Terms and Conditions")
-                .setMessage("Your terms and conditions text here...")
+                .setMessage(getString(R.string.terms_and_conditions_createac))
                 .setPositiveButton("Accept", (dialog, which) -> termsCheckbox.setChecked(true))
                 .setNegativeButton("Decline", null)
                 .show();

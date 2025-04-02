@@ -6,10 +6,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -63,7 +63,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
         if (videoId != null && !videoId.isEmpty()) {
             videoIds.add(videoId);
         } else {
-            Toast.makeText(this, "No video ID provided", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
@@ -115,7 +114,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
             public void onError(YouTubePlayer youTubePlayer,
                                 com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants.PlayerError error) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(VideoPlayerActivity.this, "Playback Error: " + error.name(), Toast.LENGTH_LONG).show();
+                CustomToast.showToast(VideoPlayerActivity.this, "Error loading video");
                 playNextVideo();
             }
         });
@@ -143,8 +142,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
             activePlayer.loadVideo(videoIds.get(currentVideoIndex), 0);
             toolbar.setTitle("Playing: Video " + (currentVideoIndex + 1));
             updateButtonStates();
-        } else {
-            Toast.makeText(this, "No more videos available", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            CustomToast.showToast(this, "Invalid video index");
         }
     }
 
@@ -152,15 +152,16 @@ public class VideoPlayerActivity extends AppCompatActivity {
         if (!videoIds.isEmpty() && currentVideoIndex < videoIds.size() - 1) {
             loadVideo(currentVideoIndex + 1);
         } else {
-            Toast.makeText(this, "Reached end of playlist", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(this, "At the end of playlist");
         }
+
     }
 
     private void playPreviousVideo() {
         if (!videoIds.isEmpty() && currentVideoIndex > 0) {
             loadVideo(currentVideoIndex - 1);
         } else {
-            Toast.makeText(this, "At the start of playlist", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(this, "At the beginning of playlist");
         }
     }
 

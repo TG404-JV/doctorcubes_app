@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.doctorcube.BuildConfig;
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.StudyMaterialFragment;
 import com.android.doctorcube.study.fragment.adapter.VideosAdapter;
@@ -26,7 +26,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -126,7 +125,7 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                                         // Handle errors, e.g., log, show a toast
                                         if (isAdded() && getContext() != null) {
                                             getActivity().runOnUiThread(() ->
-                                                    Toast.makeText(getContext(), "Error fetching video details", Toast.LENGTH_SHORT).show());
+                                                    CustomToast.showToast(requireActivity(), "Error fetching video details" ));
                                         }
                                     }
                                 });
@@ -159,7 +158,7 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                             executorService.shutdownNow();
                             return;
                         }
-                        Toast.makeText(getContext(), "Failed to fetch videos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        CustomToast.showToast(requireActivity(), "Failed to load videos. Please check your internet connection.");
                         if (emptyView != null) {
                             emptyView.setText("Failed to load videos. Please check your internet connection.");
                             emptyView.setVisibility(View.VISIBLE);
@@ -268,7 +267,7 @@ public class VideosFragment extends Fragment implements StudyMaterialFragment.Se
                 emptyView.setText("No videos found for: " + query);
                 emptyView.setVisibility(View.VISIBLE);
             } else {
-                Toast.makeText(getContext(), "No videos found for: " + query, Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(requireActivity(), "No videos found for: " + query);
             }
         } else if (emptyView != null) {
             emptyView.setVisibility(View.GONE);

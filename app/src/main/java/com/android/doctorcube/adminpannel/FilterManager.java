@@ -1,7 +1,6 @@
 package com.android.doctorcube.adminpannel;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,7 +88,6 @@ public class FilterManager {
                     try {
                         submissionDate = dateFormat.parse(student.getSubmissionDate());
                     } catch (ParseException e) {
-                        Toast.makeText(context, "Error parsing submission date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         matchesFilter = false;
                     }
                 }
@@ -97,7 +95,6 @@ public class FilterManager {
                     try {
                         lastUpdatedDate = dateFormat.parse(student.getLastUpdatedDate());
                     } catch (ParseException e) {
-                        Toast.makeText(context, "Error parsing last updated date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         matchesFilter = false;
                     }
                 }
@@ -105,7 +102,6 @@ public class FilterManager {
                     try {
                         firebasePushDate = dateFormat.parse(student.getFirebasePushDate());
                     } catch (ParseException e) {
-                        Toast.makeText(context, "Error parsing firebase push date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         matchesFilter = false;
                     }
                 }
@@ -147,7 +143,6 @@ public class FilterManager {
                         break;
                 }
             } catch (Exception e) {
-                Toast.makeText(context, "Error processing date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 matchesFilter = false;
             }
 

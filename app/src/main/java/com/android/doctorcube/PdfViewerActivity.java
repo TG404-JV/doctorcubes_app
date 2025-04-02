@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -74,7 +73,7 @@ public class PdfViewerActivity extends AppCompatActivity {
         if (pdfUrl != null && !pdfUrl.isEmpty()) {
             loadPdfFromUrl(pdfUrl);
         } else {
-            Toast.makeText(this, "PDF URL is invalid", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(this, "Invalid PDF URL");
             finish();
         }
     }
@@ -105,7 +104,7 @@ public class PdfViewerActivity extends AppCompatActivity {
                 .onLoad(nbPages -> showLoading(false))
                 .onError(t -> {
                     showLoading(false);
-                    Toast.makeText(PdfViewerActivity.this, "Error loading PDF: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    CustomToast.showToast(this, "Error displaying PDF: " + t.getMessage());
                     finish();
                 })
                 .load();
@@ -194,7 +193,7 @@ public class PdfViewerActivity extends AppCompatActivity {
             } else {
                 showLoading(false);
                 String errorMessage = exception != null ? exception.getMessage() : "Unknown error";
-                Toast.makeText(PdfViewerActivity.this, "Failed to download PDF: " + errorMessage, Toast.LENGTH_LONG).show();
+                CustomToast.showToast(PdfViewerActivity.this, "Error downloading PDF: " + errorMessage);
                 finish();
             }
         }

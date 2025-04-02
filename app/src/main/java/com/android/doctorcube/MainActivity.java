@@ -1,22 +1,20 @@
 package com.android.doctorcube;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
-import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,17 +35,21 @@ public class MainActivity extends AppCompatActivity {
         }
         setSupportActionBar(toolbar);
 
-        findViewById(R.id.app_logo).setOnClickListener(new View.OnClickListener() {
+        // Apply animation to app logo click
+        View appLogo = findViewById(R.id.app_logo);
+        appLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new SettingsFragment() ,true);
+                applySelectionAnimation(v);  // Apply animation to the logo
+                animateNavigationView();     // Animate navigation view
+                loadFragment(new SettingsFragment(), true);
             }
         });
 
         // Initialize call button
         callButton = toolbar.findViewById(R.id.call_button);
         if (callButton == null) {
-            Toast.makeText(this, "Error: Missing call button in Toolbar", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(this, "Call button not found in toolbar");
             return;
         }
 
@@ -65,40 +67,57 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new HomeFragment(), true);
 
         // Handle navigation selection
-        bubbleNavigation.setNavigationChangeListener(new BubbleNavigationChangeListener() {
-            @Override
-            public void onNavigationChanged(View view, int position) {
-                applySelectionAnimation(view);
+        bubbleNavigation.setNavigationChangeListener((view, position) -> {
+            applySelectionAnimation(view);
+            animateNavigationView();     // Animate navigation view
 
-                Fragment fragment = null;
-                switch (position) {
-                    case 0:
-                        fragment = new HomeFragment();
-                        toolbar.setTitle("DoctorCubes");
-                        break;
-                    case 1:
-                        fragment = new StudyMaterialFragment();
-                        toolbar.setTitle("Study Material");
-                        break;
-                    case 2:
-                        fragment = new SettingsFragment();
-                        toolbar.setTitle("Settings");
-                        break;
-                }
+            Fragment fragment = null;
+            switch (position) {
+                case 0:
+                    fragment = new HomeFragment();
+                    toolbar.setTitle("DoctorCubes");
+                    break;
+                case 1:
+                    fragment = new StudyMaterialFragment();
+                    toolbar.setTitle("Study Material");
+                    break;
+                case 2:
+                    fragment = new SettingsFragment();
+                    toolbar.setTitle("Settings");
+                    break;
+            }
 
-                if (fragment != null) {
-                    loadFragment(fragment, true);
-                }
+            if (fragment != null) {
+                loadFragment(fragment, true);
             }
         });
     }
 
     private void setupToolbar() {
-        // Call button click
+        // Call button click with animation
         callButton.setOnClickListener(v -> {
-           SocialActions openMedia = new SocialActions();
-           openMedia.makeDirectCall(this);
+            applySelectionAnimation(v);  // Apply animation to the call button
+            SocialActions openMedia = new SocialActions();
+            openMedia.makeDirectCall(this);
         });
+
+        // Add animation to navigation icon if it exists and set white tint
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+
+            // Set white tint to the back button (navigation icon)
+            toolbar.getNavigationIcon().setColorFilter(
+                    ContextCompat.getColor(this, android.R.color.white),
+                    PorterDuff.Mode.SRC_IN
+            );
+
+            toolbar.setNavigationOnClickListener(v -> {
+                applySelectionAnimation(v);  // Apply animation to the navigation icon
+                animateNavigationView();     // Animate navigation view
+                onBackPressed();  // Default behavior is to go back
+            });
+        }
     }
 
     private void applySelectionAnimation(View view) {
@@ -109,6 +128,20 @@ public class MainActivity extends AppCompatActivity {
                 .scaleY(1f)
                 .setDuration(300)
                 .setInterpolator(new OvershootInterpolator(1.5f))
+                .start();
+    }
+
+    private void animateNavigationView() {
+        // Apply animation to the whole navigation view
+        bubbleNavigation.setAlpha(0.7f);
+        bubbleNavigation.setScaleX(0.95f);
+        bubbleNavigation.setScaleY(0.95f);
+        bubbleNavigation.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(350)
+                .setInterpolator(new OvershootInterpolator(1.2f))
                 .start();
     }
 
@@ -138,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentFragment instanceof HomeFragment) {
             finishAffinity(); // Use finishAffinity() to close the app
         } else {
+            animateNavigationView(); // Animate navigation view when back is pressed
             super.onBackPressed();
             updateNavigationSelection();
         }

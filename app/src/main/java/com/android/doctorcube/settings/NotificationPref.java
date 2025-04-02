@@ -1,5 +1,6 @@
 package com.android.doctorcube.settings;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
+
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.settings.notification.NotificationAdapter;
 import com.android.doctorcube.settings.notification.NotificationDatabase;
@@ -67,7 +69,6 @@ public class NotificationPref extends Fragment {
         btnResetTime = view.findViewById(R.id.btn_reset_time);
         recyclerViewNotifications = view.findViewById(R.id.recyclerview_notifications);
         backBtn = view.findViewById(R.id.backBtn);
-        toolbar = view.findViewById(R.id.toolbar); // Initialize toolbar
 
         // Setup toolbar
         if (toolbar != null) {
@@ -76,7 +77,7 @@ public class NotificationPref extends Fragment {
         }
 
         if (switchNotifications == null || btnNotificationTime == null || recyclerViewNotifications == null) {
-            Toast.makeText(requireContext(), "Error initializing notification settings", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) requireContext(), "Error initializing views");
             return view;
         }
 
@@ -155,7 +156,6 @@ public class NotificationPref extends Fragment {
         editor.putString(KEY_NOTIFICATION_TIME, "09:00 AM");
         editor.apply();
         rescheduleNotification();
-        Toast.makeText(requireContext(), "Time reset to 9:00 AM", Toast.LENGTH_SHORT).show();
     }
 
     private void rescheduleNotification() {

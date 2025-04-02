@@ -27,9 +27,7 @@ public class SharedPreferencesManager {
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
-        } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error initializing SharedPreferences", e);
+        } catch (GeneralSecurityException | IOException ignored) {
         }
     }
 

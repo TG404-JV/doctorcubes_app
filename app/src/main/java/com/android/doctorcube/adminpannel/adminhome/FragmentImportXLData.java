@@ -22,8 +22,8 @@ import androidx.fragment.app.Fragment;
 
 import com.android.doctorcube.R;
 import com.android.doctorcube.adminpannel.Student;
-import com.google.firebase.firestore.CollectionReference; // Import for Firestore
-import com.google.firebase.firestore.FirebaseFirestore; // Import for Firestore
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FragmentImportXLData extends Fragment {
@@ -50,7 +49,7 @@ public class FragmentImportXLData extends Fragment {
     private Button selectExcelButton, importDataButton;
     private CardView fileInfoCard;
     private View progressLayout;
-    private FirebaseFirestore firestoreDB; // Use Firestore
+    private FirebaseFirestore firestoreDB;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy", Locale.getDefault());
     private SimpleDateFormat[] excelDateFormats = {
             new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()),
@@ -87,7 +86,7 @@ public class FragmentImportXLData extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        firestoreDB = FirebaseFirestore.getInstance(); // Initialize Firestore
+        firestoreDB = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -345,13 +344,13 @@ public class FragmentImportXLData extends Fragment {
         int total = students.size();
         AtomicInteger uploadedCount = new AtomicInteger();
         String currentDate = dateFormat.format(new Date());
-        CollectionReference xlDataRef = firestoreDB.collection("xl_data"); //changed path
+        CollectionReference xlDataRef = firestoreDB.collection("xl_data");
 
         progressLayout.setVisibility(View.VISIBLE);
         tvProgressStatus.setText("Uploading data... (0/" + total + ")");
 
         for (Student student : students) {
-            String studentId = TextUtils.isEmpty(student.getId()) ? firestoreDB.collection("xl_data").document().getId() : student.getId(); // Generate ID for Firestore
+            String studentId = TextUtils.isEmpty(student.getId()) ? firestoreDB.collection("xl_data").document().getId() : student.getId();
             String submissionDate = TextUtils.isEmpty(student.getSubmissionDate()) ? currentDate : student.getSubmissionDate();
 
             Map<String, Object> studentData = new HashMap<>();
@@ -372,7 +371,7 @@ public class FragmentImportXLData extends Fragment {
             studentData.put("isAdmitted", student.isAdmitted());
             studentData.put("firebasePushDate", currentDate);
 
-            xlDataRef.document(studentId)  // Use the studentId as the document ID
+            xlDataRef.document(studentId)
                     .set(studentData)
                     .addOnSuccessListener(aVoid -> {
                         uploadedCount.getAndIncrement();
@@ -396,4 +395,3 @@ public class FragmentImportXLData extends Fragment {
         }
     }
 }
-

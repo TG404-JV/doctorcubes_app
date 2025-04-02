@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,9 +22,9 @@ import androidx.navigation.Navigation;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.database.FirestoreHelper;
-import com.android.doctorcube.database.SharedPreferencesManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -113,8 +112,7 @@ public class CollectUserDetailsFragment extends Fragment {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
-            Toast.makeText(requireContext(), "Error initializing preferences", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(),"Unable to Create A Folder");
         }
 
         setUpCountrySpinner();
@@ -131,7 +129,7 @@ public class CollectUserDetailsFragment extends Fragment {
             //you can get other user info.
         } else {
             //if the user is not logged in, navigate to login.
-            Toast.makeText(requireContext(), "Please Login", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(),"Please Login");
             navController.navigate(R.id.loginFragment2);
             return;
         }
@@ -169,7 +167,7 @@ public class CollectUserDetailsFragment extends Fragment {
                     // Call the saveUserData method in FirestoreHelper to save to "app_submissions"
                     firestoreHelper.saveUserData(userData, userId, v, sharedPreferences, navController, isBottomSheet);
                 } else {
-                    Toast.makeText(getContext(), "Missing user information. Please sign in again.", Toast.LENGTH_SHORT).show();
+                    CustomToast.showToast(requireActivity(),"Missing user information.  Please sign in again.");
                     //  Consider navigating the user back to the login screen
                     //  navController.navigate(R.id.loginFragment); // Replace with your login fragment ID
                 }
@@ -191,18 +189,16 @@ public class CollectUserDetailsFragment extends Fragment {
                     .addOnSuccessListener(aVoid -> {
                         // Save to shared preferences
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("user_role", userRole);
-                        editor.putString("user_name", (String) userData.get("name"));
-                        editor.putString("user_email", (String) userData.get("email"));
-                        editor.putString("user_phone", (String) userData.get("phone"));
+                        editor.putString("role", userRole);
+                        editor.putString("phone", (String) userData.get("name"));
+                        editor.putString("email", (String) userData.get("email"));
+                        editor.putString("fullName", (String) userData.get("phone"));
                         editor.apply();
 
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(getContext(), "Failed to save user data. Please try again.", Toast.LENGTH_SHORT).show();
+                        CustomToast.showToast(requireActivity(),"Failed to save info ");
                     });
-        } else {
-            Toast.makeText(getContext(), "Missing user information.  Please sign in again.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -240,7 +236,7 @@ public class CollectUserDetailsFragment extends Fragment {
             return false;
         }
         if (neetScoreGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(requireContext(), "Select whether you have a NEET score", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(),"Select whether you have a NEET score");
             return false;
         }
         if (neetScoreYes.isChecked() && TextUtils.isEmpty(neetScore)) {
@@ -248,7 +244,7 @@ public class CollectUserDetailsFragment extends Fragment {
             return false;
         }
         if (passportGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(requireContext(), "Select whether you have a passport", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(),"Select whether you have a passport");
             return false;
         }
 

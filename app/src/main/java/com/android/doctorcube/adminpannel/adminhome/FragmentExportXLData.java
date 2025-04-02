@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.adminpannel.FilterManager;
 import com.android.doctorcube.adminpannel.SortFilterDialogManager;
@@ -63,7 +63,7 @@ public class FragmentExportXLData extends Fragment {
                         exportToExcel(uri);
                     }
                 } else {
-                    Toast.makeText(getContext(), "File creation canceled!", Toast.LENGTH_SHORT).show();
+                    CustomToast.showToast(requireActivity(), "File Creation Canceled");
                     statusTextView.setText("Export canceled by user.");
                 }
             });
@@ -122,7 +122,7 @@ public class FragmentExportXLData extends Fragment {
 
             @Override
             public void onDataLoadFailed(String error) {
-                Toast.makeText(getContext(), "Failed to load data: " + error, Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(requireActivity(), "Unable to Load Data");
                 statusTextView.setText("Failed to load data from Firebase.");
                 exportButton.setEnabled(false);
             }
@@ -188,7 +188,7 @@ public class FragmentExportXLData extends Fragment {
 
     private void startExportProcess() {
         if (filteredStudentList == null || filteredStudentList.isEmpty()) {
-            Toast.makeText(getContext(), "No data to export!", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(), "No Data To Export");
             statusTextView.setText("No data to export!");
             return;
         }
@@ -246,19 +246,19 @@ public class FragmentExportXLData extends Fragment {
             workbook.close();
             progressLayout.setVisibility(View.GONE);
             statusTextView.setText("Export successful! File saved.");
-            Toast.makeText(getContext(), "Excel file saved successfully!", Toast.LENGTH_LONG).show();
+            CustomToast.showToast(requireActivity(), "file saved");
             viewButton.setEnabled(true);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             progressLayout.setVisibility(View.GONE);
             statusTextView.setText("Export failed: File not found.");
-            Toast.makeText(getContext(), "Error: File not found!", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(), "file not found");
             exportButton.setEnabled(true);
         } catch (IOException e) {
             e.printStackTrace();
             progressLayout.setVisibility(View.GONE);
             statusTextView.setText("Export failed: " + e.getMessage());
-            Toast.makeText(getContext(), "Error saving Excel file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(), "Failed to Store File");
             exportButton.setEnabled(true);
         }
     }
@@ -293,10 +293,10 @@ public class FragmentExportXLData extends Fragment {
             try {
                 startActivity(intent);
             } catch (Exception e) {
-                Toast.makeText(getContext(), "No app found to open Excel file!", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(requireActivity(), "No App Found To View ");
             }
         } else {
-            Toast.makeText(getContext(), "No exported file available!", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(), "No Exported File Available");
         }
     }
 }

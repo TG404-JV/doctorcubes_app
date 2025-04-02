@@ -1,10 +1,10 @@
 package com.android.doctorcube;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,7 +20,7 @@ public class SocialActions {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "WhatsApp not installed");
         }
     }
 
@@ -34,7 +34,7 @@ public class SocialActions {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "WhatsApp not installed", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "WhatsApp not installed");
         }
     }
 
@@ -45,9 +45,9 @@ public class SocialActions {
         try {
             context.startActivity(intent);
         } catch (SecurityException e) {
-            Toast.makeText(context, "Call permission not granted", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "Permission denied");
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "Dialer not available", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "WhatsApp not installed");
         }
     }
 
@@ -58,7 +58,7 @@ public class SocialActions {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "Instagram not installed", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "Instagram not installed");
         }
     }
 
@@ -69,7 +69,7 @@ public class SocialActions {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "Twitter not installed", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "Twitter not installed");
         }
     }
 
@@ -80,7 +80,7 @@ public class SocialActions {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "YouTube not installed", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "YouTube not installed");
         }
     }
 

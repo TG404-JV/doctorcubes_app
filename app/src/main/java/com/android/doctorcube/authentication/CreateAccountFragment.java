@@ -2,7 +2,6 @@ package com.android.doctorcube.authentication;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,22 +23,20 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,9 +46,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.io.IOException;
@@ -131,7 +126,6 @@ public class CreateAccountFragment extends Fragment {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
-            Toast.makeText(requireContext(), "Error initializing preferences", Toast.LENGTH_SHORT).show();
             sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
 
@@ -290,7 +284,7 @@ public class CreateAccountFragment extends Fragment {
             return;
         }
         if (!termsCheckbox.isChecked()) {
-            Toast.makeText(requireContext(), "Please agree to the Terms and Conditions", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(),"Please accept terms and conditions");
             return;
         }
 
@@ -341,9 +335,9 @@ public class CreateAccountFragment extends Fragment {
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     message = "Too many attempts, try again later";
                 } else {
-                    message = "Verification failed: " + e.getMessage();
+                    message = "Verification failed";
                 }
-                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+                CustomToast.showToast(requireActivity(),message);
             }
 
             @Override
@@ -432,9 +426,10 @@ public class CreateAccountFragment extends Fragment {
                 bundle.putString("fullName", fullName);
                 bundle.putString("email", email);
                 bundle.putString("phone", phone);
+
                 navController.navigate(R.id.collectUserDetailsFragment, bundle);
             } else {
-                Toast.makeText(requireContext(), "OTP Verification Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                CustomToast.showToast(requireActivity(),"Verification Failed");
             }
         });
     }
@@ -477,10 +472,10 @@ public class CreateAccountFragment extends Fragment {
                 .document(userId)
                 .set(userData, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(requireContext(), "User Registered Successfully!", Toast.LENGTH_SHORT).show();
+                    CustomToast.showToast(requireActivity(),"Welcome to DoctorCubes");
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(requireContext(), "Failed to save user details.", Toast.LENGTH_SHORT).show();
+                    CustomToast.showToast(requireActivity(),"Failed to save info");
                 });
     }
 

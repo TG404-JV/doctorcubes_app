@@ -1,8 +1,10 @@
 package com.android.doctorcube.adminpannel;
 
 
+import android.app.Activity;
 import android.content.Context;
-import android.widget.Toast;
+
+import com.android.doctorcube.CustomToast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +24,7 @@ public class StudentSorter {
     public void sortStudents(List<Student> students, String sortBy) {
         if (students == null || students.isEmpty()) {
             if (context != null) {
-                Toast.makeText(context, "No students to sort", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast((Activity) context, "No students to sort.");
             }
             return;
         }
@@ -53,7 +55,7 @@ public class StudentSorter {
                         return dateFormat.parse(date2Str).compareTo(dateFormat.parse(date1Str));
                     } catch (ParseException e) {
                         if (context != null) {
-                            Toast.makeText(context, "Error sorting by submission date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            CustomToast.showToast((Activity) context, "Error sorting by submission date: " + e.getMessage());
                         }
                         return 0;
                     }
@@ -68,7 +70,7 @@ public class StudentSorter {
                         return dateFormat.parse(date1Str).compareTo(dateFormat.parse(date2Str));
                     } catch (ParseException e) {
                         if (context != null) {
-                            Toast.makeText(context, "Error sorting by submission date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            CustomToast.showToast((Activity) context, "Error sorting by submission date" );
                         }
                         return 0;
                     }
@@ -83,7 +85,7 @@ public class StudentSorter {
                         return dateFormat.parse(date2Str).compareTo(dateFormat.parse(date1Str));
                     } catch (ParseException e) {
                         if (context != null) {
-                            Toast.makeText(context, "Error sorting by last updated date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            CustomToast.showToast((Activity) context, "Error sorting by last updated date" );
                         }
                         return 0;
                     }
@@ -98,7 +100,7 @@ public class StudentSorter {
                         return dateFormat.parse(date1Str).compareTo(dateFormat.parse(date2Str));
                     } catch (ParseException e) {
                         if (context != null) {
-                            Toast.makeText(context, "Error sorting by last updated date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            CustomToast.showToast((Activity) context, "Error sorting by last updated date" );
                         }
                         return 0;
                     }
@@ -113,7 +115,7 @@ public class StudentSorter {
                         return dateFormat.parse(date2Str).compareTo(dateFormat.parse(date1Str));
                     } catch (ParseException e) {
                         if (context != null) {
-                            Toast.makeText(context, "Error sorting by Firebase push date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            CustomToast.showToast((Activity) context, "Error sorting by Firebase push date");
                         }
                         return 0;
                     }
@@ -128,7 +130,7 @@ public class StudentSorter {
                         return dateFormat.parse(date1Str).compareTo(dateFormat.parse(date2Str));
                     } catch (ParseException e) {
                         if (context != null) {
-                            Toast.makeText(context, "Error sorting by Firebase push date: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            CustomToast.showToast((Activity) context, "Error sorting by Firebase push date");
                         }
                         return 0;
                     }
@@ -137,7 +139,7 @@ public class StudentSorter {
 
             default:
                 if (context != null) {
-                    Toast.makeText(context, "Invalid sort option: " + sortBy, Toast.LENGTH_SHORT).show();
+                    CustomToast.showToast((Activity) context, "Invalid sort option");
                 }
                 return;
         }

@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class FragmentAddNewUser extends Fragment {
 
@@ -86,7 +87,7 @@ public class FragmentAddNewUser extends Fragment {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
-            Toast.makeText(requireContext(), "Unable to Store data In Local Storage", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(), "Unable To Create Account Please Try Later");
         }
 
         // Set up the role dropdown
@@ -166,10 +167,10 @@ public class FragmentAddNewUser extends Fragment {
                             etRole.setText("");
                             selectedRole = null;
 
-                            Toast.makeText(requireContext(), "Admin Registered Successfully!  Account created.  The user can now log in.", Toast.LENGTH_LONG).show();
+                            CustomToast.showToast(requireActivity(), "Account Created Successfully");
                         }
                     } else {
-                        Toast.makeText(requireContext(), "Sign-up Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        CustomToast.showToast(requireActivity(), "SignUp Failed");
                     }
                 });
     }

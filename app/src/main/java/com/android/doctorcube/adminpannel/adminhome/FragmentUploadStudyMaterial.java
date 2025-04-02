@@ -1,13 +1,11 @@
 package com.android.doctorcube.adminpannel.adminhome;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -112,9 +111,8 @@ public class FragmentUploadStudyMaterial extends Fragment {
                             String notesUrl = document.getString("notesUrl");
                             contentList.add(new ContentItem(id, title, author, size, pages, category, description, videoId, notesUrl));
                         }
-                        contentAdapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(getContext(), "Error fetching content", Toast.LENGTH_SHORT).show();
+                        CustomToast.showToast(requireActivity(), "Error fetching content");
                     }
                 });
     }
@@ -181,7 +179,8 @@ public class FragmentUploadStudyMaterial extends Fragment {
                 content.put("title", title);
                 String videoId = extractYouTubeId(url);
                 if (videoId == null) {
-                    Toast.makeText(getContext(), "Invalid YouTube URL", Toast.LENGTH_SHORT).show();
+
+                    CustomToast.showToast(requireActivity(), "Invalid YouTube URL");
                     progressBar.setVisibility(View.GONE);
                     actionButton.setEnabled(true);
                     return;
@@ -211,15 +210,15 @@ public class FragmentUploadStudyMaterial extends Fragment {
                         .addOnSuccessListener(documentReference -> {
                             progressBar.setVisibility(View.GONE);
                             actionButton.setEnabled(true);
-                            Toast.makeText(getContext(), "Content uploaded successfully", Toast.LENGTH_SHORT).show();
+                            CustomToast.showToast(requireActivity(), "Content uploaded successfully");
                             bottomSheetDialog.dismiss();
                             fetchContent(collection);
                         })
                         .addOnFailureListener(e -> {
                             progressBar.setVisibility(View.GONE);
                             actionButton.setEnabled(true);
-                            Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        });
+
+                            CustomToast.showToast(requireActivity(), "Upload failed: " + e.getMessage());                        });
             } else {
                 db.collection(collection)
                         .document(currentContentId)
@@ -227,7 +226,7 @@ public class FragmentUploadStudyMaterial extends Fragment {
                         .addOnSuccessListener(aVoid -> {
                             progressBar.setVisibility(View.GONE);
                             actionButton.setEnabled(true);
-                            Toast.makeText(getContext(), "Content updated successfully", Toast.LENGTH_SHORT).show();
+                            CustomToast.showToast(requireActivity(), "Content updated successfully");
                             bottomSheetDialog.dismiss();
                             fetchContent(collection);
                             currentContentId = null;
@@ -235,7 +234,7 @@ public class FragmentUploadStudyMaterial extends Fragment {
                         .addOnFailureListener(e -> {
                             progressBar.setVisibility(View.GONE);
                             actionButton.setEnabled(true);
-                            Toast.makeText(getContext(), "Update failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            CustomToast.showToast(requireActivity(), "Update failed: " + e.getMessage());
                         });
             }
         });
@@ -250,11 +249,11 @@ public class FragmentUploadStudyMaterial extends Fragment {
                 .document(contentId)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getContext(), "Content deleted successfully", Toast.LENGTH_SHORT).show();
+                    CustomToast.showToast(requireActivity(), "Content deleted successfully");
                     fetchContent(collection);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Delete failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    CustomToast.showToast(requireActivity(), "Delete failed: " + e.getMessage());
                 });
     }
 
@@ -268,7 +267,7 @@ public class FragmentUploadStudyMaterial extends Fragment {
 
     private boolean validateInputs(String title, String url, boolean isVideo, TextInputEditText authorEditText, TextInputEditText sizeEditText, TextInputEditText pagesEditText, TextInputEditText categoryEditText, TextInputEditText descriptionEditText) {
         if (title.isEmpty() || url.isEmpty()) {
-            Toast.makeText(getContext(), "Title and URL are required", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(requireActivity(), "Title and URL are required");
             return false;
         }
         if (!isVideo) {
@@ -278,15 +277,15 @@ public class FragmentUploadStudyMaterial extends Fragment {
             String category = categoryEditText.getText().toString().trim();
             String description = descriptionEditText.getText().toString().trim();
             if (author.isEmpty() || size.isEmpty() || pages.isEmpty() || category.isEmpty()) {
-                Toast.makeText(getContext(), "All fields except description are required for notes", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(requireActivity(), "All fields are required");
                 return false;
             }
             if (!size.matches("\\d+(\\.\\d+)?\\s*(KB|MB|GB)")) {
-                Toast.makeText(getContext(), "Size must be in format 'X MB' (e.g., 2.5 MB)", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(requireActivity(), "Size must be in a valid format");
                 return false;
             }
             if (!pages.matches("\\d+")) {
-                Toast.makeText(getContext(), "Pages must be a number", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(requireActivity(), "Pages must be a valid number");
                 return false;
             }
         }

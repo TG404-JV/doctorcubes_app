@@ -46,7 +46,6 @@ public class FirestoreHelper {
         firestoreDB.collection(APP_SUBMISSIONS_COLLECTION)
                 .add(userData)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(context, "Thank you! Our team will connect with you soon.", Toast.LENGTH_SHORT).show();
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isApplicationSubmitted", true);

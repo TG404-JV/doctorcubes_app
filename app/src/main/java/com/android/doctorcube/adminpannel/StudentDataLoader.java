@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * This class is responsible for loading student data from Firestore.  It retrieves
- * data from the "registrations", "xl data", and "app_submissions" collections
+ * data from the "registrations", "xl data", "app_submissions" and "web_submissions" collections
  * and merges them into a single list of Student objects.
  */
 public class StudentDataLoader {
@@ -64,7 +64,7 @@ public class StudentDataLoader {
 
     /**
      * Loads student data from Firestore.  This method retrieves data from the
-     * "registrations", "xl data",and "app_submissions" collections and merges them into a single
+     * "registrations", "xl data", "app_submissions" and "web_submissions" collections and merges them into a single
      * list.  It then notifies the listener.
      *
      * @param listener The DataLoadListener to notify when the data is loaded.
@@ -78,44 +78,44 @@ public class StudentDataLoader {
         final Task<QuerySnapshot> registrationsTask = firestoreDB.collection("registrations").get();
         final Task<QuerySnapshot> xlDataTask = firestoreDB.collection("xl_data").get();
         final Task<QuerySnapshot> appSubmissionsTask = firestoreDB.collection("app_submissions").get(); // Get app_submissions
+        final Task<QuerySnapshot> webSubmissionsTask = firestoreDB.collection("web_submissions").get();
 
-        Tasks.whenAllSuccess(registrationsTask, xlDataTask, appSubmissionsTask) // Use whenAllSuccess
-                .addOnSuccessListener(new OnSuccessListener<List<Object>>() {
-                    @Override
-                    public void onSuccess(List<Object> results) {
-                        List<Student> allStudents = new ArrayList<>();
-                        //Process the result
-                        for (Object result : results) {
-                            if (result instanceof QuerySnapshot) {
-                                QuerySnapshot snapshot = (QuerySnapshot) result;
-                                for (DocumentSnapshot document : snapshot) {
-                                    try {
-                                        Student student;
-                                        String collectionName = document.getReference().getParent().getId(); //changed
-                                        if (collectionName.equals("registrations")) {
-                                            student = createStudentFromRegistration(document);
-                                        } else if (collectionName.equals("xl_data")) {
-                                            student = createStudentFromXlData(document);
-                                        } else if (collectionName.equals("app_submissions")) {  // Handle app_submissions
-                                            student = createStudentFromAppSubmissions(document);
-                                        }
-                                        else{
-                                            student = null;
-                                        }
-                                        if(student!=null){
-                                            student.setCollection(collectionName); // Store the collection name!
-                                            allStudents.add(student);
-                                        }
-
-                                    } catch (Exception e) {
-                                        listener.onDataLoadFailed("Error parsing data: " + e.getMessage());
-                                        return;
+        Tasks.whenAllSuccess(registrationsTask, xlDataTask, appSubmissionsTask, webSubmissionsTask) // Use whenAllSuccess
+                .addOnSuccessListener(results -> {
+                    List<Student> allStudents = new ArrayList<>();
+                    //Process the result
+                    for (Object result : results) {
+                        if (result instanceof QuerySnapshot) {
+                            QuerySnapshot snapshot = (QuerySnapshot) result;
+                            for (DocumentSnapshot document : snapshot) {
+                                try {
+                                    Student student;
+                                    String collectionName = document.getReference().getParent().getId(); //changed
+                                    if (collectionName.equals("registrations")) {
+                                        student = createStudentFromRegistration(document);
+                                    } else if (collectionName.equals("xl_data")) {
+                                        student = createStudentFromXlData(document);
+                                    } else if (collectionName.equals("app_submissions")) {  // Handle app_submissions
+                                        student = createStudentFromAppSubmissions(document);
+                                    } else if (collectionName.equals("web_submissions")) {
+                                        student = createStudentFromWebSubmissions(document);
                                     }
+                                    else{
+                                        student = null;
+                                    }
+                                    if(student!=null){
+                                        student.setCollection(collectionName); // Store the collection name!
+                                        allStudents.add(student);
+                                    }
+
+                                } catch (Exception e) {
+                                    listener.onDataLoadFailed("Error parsing data: " + e.getMessage());
+                                    return;
                                 }
                             }
                         }
-                        listener.onDataLoaded(allStudents);
                     }
+                    listener.onDataLoaded(allStudents);
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -219,12 +219,36 @@ public class StudentDataLoader {
         return student;
     }
 
+    private Student createStudentFromWebSubmissions(DocumentSnapshot document) throws ParseException {
+        Student student = new Student();
+        student.setId(document.getId());
+        student.setName(FirestoreDataHelper.getString(document, "name"));
+        student.setMobile(FirestoreDataHelper.getString(document, "mobile"));
+        student.setEmail(FirestoreDataHelper.getString(document, "email"));
+        student.setState(FirestoreDataHelper.getString(document, "state"));
+        student.setCity(FirestoreDataHelper.getString(document, "city"));
+        student.setInterestedCountry(FirestoreDataHelper.getString(document, "interestedCountry"));
+        student.setHasNeetScore(FirestoreDataHelper.getString(document, "hasNeetScore"));
+        student.setNeetScore(FirestoreDataHelper.getString(document, "neetScore"));
+        student.setHasPassport(FirestoreDataHelper.getString(document, "hasPassport"));
+        student.setCallStatus(FirestoreDataHelper.getString(document, "callStatus", "pending"));
+        student.setIsInterested(FirestoreDataHelper.getBoolean(document, "isInterested", false));
+        student.setAdmitted(FirestoreDataHelper.getBoolean(document, "isAdmitted", false));
+        Date webSubmissionDate = FirestoreDataHelper.getTimestamp(document, "webSubmissionDate");
+        if (webSubmissionDate != null) {
+            student.setSubmissionDate(dateFormat.format(webSubmissionDate));
+            student.setFirebasePushDate(dateFormat.format(webSubmissionDate));
+        }
+        student.setLastCallDate(FirestoreDataHelper.getString(document, "lastCallDate"));
+        return student;
+    }
+
     /**
      * Updates a student's data in Firestore.  This method allows you to update
-     * a specific field for a student in either the "registrations", "xl data" or "app_submissions"
+     * a specific field for a student in either the "registrations", "xl data", "app_submissions", or "web_submissions"
      * collection.
      *
-     * @param collection The Firestore collection ("registrations", "xl data", or "app_submissions").
+     * @param collection The Firestore collection ("registrations", "xl data", "app_submissions", or "web_submissions").
      * @param documentId The ID of the document to update.
      * @param field The field to update.
      * @param value The new value for the field.
@@ -403,4 +427,3 @@ public class StudentDataLoader {
         }
     }
 }
-

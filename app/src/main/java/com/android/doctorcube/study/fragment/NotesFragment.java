@@ -1,13 +1,13 @@
 package com.android.doctorcube.study.fragment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.StudyMaterialFragment;
 import com.android.doctorcube.study.fragment.adapter.NotesAdapter;
@@ -108,7 +109,7 @@ public class NotesFragment extends Fragment implements StudyMaterialFragment.Sea
                         }
                         updateAdapterAndFinishLoading(fetchedNotes);
                     } else {
-                        Toast.makeText(getContext(), "Error fetching notes: " + task.getException(), Toast.LENGTH_LONG).show();
+                        CustomToast.showToast(requireActivity(), getString(R.string.failed_to_load_notes));
                         emptyView.setText(R.string.failed_to_load_notes);
                         NoItemsAvailable.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);

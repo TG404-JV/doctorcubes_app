@@ -1,8 +1,8 @@
 package com.android.doctorcube.university.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.SocialActions;
 import com.android.doctorcube.UniversityDetailsActivity;
@@ -115,7 +115,7 @@ public class UniversityAdapter extends RecyclerView.Adapter<UniversityAdapter.Un
         // Brochure Button (keeping as placeholder)
         holder.btnBrochure.setOnClickListener(v -> {
             // Implement brochure download logic here
-            Toast.makeText(v.getContext(), "Brochure Added Soon For" + university.getName(), Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "Brochure download not implemented yet");
         });
     }
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -33,6 +32,7 @@ import androidx.security.crypto.MasterKey;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Objects;
 
 public class AdminActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -72,7 +72,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
-            Toast.makeText(this, "Error initializing secure storage: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            CustomToast.showToast(this, "Error In Storing The data");
             isSuperAdmin = false;
             prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         }
@@ -82,7 +82,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Admin Panel");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -133,7 +133,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             adminEmailTextView.setText(getString(R.string.admin_email));
             adminNameTextView.setText("Admin");
             isSuperAdmin = false;
-            Toast.makeText(this, "Please sign in to access admin features", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast(this, "User not logged in");
         }
     }
 
@@ -156,7 +156,7 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
             if (isSuperAdmin) {
                 loadFragment(new FragmentAddNewUser());
             } else {
-                Toast.makeText(AdminActivity.this, "Only Super Admins can add new users.", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(this, "You are not authorized to access this feature.");
             }
 
         } else if (id == R.id.nav_import_excel) {

@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,7 +51,6 @@ public class StudyMaterialFragment extends Fragment {
 
         // Check for null views
         if (toggleGroup == null || viewPager == null || searchEditText == null || clearSearchButton == null) {
-            Toast.makeText(getContext(), "Error: Missing UI components", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -77,18 +75,12 @@ public class StudyMaterialFragment extends Fragment {
                 TextView appTitle = toolbar.findViewById(R.id.app_title);
                 if (appTitle != null) {
                     appTitle.setText("Study Material"); // Directly set the TextView text
-                } else {
-                    Toast.makeText(getContext(), "app_title TextView not found in Toolbar", Toast.LENGTH_SHORT).show();
                 }
                 // Set subtitle via ActionBar
                 if (activity.getSupportActionBar() != null) {
                     activity.getSupportActionBar().setSubtitle("Premium Study Materials for Abroad Education");
                 }
-            } else {
-                Toast.makeText(getContext(), "MainActivity Toolbar not set", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getContext(), "Activity is not AppCompatActivity", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -1,33 +1,32 @@
 package com.android.doctorcube.adminpannel;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
+import com.android.doctorcube.SocialActions;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
 
@@ -68,7 +67,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             if (student.getMobile() != null && !student.getMobile().equals("N/A")) {
                 showCallConfirmationDialog(student);
             } else {
-                Toast.makeText(context, "No valid phone number available", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast((Activity) context, "Mobile number not available");
             }
         });
 
@@ -161,13 +160,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CALL_PHONE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (studentToCall != null) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + studentToCall.getMobile()));
-                context.startActivity(intent);
-                updateLastCallDate(studentToCall);
-                studentToCall = null;
+                new SocialActions().makeDirectCall(context);
             }
         } else {
-            Toast.makeText(context, "Call permission denied", Toast.LENGTH_SHORT).show();
+            CustomToast.showToast((Activity) context, "Permission denied");
         }
     }
 

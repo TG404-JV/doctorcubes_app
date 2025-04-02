@@ -2,11 +2,8 @@ package com.android.doctorcube;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +11,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +38,6 @@ import com.android.doctorcube.university.ApplyBottomSheetFragment;
 import com.android.doctorcube.university.model.University;
 import com.android.doctorcube.university.model.UniversityData;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -95,16 +90,32 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         seeAllEventsButton = view.findViewById(R.id.see_all_events);
         inviteButton = view.findViewById(R.id.invite_button);
         recyclerView = view.findViewById(R.id.recyclerView);
-
+        SocialActions socialActions = new SocialActions();
+        final String Whatsapp_Message = "Hello dear future doctors 👩‍⚕️👨‍⚕️, Thank you for contacting Doctorcubes Travel Education MBBS Abroad Pvt Ltd! " +
+                "Please provide the following information so we can assist you:\n\n" +
+                "Your Name: \nFrom Which City: \nPreferred Country: \nNEET Score (if given): \nBudget Range: \n\n" +
+                "🌍 Our Office Addresses:\n\n" +
+                "🇷🇺 Russia (Head Office): Кемерово, бульвар строителей 43 32 дом.\n" +
+                "📞 Contact: +79996482721\n\n" +
+                "🇮🇳 India:\n" +
+                "📍 Delhi NCR, Haryana: Sec 87, near Vidhya Bhawan High School, Bharat Colony, Kheri Road, Faridabad 121002\n" +
+                "📞 Contact: 9667763157\n\n" +
+                "📍 Maharashtra: Aurangabad, Kranti Chowk, near Sant Eknath Mandir, above Punjab and Sindh Bank, 431003\n" +
+                "📞 Contact: 917517036564\n\n" +
+                "🌐 Visit our website: Doctorcubes.com\n" +
+                "📱 Download our app: Doctorcubes\n" +
+                "▶️ Watch our YouTube video: https://youtu.be/3gMOmU6uYx4?si=-1sw0NeZEk1UoC89";
+        view.findViewById(R.id.whatsapp_button).setOnClickListener(v -> socialActions.openWhatsApp(requireActivity(), Whatsapp_Message));
+        view.findViewById(R.id.call_now_button).setOnClickListener(v -> socialActions.makeDirectCall(requireActivity()));
         setupToolbar();
         setUpComingEvents();
         setupFeaturesRecyclerView(view);
         setupUniversitiesRecyclerView(view);
         setupTestimonialsSlider(view);
         setupCountrySelectionListeners(view);
-        setupCommunicationButtons(view);
         setupSearchBar();
         setupCategoryButtons();
+
         setupEventListeners();
 
         return view;
@@ -135,7 +146,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     private void setupFeaturesRecyclerView(View view) {
         featuresRecyclerView = view.findViewById(R.id.features_recycler_view);
         if (featuresRecyclerView == null) {
-            Toast.makeText(getActivity(), "Features RecyclerView not found", Toast.LENGTH_SHORT).show();
             return;
         }
         featuresRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -147,7 +157,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     private void setupUniversitiesRecyclerView(View view) {
         universitiesRecyclerView = view.findViewById(R.id.universities_recycler_view);
         if (universitiesRecyclerView == null) {
-            Toast.makeText(getActivity(), "Universities RecyclerView not found", Toast.LENGTH_SHORT).show();
             return;
         }
         universitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -155,15 +164,12 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         if (getContext() != null) {
             universityListAdapter = new UniversityListAdapter(getContext(), new ArrayList<>(fullUniversityList));
             universitiesRecyclerView.setAdapter(universityListAdapter);
-        } else {
-            Toast.makeText(getActivity(), "Context unavailable for universities", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setupTestimonialsSlider(View view) {
         testimonialsViewPager = view.findViewById(R.id.testimonials_viewpager);
         if (testimonialsViewPager == null) {
-            Toast.makeText(getActivity(), "Testimonials ViewPager not found", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -205,12 +211,18 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         CardView chinaLayout = view.findViewById(R.id.country_china_card);
         CardView uzbekistanLayout = view.findViewById(R.id.country_uzbekistan_card);
 
-        if (russiaLayout != null) russiaLayout.setOnClickListener(v -> openUniversitiesActivity("Russia"));
-        if (georgiaLayout != null) georgiaLayout.setOnClickListener(v -> openUniversitiesActivity("Georgia"));
-        if (kazakhstanLayout != null) kazakhstanLayout.setOnClickListener(v -> openUniversitiesActivity("Kazakhstan"));
-        if (nepalLayout != null) nepalLayout.setOnClickListener(v -> openUniversitiesActivity("Nepal"));
-        if (chinaLayout != null) chinaLayout.setOnClickListener(v -> openUniversitiesActivity("China"));
-        if (uzbekistanLayout != null) uzbekistanLayout.setOnClickListener(v -> openUniversitiesActivity("Uzbekistan"));
+        if (russiaLayout != null)
+            russiaLayout.setOnClickListener(v -> openUniversitiesActivity("Russia"));
+        if (georgiaLayout != null)
+            georgiaLayout.setOnClickListener(v -> openUniversitiesActivity("Georgia"));
+        if (kazakhstanLayout != null)
+            kazakhstanLayout.setOnClickListener(v -> openUniversitiesActivity("Kazakhstan"));
+        if (nepalLayout != null)
+            nepalLayout.setOnClickListener(v -> openUniversitiesActivity("Nepal"));
+        if (chinaLayout != null)
+            chinaLayout.setOnClickListener(v -> openUniversitiesActivity("China"));
+        if (uzbekistanLayout != null)
+            uzbekistanLayout.setOnClickListener(v -> openUniversitiesActivity("Uzbekistan"));
     }
 
     private void setupCommunicationButtons(View view) {
@@ -315,7 +327,6 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
                 testimonialsViewPager.setCurrentItem(item.getSectionPosition(), true);
                 break;
             default:
-                Toast.makeText(getContext(), "Unknown item type", Toast.LENGTH_SHORT).show();
                 break;
         }
 
@@ -348,7 +359,7 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
 
         if (examButton != null) {
             examButton.setOnClickListener(v -> {
-                Toast.makeText(getActivity(), "Coming Soon", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(requireActivity(), "Coming Soon");
             });
         }
 
@@ -360,13 +371,12 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
     private void setupEventListeners() {
         if (seeAllEventsButton != null) {
             seeAllEventsButton.setOnClickListener(v -> {
-                Toast.makeText(getActivity(), "See All Events Clicked", Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(getActivity(), "Coming Soon");
             });
         }
 
         if (inviteButton != null) {
             inviteButton.setOnClickListener(v -> {
-                Toast.makeText(getActivity(), "Invite Friends Clicked", Toast.LENGTH_SHORT).show();
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, "Join me on DoctorCube to explore study abroad opportunities! Get $20 for a ticket: [Your Referral Link]");
@@ -413,7 +423,8 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
             default -> {
 
             }
-        };
+        }
+        ;
 
         // Show Bottom Sheet
         showFeatureBottomSheet(title, description);
@@ -434,12 +445,7 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         descriptionTextView.setText(description);
 
         // Set a click listener for the close button
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetDialog.dismiss();
-            }
-        });
+        closeButton.setOnClickListener(v -> bottomSheetDialog.dismiss());
         bottomSheetDialog.show();
     }
 
@@ -451,17 +457,11 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
                 TextView appTitle = toolbar.findViewById(R.id.app_title);
                 if (appTitle != null) {
                     appTitle.setText("Home");
-                } else {
-                    Toast.makeText(getContext(), "app_title TextView not found in Toolbar", Toast.LENGTH_SHORT).show();
                 }
                 if (activity.getSupportActionBar() != null) {
                     activity.getSupportActionBar().setSubtitle("Premium Study Materials for Abroad Education");
                 }
-            } else {
-                Toast.makeText(getContext(), "MainActivity Toolbar not set", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getContext(), "Activity is not AppCompatActivity", Toast.LENGTH_SHORT).show();
         }
     }
 

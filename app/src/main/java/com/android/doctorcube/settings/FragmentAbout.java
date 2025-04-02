@@ -1,10 +1,6 @@
 package com.android.doctorcube.settings;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity; // Add this import
 import androidx.appcompat.widget.Toolbar; // Already imported
 import androidx.fragment.app.Fragment;
@@ -13,16 +9,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.doctorcube.R;
 import com.android.doctorcube.SocialActions;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Objects;
 
 public class FragmentAbout extends Fragment {
 

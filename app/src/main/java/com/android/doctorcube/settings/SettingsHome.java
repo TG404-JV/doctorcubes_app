@@ -1,7 +1,6 @@
 package com.android.doctorcube.settings;
 
 
-import static java.lang.Package.getPackage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -37,12 +36,9 @@ import java.io.File;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+
 
 public class SettingsHome extends Fragment {
-    private static final String TAG = "SettingsHomeFragment";
     private static final String PREFS_NAME = "UserProfilePrefs";
     private NavController navController;
     private FirebaseAuth mAuth;
@@ -88,7 +84,6 @@ public class SettingsHome extends Fragment {
             // Set version to TextView
             appVersionTextView.setText("Version: " + versionName);
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
             appVersionTextView.setText("Version: Unknown");
         }
 
@@ -147,9 +142,7 @@ public class SettingsHome extends Fragment {
             notificationLayout.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_notificationPref));
         }
 
-        if (consultationButton != null) {
-            //  consultationButton.setOnClickListener(v -> safeNavigate(R.id.action_settingsHome_to_consultationBooking));
-        }
+
     }
 
     private void setupToolbar(View view) {
@@ -160,7 +153,7 @@ public class SettingsHome extends Fragment {
                         navController.getCurrentDestination().getId() != R.id.settingsHome) {
                     navController.popBackStack(R.id.settingsHome, false);
                 } else {
-                    requireActivity().onBackPressed();
+                    requireActivity().getOnBackPressedDispatcher();
                 }
             });
         }
@@ -282,7 +275,7 @@ public class SettingsHome extends Fragment {
 
     private void loadProfileImageFromFirestore() {
         String imageUrl = sharedPreferences.getString(userId + "_profile_image_url", "");
-        if (imageUrl != null && !imageUrl.isEmpty()) {
+        if (!imageUrl.isEmpty()) {
             Glide.with(this)
                     .load(imageUrl)
                     .circleCrop()
@@ -303,7 +296,7 @@ public class SettingsHome extends Fragment {
                 navController.navigate(actionId);
             } else {
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 }

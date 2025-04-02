@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -146,8 +145,7 @@ public class FragmentFAQ extends Fragment {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(requireContext(), "WhatsApp not installed or error occurred",
-                    Toast.LENGTH_SHORT).show();
+
 
             // Fallback option - open a URL or dial the number
             try {
@@ -156,8 +154,7 @@ public class FragmentFAQ extends Fragment {
                 startActivity(dialIntent);
             } catch (Exception ex) {
                 // Handle gracefully
-                Toast.makeText(requireContext(), "Cannot open dialer",
-                        Toast.LENGTH_SHORT).show();
+
             }
         }
     }

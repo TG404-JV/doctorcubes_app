@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.adminpannel.ChipManager;
 import com.android.doctorcube.adminpannel.FilterManager;
@@ -149,9 +149,8 @@ public class FragmentAdminHome extends Fragment {
 
             @Override
             public void onDataLoadFailed(String error) {
-                Log.e(TAG, "Data load failed: " + error);
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getContext(), "Failed to load data: " + error, Toast.LENGTH_SHORT).show();
+                CustomToast.showToast(requireActivity(), "Unable To Load Student Data");
             }
         });
     }

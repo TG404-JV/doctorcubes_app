@@ -1,5 +1,6 @@
 package com.android.doctorcube.authentication;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,8 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKeys;
 
 import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
@@ -30,9 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,27 +47,21 @@ public class CollectUserDetailsFragment extends Fragment {
     private FirebaseAuth mAuth;
     private ImageView backButton;
 
-    private final String[] countries = {"USA", "Canada", "UK", "Germany", "France", "Australia", "India", "China", "Brazil", "Japan"};
+    private  String[] countries ;
     private String userId;
     private String userEmail;
     private String userPhone;
-    private String userRole; // To store the user's role
 
-    // Declare an instance of the new utility class
     private FirestoreHelper firestoreHelper;
-
-    // Add a boolean to track if it's a BottomSheet
     private boolean isBottomSheet = false;
 
     public CollectUserDetailsFragment() {
         // Required empty public constructor
     }
 
-    // Constructor to indicate when the fragment is used as a BottomSheet
     public CollectUserDetailsFragment(boolean isBottomSheet) {
         this.isBottomSheet = isBottomSheet;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,7 +75,9 @@ public class CollectUserDetailsFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
         navController = Navigation.findNavController(view);
+        sharedPreferences = requireContext().getSharedPreferences("DoctorCubePrefs", Context.MODE_PRIVATE);
 
+        // Initialize UI elements
         nameEditText = view.findViewById(R.id.nameEditText);
         emailEditText = view.findViewById(R.id.emailEditText);
         phoneEditText = view.findViewById(R.id.phoneEditText);
@@ -102,42 +95,27 @@ public class CollectUserDetailsFragment extends Fragment {
         submitButton = view.findViewById(R.id.submitButton);
         backButton = view.findViewById(R.id.backButton);
 
-        try {
-            String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
-            sharedPreferences = EncryptedSharedPreferences.create(
-                    "user_details",
-                    masterKeyAlias,
-                    requireContext(),
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            );
-        } catch (GeneralSecurityException | IOException e) {
-            CustomToast.showToast(requireActivity(),"Unable to Create A Folder");
-        }
+        countries = getResources().getStringArray(R.array.countries_array);
 
-        setUpCountrySpinner();
-
-        // Initialize the FirestoreHelper
+        // Initialize FirestoreHelper
         firestoreHelper = new FirestoreHelper(requireContext());
 
-        // Get the current user.
+        // Get current user
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            userId = currentUser.getUid();  //get user id
+            userId = currentUser.getUid();
             userEmail = currentUser.getEmail();
             userPhone = currentUser.getPhoneNumber();
-            //you can get other user info.
         } else {
-            //if the user is not logged in, navigate to login.
-            CustomToast.showToast(requireActivity(),"Please Login");
+            CustomToast.showToast(requireActivity(), "Please Login");
             navController.navigate(R.id.loginFragment2);
             return;
         }
 
+        // Set up UI components and fetch user data
+        setUpCountrySpinner();
         setUpListeners();
-        //pre-fill
-        emailEditText.setText(userEmail);
-        phoneEditText.setText(userPhone);
+        setUserData(); // Fetch and set user data
     }
 
     private void setUpCountrySpinner() {
@@ -157,49 +135,16 @@ public class CollectUserDetailsFragment extends Fragment {
 
         submitButton.setOnClickListener(v -> {
             if (validateInputs()) {
-                // Get user data
                 Map<String, Object> userData = getUserData();
-
-                // Ensure userId is not null before using it.
                 if (userId != null && !userId.isEmpty()) {
-                    // Save user data to the "Users" collection
-                    saveUserDataToUsersCollection(userData);
-                    // Call the saveUserData method in FirestoreHelper to save to "app_submissions"
                     firestoreHelper.saveUserData(userData, userId, v, sharedPreferences, navController, isBottomSheet);
                 } else {
-                    CustomToast.showToast(requireActivity(),"Missing user information.  Please sign in again.");
-                    //  Consider navigating the user back to the login screen
-                    //  navController.navigate(R.id.loginFragment); // Replace with your login fragment ID
+                    CustomToast.showToast(requireActivity(), "Missing user information. Please sign in again.");
                 }
             }
         });
 
-        backButton.setOnClickListener(v -> {
-            navController.popBackStack();
-        });
-    }
-
-    private void saveUserDataToUsersCollection(Map<String, Object> userData) {
-        //  Set the user's role.
-        userData.put("role", userRole);
-
-        if (userId != null && !userId.isEmpty()) {
-            firestoreDB.collection("Users").document(userId)
-                    .set(userData, SetOptions.merge()) // Use SetOptions.merge() to update or create
-                    .addOnSuccessListener(aVoid -> {
-                        // Save to shared preferences
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("role", userRole);
-                        editor.putString("phone", (String) userData.get("name"));
-                        editor.putString("email", (String) userData.get("email"));
-                        editor.putString("fullName", (String) userData.get("phone"));
-                        editor.apply();
-
-                    })
-                    .addOnFailureListener(e -> {
-                        CustomToast.showToast(requireActivity(),"Failed to save info ");
-                    });
-        }
+        backButton.setOnClickListener(v -> navController.popBackStack());
     }
 
     private boolean validateInputs() {
@@ -236,7 +181,7 @@ public class CollectUserDetailsFragment extends Fragment {
             return false;
         }
         if (neetScoreGroup.getCheckedRadioButtonId() == -1) {
-            CustomToast.showToast(requireActivity(),"Select whether you have a NEET score");
+            CustomToast.showToast(requireActivity(), "Select whether you have a NEET score");
             return false;
         }
         if (neetScoreYes.isChecked() && TextUtils.isEmpty(neetScore)) {
@@ -244,10 +189,9 @@ public class CollectUserDetailsFragment extends Fragment {
             return false;
         }
         if (passportGroup.getCheckedRadioButtonId() == -1) {
-            CustomToast.showToast(requireActivity(),"Select whether you have a passport");
+            CustomToast.showToast(requireActivity(), "Select whether you have a passport");
             return false;
         }
-
         return true;
     }
 
@@ -263,9 +207,9 @@ public class CollectUserDetailsFragment extends Fragment {
         boolean hasPassport = passportYes.isChecked();
 
         Map<String, Object> userData = new HashMap<>();
-        userData.put("name", name);
-        userData.put("email", email);
-        userData.put("phone", phone);
+        userData.put("fullName", name); // Match UserDataManager key
+        userData.put("email", email);   // Match UserDataManager key
+        userData.put("phone", phone);   // Match UserDataManager key
         userData.put("country", country);
         userData.put("state", state);
         userData.put("city", city);
@@ -277,8 +221,56 @@ public class CollectUserDetailsFragment extends Fragment {
         userData.put("userId", userId);
         userData.put("timestamp", FieldValue.serverTimestamp());
 
-
         return userData;
     }
-}
 
+    private void setUserData() {
+        if (userId == null || userId.isEmpty()) {
+            CustomToast.showToast(requireActivity(), "User ID missing. Please sign in again.");
+            return;
+        }
+
+        // Use singleton instance of UserDataManager
+        UserDataManager userDataManager = UserDataManager.getInstance(requireContext().getApplicationContext());
+        HashMap<String, String> userDetails = userDataManager.getUserDetails(userId);
+
+        if (userDetails != null) {
+            String fullName = userDetails.get("fullName");
+            String email = userDetails.get("email");
+            String phone = userDetails.get("phone");
+
+            if (fullName != null) nameEditText.setText(fullName);
+            if (email != null) emailEditText.setText(email);
+            if (phone != null) phoneEditText.setText(phone);
+
+            // Make fields read-only
+            nameEditText.setEnabled(false);
+            emailEditText.setEnabled(false);
+            phoneEditText.setEnabled(false);
+        } else {
+            // Fallback to async fetch if local data is unavailable
+            userDataManager.getUserDetailsWithCallback(userId, new UserDataManager.OnUserDataFetchedListener() {
+                @Override
+                public void onDataFetched(HashMap<String, String> data) {
+                    String fullName = data.get("fullName");
+                    String email = data.get("email");
+                    String phone = data.get("phone");
+
+                    if (fullName != null) nameEditText.setText(fullName);
+                    if (email != null) emailEditText.setText(email);
+                    if (phone != null) phoneEditText.setText(phone);
+
+                    // Make fields read-only
+                    nameEditText.setEnabled(false);
+                    emailEditText.setEnabled(false);
+                    phoneEditText.setEnabled(false);
+                }
+
+                @Override
+                public void onDataFetchFailed() {
+                    CustomToast.showToast(requireActivity(), "Failed to fetch user details.");
+                }
+            });
+        }
+    }
+}

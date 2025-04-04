@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,14 +34,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class LoginFragment extends Fragment {
 
@@ -53,6 +54,7 @@ public class LoginFragment extends Fragment {
     private String resetEmailOrPhone;
     private static final String PREFS_NAME = "DoctorCubePrefs";
     private static final String KEY_USER_ROLE = "user_role";
+    private static final String KEY_PHONE_VERIFIED = "phone_verified";
     private static final String USER_COLLECTION = "Users";
     private TextInputEditText accountField;
     private TextInputEditText passwordField;
@@ -67,6 +69,8 @@ public class LoginFragment extends Fragment {
     private TextView resendOtpText;
     private CountDownTimer countDownTimer;
     private boolean isResendEnabled = false;
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?[0-9]{10,13}$");
+    private UserDataManager userDataManager; // Use UserDataManager
 
 
     @Nullable
@@ -78,6 +82,7 @@ public class LoginFragment extends Fragment {
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
+        userDataManager = UserDataManager.getInstance(requireContext()); // Get UserDataManager instance
 
         // Initialize UI Elements
         accountInputLayout = view.findViewById(R.id.accountInputLayout);
@@ -101,6 +106,8 @@ public class LoginFragment extends Fragment {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
+            // Handle the exception appropriately, e.g., show an error to the user
+            e.fillInStackTrace(); // Log the error
             sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
 
@@ -109,7 +116,13 @@ public class LoginFragment extends Fragment {
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
         if (isLoggedIn && currentUser != null) {
             String userType = sharedPreferences.getString(KEY_USER_ROLE, "");
-            navigateToFragment(navController, userType);
+            boolean isPhoneVerified = sharedPreferences.getBoolean(KEY_PHONE_VERIFIED, false);
+            if (isPhoneVerified) {
+                navigateToFragment(navController, userType);
+            } else {
+                navController.navigate(R.id.collectUserDetailsFragment);
+            }
+
         } else {
             // User is not logged in, explicitly sign out
             if (currentUser != null) {
@@ -138,7 +151,7 @@ public class LoginFragment extends Fragment {
         getOtpButton.setOnClickListener(v -> {
             phoneNumber = accountField.getText().toString().trim();
             if (phoneNumber.isEmpty() || !isValidPhoneNumber(phoneNumber)) {
-                CustomToast.showToast(requireActivity(),"Please Enter A Valid Number");
+                CustomToast.showToast(requireActivity(), "Please Enter A Valid Number");
                 return;
             }
 
@@ -153,13 +166,12 @@ public class LoginFragment extends Fragment {
             String password = passwordField.getText().toString().trim();
 
             if (account.isEmpty()) {
-                CustomToast.showToast(requireActivity(),"Please Enter The Valid Number Or Email");
+                CustomToast.showToast(requireActivity(), "Please Enter The Valid Number Or Email");
                 return;
             }
 
             if (password.isEmpty()) {
-                CustomToast.showToast(requireActivity(),"Please Enter The OTP");
-
+                CustomToast.showToast(requireActivity(), "Please Enter The OTP");
                 return;
             }
 
@@ -167,8 +179,7 @@ public class LoginFragment extends Fragment {
                 if (mVerificationId != null) {
                     verifyPhoneNumberWithCode(mVerificationId, password);
                 } else {
-                    CustomToast.showToast(requireActivity(),"Please Request The OTP First");
-
+                    CustomToast.showToast(requireActivity(), "Please Request The OTP First");
                 }
             } else {
                 // Email authentication
@@ -209,7 +220,7 @@ public class LoginFragment extends Fragment {
             getOtpButton.setVisibility(View.GONE);
             resendOtpText.setVisibility(View.GONE);
             loginButton.setText(R.string.sign_in);
-
+            passwordField.setText(""); //clear password field
             // Cancel any ongoing timer
             if (countDownTimer != null) {
                 countDownTimer.cancel();
@@ -223,6 +234,7 @@ public class LoginFragment extends Fragment {
             getOtpButton.setVisibility(View.VISIBLE);
             resendOtpText.setVisibility(View.GONE);
             loginButton.setText("Verify & Sign In");
+            passwordField.setText("");//clear password field
         }
     }
 
@@ -231,12 +243,12 @@ public class LoginFragment extends Fragment {
     }
 
     private boolean isPhoneNumber(String input) {
-        return input.matches("\\d+") && input.length() >= 10;
+        return PHONE_PATTERN.matcher(input).matches();
     }
 
     private boolean isValidPhoneNumber(String phoneNumber) {
         // Validate phone number format - adjust as needed for your requirements
-        return phoneNumber.matches("\\d{10}");
+        return PHONE_PATTERN.matcher(phoneNumber).matches();
     }
 
     private String formatPhoneNumber(String phoneNumber) {
@@ -256,94 +268,61 @@ public class LoginFragment extends Fragment {
                             fetchUserData(user.getUid(), navController);
                         }
                     } else {
-                        CustomToast.showToast(requireActivity(),"Failed To Login ");
-
+                        CustomToast.showToast(requireActivity(), "Failed To Login: " + task.getException().getMessage());
                     }
                 });
     }
 
     private void fetchUserData(String userId, NavController navController) {
-        firestoreDB.collection(USER_COLLECTION)
-                .document(userId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            String role = document.getString("role");
-                            if (role != null) {
-                                saveUserLoginStatus(role);
-                                navigateToFragment(navController, role);
-                            } else {
-                                // User has a document, but no role.  Assign default and update.
-                                assignDefaultRole(userId, navController);
-                            }
-                        } else {
-                            // User data does not exist in Firestore, create it
-                            createUserDocument(userId, navController);
-                        }
+        userDataManager.getUserDetailsWithCallback(userId, new UserDataManager.OnUserDataFetchedListener() {
+            @Override
+            public void onDataFetched(HashMap<String, String> data) {
+                String role = data.get("role");
+                String isPhoneVerifiedStr = data.get(KEY_PHONE_VERIFIED);
+                boolean isPhoneVerified = false; // Default to false
+
+                if (isPhoneVerifiedStr != null) {
+                    isPhoneVerified = Boolean.parseBoolean(isPhoneVerifiedStr);
+                }
+                if (role != null) {
+                    saveUserLoginStatus(role, isPhoneVerified);
+                    if (isPhoneVerified) {
+                        navigateToFragment(navController, role);
                     } else {
-                        CustomToast.showToast(requireActivity(),"Error Fetching User Data");
-                        mAuth.signOut();
-                        navController.navigate(R.id.getStartedFragment);
+                        navController.navigate(R.id.collectUserDetailsFragment);
                     }
-                });
+                } else {
+                    assignDefaultRole(userId, navController);
+                }
+            }
+
+            @Override
+            public void onDataFetchFailed() {
+                // Handle the error appropriately, e.g., show a message to the user
+                // and redirect to the GetStartedFragment
+                CustomToast.showToast(requireActivity(), "Failed to fetch user data. Please try again.");
+                mAuth.signOut();
+                navController.navigate(R.id.getStartedFragment);
+            }
+        });
     }
 
     private void assignDefaultRole(String userId, NavController navController) {
         Map<String, Object> userData = new HashMap<>();
         userData.put("role", "user"); // Default role
-        firestoreDB.collection(USER_COLLECTION)
-                .document(userId)
-                .update(userData)
-                .addOnSuccessListener(aVoid -> {
-                    saveUserLoginStatus("user");
-                    navigateToFragment(navController, "user");
-                })
-                .addOnFailureListener(e -> {
-                    CustomToast.showToast(requireActivity(),"Failed to set default role");
-                    mAuth.signOut();
-                    navController.navigate(R.id.getStartedFragment);
-                });
+        userData.put("isPhoneVerified", false);
+        userDataManager.updateUserData(userId, userData);
+
+        saveUserLoginStatus("user", false);
+        navigateToFragment(navController, "user");
     }
 
 
-    private void createUserDocument(String userId, NavController navController) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) {
-            CustomToast.showToast(requireActivity(),"User Not Authenticated");
-            return; // Exit if no user
-        }
-        String phoneNumber = user.getPhoneNumber();
-        String email = user.getEmail();
-        String displayName = user.getDisplayName();
-
-        // Create a map with user data
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("role", "user"); // Default role
-        userData.put("phone", phoneNumber);
-        userData.put("email", email);
-        userData.put("fullName", displayName);
-
-        // Add the data to the Firestore Users collection
-        firestoreDB.collection(USER_COLLECTION)
-                .document(userId)
-                .set(userData)
-                .addOnSuccessListener(aVoid -> {
-                    saveUserLoginStatus("user");
-                    navController.navigate(R.id.collectUserDetailsFragment);
-                })
-                .addOnFailureListener(e -> {
-                    CustomToast.showToast(requireActivity(),"failed to validate user");
-                    mAuth.signOut(); // Sign out the user if data creation fails
-                });
-    }
-
-
-    private void saveUserLoginStatus(String role) {
+    private void saveUserLoginStatus(String role, boolean isPhoneVerified) {
         sharedPreferences.edit()
                 .putBoolean("isLoggedIn", true)
                 .putString(KEY_USER_ROLE, role)
+                .putBoolean(KEY_PHONE_VERIFIED, isPhoneVerified)
                 .apply();
     }
 
@@ -353,10 +332,10 @@ public class LoginFragment extends Fragment {
         } else if ("admin".equals(role) || "superadmin".equals(role)) {
             navController.navigate(R.id.adminActivity2);
         } else {
-            CustomToast.showToast(requireActivity(),"User Not Verified");
-
+            CustomToast.showToast(requireActivity(), "User Not Verified");
             mAuth.signOut();
             sharedPreferences.edit().putBoolean("isLoggedIn", false).apply();
+            navController.navigate(R.id.getStartedFragment);
         }
     }
 
@@ -373,23 +352,22 @@ public class LoginFragment extends Fragment {
     private void resetPasswordByEmail() {
         resetEmailOrPhone = accountField.getText().toString().trim();
         if (resetEmailOrPhone.isEmpty()) {
-            CustomToast.showToast(requireActivity(),"Please Enter Your Email & Phone");
-
+            CustomToast.showToast(requireActivity(), "Please Enter Your Email & Phone");
             return;
         }
         if (resetEmailOrPhone.contains("@")) {
             mAuth.sendPasswordResetEmail(resetEmailOrPhone)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            CustomToast.showToast(requireActivity(),"Email Sent");
+                            CustomToast.showToast(requireActivity(), "Email Sent");
                         } else {
-                            CustomToast.showToast(requireActivity(),"Unable To Send Mail");
+                            CustomToast.showToast(requireActivity(), "Unable To Send Mail: " + task.getException().getMessage());
                         }
                     });
         } else if (isPhoneNumber(resetEmailOrPhone)) {
             resetPasswordByPhone();
         } else {
-            CustomToast.showToast(requireActivity(),"Invalid Details");
+            CustomToast.showToast(requireActivity(), "Invalid Details");
         }
     }
 
@@ -405,7 +383,7 @@ public class LoginFragment extends Fragment {
         builder.setPositiveButton("Send Code", (dialog, which) -> {
             String phoneNumber = phoneInput.getText().toString().trim();
             if (phoneNumber.isEmpty() || !isValidPhoneNumber(phoneNumber)) {
-                CustomToast.showToast(requireActivity(),"Please Enter The Valid Phone No");
+                CustomToast.showToast(requireActivity(), "Please Enter The Valid Phone No");
                 return;
             }
             String formattedPhoneNumber = formatPhoneNumber(phoneNumber);
@@ -434,7 +412,7 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                         // This callback will be invoked when the verification process fails.
-                        CustomToast.showToast(requireActivity(),"Verification Failed");
+                        CustomToast.showToast(requireActivity(), "Verification Failed: " + e.getMessage());
                     }
 
                     @Override
@@ -459,7 +437,7 @@ public class LoginFragment extends Fragment {
 
 
     private void showOtpSentMessage() {
-        CustomToast.showToast(requireActivity(),"OTP Sent");
+        CustomToast.showToast(requireActivity(), "OTP Sent");
         // Make OTP field and button visible
         passwordInputLayout.setVisibility(View.VISIBLE);
         resendOtpText.setVisibility(View.VISIBLE);
@@ -490,12 +468,22 @@ public class LoginFragment extends Fragment {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult().getUser();
                         if (user != null) {
-                            fetchUserData(user.getUid(), Navigation.findNavController(getView()));
+                            updatePhoneVerifiedStatus(user.getUid());
                         }
                     } else {
-                        CustomToast.showToast(requireActivity(),"Invalid OTP");
+                        CustomToast.showToast(requireActivity(), "Invalid OTP: " + task.getException().getMessage());
                     }
                 });
+    }
+
+    private void updatePhoneVerifiedStatus(String uid) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("isPhoneVerified", true);
+        userDataManager.updateUserData(uid, updates);
+
+        sharedPreferences.edit().putBoolean(KEY_PHONE_VERIFIED, true).apply();
+        fetchUserData(uid, Navigation.findNavController(getView()));
+
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -503,13 +491,12 @@ public class LoginFragment extends Fragment {
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult().getUser();
-                        assert user != null;
-                        NavController navController = Navigation.findNavController(getView());
-                        fetchUserData(user.getUid(), navController);
+                        if (user != null) {
+                            updatePhoneVerifiedStatus(user.getUid());
+                        }
                     } else {
-                        CustomToast.showToast(requireActivity(),"Sign In Failed");
+                        CustomToast.showToast(requireActivity(), "Sign In Failed: " + task.getException().getMessage());
                     }
                 });
     }
 }
-

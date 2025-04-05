@@ -22,6 +22,7 @@ import androidx.navigation.Navigation;
 
 import com.android.doctorcube.R;
 import com.android.doctorcube.SocialActions;
+import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -161,9 +162,10 @@ public class SettingsHome extends Fragment {
 
     private void loadStudentData() {
         // Try loading from SharedPreferences first
-        String name = sharedPreferences.getString(userId + "_fullName", "");
-        String email = sharedPreferences.getString(userId + "_email", "");
-        String status = sharedPreferences.getString(userId + "_status", "Student • USA Aspirant");
+        EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireActivity());
+        String name = encryptedSharedPreferencesManager.getString("name", "");
+        String email = encryptedSharedPreferencesManager.getString("email","");
+        String status = "Becoming A Doctor";
 
         if (!name.isEmpty() && !email.isEmpty()) {
             updateUI(name, email, status);
@@ -189,13 +191,7 @@ public class SettingsHome extends Fragment {
                             email = email != null ? email : "No email";
                             status = status != null ? status : "Student • USA Aspirant";
 
-                            // Save to SharedPreferences
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString(userId + "_fullName", name);
-                            editor.putString(userId + "_email", email);
-                            editor.putString(userId + "_status", status);
-                            editor.putString(userId + "_profile_image_url", imageUrl); // Save image URL
-                            editor.apply();
+
 
                             updateUI(name, email, status);
                             loadProfileImage(); // Load image
@@ -213,7 +209,7 @@ public class SettingsHome extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        String name = snapshot.child("fullName").getValue(String.class);
+                        String name = snapshot.child("name").getValue(String.class);
                         String email = snapshot.child("email").getValue(String.class);
                         String status = snapshot.child("status").getValue(String.class);
 
@@ -223,11 +219,7 @@ public class SettingsHome extends Fragment {
                         status = status != null ? status : "Student • USA Aspirant";
 
                         // Save to SharedPreferences
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(userId + "_fullName", name);
-                        editor.putString(userId + "_email", email);
-                        editor.putString(userId + "_status", status);
-                        editor.apply();
+                       EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireContext());
 
                         updateUI(name, email, status);
                         loadProfileImage(); // Load image
@@ -249,45 +241,17 @@ public class SettingsHome extends Fragment {
     }
 
     private void loadProfileImage() {
-        if (shouldLoadLocalImage()) {
             loadLocalProfileImage();
-        } else {
-            loadProfileImageFromFirestore();
-        }
+
     }
 
-    private boolean shouldLoadLocalImage() {
-        return sharedPreferences.getBoolean(userId + "_has_local_image", false);
-    }
 
     private void loadLocalProfileImage() {
-        File localFile = new File(getContext().getFilesDir(), userId + "_profile.jpg");
-        if (localFile.exists()) {
-            Glide.with(this)
-                    .load(localFile)
-                    .circleCrop()
-                    .placeholder(R.drawable.logo_doctor_cubes_white)
-                    .into(profileImage);
-        } else {
-            loadProfileImageFromFirestore();
-        }
+        EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireContext());
+        File img = new File(encryptedSharedPreferencesManager.getString("FilePath", ""));
+        Glide.with(this).load(img).circleCrop().into(profileImage);
     }
 
-    private void loadProfileImageFromFirestore() {
-        String imageUrl = sharedPreferences.getString(userId + "_profile_image_url", "");
-        if (!imageUrl.isEmpty()) {
-            Glide.with(this)
-                    .load(imageUrl)
-                    .circleCrop()
-                    .placeholder(R.drawable.logo_doctor_cubes_white)
-                    .into(profileImage);
-        } else {
-            Glide.with(this)
-                    .load(R.drawable.logo_doctor_cubes_white)
-                    .circleCrop()
-                    .into(profileImage);
-        }
-    }
 
 
     private void safeNavigate(int actionId) {

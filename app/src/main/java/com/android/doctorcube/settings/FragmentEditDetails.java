@@ -9,9 +9,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +37,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
+import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -80,10 +85,14 @@ public class FragmentEditDetails extends Fragment {
     private SharedPreferences sharedPreferences;
     private boolean isImageChanged = false;
     private boolean isEditing = false;
-    private String firestoreImageUrl;
+    private String firestoreImageUrl;  // Keep for loading existing URLs, even if not saving new ones
+    private Bitmap selectedImageBitmap; // Hold the selected bitmap
+
+    // Handler for UI updates
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_details, container, false);
 
         // Initialize Firebase
@@ -95,7 +104,7 @@ public class FragmentEditDetails extends Fragment {
         }
 
         // Initialize SharedPreferences
-        sharedPreferences = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         // Initialize NavController
         navController = NavHostFragment.findNavController(this);
@@ -133,7 +142,7 @@ public class FragmentEditDetails extends Fragment {
 
         // Set initial state of EditTexts to uneditable
         setEditTextNonEditable();
-        saveButton.setText("Edit Details");
+        saveButton.setText(R.string.edit_details);
 
         // Set listeners
         profileImageView.setOnClickListener(v -> {
@@ -159,16 +168,17 @@ public class FragmentEditDetails extends Fragment {
         backButton.setOnClickListener(v -> navigateToHome());
     }
 
-    private TextWatcher textWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            isEditing = !emailEditText.getText().toString().equals(sharedPreferences.getString(userId + "_email", ""))
-                    || !fullNameEditText.getText().toString().equals(sharedPreferences.getString(userId + "_fullName", ""))
-                    || !phoneEditText.getText().toString().equals(sharedPreferences.getString(userId + "_phone", ""));
-            saveButton.setText(isEditing ? "Save Changes" : "Edit Details");
+            EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireActivity());
+            isEditing = !emailEditText.getText().toString().equals(encryptedSharedPreferencesManager.getString("email", ""))
+                    || !fullNameEditText.getText().toString().equals(encryptedSharedPreferencesManager.getString("name", ""))
+                    || !phoneEditText.getText().toString().equals(sharedPreferences.getString("phone", ""));
+            saveButton.setText(isEditing ? R.string.save_changes : R.string.edit_details);
         }
 
         @Override
@@ -177,7 +187,7 @@ public class FragmentEditDetails extends Fragment {
 
     private void enableEditing() {
         setEditTextEditable();
-        saveButton.setText("Save Changes");
+        saveButton.setText(R.string.save_changes);
         isEditing = true;
     }
 
@@ -197,28 +207,36 @@ public class FragmentEditDetails extends Fragment {
         phoneEditText.setFocusable(false);
         emailEditText.setFocusableInTouchMode(false);
         fullNameEditText.setFocusableInTouchMode(false);
-        phoneEditText.setFocusableInTouchMode(false);
     }
 
     private void loadUserData() {
         showLoading(true);
-        String email = sharedPreferences.getString(userId + "_email", "");
-        String fullName = sharedPreferences.getString(userId + "_fullName", "");
-        String phone = sharedPreferences.getString(userId + "_phone", "");
-        firestoreImageUrl = sharedPreferences.getString(userId + "_profile_image_url", "");
+        EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireActivity());
+
+        String email = encryptedSharedPreferencesManager.getString("email", "");
+        String fullName = encryptedSharedPreferencesManager.getString("name", "");
+        String phone = encryptedSharedPreferencesManager.getString("phone", "");
+
+        firestoreImageUrl = encryptedSharedPreferencesManager.getString("profile_image_url", ""); //load
         boolean hasLocalData = !email.isEmpty() || !fullName.isEmpty() || !phone.isEmpty();
 
-        File localFile = new File(getContext().getFilesDir(), userId + "_profile.jpg");
+        File localFile = new File(requireContext().getFilesDir(), userId + "_profile.jpg");
+
+        encryptedSharedPreferencesManager.putString("FilePath", String.valueOf(localFile));
+
         if (localFile.exists()) {
             localImagePath = localFile.getAbsolutePath();
             Glide.with(this)
                     .load(localFile)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE) // Don't cache local file
+                    .skipMemoryCache(true)
                     .circleCrop()
                     .placeholder(R.drawable.logo_doctor_cubes_white)
                     .into(profileImageView);
         } else if (!firestoreImageUrl.isEmpty()) {
             Glide.with(this)
                     .load(firestoreImageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA) // Cache the remote image
                     .circleCrop()
                     .placeholder(R.drawable.logo_doctor_cubes_white)
                     .into(profileImageView);
@@ -251,21 +269,23 @@ public class FragmentEditDetails extends Fragment {
                         if (firestoreImageUrl != null && !firestoreImageUrl.isEmpty()) {
                             Glide.with(this)
                                     .load(firestoreImageUrl)
+                                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                                     .circleCrop()
                                     .placeholder(R.drawable.logo_doctor_cubes_white)
                                     .into(profileImageView);
                         }
 
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(userId + "_email", email);
-                        editor.putString(userId + "_fullName", fullName);
-                        editor.putString(userId + "_phone", phone);
-                        editor.putString(userId + "_profile_image_url", firestoreImageUrl);
-                        editor.apply();
+                        EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireActivity());
+                        encryptedSharedPreferencesManager.putString("email", email);
+                        encryptedSharedPreferencesManager.putString("name", fullName);
+                        encryptedSharedPreferencesManager.putString("phone", phone);
+                        encryptedSharedPreferencesManager.putString("profile_image_url", firestoreImageUrl);
+
                     }
                     showLoading(false);
                 })
                 .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error fetching user data: ", e);
                     showLoading(false);
                     CustomToast.showToast(requireActivity(), "Failed to load profile");
                 });
@@ -279,33 +299,31 @@ public class FragmentEditDetails extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data != null) {
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             imageUri = data.getData();
             isImageChanged = true;
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
+                selectedImageBitmap = bitmap; // Store the bitmap
                 profileImageView.setImageBitmap(bitmap);
-                saveImageToLocalStorage(bitmap);
+                saveImageToLocalStorage(bitmap); //save to local
             } catch (IOException e) {
+                Log.e(TAG, "Error loading image from URI: ", e);
                 CustomToast.showToast(requireActivity(), "Failed to load image");
             }
         }
     }
 
     private void saveImageToLocalStorage(Bitmap bitmap) throws IOException {
-        File outputDir = getContext().getFilesDir();
+        File outputDir = requireContext().getFilesDir();
         File outputFile = new File(outputDir, userId + "_profile.jpg");
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos);
-        byte[] bitmapData = bos.toByteArray();
-        FileOutputStream fos = new FileOutputStream(outputFile);
-        fos.write(bitmapData);
-        fos.flush();
-        fos.close();
-        localImagePath = outputFile.getAbsolutePath();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(userId + "_has_local_image", true);
-        editor.apply();
+        try (FileOutputStream fos = new FileOutputStream(outputFile)) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
+            localImagePath = outputFile.getAbsolutePath();
+        } catch (IOException e) {
+            Log.e(TAG, "Error saving image to local storage: ", e);
+            throw e; // Re-throw the exception to be caught by the caller
+        }
     }
 
     private void saveUserData() {
@@ -331,11 +349,10 @@ public class FragmentEditDetails extends Fragment {
         phoneLayout.setError(null);
         showLoading(true);
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(userId + "_email", email);
-        editor.putString(userId + "_fullName", fullName);
-        editor.putString(userId + "_phone", phone);
-        editor.apply();
+        EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireActivity());
+        encryptedSharedPreferencesManager.putString("email", email);
+        encryptedSharedPreferencesManager.putString("name", fullName);
+        encryptedSharedPreferencesManager.putString("phone", phone);
 
         // Update Firestore
         Map<String, Object> updates = new HashMap<>();
@@ -343,13 +360,24 @@ public class FragmentEditDetails extends Fragment {
         updates.put("fullName", fullName);
         updates.put("phone", phone);
 
-        updateUserData(updates);
+        if (isImageChanged && localImagePath != null) { // Changed condition
+            updates.put("imageUrl", localImagePath);
+            saveImagePathToSharedPreferences(localImagePath); // Save to shared preferences
+            updateUserData(updates);
+        } else {
+            updateUserData(updates); // only text
+        }
 
         isEditing = false;
-        saveButton.setText("Edit Details");
+        saveButton.setText(R.string.edit_details);
         setEditTextNonEditable();
     }
 
+    private void saveImagePathToSharedPreferences(String imagePath) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(userId + "_profile_image_path", imagePath);
+        editor.apply();
+    }
 
     private void updateUserData(Map<String, Object> updates) {
         mFirestore.collection("Users").document(userId)
@@ -357,15 +385,11 @@ public class FragmentEditDetails extends Fragment {
                 .addOnSuccessListener(aVoid -> {
                     showLoading(false);
                     CustomToast.showToast(requireActivity(), "Profile updated successfully");
-                    if (isImageChanged && localImagePath != null) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(userId + "_has_local_image", true);
-                        editor.apply();
-                    }
                     isImageChanged = false;
                 })
                 .addOnFailureListener(e -> {
                     showLoading(false);
+                    Log.e(TAG, "Error updating user data in Firestore: ", e);
                     CustomToast.showToast(requireActivity(), "Failed to update profile");
                 });
     }
@@ -571,6 +595,7 @@ public class FragmentEditDetails extends Fragment {
                                 })
                                 .addOnFailureListener(e -> {
                                     showLoading(false); // Hide overall loading
+                                    Log.e(TAG, "Error updating password: ", e);
                                     // Call failure animation method
                                     showFailureAnimation(dialog, animationContainer, failureAnimationView,
                                             currentPasswordLayout, newPasswordLayout, confirmPasswordLayout,
@@ -579,6 +604,7 @@ public class FragmentEditDetails extends Fragment {
                     })
                     .addOnFailureListener(e -> {
                         showLoading(false); // Hide overall loading
+                        Log.e(TAG, "Error reauthenticating user: ", e);
                         CustomToast.showToast(requireActivity(), "Failed to authenticate");
                         // Re-enable inputs on the dialog.
                         showFailureAnimation(dialog, animationContainer, failureAnimationView,
@@ -609,7 +635,14 @@ public class FragmentEditDetails extends Fragment {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Success")
                         .setMessage("Your password has been successfully updated.")
-                        .setPositiveButton("OK", (dialogInterface, which) -> dialog.dismiss())
+                        .setPositiveButton("OK", (dialogInterface, which) -> {
+                            dialog.dismiss();
+                            mainHandler.post(() -> {
+                                if (isAdded() && navController != null) {
+                                    navigateToHome();
+                                }
+                            });
+                        })
                         .setCancelable(false)
                         .show();
             }
@@ -622,7 +655,7 @@ public class FragmentEditDetails extends Fragment {
         });
     }
 
-    // Show failure animation and handle completion
+    //Show failure animation and handle completion
     private void showFailureAnimation(AlertDialog dialog,
                                       FrameLayout animationContainer,
                                       LottieAnimationView failureAnimationView,
@@ -668,10 +701,14 @@ public class FragmentEditDetails extends Fragment {
     }
 
     private void showLoading(boolean isLoading) {
-        progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-        profileCard.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
-        saveButton.setEnabled(!isLoading);
-        changePasswordButton.setEnabled(!isLoading);
+        if (isAdded()) {
+            mainHandler.post(() -> {
+                progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+                profileCard.setVisibility(isLoading ? View.INVISIBLE : View.VISIBLE);
+                saveButton.setEnabled(!isLoading);
+                changePasswordButton.setEnabled(!isLoading);
+            });
+        }
     }
 
     private void hideMainActivityToolbar() {
@@ -697,7 +734,8 @@ public class FragmentEditDetails extends Fragment {
             if (activity.getSupportActionBar() != null) {
                 activity.getSupportActionBar().show();
             }
-        }}
+        }
+    }
 
     @Override
     public void onDestroyView() {
@@ -715,9 +753,8 @@ public class FragmentEditDetails extends Fragment {
     }
 
     private void navigateToHome() {
-        if (navController != null) {
+        if (isAdded() && navController != null) {
             navController.navigate(R.id.action_global_settingsHome);
         }
     }
 }
-

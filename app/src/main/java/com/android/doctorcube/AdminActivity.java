@@ -19,6 +19,7 @@ import com.android.doctorcube.adminpannel.adminhome.FragmentAdminHome;
 import com.android.doctorcube.adminpannel.adminhome.FragmentExportXLData;
 import com.android.doctorcube.adminpannel.adminhome.FragmentImportXLData;
 import com.android.doctorcube.adminpannel.adminhome.FragmentUploadStudyMaterial;
+import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -150,10 +151,10 @@ public class AdminActivity extends AppCompatActivity implements NavigationView.O
         if (id == R.id.nav_home) {
             loadFragment(new FragmentAdminHome());
         } else if (id == R.id.nav_add_new) {
-            String role = prefs.getString(KEY_USER_ROLE, "user");
-            isSuperAdmin = "superadmin".equals(role);
+            EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(this);
+            String role = encryptedSharedPreferencesManager.getString("role", "User");
 
-            if (isSuperAdmin) {
+            if (role.equals("superadmin")) {
                 loadFragment(new FragmentAddNewUser());
             } else {
                 CustomToast.showToast(this, "You are not authorized to access this feature.");

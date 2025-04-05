@@ -35,6 +35,7 @@ import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
+import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,11 +46,14 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class CreateAccountFragment extends Fragment {
@@ -77,10 +81,6 @@ public class CreateAccountFragment extends Fragment {
     // Dialog
     private AlertDialog otpVerificationDialog;
 
-    private static final String USER_COLLECTION = "Users";
-    private static final String PREFS_NAME = "DoctorCubePrefs";
-    private static final String KEY_USER_ROLE = "user_role";
-    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
     private static final long OTP_TIMEOUT_MS = 60000; // 60 seconds
 
     private CountDownTimer otpCountDownTimer;
@@ -119,7 +119,8 @@ public class CreateAccountFragment extends Fragment {
         passwordStrengthText = view.findViewById(R.id.passwordStrengthText);
 
         // Initialize Encrypted SharedPreferences
-        FirebaseAuth.getInstance().getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
+        // REMOVE THIS LINE FOR RELEASE BUILDS
+        // FirebaseAuth.getInstance().getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
 
         // Set up password visibility toggle
         passwordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_eye, 0);
@@ -356,6 +357,14 @@ public class CreateAccountFragment extends Fragment {
                     message = "Invalid phone number format.";
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     message = "Too many attempts. Try again later.";
+                } else {
+                    // Handle the Play Integrity error specifically
+                    if (e.getMessage() != null && e.getMessage().contains("Play Integrity checks, and reCAPTCHA checks were unsuccessful")) {
+                        message = "This device/app is not authorized. Please try again later.";
+                        Log.e(TAG, "Play Integrity Failure: " + e.getMessage());
+                    } else {
+                        message = "Phone verification failed: " + e.getMessage(); // General error
+                    }
                 }
                 CustomToast.showToast(requireActivity(), message);
             }
@@ -430,6 +439,7 @@ public class CreateAccountFragment extends Fragment {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
         mAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+
                 Log.d(TAG, "verifyOtp: Phone verification successful");
                 if (otpCountDownTimer != null) {
                     otpCountDownTimer.cancel();
@@ -461,12 +471,39 @@ public class CreateAccountFragment extends Fragment {
                             otpVerificationDialog.dismiss();
                         }
 
-                        UserDataManager userDataManager = UserDataManager.getInstance(requireContext());
-                        userDataManager.saveUserData(user.getUid(), fullName, email, phone, "user");
-                        saveUserLoginStatus("user");
+                        EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireContext());
 
+                        encryptedSharedPreferencesManager.putString("name", String.valueOf(fullNameEditText.getText()));
+                        encryptedSharedPreferencesManager.putString("email", String.valueOf(emailEditText.getText()));
+                        encryptedSharedPreferencesManager.putString("phone", String.valueOf(phoneEditText.getText()));
+                        encryptedSharedPreferencesManager.putBoolean("isLogin", true);
+                        encryptedSharedPreferencesManager.putBoolean("isNumberVerified", true);
+                        encryptedSharedPreferencesManager.putString("role", "User");
 
-                        navController.navigate(R.id.collectUserDetailsFragment);
+                        Map<String, Object> userData = new HashMap<>();
+                        userData.put("name", fullName);
+                        userData.put("email", email);
+                        userData.put("phone", phone);
+                        userData.put("role", "User");
+                        userData.put("isVerified", true);
+                        userData.put("isPhoneNumberVerified", true);
+                        userData.put("timestamp", FieldValue.serverTimestamp());
+                        //CHANGE IS HERE
+                        FirebaseFirestore.getInstance().collection("Users").document(user.getUid())
+                                .set(userData)
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    navController.navigate(R.id.collectUserDetailsFragment);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.w(TAG, "Error writing document: ", e);
+                                    CustomToast.showToast(requireActivity(), "Failed to save user data. Please try again.");
+                                    // Consider re-enabling the create account button here if the user needs to retry
+                                    createAccountButton.setEnabled(true);
+                                    createAccountButton.setAlpha(1.0f);
+                                });
+                        //CHANGE ENDS HERE
+
                     } else {
                         // Enable the button in the OTP dialog if it's showing
                         if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
@@ -482,11 +519,12 @@ public class CreateAccountFragment extends Fragment {
                             errorMessage = "Email already in use.";
                             Log.e(TAG, "createEmailAccount: Email already in use");
                         } else {
+                            errorMessage = "Account creation failed: " + task.getException().getMessage();
                             Log.e(TAG, "createEmailAccount: " + task.getException().getMessage());
                         }
                         CustomToast.showToast(requireActivity(), errorMessage);
                         //Re-authenticate the user.
-                        if(credential != null && mAuth.getCurrentUser() != null){
+                        if (credential != null && mAuth.getCurrentUser() != null) {
                             mAuth.getCurrentUser().reauthenticate(credential);
                         }
                     }
@@ -524,13 +562,6 @@ public class CreateAccountFragment extends Fragment {
                 .show();
     }
 
-    private void saveUserLoginStatus(String role) {
-        sharedPreferences.edit()
-                .putBoolean(KEY_IS_LOGGED_IN, true)
-                .putString(KEY_USER_ROLE, role)
-                .apply();
-    }
-
     private void showTermsAndConditions() {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Terms and Conditions")
@@ -562,4 +593,3 @@ public class CreateAccountFragment extends Fragment {
         }
     }
 }
-

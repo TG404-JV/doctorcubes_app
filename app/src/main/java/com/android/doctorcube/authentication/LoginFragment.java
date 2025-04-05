@@ -1,45 +1,34 @@
 package com.android.doctorcube.authentication;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Activity;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Button; // Import for Button
+import android.widget.EditText; // Import for EditText
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast; // Import for Toast
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKeys;
-
 import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
+import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment; // Import for BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.concurrent.TimeUnit;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -48,30 +37,32 @@ public class LoginFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestoreDB;
     private NavController navController;
-    private SharedPreferences sharedPreferences;
-    private String mVerificationId;
-    private PhoneAuthProvider.ForceResendingToken mResendToken;
-    private String resetEmailOrPhone;
-    private static final String PREFS_NAME = "DoctorCubePrefs";
-    private static final String KEY_USER_ROLE = "user_role";
-    private static final String KEY_PHONE_VERIFIED = "phone_verified";
-    private static final String USER_COLLECTION = "Users";
+
     private TextInputEditText accountField;
     private TextInputEditText passwordField;
     private MaterialButton loginButton;
     private MaterialButton getOtpButton;
     private TextView forgotPasswordText;
     private ImageButton backButton;
-    private String phoneNumber;
-    private boolean isPhoneAuthentication = false;
     private TextInputLayout accountInputLayout;
     private TextInputLayout passwordInputLayout;
-    private TextView resendOtpText;
-    private CountDownTimer countDownTimer;
-    private boolean isResendEnabled = false;
     private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?[0-9]{10,13}$");
-    private UserDataManager userDataManager; // Use UserDataManager
+    private EncryptedSharedPreferencesManager encryptedSharedPreferencesManager;
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if the user is already logged in on app start
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // If a user is signed in, try to fetch their data and navigate
+            fetchUserDataAndNavigate(currentUser);
+        } else {
+            // If no user is signed in, ensure SharedPreferences related to login are cleared
+            clearLoginSession();
+        }
+    }
 
     @Nullable
     @Override
@@ -82,7 +73,6 @@ public class LoginFragment extends Fragment {
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
-        userDataManager = UserDataManager.getInstance(requireContext()); // Get UserDataManager instance
 
         // Initialize UI Elements
         accountInputLayout = view.findViewById(R.id.accountInputLayout);
@@ -90,413 +80,203 @@ public class LoginFragment extends Fragment {
         passwordField = view.findViewById(R.id.passwordEditText);
         passwordInputLayout = view.findViewById(R.id.passwordInputLayout);
         loginButton = view.findViewById(R.id.loginButton);
-        getOtpButton = view.findViewById(R.id.getOtpButton);
         forgotPasswordText = view.findViewById(R.id.forgotPasswordText);
         backButton = view.findViewById(R.id.backButton);
-        resendOtpText = view.findViewById(R.id.resendOtpText);
 
-        // Initialize Encrypted SharedPreferences
-        try {
-            String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
-            sharedPreferences = EncryptedSharedPreferences.create(
-                    PREFS_NAME,
-                    masterKeyAlias,
-                    requireContext(),
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            );
-        } catch (GeneralSecurityException | IOException e) {
-            // Handle the exception appropriately, e.g., show an error to the user
-            e.fillInStackTrace(); // Log the error
-            sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        }
+        // Initialize UserDataManager
 
-        // Check login status
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
-        if (isLoggedIn && currentUser != null) {
-            String userType = sharedPreferences.getString(KEY_USER_ROLE, "");
-            boolean isPhoneVerified = sharedPreferences.getBoolean(KEY_PHONE_VERIFIED, false);
-            if (isPhoneVerified) {
-                navigateToFragment(navController, userType);
-            } else {
-                navController.navigate(R.id.collectUserDetailsFragment);
-            }
+        // Initialize Encrypted SharedPreferences Manager
+        encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(requireActivity());
 
-        } else {
-            // User is not logged in, explicitly sign out
-            if (currentUser != null) {
-                mAuth.signOut();
-            }
-        }
-
-        // Handle text input changes to detect if user enters email or phone
-        accountField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String input = s.toString().trim();
-                updateAuthenticationMode(input);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        // Handle Get OTP button click
-        getOtpButton.setOnClickListener(v -> {
-            phoneNumber = accountField.getText().toString().trim();
-            if (phoneNumber.isEmpty() || !isValidPhoneNumber(phoneNumber)) {
-                CustomToast.showToast(requireActivity(), "Please Enter A Valid Number");
-                return;
-            }
-
-            // Format phone number with country code
-            String formattedPhoneNumber = formatPhoneNumber(phoneNumber);
-            sendVerificationCode(formattedPhoneNumber);
-        });
-
-        // Handle login button click
         loginButton.setOnClickListener(v -> {
-            String account = accountField.getText().toString().trim();
-            String password = passwordField.getText().toString().trim();
+            String mail = Objects.requireNonNull(accountField.getText()).toString().trim();
+            String pass = Objects.requireNonNull(passwordField.getText()).toString().trim();
 
-            if (account.isEmpty()) {
-                CustomToast.showToast(requireActivity(), "Please Enter The Valid Number Or Email");
+            if (mail.isEmpty() || pass.isEmpty()) {
+                CustomToast.showToast(requireActivity(), "Please fill in all fields.");
                 return;
             }
 
-            if (password.isEmpty()) {
-                CustomToast.showToast(requireActivity(), "Please Enter The OTP");
-                return;
-            }
-
-            if (isPhoneAuthentication) {
-                if (mVerificationId != null) {
-                    verifyPhoneNumberWithCode(mVerificationId, password);
+            if (Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
+                if (isValidPassword(pass)) {
+                    signInWithEmailAndPassword(mail, pass);
                 } else {
-                    CustomToast.showToast(requireActivity(), "Please Request The OTP First");
+                    passwordInputLayout.setError("Password must be at least 8 characters and contain at least one letter and one digit");
                 }
             } else {
-                // Email authentication
-                loginUserWithEmailAndPassword(account, password, navController);
+                CustomToast.showToast(requireActivity(), "Please enter a valid email");
             }
         });
 
-        // Handle Forgot Password
-        forgotPasswordText.setOnClickListener(v -> handleForgotPassword());
+        if (forgotPasswordText != null) {
+            forgotPasswordText.setOnClickListener(v -> {
+                ForgotPasswordBottomSheetDialogFragment forgotPasswordBottomSheet = new ForgotPasswordBottomSheetDialogFragment();
+                forgotPasswordBottomSheet.show(getChildFragmentManager(), forgotPasswordBottomSheet.getTag());
+            });
+        }
 
-        // Navigate to CreateAccountFragment
-        view.findViewById(R.id.createAccountText).setOnClickListener(v ->
-                navController.navigate(R.id.createAccountFragment2));
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> {
+                navController.popBackStack();
+            });
+        }
 
-        // Handle back button click
-        backButton.setOnClickListener(v -> {
-            navController.navigate(R.id.fragmentAskUser);
-        });
 
-        // Handle resend OTP
-        resendOtpText.setOnClickListener(v -> {
-            if (isResendEnabled) {
-                String formattedPhoneNumber = formatPhoneNumber(phoneNumber);
-                sendVerificationCode(formattedPhoneNumber, mResendToken); // Pass the resend token
-            }
-        });
 
         return view;
     }
 
-    private void updateAuthenticationMode(String input) {
-        if (isEmailAddress(input)) {
-            // Switch to email authentication
-            isPhoneAuthentication = false;
-            accountInputLayout.setStartIconDrawable(R.drawable.ic_email);
-            passwordInputLayout.setHint("Password");
-            passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            getOtpButton.setVisibility(View.GONE);
-            resendOtpText.setVisibility(View.GONE);
-            loginButton.setText(R.string.sign_in);
-            passwordField.setText(""); //clear password field
-            // Cancel any ongoing timer
-            if (countDownTimer != null) {
-                countDownTimer.cancel();
-            }
-        } else if (isPhoneNumber(input)) {
-            // Switch to phone authentication
-            isPhoneAuthentication = true;
-            accountInputLayout.setStartIconDrawable(R.drawable.ic_call);
-            passwordInputLayout.setHint("OTP");
-            passwordField.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-            getOtpButton.setVisibility(View.VISIBLE);
-            resendOtpText.setVisibility(View.GONE);
-            loginButton.setText("Verify & Sign In");
-            passwordField.setText("");//clear password field
-        }
-    }
-
-    private boolean isEmailAddress(String input) {
-        return input.contains("@") && Patterns.EMAIL_ADDRESS.matcher(input).matches();
-    }
-
-    private boolean isPhoneNumber(String input) {
-        return PHONE_PATTERN.matcher(input).matches();
-    }
-
-    private boolean isValidPhoneNumber(String phoneNumber) {
-        // Validate phone number format - adjust as needed for your requirements
-        return PHONE_PATTERN.matcher(phoneNumber).matches();
-    }
-
-    private String formatPhoneNumber(String phoneNumber) {
-        // Add country code if not present - adjust for your country code
-        if (phoneNumber.startsWith("+")) {
-            return phoneNumber;
-        }
-        return "+91" + phoneNumber;
-    }
-
-    private void loginUserWithEmailAndPassword(String email, String password, NavController navController) {
+    private void signInWithEmailAndPassword(String email, String password) {
+        loginButton.setEnabled(false); // Disable button to prevent multiple clicks
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
+                .addOnCompleteListener(requireActivity(), task -> {
+                    loginButton.setEnabled(true); // Re-enable button
                     if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d("LoginFragment", "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            fetchUserData(user.getUid(), navController);
+                            fetchUserDataAndNavigate(user);
                         }
                     } else {
-                        CustomToast.showToast(requireActivity(), "Failed To Login: " + task.getException().getMessage());
+                        // If sign in fails, display a message to the user.
+                        Log.w("LoginFragment", "signInWithEmail:failure", task.getException());
+                        CustomToast.showToast(requireActivity(), "Authentication failed: " + task.getException().getMessage());
+                        passwordInputLayout.setError(null);
                     }
                 });
     }
 
-    private void fetchUserData(String userId, NavController navController) {
-        userDataManager.getUserDetailsWithCallback(userId, new UserDataManager.OnUserDataFetchedListener() {
-            @Override
-            public void onDataFetched(HashMap<String, String> data) {
-                String role = data.get("role");
-                String isPhoneVerifiedStr = data.get(KEY_PHONE_VERIFIED);
-                boolean isPhoneVerified = false; // Default to false
+    private void fetchUserDataAndNavigate(FirebaseUser user) {
+        firestoreDB.collection("Users").document(user.getUid()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+                    String role = document.getString("role");
+                    String phoneNumber = document.getString("phoneNumber");
+                    Boolean isPhoneNumberVerified = document.getBoolean("isPhoneNumberVerified");
+                    String name = document.getString("name");
+                    String email = document.getString("email");
+                    Boolean isFormSubmitted = document.getBoolean("isFormSubmitted");
 
-                if (isPhoneVerifiedStr != null) {
-                    isPhoneVerified = Boolean.parseBoolean(isPhoneVerifiedStr);
-                }
-                if (role != null) {
-                    saveUserLoginStatus(role, isPhoneVerified);
-                    if (isPhoneVerified) {
-                        navigateToFragment(navController, role);
-                    } else {
-                        navController.navigate(R.id.collectUserDetailsFragment);
-                    }
+                    // Storing The Data On The Shared Preferences
+                    encryptedSharedPreferencesManager.putString("name", name);
+                    encryptedSharedPreferencesManager.putString("email", email);
+                    encryptedSharedPreferencesManager.putString("phone", phoneNumber);
+                    encryptedSharedPreferencesManager.putBoolean("isLogin", true);
+                    encryptedSharedPreferencesManager.putBoolean("isNumberVerified", Boolean.TRUE.equals(isPhoneNumberVerified));
+                    encryptedSharedPreferencesManager.putString("role", role);
+                    encryptedSharedPreferencesManager.putBoolean("isFormSubmitted", Boolean.TRUE.equals(isFormSubmitted));
+
+                    // Navigate based on user role and phone verification status
+                    navigateToAppropriateActivity(role, isPhoneNumberVerified, isFormSubmitted);
                 } else {
-                    assignDefaultRole(userId, navController);
+                    Log.d("LoginFragment", "Document does not exist");
+                    CustomToast.showToast(requireActivity(), "User data not found.");
+                    // Optionally, sign out the user if data is not found
+                    mAuth.signOut();
+                    clearLoginSession();
                 }
-            }
-
-            @Override
-            public void onDataFetchFailed() {
-                // Handle the error appropriately, e.g., show a message to the user
-                // and redirect to the GetStartedFragment
-                CustomToast.showToast(requireActivity(), "Failed to fetch user data. Please try again.");
+            } else {
+                Log.d("LoginFragment", "Failed with: ", task.getException());
+                CustomToast.showToast(requireActivity(), "Failed to retrieve user data: " + task.getException().getMessage());
+                // Optionally, sign out the user on data retrieval failure
                 mAuth.signOut();
-                navController.navigate(R.id.getStartedFragment);
+                clearLoginSession();
             }
         });
     }
 
-    private void assignDefaultRole(String userId, NavController navController) {
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("role", "user"); // Default role
-        userData.put("isPhoneVerified", false);
-        userDataManager.updateUserData(userId, userData);
-
-        saveUserLoginStatus("user", false);
-        navigateToFragment(navController, "user");
-    }
-
-
-    private void saveUserLoginStatus(String role, boolean isPhoneVerified) {
-        sharedPreferences.edit()
-                .putBoolean("isLoggedIn", true)
-                .putString(KEY_USER_ROLE, role)
-                .putBoolean(KEY_PHONE_VERIFIED, isPhoneVerified)
-                .apply();
-    }
-
-    private void navigateToFragment(NavController navController, String role) {
-        if ("user".equals(role)) {
-            navController.navigate(R.id.mainActivity2);
-        } else if ("admin".equals(role) || "superadmin".equals(role)) {
-            navController.navigate(R.id.adminActivity2);
-        } else {
-            CustomToast.showToast(requireActivity(), "User Not Verified");
-            mAuth.signOut();
-            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply();
-            navController.navigate(R.id.getStartedFragment);
-        }
-    }
-
-    private void handleForgotPassword() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Forgot Password");
-        builder.setMessage("Choose how to reset your password:");
-
-        builder.setPositiveButton("Email", (dialog, which) -> resetPasswordByEmail());
-        builder.setNegativeButton("Phone", (dialog, which) -> resetPasswordByPhone());
-        builder.show();
-    }
-
-    private void resetPasswordByEmail() {
-        resetEmailOrPhone = accountField.getText().toString().trim();
-        if (resetEmailOrPhone.isEmpty()) {
-            CustomToast.showToast(requireActivity(), "Please Enter Your Email & Phone");
-            return;
-        }
-        if (resetEmailOrPhone.contains("@")) {
-            mAuth.sendPasswordResetEmail(resetEmailOrPhone)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            CustomToast.showToast(requireActivity(), "Email Sent");
-                        } else {
-                            CustomToast.showToast(requireActivity(), "Unable To Send Mail: " + task.getException().getMessage());
-                        }
-                    });
-        } else if (isPhoneNumber(resetEmailOrPhone)) {
-            resetPasswordByPhone();
-        } else {
-            CustomToast.showToast(requireActivity(), "Invalid Details");
-        }
-    }
-
-    private void resetPasswordByPhone() {
-        final EditText phoneInput = new EditText(getContext());
-        phoneInput.setHint("+91-");
-        phoneInput.setInputType(InputType.TYPE_CLASS_PHONE);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Enter Phone Number");
-        builder.setView(phoneInput);
-
-        builder.setPositiveButton("Send Code", (dialog, which) -> {
-            String phoneNumber = phoneInput.getText().toString().trim();
-            if (phoneNumber.isEmpty() || !isValidPhoneNumber(phoneNumber)) {
-                CustomToast.showToast(requireActivity(), "Please Enter The Valid Phone No");
-                return;
-            }
-            String formattedPhoneNumber = formatPhoneNumber(phoneNumber);
-            sendVerificationCode(formattedPhoneNumber);
-            dialog.dismiss();
-        });
-
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
-    }
-
-    private void sendVerificationCode(String phoneNumber) {
-        sendVerificationCode(phoneNumber, null);
-    }
-
-    private void sendVerificationCode(String phoneNumber, PhoneAuthProvider.ForceResendingToken token) {
-        PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks =
-                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    @Override
-                    public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-                        // This callback will be invoked instantly when the phone number is verified
-                        // automatically with a previously used credential.
-                        signInWithPhoneAuthCredential(credential);
-                    }
-
-                    @Override
-                    public void onVerificationFailed(@NonNull FirebaseException e) {
-                        // This callback will be invoked when the verification process fails.
-                        CustomToast.showToast(requireActivity(), "Verification Failed: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onCodeSent(@NonNull String verificationId,
-                                           @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                        // The SMS verification code has been sent to the user's phone.
-                        mVerificationId = verificationId;
-                        mResendToken = token;  // Save the token for resending
-                        startTimer();
-                        showOtpSentMessage();
-                    }
-                };
-
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,        // Phone number to verify
-                60,                 // Timeout in seconds
-                TimeUnit.SECONDS,   // Unit of timeout
-                requireActivity(),      // Activity (for callback binding)
-                callbacks,           // OnVerificationStateChangedCallbacks
-                token);             // ForceResendingToken, or null to start verification
-    }
-
-
-    private void showOtpSentMessage() {
-        CustomToast.showToast(requireActivity(), "OTP Sent");
-        // Make OTP field and button visible
-        passwordInputLayout.setVisibility(View.VISIBLE);
-        resendOtpText.setVisibility(View.VISIBLE);
-    }
-
-    private void startTimer() {
-        isResendEnabled = false;
-        resendOtpText.setTextColor(getResources().getColor(R.color.hint_color, requireContext().getTheme()));
-        countDownTimer = new CountDownTimer(60000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                resendOtpText.setText("Resend OTP in " + millisUntilFinished / 1000 + " seconds");
-            }
-
-            @Override
-            public void onFinish() {
-                isResendEnabled = true;
-                resendOtpText.setText("Resend OTP");
-                resendOtpText.setTextColor(getResources().getColor(R.color.text_link, requireContext().getTheme()));
-            }
-        }.start();
-    }
-
-    private void verifyPhoneNumberWithCode(String verificationId, String code) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(requireActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = task.getResult().getUser();
-                        if (user != null) {
-                            updatePhoneVerifiedStatus(user.getUid());
-                        }
+    private void navigateToAppropriateActivity(String role, Boolean isPhoneNumberVerified, Boolean isFormSubmitted) {
+        NavController navController1 = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        if (Boolean.TRUE.equals(isPhoneNumberVerified)) {
+            if (role != null) {
+                if (role.equals("User")) {
+                    if (Boolean.TRUE.equals(isFormSubmitted)) {
+                        navController1.navigate(R.id.mainActivity2);
                     } else {
-                        CustomToast.showToast(requireActivity(), "Invalid OTP: " + task.getException().getMessage());
+                        navController1.navigate(R.id.collectUserDetailsFragment);
                     }
-                });
+                } else if (role.equals("admin") || role.equals("superadmin")) {
+                    navController1.navigate(R.id.adminActivity2);
+                } else {
+                    CustomToast.showToast(requireActivity(), "Role is not recognized. Contact support.");
+                    mAuth.signOut();
+                    clearLoginSession();
+                }
+            } else {
+                CustomToast.showToast(requireActivity(), "User role not found.");
+                mAuth.signOut();
+                clearLoginSession();
+            }
+        } else {
+            CustomToast.showToast(requireActivity(), "Please verify your phone number.");
+        }
     }
 
-    private void updatePhoneVerifiedStatus(String uid) {
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("isPhoneVerified", true);
-        userDataManager.updateUserData(uid, updates);
-
-        sharedPreferences.edit().putBoolean(KEY_PHONE_VERIFIED, true).apply();
-        fetchUserData(uid, Navigation.findNavController(getView()));
-
+    private boolean isValidPassword(String password) {
+        // Example: At least 8 characters, with at least one letter and one digit
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$";
+        return password.matches(passwordPattern);
     }
 
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(requireActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = task.getResult().getUser();
-                        if (user != null) {
-                            updatePhoneVerifiedStatus(user.getUid());
-                        }
-                    } else {
-                        CustomToast.showToast(requireActivity(), "Sign In Failed: " + task.getException().getMessage());
-                    }
-                });
+    private void clearLoginSession() {
+        encryptedSharedPreferencesManager.remove("name");
+        encryptedSharedPreferencesManager.remove("email");
+        encryptedSharedPreferencesManager.remove("phone");
+        encryptedSharedPreferencesManager.remove("isLogin");
+        encryptedSharedPreferencesManager.remove("isNumberVerified");
+        encryptedSharedPreferencesManager.remove("role");
+        encryptedSharedPreferencesManager.remove("isFormSubmitted");
+    }
+
+    // Inner class for ForgotPasswordBottomSheetDialogFragment
+    public static class ForgotPasswordBottomSheetDialogFragment extends BottomSheetDialogFragment {
+
+        private EditText editTextEmail;
+        private Button resetButton;
+
+        private FirebaseAuth mAuth;
+
+        public ForgotPasswordBottomSheetDialogFragment() {
+            // Required empty public constructor
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_forgot_password_bottom_sheet_dialog, container, false);
+            editTextEmail = view.findViewById(R.id.editTextForgotPasswordEmail);
+            resetButton = view.findViewById(R.id.buttonResetPassword);
+
+            mAuth = FirebaseAuth.getInstance();
+
+            resetButton.setOnClickListener(v -> {
+                String email = editTextEmail.getText().toString().trim();
+
+                if (email.isEmpty()) {
+                    editTextEmail.setError("Email is required");
+                    return;
+                }
+
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    editTextEmail.setError("Enter a valid email");
+                    return;
+                }
+
+                mAuth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "Password reset email sent. Check your inbox.", Toast.LENGTH_SHORT).show();
+                                dismiss(); // Close the bottom sheet
+                            } else {
+                                Toast.makeText(getContext(), "Failed to send reset email: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+            });
+
+            return view;
+        }
     }
 }
+

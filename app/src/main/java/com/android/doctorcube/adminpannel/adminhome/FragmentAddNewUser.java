@@ -77,18 +77,6 @@ public class FragmentAddNewUser extends Fragment {
         btnAddUser = view.findViewById(R.id.btnAddUser);
 
         // Initialize Encrypted SharedPreferences
-        try {
-            String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
-            sharedPreferences = EncryptedSharedPreferences.create(
-                    "user_prefs",
-                    masterKeyAlias,
-                    requireContext(),
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            );
-        } catch (GeneralSecurityException | IOException e) {
-            CustomToast.showToast(requireActivity(), "Unable To Create Account Please Try Later");
-        }
 
         // Set up the role dropdown
         setupRoleDropdown();
@@ -182,6 +170,9 @@ public class FragmentAddNewUser extends Fragment {
         userData.put("phone", phone);
         userData.put("role", role);
         userData.put("timestamp", FieldValue.serverTimestamp());
+        userData.put("isVerified", true);
+        userData.put("isPhoneNumberVerified", true);
+        userData.put("isFormSubmitted",true);
 
         firestoreDB.collection("Users").document(userId) // Use Firestore
                 .set(userData)

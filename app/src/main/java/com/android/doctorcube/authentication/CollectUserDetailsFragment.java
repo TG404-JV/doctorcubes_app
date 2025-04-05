@@ -1,6 +1,5 @@
 package com.android.doctorcube.authentication;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -23,15 +22,19 @@ import androidx.navigation.Navigation;
 
 import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
+import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
 import com.android.doctorcube.database.FirestoreHelper;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class CollectUserDetailsFragment extends Fragment {
 
@@ -75,7 +78,6 @@ public class CollectUserDetailsFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         firestoreDB = FirebaseFirestore.getInstance();
         navController = Navigation.findNavController(view);
-        sharedPreferences = requireContext().getSharedPreferences("DoctorCubePrefs", Context.MODE_PRIVATE);
 
         // Initialize UI elements
         nameEditText = view.findViewById(R.id.nameEditText);
@@ -97,6 +99,21 @@ public class CollectUserDetailsFragment extends Fragment {
 
         countries = getResources().getStringArray(R.array.countries_array);
 
+        String name,email,phone;
+
+        EncryptedSharedPreferencesManager encryptedSharedPreferencesManager =new EncryptedSharedPreferencesManager(getContext());
+        name = encryptedSharedPreferencesManager.getString("name", "");
+        email = encryptedSharedPreferencesManager.getString("email", "");
+        phone = encryptedSharedPreferencesManager.getString("phone", "");
+
+        nameEditText.setText(name);
+        emailEditText.setText(email);
+        phoneEditText.setText(phone);
+        nameEditText.setEnabled(false);
+        emailEditText.setEnabled(false);
+        phoneEditText.setEnabled(false);
+
+
         // Initialize FirestoreHelper
         firestoreHelper = new FirestoreHelper(requireContext());
 
@@ -115,7 +132,9 @@ public class CollectUserDetailsFragment extends Fragment {
         // Set up UI components and fetch user data
         setUpCountrySpinner();
         setUpListeners();
-        setUserData(); // Fetch and set user data
+
+
+
     }
 
     private void setUpCountrySpinner() {
@@ -137,7 +156,43 @@ public class CollectUserDetailsFragment extends Fragment {
             if (validateInputs()) {
                 Map<String, Object> userData = getUserData();
                 if (userId != null && !userId.isEmpty()) {
-                    firestoreHelper.saveUserData(userData, userId, v, sharedPreferences, navController, isBottomSheet);
+                    //  Move the navigation and shared preference updates into the success listener
+                    firestoreDB.collection("app_submissions").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            CustomToast.showToast(requireActivity(),"Data Uploaded Successfully");
+
+                            EncryptedSharedPreferencesManager encryptedSharedPreferencesManager =new EncryptedSharedPreferencesManager(getContext());
+                            for (Map.Entry<String, Object> entry : userData.entrySet()) {
+                                String key = entry.getKey();
+                                Object value = entry.getValue();
+
+                                if (value instanceof String) {
+                                    encryptedSharedPreferencesManager.putString(key, (String) value);
+                                } else if (value instanceof Boolean) {
+                                    encryptedSharedPreferencesManager.putBoolean(key, (Boolean) value);
+                                } else if (value instanceof Integer) {
+                                    encryptedSharedPreferencesManager.putInt(key, (Integer) value);
+                                } else if (value instanceof Long) {
+                                    encryptedSharedPreferencesManager.putLong(key, (Long) value);
+                                } else {
+                                    // Optional: Convert other types (like FieldValue) to String or handle them accordingly
+                                    encryptedSharedPreferencesManager.putString(key, value.toString());
+                                }
+                            }
+                            encryptedSharedPreferencesManager.putBoolean("isFormSubmitted",true);
+                            firestoreDB.collection("Users").document(mAuth.getCurrentUser().getUid()).update("isFormSubmitted",true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                }
+                            });
+
+                            navController.navigate(R.id.mainActivity2);
+
+                        }
+
+                    });
                 } else {
                     CustomToast.showToast(requireActivity(), "Missing user information. Please sign in again.");
                 }
@@ -207,9 +262,9 @@ public class CollectUserDetailsFragment extends Fragment {
         boolean hasPassport = passportYes.isChecked();
 
         Map<String, Object> userData = new HashMap<>();
-        userData.put("fullName", name); // Match UserDataManager key
+        userData.put("name", name); // Match UserDataManager key
         userData.put("email", email);   // Match UserDataManager key
-        userData.put("phone", phone);   // Match UserDataManager key
+        userData.put("mobile", phone);   // Match UserDataManager key
         userData.put("country", country);
         userData.put("state", state);
         userData.put("city", city);
@@ -219,58 +274,13 @@ public class CollectUserDetailsFragment extends Fragment {
         }
         userData.put("hasPassport", hasPassport);
         userData.put("userId", userId);
+        userData.put("isAdmitted",false);
+        userData.put("lastCallDate","Not Called Yet");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+        userData.put("lastUpdatedDate",String.valueOf(sdf.format(System.currentTimeMillis())));
         userData.put("timestamp", FieldValue.serverTimestamp());
 
         return userData;
     }
 
-    private void setUserData() {
-        if (userId == null || userId.isEmpty()) {
-            CustomToast.showToast(requireActivity(), "User ID missing. Please sign in again.");
-            return;
-        }
-
-        // Use singleton instance of UserDataManager
-        UserDataManager userDataManager = UserDataManager.getInstance(requireContext().getApplicationContext());
-        HashMap<String, String> userDetails = userDataManager.getUserDetails(userId);
-
-        if (userDetails != null) {
-            String fullName = userDetails.get("fullName");
-            String email = userDetails.get("email");
-            String phone = userDetails.get("phone");
-
-            if (fullName != null) nameEditText.setText(fullName);
-            if (email != null) emailEditText.setText(email);
-            if (phone != null) phoneEditText.setText(phone);
-
-            // Make fields read-only
-            nameEditText.setEnabled(false);
-            emailEditText.setEnabled(false);
-            phoneEditText.setEnabled(false);
-        } else {
-            // Fallback to async fetch if local data is unavailable
-            userDataManager.getUserDetailsWithCallback(userId, new UserDataManager.OnUserDataFetchedListener() {
-                @Override
-                public void onDataFetched(HashMap<String, String> data) {
-                    String fullName = data.get("fullName");
-                    String email = data.get("email");
-                    String phone = data.get("phone");
-
-                    if (fullName != null) nameEditText.setText(fullName);
-                    if (email != null) emailEditText.setText(email);
-                    if (phone != null) phoneEditText.setText(phone);
-
-                    // Make fields read-only
-                    nameEditText.setEnabled(false);
-                    emailEditText.setEnabled(false);
-                    phoneEditText.setEnabled(false);
-                }
-
-                @Override
-                public void onDataFetchFailed() {
-                    CustomToast.showToast(requireActivity(), "Failed to fetch user details.");
-                }
-            });
-        }
-    }
 }

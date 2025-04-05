@@ -184,7 +184,7 @@
     <string name="admitted">Admitted</string>
 
     <!-- Search-related strings -->
-    <string name="search_hint">Search...</string>
+    <string name="search_hint">Search…</string>
     <string name="search_icon_description">Search icon</string>
     <string name="filter_icon_description">Filter options</string>
 
@@ -279,13 +279,13 @@ By clicking \'I Agree\', you acknowledge that you have read and understood these
     <string name="call_support_disc">Call Support</string>
     <string name="back_disc">Back</string>
     <string name="pdf_name">Document Title</string>
-    <string name="loading_document_text">Loading document...</string>
+    <string name="loading_document_text">Loading document…</string>
     <string name="country_university">Universities in Russia</string>
     <string name="country_count">542</string>
     <string name="universities">Universities</string>
     <string name="rank_count">86</string>
     <string name="out_of_rank">Top 100 Ranked</string>
-    <string name="search_hint_txt">Search by name, location, or programs...</string>
+    <string name="search_hint_txt">Search by name, location, or programs…</string>
     <string name="no_universities">No universities found</string>
     <string name="browse_universities">Try adjusting your search filters or browse all universities</string>
     <string name="clear_filters">Clear Filters</string>
@@ -390,7 +390,7 @@ By clicking \'I Agree\', you acknowledge that you have read and understood these
     <string name="create_your_account">Create Your Account</string>
     <string name="fill_details">Fill the details below to get started.</string>
     <string name="password_strength">Password Strength</string>
-    <string name="password_must_be_8_14_chars_with_uppercase_lowercase_number_and_special_char">Password must be 8-14 chars with uppercase, lowercase, number, and special char</string>
+    <string name="password_must_be_8_14_chars_with_uppercase_lowercase_number_and_special_char">Password must be 8–14 chars with uppercase, lowercase, number, and special char</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="agree_to_terms">Agree to Terms</string>
     <string name="i_agree_to_the">I agree to the</string>
@@ -402,7 +402,7 @@ By clicking \'I Agree\', you acknowledge that you have read and understood these
     <string name="export_status">Export Status</string>
     <string name="ready_to_export">Ready to export 24 medical student applications</string>
     <string name="last_export">Last export: 03/19/2025 at 15:30</string>
-    <string name="exporting">Exporting... (0/24)</string>
+    <string name="exporting">Exporting… (0/24)</string>
     <string name="applied_filters">Applied Filters</string>
     <string name="edit">Edit</string>
     <string name="program">Program:</string>
@@ -444,7 +444,7 @@ By clicking \'I Agree\', you acknowledge that you have read and understood these
     <string name="excel_import_status">Select an Excel file to import student data</string>
     <string name="file_name">filename.xlsx</string>
     <string name="file_info">Size: 245 KB | Modified: 20 Mar 2025</string>
-    <string name="importing_data">Importing data... (0/100)</string>
+    <string name="importing_data">Importing data… (0/100)</string>
     <string name="expected_format_preview">Expected Format Preview</string>
     <string name="name_header">Name</string>
     <string name="email_header">Email</string>
@@ -453,7 +453,7 @@ By clicking \'I Agree\', you acknowledge that you have read and understood these
     <string name="country_header">Country</string>
     <string name="sample_name">John Doe</string>
     <string name="sample_email">john.doe@example.com</string>
-    <string name="sample_phone">+1 123-456-7890</string>
+    <string name="sample_phone">+1 123–456–7890</string>
     <string name="sample_course">MBA</string>
     <string name="sample_country">USA</string>
     <string name="select_excel_file">Select Excel File</string>
@@ -570,7 +570,16 @@ By clicking \'I Agree\', you acknowledge that you have read and understood these
     <string name="verify_button_text">Verify</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="otp_verification_image">OTP Verification</string>
-    <string name="loading_notes">Loading notes...</string>
+    <string name="loading_notes">Loading notes…</string>
     <string name="failed_to_load_notes">Failed to load notes</string>
     <string name="view">view</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="enter_valid_email">Enter a valid email</string>
+    <string name="enter_valid_phone">Enter a valid phone number</string>
+    <string name="select_your_country">Select your country</string>
+    <string name="enter_your_state">Enter your state/province</string>
+    <string name="enter_your_city">Enter your city</string>
+    <string name="select_neet_score_status">Select whether you have a NEET score</string>
+    <string name="enter_your_neet_score">Enter your NEET score</string>
+    <string name="select_passport_status">Select whether you have a passport</string>
 </resources>

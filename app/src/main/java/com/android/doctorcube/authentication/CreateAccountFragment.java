@@ -1,7 +1,6 @@
 package com.android.doctorcube.authentication;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,8 +29,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKeys;
 import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
@@ -48,12 +44,9 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class CreateAccountFragment extends Fragment {
@@ -339,7 +332,6 @@ public class CreateAccountFragment extends Fragment {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
                 // Auto-verification completed, proceed to create email account
-                Log.d(TAG, "onVerificationCompleted: Auto verification success");
                 if (otpCountDownTimer != null) {
                     otpCountDownTimer.cancel();
                 }
@@ -348,7 +340,6 @@ public class CreateAccountFragment extends Fragment {
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
-                Log.e(TAG, "onVerificationFailed: " + e.getMessage());
                 progressBar.setVisibility(View.GONE);
                 createAccountButton.setEnabled(true);
                 createAccountButton.setAlpha(1.0f);
@@ -361,7 +352,6 @@ public class CreateAccountFragment extends Fragment {
                     // Handle the Play Integrity error specifically
                     if (e.getMessage() != null && e.getMessage().contains("Play Integrity checks, and reCAPTCHA checks were unsuccessful")) {
                         message = "This device/app is not authorized. Please try again later.";
-                        Log.e(TAG, "Play Integrity Failure: " + e.getMessage());
                     } else {
                         message = "Phone verification failed: " + e.getMessage(); // General error
                     }
@@ -371,7 +361,6 @@ public class CreateAccountFragment extends Fragment {
 
             @Override
             public void onCodeSent(@NonNull String verId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                Log.d(TAG, "onCodeSent: Code sent to " + phone);
                 progressBar.setVisibility(View.GONE);
                 createAccountButton.setEnabled(true);
                 createAccountButton.setAlpha(1.0f);
@@ -440,7 +429,6 @@ public class CreateAccountFragment extends Fragment {
         mAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 
-                Log.d(TAG, "verifyOtp: Phone verification successful");
                 if (otpCountDownTimer != null) {
                     otpCountDownTimer.cancel();
                 }
@@ -464,7 +452,6 @@ public class CreateAccountFragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
 
                     if (task.isSuccessful()) {
-                        Log.d(TAG, "createEmailAccount: Email account creation successful");
                         FirebaseUser user = mAuth.getCurrentUser();
 
                         if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
@@ -475,7 +462,7 @@ public class CreateAccountFragment extends Fragment {
 
                         encryptedSharedPreferencesManager.putString("name", String.valueOf(fullNameEditText.getText()));
                         encryptedSharedPreferencesManager.putString("email", String.valueOf(emailEditText.getText()));
-                        encryptedSharedPreferencesManager.putString("phone", String.valueOf(phoneEditText.getText()));
+                        encryptedSharedPreferencesManager.putString("mobile", String.valueOf(phoneEditText.getText()));
                         encryptedSharedPreferencesManager.putBoolean("isLogin", true);
                         encryptedSharedPreferencesManager.putBoolean("isNumberVerified", true);
                         encryptedSharedPreferencesManager.putString("role", "User");
@@ -483,7 +470,7 @@ public class CreateAccountFragment extends Fragment {
                         Map<String, Object> userData = new HashMap<>();
                         userData.put("name", fullName);
                         userData.put("email", email);
-                        userData.put("phone", phone);
+                        userData.put("mobile", phone);
                         userData.put("role", "User");
                         userData.put("isVerified", true);
                         userData.put("isPhoneNumberVerified", true);
@@ -492,11 +479,9 @@ public class CreateAccountFragment extends Fragment {
                         FirebaseFirestore.getInstance().collection("Users").document(user.getUid())
                                 .set(userData)
                                 .addOnSuccessListener(aVoid -> {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
                                     navController.navigate(R.id.collectUserDetailsFragment);
                                 })
                                 .addOnFailureListener(e -> {
-                                    Log.w(TAG, "Error writing document: ", e);
                                     CustomToast.showToast(requireActivity(), "Failed to save user data. Please try again.");
                                     // Consider re-enabling the create account button here if the user needs to retry
                                     createAccountButton.setEnabled(true);
@@ -517,10 +502,8 @@ public class CreateAccountFragment extends Fragment {
                         String errorMessage = "Account creation failed";
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                             errorMessage = "Email already in use.";
-                            Log.e(TAG, "createEmailAccount: Email already in use");
                         } else {
                             errorMessage = "Account creation failed: " + task.getException().getMessage();
-                            Log.e(TAG, "createEmailAccount: " + task.getException().getMessage());
                         }
                         CustomToast.showToast(requireActivity(), errorMessage);
                         //Re-authenticate the user.

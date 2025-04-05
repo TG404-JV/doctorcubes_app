@@ -1,6 +1,5 @@
 package com.android.doctorcube.authentication;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import androidx.navigation.Navigation;
 import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
-import com.android.doctorcube.database.FirestoreHelper;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +43,6 @@ public class CollectUserDetailsFragment extends Fragment {
     private TextInputLayout neetScoreLayout;
     private Button submitButton;
     private NavController navController;
-    private SharedPreferences sharedPreferences;
     private FirebaseFirestore firestoreDB;
     private FirebaseAuth mAuth;
     private ImageView backButton;
@@ -55,7 +52,6 @@ public class CollectUserDetailsFragment extends Fragment {
     private String userEmail;
     private String userPhone;
 
-    private FirestoreHelper firestoreHelper;
     private boolean isBottomSheet = false;
 
     public CollectUserDetailsFragment() {
@@ -104,7 +100,7 @@ public class CollectUserDetailsFragment extends Fragment {
         EncryptedSharedPreferencesManager encryptedSharedPreferencesManager =new EncryptedSharedPreferencesManager(getContext());
         name = encryptedSharedPreferencesManager.getString("name", "");
         email = encryptedSharedPreferencesManager.getString("email", "");
-        phone = encryptedSharedPreferencesManager.getString("phone", "");
+        phone = encryptedSharedPreferencesManager.getString("mobile", "");
 
         nameEditText.setText(name);
         emailEditText.setText(email);
@@ -115,7 +111,6 @@ public class CollectUserDetailsFragment extends Fragment {
 
 
         // Initialize FirestoreHelper
-        firestoreHelper = new FirestoreHelper(requireContext());
 
         // Get current user
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -163,6 +158,8 @@ public class CollectUserDetailsFragment extends Fragment {
                             CustomToast.showToast(requireActivity(),"Data Uploaded Successfully");
 
                             EncryptedSharedPreferencesManager encryptedSharedPreferencesManager =new EncryptedSharedPreferencesManager(getContext());
+                            encryptedSharedPreferencesManager.putBoolean("isdataloaded",true);
+
                             for (Map.Entry<String, Object> entry : userData.entrySet()) {
                                 String key = entry.getKey();
                                 Object value = entry.getValue();

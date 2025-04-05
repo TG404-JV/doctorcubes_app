@@ -51,7 +51,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/icon_university" />
+                android:src="@drawable/ic_location" />
 
             <TextView
                 android:id="@+id/locationText"
@@ -71,7 +71,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_add_user" />
+                android:src="@drawable/ic_enrolled_students" />
 
             <TextView
                 android:id="@+id/attendeesText"

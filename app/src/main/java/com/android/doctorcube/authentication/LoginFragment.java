@@ -1,8 +1,6 @@
 package com.android.doctorcube.authentication;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +18,6 @@ import androidx.navigation.Navigation;
 import com.android.doctorcube.CustomToast;
 import com.android.doctorcube.R;
 import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment; // Import for BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputEditText;
@@ -133,14 +130,12 @@ public class LoginFragment extends Fragment {
                     loginButton.setEnabled(true); // Re-enable button
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d("LoginFragment", "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
                             fetchUserDataAndNavigate(user);
                         }
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w("LoginFragment", "signInWithEmail:failure", task.getException());
                         CustomToast.showToast(requireActivity(), "Authentication failed: " + task.getException().getMessage());
                         passwordInputLayout.setError(null);
                     }
@@ -153,7 +148,7 @@ public class LoginFragment extends Fragment {
                 DocumentSnapshot document = task.getResult();
                 if (document != null && document.exists()) {
                     String role = document.getString("role");
-                    String phoneNumber = document.getString("phoneNumber");
+                    String phoneNumber = document.getString("mobile");
                     Boolean isPhoneNumberVerified = document.getBoolean("isPhoneNumberVerified");
                     String name = document.getString("name");
                     String email = document.getString("email");
@@ -162,7 +157,7 @@ public class LoginFragment extends Fragment {
                     // Storing The Data On The Shared Preferences
                     encryptedSharedPreferencesManager.putString("name", name);
                     encryptedSharedPreferencesManager.putString("email", email);
-                    encryptedSharedPreferencesManager.putString("phone", phoneNumber);
+                    encryptedSharedPreferencesManager.putString("mobile", phoneNumber);
                     encryptedSharedPreferencesManager.putBoolean("isLogin", true);
                     encryptedSharedPreferencesManager.putBoolean("isNumberVerified", Boolean.TRUE.equals(isPhoneNumberVerified));
                     encryptedSharedPreferencesManager.putString("role", role);
@@ -171,14 +166,12 @@ public class LoginFragment extends Fragment {
                     // Navigate based on user role and phone verification status
                     navigateToAppropriateActivity(role, isPhoneNumberVerified, isFormSubmitted);
                 } else {
-                    Log.d("LoginFragment", "Document does not exist");
                     CustomToast.showToast(requireActivity(), "User data not found.");
                     // Optionally, sign out the user if data is not found
                     mAuth.signOut();
                     clearLoginSession();
                 }
             } else {
-                Log.d("LoginFragment", "Failed with: ", task.getException());
                 CustomToast.showToast(requireActivity(), "Failed to retrieve user data: " + task.getException().getMessage());
                 // Optionally, sign out the user on data retrieval failure
                 mAuth.signOut();
@@ -193,6 +186,7 @@ public class LoginFragment extends Fragment {
             if (role != null) {
                 if (role.equals("User")) {
                     if (Boolean.TRUE.equals(isFormSubmitted)) {
+                        encryptedSharedPreferencesManager.putBoolean("isdataloaded",false);
                         navController1.navigate(R.id.mainActivity2);
                     } else {
                         navController1.navigate(R.id.collectUserDetailsFragment);
@@ -221,20 +215,14 @@ public class LoginFragment extends Fragment {
     }
 
     private void clearLoginSession() {
-        encryptedSharedPreferencesManager.remove("name");
-        encryptedSharedPreferencesManager.remove("email");
-        encryptedSharedPreferencesManager.remove("phone");
-        encryptedSharedPreferencesManager.remove("isLogin");
-        encryptedSharedPreferencesManager.remove("isNumberVerified");
-        encryptedSharedPreferencesManager.remove("role");
-        encryptedSharedPreferencesManager.remove("isFormSubmitted");
+        encryptedSharedPreferencesManager.clear();
     }
 
     // Inner class for ForgotPasswordBottomSheetDialogFragment
     public static class ForgotPasswordBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
         private EditText editTextEmail;
-        private Button resetButton;
+        private MaterialButton resetButton;
 
         private FirebaseAuth mAuth;
 

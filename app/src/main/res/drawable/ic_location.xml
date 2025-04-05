@@ -1,9 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
-    android:viewportWidth="960"
-    android:viewportHeight="960">
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+  <!-- Background Circle -->
   <path
-      android:pathData="M480,480q33,0 56.5,-23.5T560,400q0,-33 -23.5,-56.5T480,320q-33,0 -56.5,23.5T400,400q0,33 23.5,56.5T480,480ZM480,774q122,-112 181,-203.5T720,408q0,-109 -69.5,-178.5T480,160q-101,0 -170.5,69.5T240,408q0,71 59,162.5T480,774ZM480,880Q319,743 239.5,625.5T160,408q0,-150 96.5,-239T480,80q127,0 223.5,89T800,408q0,100 -79.5,217.5T480,880ZM480,400Z"
-      android:fillColor="#e3e3e3"/>
+      android:fillColor="#E3F2FD"
+      android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z" />
+
+  <!-- Location Pin -->
+  <path
+      android:fillColor="#1976D2"
+      android:pathData="M12,5c-2.76,0 -5,2.24 -5,5c0,2.88 2.88,7.19 4.24,9.08c0.4,0.55 1.11,0.55 1.51,0C14.12,17.19 17,12.88 17,10C17,7.24 14.76,5 12,5z" />
+
+  <!-- Inner Circle/Target -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M12,8c-1.1,0 -2,0.9 -2,2s0.9,2 2,2s2,-0.9 2,-2S13.1,8 12,8z" />
+
+  <!-- Ripple Rings (Optional) -->
+  <path
+      android:strokeColor="#2196F3"
+      android:strokeWidth="0.5"
+      android:fillColor="#00000000"
+      android:pathData="M12,4c-3.31,0 -6,2.69 -6,6c0,3.56 3.31,8.16 5.36,10.48" />
+  <path
+      android:strokeColor="#2196F3"
+      android:strokeWidth="0.5"
+      android:fillColor="#00000000"
+      android:pathData="M18,10c0,3.56 -3.31,8.16 -5.36,10.48c-0.58,0.65 -1.51,0.65 -2.09,0" />
+
+  <!-- Direction Markers -->
+  <path
+      android:fillColor="#0D47A1"
+      android:pathData="M12,19.5l-0.75,-1.5h1.5z" />
+  <path
+      android:fillColor="#0D47A1"
+      android:pathData="M19.5,12l-1.5,-0.75v1.5z" />
+  <path
+      android:fillColor="#0D47A1"
+      android:pathData="M12,4.5l0.75,1.5h-1.5z" />
+  <path
+      android:fillColor="#0D47A1"
+      android:pathData="M4.5,12l1.5,0.75v-1.5z" />
 </vector>

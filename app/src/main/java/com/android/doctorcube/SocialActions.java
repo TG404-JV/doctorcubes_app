@@ -4,41 +4,96 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log; // Import Log for error handling
+import android.widget.Toast;
 
 import com.android.doctorcube.authentication.datamanager.EncryptedSharedPreferencesManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class SocialActions {
 
     private static final String TAG = "SocialActions"; // Add a TAG for logging
 
 
-    public void openWhatsApp(Context context, String message) {
-        String phoneNumber = context.getString(R.string.whatsapp_number); // Use string resource
-        String defaultMessage = "Hello, I would like to know more about your consultancy services for MBBS admissions abroad. Please provide the necessary details.";
-        if (message != null && !message.isEmpty()) {
-            defaultMessage = "Hello, I would like to know more about your consultancy services for MBBS admissions abroad. Please provide the necessary details regarding " + message;
-        }
 
-        String url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + Uri.encode(defaultMessage);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        // Use resolveActivity to avoid crashes.
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent);
-        } else {
-            CustomToast.showToast((Activity) context, "WhatsApp not installed");
-            Log.e(TAG, "WhatsApp not installed on this device."); // Log the error
-        }
-    }
+
 
     public void openWhatsApp(Context context) {
-        openWhatsApp(context, null);
-    }
+        EncryptedSharedPreferencesManager encryptedSharedPreferencesManager = new EncryptedSharedPreferencesManager(context);
+        String fullName = encryptedSharedPreferencesManager.getString("name", "");
+        String phone = encryptedSharedPreferencesManager.getString("phone", "");
+        String city = encryptedSharedPreferencesManager.getString("city", "");
+        String state = encryptedSharedPreferencesManager.getString("state", "");
+        String country = encryptedSharedPreferencesManager.getString("country", "");
 
+        // Construct the personalized message
+        String personalizedMessage = "Hello dear future doctors 👩‍⚕️👨‍⚕️, Thank you for contacting Doctorcubes Travel Education MBBS Abroad Pvt Ltd! " +
+                "Please provide the following information so we can assist you:\n\n" +
+                "Your Name: " + (fullName.isEmpty() ? "" : fullName) + "\n" +
+                "From Which City: " + (city.isEmpty() ? "" : city + (state.isEmpty() ? "" : ", " + state)) + "\n" +
+                "Preferred Country: " + (country.isEmpty() ? "" : country) + "\n" +
+                "🌍 Our Office Addresses:\n\n" +
+                "🇷🇺 Russia (Head Office): Кемерово, бульвар строителей 43 32 дом.\n" +
+                "📞 Contact: +79996482721\n\n" +
+                "🇮🇳 India:\n" +
+                "📍 Delhi NCR, Haryana: Sec 87, near Vidhya Bhawan High School, Bharat Colony, Kheri Road, Faridabad 121002\n" +
+                "📞 Contact: 9667763157\n\n" +
+                "📍 Maharashtra: Aurangabad, Kranti Chowk, near Sant Eknath Mandir, above Punjab and Sindh Bank, 431003\n" +
+                "📞 Contact: 917517036564\n\n" +
+                "🌐 Visit our website: Doctorcubes.com\n" +
+                "📱 Download our app: Doctorcubes\n" +
+                "▶️ Watch our YouTube video: https://youtu.be/3gMOmU6uYx4?si=-1sw0NeZEk1UoC89";
+
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        try {
+            // Construct the WhatsApp URL with the phone number and encoded message
+            String url = "https://api.whatsapp.com/send?phone=+917517036564" +
+                    "&text=" + URLEncoder.encode(personalizedMessage, StandardCharsets.UTF_8.toString());
+
+            intent.setData(Uri.parse(url));
+
+            // Check for WhatsApp Messenger and WhatsApp Business
+            String[] whatsappPackages = {"com.whatsapp", "com.whatsapp.w4b"};
+            String targetPackage = null;
+
+            for (String pkg : whatsappPackages) {
+                try {
+                    packageManager.getPackageInfo(pkg, 0);
+                    targetPackage = pkg;
+                    break; // Found an installed variant
+                } catch (PackageManager.NameNotFoundException e) {
+                    // Package not found, try the next one
+                }
+            }
+
+            if (targetPackage != null) {
+                intent.setPackage(targetPackage);
+                if (intent.resolveActivity(packageManager) != null) {
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, targetPackage + " is installed but cannot handle this action", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, "WhatsApp is not installed on this device", Toast.LENGTH_SHORT).show();
+                // Optional: Redirect to Play Store
+                Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.whatsapp"));
+                context.startActivity(marketIntent);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Unable to open WhatsApp: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
     public void makeDirectCall(Context context) {
         String phoneNumber = context.getString(R.string.whatsapp_number); // Use string resource
         Intent intent = new Intent(Intent.ACTION_CALL);

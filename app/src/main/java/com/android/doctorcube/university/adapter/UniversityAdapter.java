@@ -98,8 +98,7 @@ public class UniversityAdapter extends RecyclerView.Adapter<UniversityAdapter.Un
 
         // WhatsApp Button - Opens WhatsApp with pre-filled message
         holder.btnWhatsapp.setOnClickListener(v -> {
-                String Universityname = university.getName();
-                openSocial.openWhatsApp(context,Universityname);
+                openSocial.openWhatsApp(context);
         });
 
         // Apply Button - Opens Bottom Sheet Dialog

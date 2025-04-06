@@ -1,48 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
-
-  <!-- Background Circle -->
+    android:viewportWidth="960"
+    android:viewportHeight="960">
   <path
-      android:fillColor="#E3F2FD"
-      android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z" />
-
-  <!-- Location Pin -->
-  <path
-      android:fillColor="#1976D2"
-      android:pathData="M12,5c-2.76,0 -5,2.24 -5,5c0,2.88 2.88,7.19 4.24,9.08c0.4,0.55 1.11,0.55 1.51,0C14.12,17.19 17,12.88 17,10C17,7.24 14.76,5 12,5z" />
-
-  <!-- Inner Circle/Target -->
-  <path
-      android:fillColor="#FFFFFF"
-      android:pathData="M12,8c-1.1,0 -2,0.9 -2,2s0.9,2 2,2s2,-0.9 2,-2S13.1,8 12,8z" />
-
-  <!-- Ripple Rings (Optional) -->
-  <path
-      android:strokeColor="#2196F3"
-      android:strokeWidth="0.5"
-      android:fillColor="#00000000"
-      android:pathData="M12,4c-3.31,0 -6,2.69 -6,6c0,3.56 3.31,8.16 5.36,10.48" />
-  <path
-      android:strokeColor="#2196F3"
-      android:strokeWidth="0.5"
-      android:fillColor="#00000000"
-      android:pathData="M18,10c0,3.56 -3.31,8.16 -5.36,10.48c-0.58,0.65 -1.51,0.65 -2.09,0" />
-
-  <!-- Direction Markers -->
-  <path
-      android:fillColor="#0D47A1"
-      android:pathData="M12,19.5l-0.75,-1.5h1.5z" />
-  <path
-      android:fillColor="#0D47A1"
-      android:pathData="M19.5,12l-1.5,-0.75v1.5z" />
-  <path
-      android:fillColor="#0D47A1"
-      android:pathData="M12,4.5l0.75,1.5h-1.5z" />
-  <path
-      android:fillColor="#0D47A1"
-      android:pathData="M4.5,12l1.5,0.75v-1.5z" />
+      android:pathData="M480,659q99,-80 149.5,-154T680,366q0,-90 -56,-148t-144,-58q-88,0 -144,58t-56,148q0,65 50.5,139T480,659ZM480,760Q339,656 269.5,558T200,366q0,-125 78,-205.5T480,80q124,0 202,80.5T760,366q0,94 -69.5,192T480,760ZM480,440q33,0 56.5,-23.5T560,360q0,-33 -23.5,-56.5T480,280q-33,0 -56.5,23.5T400,360q0,33 23.5,56.5T480,440ZM200,880v-80h560v80L200,880ZM480,360Z"
+      android:fillColor="#e3e3e3"/>
 </vector>

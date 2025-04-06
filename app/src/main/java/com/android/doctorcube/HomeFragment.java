@@ -91,21 +91,8 @@ public class HomeFragment extends Fragment implements FeaturesAdapter.OnFeatureC
         inviteButton = view.findViewById(R.id.invite_button);
         recyclerView = view.findViewById(R.id.recyclerView);
         SocialActions socialActions = new SocialActions();
-        final String Whatsapp_Message = "Hello dear future doctors 👩‍⚕️👨‍⚕️, Thank you for contacting Doctorcubes Travel Education MBBS Abroad Pvt Ltd! " +
-                "Please provide the following information so we can assist you:\n\n" +
-                "Your Name: \nFrom Which City: \nPreferred Country: \nNEET Score (if given): \nBudget Range: \n\n" +
-                "🌍 Our Office Addresses:\n\n" +
-                "🇷🇺 Russia (Head Office): Кемерово, бульвар строителей 43 32 дом.\n" +
-                "📞 Contact: +79996482721\n\n" +
-                "🇮🇳 India:\n" +
-                "📍 Delhi NCR, Haryana: Sec 87, near Vidhya Bhawan High School, Bharat Colony, Kheri Road, Faridabad 121002\n" +
-                "📞 Contact: 9667763157\n\n" +
-                "📍 Maharashtra: Aurangabad, Kranti Chowk, near Sant Eknath Mandir, above Punjab and Sindh Bank, 431003\n" +
-                "📞 Contact: 917517036564\n\n" +
-                "🌐 Visit our website: Doctorcubes.com\n" +
-                "📱 Download our app: Doctorcubes\n" +
-                "▶️ Watch our YouTube video: https://youtu.be/3gMOmU6uYx4?si=-1sw0NeZEk1UoC89";
-        view.findViewById(R.id.whatsapp_button).setOnClickListener(v -> socialActions.openWhatsApp(requireActivity(), Whatsapp_Message));
+
+        view.findViewById(R.id.whatsapp_button).setOnClickListener(v -> socialActions.openWhatsApp(requireActivity()));
         view.findViewById(R.id.call_now_button).setOnClickListener(v -> socialActions.makeDirectCall(requireActivity()));
         setupToolbar();
         setUpComingEvents();

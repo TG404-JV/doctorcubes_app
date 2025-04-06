@@ -98,14 +98,13 @@ public class UniversitiesActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true); // Optimization
         universities = new ArrayList<>(); // Initialize empty list
         adapter = new UniversityAdapter(this, universities, countryFilter);
         recyclerView.setAdapter(adapter);
     }
 
     private void setupFilterSpinner() {
-        String[] filterOptions = {"None", "Top Ranked", "Scholarships", "Engineering", "Sort A-Z", "Sort Z-A", "Sort Grade"};
+        String[] filterOptions = {"None", "Top Ranked", "Scholarships",  "Sort A-Z", "Sort Z-A", "Sort Grade"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, filterOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(adapter);

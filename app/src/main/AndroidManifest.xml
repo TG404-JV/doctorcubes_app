@@ -8,6 +8,12 @@
         android:required="false" />
     <permission android:name="com.android.doctorcube.permission.SECURE" android:protectionLevel="signature" />
 
+
+    <queries>
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+    </queries>
+
     <!-- Permissions -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />

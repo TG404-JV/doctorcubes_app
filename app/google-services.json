@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:150491308507:android:5ade03435171150669c7fe",
+        "mobilesdk_app_id": "1:150491308507:android:e432a942abd0d44869c7fe",
         "android_client_info": {
-          "package_name": "com.android.doctorcube"
+          "package_name": "com.tvm.doctorcube"
         }
       },
       "oauth_client": [],

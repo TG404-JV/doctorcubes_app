@@ -6,7 +6,7 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
-    <permission android:name="com.android.doctorcube.permission.SECURE" android:protectionLevel="signature" />
+    <permission android:name="com.tvm.doctorcube.permission.SECURE" android:protectionLevel="signature" />
 
 
     <queries>
